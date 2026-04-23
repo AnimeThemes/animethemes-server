@@ -7,7 +7,7 @@ use Illuminate\Notifications\AnonymousNotifiable;
 use NotificationChannels\Discord\DiscordChannel;
 use NotificationChannels\Discord\DiscordMessage;
 
-test('via discord message', function () {
+test('via discord message', function (): void {
     $message = DiscordMessage::create();
 
     $notification = new DiscordNotification($message);
@@ -15,7 +15,7 @@ test('via discord message', function () {
     $this->assertEquals([DiscordChannel::class], $notification->via(new AnonymousNotifiable()));
 });
 
-test('to discord message', function () {
+test('to discord message', function (): void {
     $message = DiscordMessage::create();
 
     $notification = new DiscordNotification($message);

@@ -6,6 +6,6 @@ use App\Contracts\Events\AssignHashidsEvent;
 use App\Listeners\AssignHashids;
 use Illuminate\Support\Facades\Event;
 
-test('listening', function () {
+test('listening', function (): void {
     Event::assertListening(AssignHashidsEvent::class, AssignHashids::class);
 });

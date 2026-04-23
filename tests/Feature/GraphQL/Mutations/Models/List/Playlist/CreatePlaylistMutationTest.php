@@ -14,7 +14,7 @@ use Laravel\Pennant\Feature;
 
 use function Pest\Laravel\actingAs;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->mutation = '
         mutation($name: String!, $visibility: PlaylistVisibility!, $description: String) {
             CreatePlaylist(name: $name, visibility: $visibility, description: $description) {
@@ -26,7 +26,7 @@ beforeEach(function () {
     ';
 });
 
-test('protected', function () {
+test('protected', function (): void {
     $response = $this->graphQL(
         $this->mutation,
         [
@@ -39,7 +39,7 @@ test('protected', function () {
     $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     actingAs(User::factory()->createOne());
 
     $response = $this->graphQL(
@@ -54,7 +54,7 @@ test('forbidden', function () {
     $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
-test('forbidden if feature flag is disabled', function () {
+test('forbidden if feature flag is disabled', function (): void {
     Feature::deactivate(AllowPlaylistManagement::class);
 
     $user = User::factory()
@@ -75,7 +75,7 @@ test('forbidden if feature flag is disabled', function () {
     $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
-it('creates', function () {
+it('creates', function (): void {
     Feature::activate(AllowPlaylistManagement::class);
 
     Event::fakeExcept(PlaylistCreated::class);

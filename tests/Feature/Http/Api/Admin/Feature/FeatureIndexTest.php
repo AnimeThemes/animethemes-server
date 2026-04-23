@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Paging\Criteria;
@@ -19,17 +20,18 @@ use App\Http\Resources\Admin\Collection\FeatureCollection;
 use App\Http\Resources\Admin\Resource\FeatureJsonResource;
 use App\Models\Admin\Feature;
 use App\Models\BaseModel;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 
 use function Pest\Laravel\get;
 
-uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+uses(SortsModels::class);
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $features = Feature::factory()->count(fake()->randomDigitNotNull())->create();
 
     $response = get(route('api.feature.index'));
@@ -46,14 +48,14 @@ test('default', function () {
     );
 });
 
-test('non null forbidden', function () {
+test('non null forbidden', function (): void {
     $nullScopeCount = fake()->randomDigitNotNull();
 
     $features = Feature::factory()
         ->count($nullScopeCount)
         ->create();
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         Feature::factory()->create([
             Feature::ATTRIBUTE_SCOPE => fake()->word(),
         ]);
@@ -75,7 +77,7 @@ test('non null forbidden', function () {
     );
 });
 
-test('paginated', function () {
+test('paginated', function (): void {
     Feature::factory()->count(fake()->randomDigitNotNull())->create();
 
     $response = get(route('api.feature.index'));
@@ -87,7 +89,7 @@ test('paginated', function () {
     ]);
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new FeatureSchema();
 
     $fields = collect($schema->fields());
@@ -96,7 +98,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            FeatureJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            FeatureJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
         SortParser::param() => new IdField($schema, Feature::ATTRIBUTE_ID)->getSort()->format(Direction::ASCENDING),
     ];
@@ -117,13 +119,13 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('sorts', function () {
+test('sorts', function (): void {
     $schema = new FeatureSchema();
 
     /** @var Sort $sort */
     $sort = collect($schema->fields())
-        ->filter(fn (Field $field) => $field instanceof SortableField)
-        ->map(fn (SortableField $field) => $field->getSort())
+        ->filter(fn (Field $field): bool => $field instanceof SortableField)
+        ->map(fn (SortableField $field): Sort => $field->getSort())
         ->random();
 
     $parameters = [
@@ -150,7 +152,7 @@ test('sorts', function () {
     );
 });
 
-test('created at filter', function () {
+test('created at filter', function (): void {
     $createdFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -163,11 +165,11 @@ test('created at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($createdFilter, function () {
+    Date::withTestNow($createdFilter, function (): void {
         Feature::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         Feature::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
@@ -187,7 +189,7 @@ test('created at filter', function () {
     );
 });
 
-test('updated at filter', function () {
+test('updated at filter', function (): void {
     $updatedFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -200,11 +202,11 @@ test('updated at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($updatedFilter, function () {
+    Date::withTestNow($updatedFilter, function (): void {
         Feature::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         Feature::factory()->count(fake()->randomDigitNotNull())->create();
     });
 

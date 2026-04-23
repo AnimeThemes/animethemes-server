@@ -11,12 +11,13 @@ use App\Models\User\WatchHistory;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\PersonalAccessToken;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('tokens', function () {
+test('tokens', function (): void {
     $user = User::factory()->createOne();
 
     $user->createToken(fake()->word());
@@ -26,7 +27,7 @@ test('tokens', function () {
     $this->assertInstanceOf(PersonalAccessToken::class, $user->tokens()->first());
 });
 
-test('verification email notification', function () {
+test('verification email notification', function (): void {
     $user = User::factory()->createOne();
 
     $user->sendEmailVerificationNotification();
@@ -34,19 +35,19 @@ test('verification email notification', function () {
     Notification::assertSentTo($user, VerifyEmail::class);
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $user = User::factory()->createOne();
 
     $this->assertIsString($user->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $user = User::factory()->createOne();
 
     $this->assertIsString($user->getSubtitle());
 });
 
-test('playlists', function () {
+test('playlists', function (): void {
     $playlistCount = fake()->randomDigitNotNull();
 
     $user = User::factory()
@@ -58,7 +59,7 @@ test('playlists', function () {
     $this->assertInstanceOf(Playlist::class, $user->playlists()->first());
 });
 
-test('external profiles', function () {
+test('external profiles', function (): void {
     $profileCount = fake()->randomDigitNotNull();
 
     $user = User::factory()
@@ -70,7 +71,7 @@ test('external profiles', function () {
     $this->assertInstanceOf(ExternalProfile::class, $user->externalprofiles()->first());
 });
 
-test('likes', function () {
+test('likes', function (): void {
     $likeCount = fake()->randomDigitNotNull();
 
     $user = User::factory()
@@ -82,7 +83,7 @@ test('likes', function () {
     $this->assertInstanceOf(Like::class, $user->likes()->first());
 });
 
-test('notifications', function () {
+test('notifications', function (): void {
     $notificationCount = fake()->randomDigitNotNull();
 
     $user = User::factory()
@@ -94,7 +95,7 @@ test('notifications', function () {
     $this->assertInstanceOf(UserNotification::class, $user->notifications()->first());
 });
 
-test('watch history', function () {
+test('watch history', function (): void {
     $historyCount = fake()->randomDigitNotNull();
 
     $user = User::factory()

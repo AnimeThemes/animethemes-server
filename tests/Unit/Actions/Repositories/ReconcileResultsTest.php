@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use function Pest\Laravel\get;
 
-test('default', function () {
+test('default', function (): void {
     $reconcileResults = new class extends ReconcileResults
     {
         /**

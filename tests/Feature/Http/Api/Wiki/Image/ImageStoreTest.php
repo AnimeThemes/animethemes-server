@@ -7,6 +7,7 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Http\Api\Field\Wiki\Image\ImageFileField;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -15,9 +16,9 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('protected', function () {
+test('protected', function (): void {
     $image = Image::factory()->makeOne();
 
     $response = post(route('api.image.store', $image->toArray()));
@@ -25,7 +26,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $image = Image::factory()->makeOne();
 
     $user = User::factory()->createOne();
@@ -37,7 +38,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('required fields', function () {
+test('required fields', function (): void {
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Image::class))->createOne();
 
     Sanctum::actingAs($user);
@@ -49,7 +50,7 @@ test('required fields', function () {
     ]);
 });
 
-test('create', function () {
+test('create', function (): void {
     $fs = Storage::fake(Config::get('image.disk'));
 
     $facet = Arr::random(ImageFacet::cases());

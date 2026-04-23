@@ -11,7 +11,7 @@ use App\Pivots\Morph\Resourceable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-test('resource', function () {
+test('resource', function (): void {
     $resourceable = Resourceable::factory()
         ->for(ExternalResource::factory(), Resourceable::RELATION_RESOURCE)
         ->for(Anime::factory(), Resourceable::RELATION_RESOURCEABLE)
@@ -21,7 +21,7 @@ test('resource', function () {
     $this->assertInstanceOf(ExternalResource::class, $resourceable->resource()->first());
 });
 
-test('resourceable anime', function () {
+test('resourceable anime', function (): void {
     $resourceable = Resourceable::factory()
         ->for(ExternalResource::factory(), Resourceable::RELATION_RESOURCE)
         ->forAnime()
@@ -31,7 +31,7 @@ test('resourceable anime', function () {
     $this->assertInstanceOf(Anime::class, $resourceable->resourceable()->first());
 });
 
-test('resourceable artist', function () {
+test('resourceable artist', function (): void {
     $resourceable = Resourceable::factory()
         ->for(ExternalResource::factory(), Resourceable::RELATION_RESOURCE)
         ->forArtist()
@@ -41,7 +41,7 @@ test('resourceable artist', function () {
     $this->assertInstanceOf(Artist::class, $resourceable->resourceable()->first());
 });
 
-test('resourceable song', function () {
+test('resourceable song', function (): void {
     $resourceable = Resourceable::factory()
         ->for(ExternalResource::factory(), Resourceable::RELATION_RESOURCE)
         ->forSong()
@@ -51,7 +51,7 @@ test('resourceable song', function () {
     $this->assertInstanceOf(Song::class, $resourceable->resourceable()->first());
 });
 
-test('resourceable studio', function () {
+test('resourceable studio', function (): void {
     $resourceable = Resourceable::factory()
         ->for(ExternalResource::factory(), Resourceable::RELATION_RESOURCE)
         ->forStudio()

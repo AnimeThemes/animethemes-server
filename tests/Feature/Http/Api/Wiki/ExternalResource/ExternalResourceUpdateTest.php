@@ -10,7 +10,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\put;
 
-test('protected', function () {
+test('protected', function (): void {
     $resource = ExternalResource::factory()->createOne();
 
     $parameters = array_merge(
@@ -23,7 +23,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $resource = ExternalResource::factory()->createOne();
 
     $parameters = array_merge(
@@ -40,7 +40,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('trashed', function () {
+test('trashed', function (): void {
     $resource = ExternalResource::factory()
         ->trashed()
         ->createOne([
@@ -61,7 +61,7 @@ test('trashed', function () {
     $response->assertNotFound();
 });
 
-test('update', function () {
+test('update', function (): void {
     $resource = ExternalResource::factory()->createOne([
         ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE,
     ]);

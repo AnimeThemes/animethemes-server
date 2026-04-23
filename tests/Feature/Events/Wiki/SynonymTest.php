@@ -11,7 +11,7 @@ use App\Models\Wiki\Synonym;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('synonym created event dispatched', function () {
+test('synonym created event dispatched', function (): void {
     Synonym::factory()
         ->for(Anime::factory(), Synonym::RELATION_SYNONYMABLE)
         ->createOne();
@@ -19,7 +19,7 @@ test('synonym created event dispatched', function () {
     Event::assertDispatched(SynonymCreated::class);
 });
 
-test('synonym deleted event dispatched', function () {
+test('synonym deleted event dispatched', function (): void {
     $synonym = Synonym::factory()
         ->for(Anime::factory(), Synonym::RELATION_SYNONYMABLE)
         ->createOne();
@@ -29,7 +29,7 @@ test('synonym deleted event dispatched', function () {
     Event::assertDispatched(SynonymDeleted::class);
 });
 
-test('synonym restored event dispatched', function () {
+test('synonym restored event dispatched', function (): void {
     $synonym = Synonym::factory()
         ->for(Anime::factory(), Synonym::RELATION_SYNONYMABLE)
         ->createOne();
@@ -39,7 +39,7 @@ test('synonym restored event dispatched', function () {
     Event::assertDispatched(SynonymRestored::class);
 });
 
-test('synonym restores quietly', function () {
+test('synonym restores quietly', function (): void {
     $synonym = Synonym::factory()
         ->for(Anime::factory(), Synonym::RELATION_SYNONYMABLE)
         ->createOne();
@@ -49,7 +49,7 @@ test('synonym restores quietly', function () {
     Event::assertNotDispatched(SynonymUpdated::class);
 });
 
-test('synonym updated event dispatched', function () {
+test('synonym updated event dispatched', function (): void {
     $synonym = Synonym::factory()
         ->for(Anime::factory(), Synonym::RELATION_SYNONYMABLE)
         ->createOne();
@@ -64,7 +64,7 @@ test('synonym updated event dispatched', function () {
     Event::assertDispatched(SynonymUpdated::class);
 });
 
-test('synonym updated event embed fields', function () {
+test('synonym updated event embed fields', function (): void {
     $synonym = Synonym::factory()
         ->for(Anime::factory(), Synonym::RELATION_SYNONYMABLE)
         ->createOne();
@@ -76,9 +76,9 @@ test('synonym updated event embed fields', function () {
     $synonym->fill($changes->getAttributes());
     $synonym->save();
 
-    Event::assertDispatched(SynonymUpdated::class, function (SynonymUpdated $event) {
+    Event::assertDispatched(SynonymUpdated::class, function (SynonymUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

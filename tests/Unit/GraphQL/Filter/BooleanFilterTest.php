@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\GraphQL\Filter\BooleanFilter;
 use Illuminate\Support\Arr;
 
-it('converts validated boolean', function () {
+it('converts validated boolean', function (): void {
     $booleanValue = fake()->boolean();
 
     $filter = new BooleanFilter(fake()->word(), fake()->word());

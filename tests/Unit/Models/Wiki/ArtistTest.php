@@ -19,31 +19,31 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
 
-test('searchable as', function () {
+test('searchable as', function (): void {
     $artist = Artist::factory()->createOne();
 
     $this->assertIsString($artist->searchableAs());
 });
 
-test('to searchable array', function () {
+test('to searchable array', function (): void {
     $artist = Artist::factory()->createOne();
 
     $this->assertIsArray($artist->toSearchableArray());
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $artist = Artist::factory()->createOne();
 
     $this->assertIsString($artist->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $artist = Artist::factory()->createOne();
 
     $this->assertIsString($artist->getSubtitle());
 });
 
-test('synonyms', function () {
+test('synonyms', function (): void {
     $synonymCount = fake()->randomDigitNotNull();
 
     $artist = Artist::factory()
@@ -55,7 +55,7 @@ test('synonyms', function () {
     $this->assertInstanceOf(Synonym::class, $artist->synonyms()->first());
 });
 
-test('songs', function () {
+test('songs', function (): void {
     $songCount = fake()->randomDigitNotNull();
 
     $artist = Artist::factory()
@@ -67,7 +67,7 @@ test('songs', function () {
     $this->assertInstanceOf(Song::class, $artist->songs()->first());
 });
 
-test('performances', function () {
+test('performances', function (): void {
     $performanceCount = fake()->randomDigitNotNull();
 
     $artist = Artist::factory()
@@ -83,7 +83,7 @@ test('performances', function () {
     $this->assertInstanceOf(Performance::class, $artist->performances()->first());
 });
 
-test('member performances', function () {
+test('member performances', function (): void {
     $performanceCount = fake()->randomDigitNotNull();
 
     $member = Artist::factory()
@@ -100,7 +100,7 @@ test('member performances', function () {
     $this->assertInstanceOf(Performance::class, $member->memberPerformances()->first());
 });
 
-test('members', function () {
+test('members', function (): void {
     $memberCount = fake()->randomDigitNotNull();
 
     $artist = Artist::factory()
@@ -113,7 +113,7 @@ test('members', function () {
     $this->assertEquals(ArtistMember::class, $artist->members()->getPivotClass());
 });
 
-test('groups', function () {
+test('groups', function (): void {
     $groupCount = fake()->randomDigitNotNull();
 
     $artist = Artist::factory()
@@ -126,7 +126,7 @@ test('groups', function () {
     $this->assertEquals(ArtistMember::class, $artist->groups()->getPivotClass());
 });
 
-test('images', function () {
+test('images', function (): void {
     $imageCount = fake()->randomDigitNotNull();
 
     $artist = Artist::factory()
@@ -139,7 +139,7 @@ test('images', function () {
     $this->assertEquals(Imageable::class, $artist->images()->getPivotClass());
 });
 
-test('external resources', function () {
+test('external resources', function (): void {
     $resourceCount = fake()->randomDigitNotNull();
 
     $artist = Artist::factory()

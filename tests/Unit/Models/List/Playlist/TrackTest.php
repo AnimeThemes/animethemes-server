@@ -8,7 +8,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-test('nameable', function () {
+test('nameable', function (): void {
     $track = PlaylistTrack::factory()
         ->for(Playlist::factory())
         ->createOne();
@@ -16,7 +16,7 @@ test('nameable', function () {
     $this->assertIsString($track->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $track = PlaylistTrack::factory()
         ->for(Playlist::factory()->for(User::factory()))
         ->createOne();
@@ -24,7 +24,7 @@ test('has subtitle', function () {
     $this->assertIsString($track->getSubtitle());
 });
 
-test('hashids', function () {
+test('hashids', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     $track = PlaylistTrack::factory()
@@ -35,7 +35,7 @@ test('hashids', function () {
     $this->assertEmpty(array_diff($track->hashids(), [$playlist->playlist_id, $track->track_id]));
 });
 
-test('playlist', function () {
+test('playlist', function (): void {
     $track = PlaylistTrack::factory()
         ->for(Playlist::factory())
         ->createOne();
@@ -44,7 +44,7 @@ test('playlist', function () {
     $this->assertInstanceOf(Playlist::class, $track->playlist()->first());
 });
 
-test('previous', function () {
+test('previous', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     $track = PlaylistTrack::factory()
@@ -61,7 +61,7 @@ test('previous', function () {
     $this->assertInstanceOf(PlaylistTrack::class, $track->previous()->first());
 });
 
-test('next', function () {
+test('next', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     $track = PlaylistTrack::factory()
@@ -78,7 +78,7 @@ test('next', function () {
     $this->assertInstanceOf(PlaylistTrack::class, $track->next()->first());
 });
 
-test('video', function () {
+test('video', function (): void {
     $track = PlaylistTrack::factory()
         ->for(Playlist::factory())
         ->for(Video::factory())

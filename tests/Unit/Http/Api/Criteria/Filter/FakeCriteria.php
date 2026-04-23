@@ -39,10 +39,6 @@ class FakeCriteria extends Criteria
         );
     }
 
-    /**
-     * @param  Builder  $builder
-     * @return Builder
-     */
     public function filter(Builder $builder, Filter $filter, Query $query, Schema $schema): Builder
     {
         return $builder;

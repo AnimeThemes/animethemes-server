@@ -10,19 +10,19 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
 
-test('nameable', function () {
+test('nameable', function (): void {
     $group = Group::factory()->createOne();
 
     $this->assertIsString($group->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $group = Group::factory()->createOne();
 
     $this->assertIsString($group->getSubtitle());
 });
 
-test('themes', function () {
+test('themes', function (): void {
     $themeCount = fake()->randomDigitNotNull();
 
     $group = Group::factory()

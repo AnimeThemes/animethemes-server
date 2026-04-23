@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
-test('audio created sends discord notification', function () {
+test('audio created sends discord notification', function (): void {
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Bus::fake(SendDiscordNotificationJob::class);
     Event::fakeExcept(AudioCreated::class);
@@ -23,7 +23,7 @@ test('audio created sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('audio deleted sends discord notification', function () {
+test('audio deleted sends discord notification', function (): void {
     $audio = Audio::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -35,7 +35,7 @@ test('audio deleted sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('audio restored sends discord notification', function () {
+test('audio restored sends discord notification', function (): void {
     $audio = Audio::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -47,7 +47,7 @@ test('audio restored sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('audio updated sends discord notification', function () {
+test('audio updated sends discord notification', function (): void {
     $audio = Audio::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);

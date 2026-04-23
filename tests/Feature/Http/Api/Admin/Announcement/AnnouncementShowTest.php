@@ -8,12 +8,13 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Resources\Admin\Resource\AnnouncementJsonResource;
 use App\Models\Admin\Announcement;
+use Illuminate\Foundation\Testing\WithFaker;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $announcement = Announcement::factory()->create();
 
     $response = get(route('api.announcement.show', ['announcement' => $announcement]));
@@ -30,7 +31,7 @@ test('default', function () {
     );
 });
 
-test('cannot view past announcement', function () {
+test('cannot view past announcement', function (): void {
     $announcement = Announcement::factory()->past()->create();
 
     $response = get(route('api.announcement.show', ['announcement' => $announcement]));
@@ -38,7 +39,7 @@ test('cannot view past announcement', function () {
     $response->assertForbidden();
 });
 
-test('cannot view future announcement', function () {
+test('cannot view future announcement', function (): void {
     $announcement = Announcement::factory()->future()->create();
 
     $response = get(route('api.announcement.show', ['announcement' => $announcement]));
@@ -46,7 +47,7 @@ test('cannot view future announcement', function () {
     $response->assertForbidden();
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new AnnouncementSchema();
 
     $fields = collect($schema->fields());
@@ -55,7 +56,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnnouncementJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnnouncementJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 

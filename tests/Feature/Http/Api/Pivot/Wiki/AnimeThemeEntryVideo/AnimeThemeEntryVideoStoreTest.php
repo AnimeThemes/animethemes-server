@@ -13,7 +13,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-test('protected', function () {
+test('protected', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->create();
@@ -25,7 +25,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->create();
@@ -41,7 +41,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('create', function () {
+test('create', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->create();

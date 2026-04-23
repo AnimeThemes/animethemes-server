@@ -5,19 +5,20 @@ declare(strict_types=1);
 use App\Http\Api\Query\Query;
 use App\Http\Resources\Auth\Resource\UserJsonResource;
 use App\Models\Auth\User;
+use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('protected', function () {
+test('protected', function (): void {
     $response = get(route('api.me.show'));
 
     $response->assertUnauthorized();
 });
 
-test('default', function () {
+test('default', function (): void {
     $user = User::factory()->createOne();
 
     Sanctum::actingAs($user);

@@ -72,7 +72,7 @@
         "mockery/mockery": "^1.6.12",
         "mrpunyapal/rector-pest": "^0.2.11",
         "pestphp/pest": "4.4.5",
-        "pestphp/pest-plugin-laravel": "4.1",
+        "pestphp/pest-plugin-laravel": "^4.1",
         "predis/predis": "^2.4.1",
         "rector/rector": "^2.4.2"
     },

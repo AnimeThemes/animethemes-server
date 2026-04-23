@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
-test('resource created sends discord notification', function () {
+test('resource created sends discord notification', function (): void {
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Bus::fake(SendDiscordNotificationJob::class);
     Event::fakeExcept(ExternalResourceCreated::class);
@@ -23,7 +23,7 @@ test('resource created sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('resource deleted sends discord notification', function () {
+test('resource deleted sends discord notification', function (): void {
     $resource = ExternalResource::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -35,7 +35,7 @@ test('resource deleted sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('resource restored sends discord notification', function () {
+test('resource restored sends discord notification', function (): void {
     $resource = ExternalResource::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -47,7 +47,7 @@ test('resource restored sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('resource updated sends discord notification', function () {
+test('resource updated sends discord notification', function (): void {
     $resource = ExternalResource::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);

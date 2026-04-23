@@ -16,21 +16,22 @@ use App\Models\Auth\User;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
 /**
  * Setup the test environment.
  */
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 });
 
-test('private external entry cannot be publicly viewed', function () {
+test('private external entry cannot be publicly viewed', function (): void {
     $profile = ExternalProfile::factory()
         ->for(User::factory())
         ->createOne([
@@ -46,7 +47,7 @@ test('private external entry cannot be publicly viewed', function () {
     $response->assertForbidden();
 });
 
-test('private external entry cannot be publicly viewed if not owned', function () {
+test('private external entry cannot be publicly viewed if not owned', function (): void {
     $profile = ExternalProfile::factory()
         ->for(User::factory())
         ->createOne([
@@ -66,7 +67,7 @@ test('private external entry cannot be publicly viewed if not owned', function (
     $response->assertForbidden();
 });
 
-test('private external entry can be viewed by owner', function () {
+test('private external entry can be viewed by owner', function (): void {
     $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
     $profile = ExternalProfile::factory()
@@ -86,7 +87,7 @@ test('private external entry can be viewed by owner', function () {
     $response->assertOk();
 });
 
-test('public external entry can be viewed', function () {
+test('public external entry can be viewed', function (): void {
     $profile = ExternalProfile::factory()
         ->for(User::factory())
         ->createOne([
@@ -102,7 +103,7 @@ test('public external entry can be viewed', function () {
     $response->assertOk();
 });
 
-test('scoped', function () {
+test('scoped', function (): void {
     $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
     $profile = ExternalProfile::factory()
@@ -121,7 +122,7 @@ test('scoped', function () {
     $response->assertNotFound();
 });
 
-test('default', function () {
+test('default', function (): void {
     $profile = ExternalProfile::factory()
         ->createOne([
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
@@ -147,14 +148,14 @@ test('default', function () {
     );
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new ExternalEntrySchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -186,7 +187,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new ExternalEntrySchema();
 
     $fields = collect($schema->fields());
@@ -195,7 +196,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ExternalEntryJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ExternalEntryJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 

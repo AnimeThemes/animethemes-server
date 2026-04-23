@@ -8,7 +8,7 @@ use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-test('casts status to enum', function () {
+test('casts status to enum', function (): void {
     $entry = ExternalEntry::factory()
         ->for(ExternalProfile::factory())
         ->createOne();
@@ -18,7 +18,7 @@ test('casts status to enum', function () {
     $this->assertInstanceOf(ExternalEntryStatus::class, $status);
 });
 
-test('casts is favorite to bool', function () {
+test('casts is favorite to bool', function (): void {
     $entry = ExternalEntry::factory()
         ->for(ExternalProfile::factory())
         ->createOne();
@@ -28,7 +28,7 @@ test('casts is favorite to bool', function () {
     $this->assertIsBool($is_favorite);
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $entry = ExternalEntry::factory()
         ->for(ExternalProfile::factory())
         ->createOne();
@@ -36,7 +36,7 @@ test('nameable', function () {
     $this->assertIsString($entry->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $entry = ExternalEntry::factory()
         ->for(ExternalProfile::factory())
         ->for(Anime::factory())
@@ -45,7 +45,7 @@ test('has subtitle', function () {
     $this->assertIsString($entry->getSubtitle());
 });
 
-test('profile', function () {
+test('profile', function (): void {
     $entry = ExternalEntry::factory()
         ->for(ExternalProfile::factory())
         ->createOne();
@@ -54,7 +54,7 @@ test('profile', function () {
     $this->assertInstanceOf(ExternalProfile::class, $entry->externalprofile()->first());
 });
 
-test('anime', function () {
+test('anime', function (): void {
     $entry = ExternalEntry::factory()
         ->for(ExternalProfile::factory())
         ->for(Anime::factory())

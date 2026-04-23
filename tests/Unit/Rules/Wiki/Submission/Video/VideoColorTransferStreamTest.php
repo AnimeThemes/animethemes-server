@@ -5,15 +5,16 @@ declare(strict_types=1);
 use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\Video\VideoColorTransferStreamRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('fails when color transfer is not accepted', function () {
+test('fails when color transfer is not accepted', function (): void {
     Feature::activate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM, 'bt709,smpte170m,bt470bg');
 
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
@@ -51,7 +52,7 @@ test('fails when color transfer is not accepted', function () {
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
 
-test('passes when color transfer is accepted', function () {
+test('passes when color transfer is accepted', function (): void {
     Feature::activate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM, 'bt709,smpte170m,bt470bg');
 
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());

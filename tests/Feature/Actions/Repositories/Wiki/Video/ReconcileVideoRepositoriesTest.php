@@ -8,14 +8,15 @@ use App\Models\Wiki\Video;
 use App\Repositories\Eloquent\Wiki\VideoRepository as VideoDestinationRepository;
 use App\Repositories\Storage\Wiki\VideoRepository;
 use App\Repositories\Storage\Wiki\VideoRepository as VideoSourceRepository;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Mockery\MockInterface;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('no results', function () {
-    $this->mock(VideoSourceRepository::class, function (MockInterface $mock) {
+test('no results', function (): void {
+    $this->mock(VideoSourceRepository::class, function (MockInterface $mock): void {
         $mock->shouldReceive('get')->once()->andReturn(Collection::make());
     });
 
@@ -31,12 +32,12 @@ test('no results', function () {
     $this->assertDatabaseCount(Video::class, 0);
 });
 
-test('created', function () {
+test('created', function (): void {
     $createdVideoCount = fake()->numberBetween(2, 9);
 
     $videos = Video::factory()->count($createdVideoCount)->make();
 
-    $this->mock(VideoSourceRepository::class, function (MockInterface $mock) use ($videos) {
+    $this->mock(VideoSourceRepository::class, function (MockInterface $mock) use ($videos): void {
         $mock->shouldReceive('get')->once()->andReturn($videos);
     });
 
@@ -53,12 +54,12 @@ test('created', function () {
     $this->assertDatabaseCount(Video::class, $createdVideoCount);
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     $deletedVideoCount = fake()->numberBetween(2, 9);
 
     $videos = Video::factory()->count($deletedVideoCount)->create();
 
-    $this->mock(VideoSourceRepository::class, function (MockInterface $mock) {
+    $this->mock(VideoSourceRepository::class, function (MockInterface $mock): void {
         $mock->shouldReceive('get')->once()->andReturn(Collection::make());
     });
 
@@ -79,22 +80,22 @@ test('deleted', function () {
     }
 });
 
-test('updated', function () {
+test('updated', function (): void {
     $updatedVideoCount = fake()->numberBetween(2, 9);
 
     $basenames = collect(fake()->words($updatedVideoCount));
 
     Video::factory()
         ->count($updatedVideoCount)
-        ->sequence(fn ($sequence) => [Video::ATTRIBUTE_BASENAME => $basenames->get($sequence->index)])
+        ->sequence(fn ($sequence): array => [Video::ATTRIBUTE_BASENAME => $basenames->get($sequence->index)])
         ->create();
 
     $sourceVideos = Video::factory()
         ->count($updatedVideoCount)
-        ->sequence(fn ($sequence) => [Video::ATTRIBUTE_BASENAME => $basenames->get($sequence->index)])
+        ->sequence(fn ($sequence): array => [Video::ATTRIBUTE_BASENAME => $basenames->get($sequence->index)])
         ->make();
 
-    $this->mock(VideoRepository::class, function (MockInterface $mock) use ($sourceVideos) {
+    $this->mock(VideoRepository::class, function (MockInterface $mock) use ($sourceVideos): void {
         $mock->shouldReceive('get')->once()->andReturn($sourceVideos);
     });
 

@@ -5,14 +5,15 @@ declare(strict_types=1);
 use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\Format\AudioBitrateRestrictionFormatRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('fails when bitrate is not expected', function () {
+test('fails when bitrate is not expected', function (): void {
     Feature::activate(FeatureConstants::AUDIO_BITRATE_RESTRICTION);
 
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
@@ -47,7 +48,7 @@ test('fails when bitrate is not expected', function () {
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
 
-test('passes when bitrate is expected', function () {
+test('passes when bitrate is expected', function (): void {
     Feature::activate(FeatureConstants::AUDIO_BITRATE_RESTRICTION);
 
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());

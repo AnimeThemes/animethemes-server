@@ -8,6 +8,7 @@ use App\Http\Api\Filter\HasFilter;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Scope\GlobalScope;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -15,9 +16,9 @@ use function Pest\Laravel\get;
 
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('should not apply if no allowed paths', function () {
+test('should not apply if no allowed paths', function (): void {
     $criteria = FakeCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, Str::random());
 
     $schema = new class() extends Schema
@@ -55,7 +56,7 @@ test('should not apply if no allowed paths', function () {
 
     $allowedIncludes = Collection::times(
         fake()->randomDigitNotNull(),
-        fn () => new AllowedInclude($schema, fake()->word())
+        fn (): AllowedInclude => new AllowedInclude($schema, fake()->word())
     );
 
     $filter = new HasFilter($allowedIncludes->all());
@@ -63,7 +64,7 @@ test('should not apply if no allowed paths', function () {
     $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
-test('should apply if allowed paths', function () {
+test('should apply if allowed paths', function (): void {
     $schema = new class() extends Schema
     {
         /**
@@ -99,7 +100,7 @@ test('should apply if allowed paths', function () {
 
     $allowedIncludes = Collection::times(
         fake()->randomDigitNotNull(),
-        fn () => new AllowedInclude($schema, fake()->word())
+        fn (): AllowedInclude => new AllowedInclude($schema, fake()->word())
     );
 
     /** @var AllowedInclude $selectedInclude */

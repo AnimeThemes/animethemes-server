@@ -10,7 +10,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Event;
 
-test('anime theme entry video created event dispatched', function () {
+test('anime theme entry video created event dispatched', function (): void {
     $video = Video::factory()->createOne();
     $entry = AnimeThemeEntry::factory()->createOne();
 
@@ -19,7 +19,7 @@ test('anime theme entry video created event dispatched', function () {
     Event::assertDispatched(AnimeThemeEntryVideoCreated::class);
 });
 
-test('anime theme entry video deleted event dispatched', function () {
+test('anime theme entry video deleted event dispatched', function (): void {
     $video = Video::factory()->createOne();
     $entry = AnimeThemeEntry::factory()->createOne();
 
@@ -29,7 +29,7 @@ test('anime theme entry video deleted event dispatched', function () {
     Event::assertDispatched(AnimeThemeEntryVideoDeleted::class);
 });
 
-test('anime theme entry video created event update playlist tracks', function () {
+test('anime theme entry video created event update playlist tracks', function (): void {
     $video = Video::factory()->createOne();
     $entry = AnimeThemeEntry::factory()->createOne();
 
@@ -47,7 +47,7 @@ test('anime theme entry video created event update playlist tracks', function ()
     });
 });
 
-test('anime theme entry video deleted event update playlist tracks', function () {
+test('anime theme entry video deleted event update playlist tracks', function (): void {
     $video = Video::factory()->createOne();
 
     $entry = AnimeThemeEntry::factory()->createOne();

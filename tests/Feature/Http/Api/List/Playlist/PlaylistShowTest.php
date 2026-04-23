@@ -19,15 +19,16 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('private playlist cannot be publicly viewed', function () {
+test('private playlist cannot be publicly viewed', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -41,7 +42,7 @@ test('private playlist cannot be publicly viewed', function () {
     $response->assertForbidden();
 });
 
-test('private playlist cannot be publicly if not owned', function () {
+test('private playlist cannot be publicly if not owned', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -59,7 +60,7 @@ test('private playlist cannot be publicly if not owned', function () {
     $response->assertForbidden();
 });
 
-test('private playlist can be viewed by owner', function () {
+test('private playlist can be viewed by owner', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $user = User::factory()->withPermissions(CrudPermission::VIEW->format(Playlist::class))->createOne();
@@ -77,7 +78,7 @@ test('private playlist can be viewed by owner', function () {
     $response->assertOk();
 });
 
-test('unlisted playlist can be viewed', function () {
+test('unlisted playlist can be viewed', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -91,7 +92,7 @@ test('unlisted playlist can be viewed', function () {
     $response->assertOk();
 });
 
-test('public playlist can be viewed', function () {
+test('public playlist can be viewed', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -105,7 +106,7 @@ test('public playlist can be viewed', function () {
     $response->assertOk();
 });
 
-test('default', function () {
+test('default', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -127,7 +128,7 @@ test('default', function () {
     );
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $schema = new PlaylistSchema();
@@ -136,7 +137,7 @@ test('allowed include paths', function () {
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -166,7 +167,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $schema = new PlaylistSchema();
@@ -177,7 +178,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            PlaylistJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            PlaylistJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -200,7 +201,7 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('images by facet', function () {
+test('images by facet', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $facetFilter = Arr::random(ImageFacet::cases());
@@ -219,7 +220,7 @@ test('images by facet', function () {
         ]);
 
     $playlist->unsetRelations()->load([
-        Playlist::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
+        Playlist::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter): void {
             $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
         },
     ]);

@@ -16,13 +16,14 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $series = Series::factory()->create();
 
     $response = get(route('api.series.show', ['series' => $series]));
@@ -39,7 +40,7 @@ test('default', function () {
     );
 });
 
-test('soft delete', function () {
+test('soft delete', function (): void {
     $series = Series::factory()->trashed()->createOne();
 
     $series->unsetRelations();
@@ -58,14 +59,14 @@ test('soft delete', function () {
     );
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new SeriesSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -89,7 +90,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new SeriesSchema();
 
     $fields = collect($schema->fields());
@@ -98,7 +99,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            SeriesJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            SeriesJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -118,7 +119,7 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('anime by media format', function () {
+test('anime by media format', function (): void {
     $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
     $parameters = [
@@ -133,7 +134,7 @@ test('anime by media format', function () {
         ->createOne();
 
     $series->unsetRelations()->load([
-        Series::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
+        Series::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter): void {
             $query->where(Anime::ATTRIBUTE_FORMAT, $mediaFormatFilter->value);
         },
     ]);
@@ -152,7 +153,7 @@ test('anime by media format', function () {
     );
 });
 
-test('anime by season', function () {
+test('anime by season', function (): void {
     $seasonFilter = Arr::random(AnimeSeason::cases());
 
     $parameters = [
@@ -167,7 +168,7 @@ test('anime by season', function () {
         ->createOne();
 
     $series->unsetRelations()->load([
-        Series::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
+        Series::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter): void {
             $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
         },
     ]);
@@ -186,7 +187,7 @@ test('anime by season', function () {
     );
 });
 
-test('anime by year', function () {
+test('anime by year', function (): void {
     $yearFilter = fake()->numberBetween(2000, 2002);
 
     $parameters = [
@@ -209,7 +210,7 @@ test('anime by year', function () {
         ->createOne();
 
     $series->unsetRelations()->load([
-        Series::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
+        Series::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter): void {
             $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
         },
     ]);

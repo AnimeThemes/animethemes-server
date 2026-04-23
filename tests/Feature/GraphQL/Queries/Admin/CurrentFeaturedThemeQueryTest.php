@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 use App\Models\Admin\FeaturedTheme;
 
-test('current featured theme', function () {
+test('current featured theme', function (): void {
     FeaturedTheme::factory()
-        ->sequence(fn () => [
+        ->sequence(fn (): array => [
             FeaturedTheme::ATTRIBUTE_START_AT => now()->addDays(fake()->numberBetween(1, 10)),
             FeaturedTheme::ATTRIBUTE_END_AT => now()->addDays(fake()->numberBetween(11, 20)),
         ])

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
-test('anime series created sends discord notification', function () {
+test('anime series created sends discord notification', function (): void {
     $anime = Anime::factory()->createOne();
     $series = Series::factory()->createOne();
 
@@ -25,7 +25,7 @@ test('anime series created sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('anime series deleted sends discord notification', function () {
+test('anime series deleted sends discord notification', function (): void {
     $anime = Anime::factory()->createOne();
     $series = Series::factory()->createOne();
 

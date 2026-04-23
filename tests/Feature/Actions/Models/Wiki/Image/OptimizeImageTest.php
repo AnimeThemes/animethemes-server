@@ -6,14 +6,15 @@ use App\Actions\Models\Wiki\Image\OptimizeImageAction;
 use App\Constants\Config\ImageConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Image;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('skipped', function () {
+test('skipped', function (): void {
     $fs = Storage::fake(Config::get(ImageConstants::DISKS_QUALIFIED));
     $file = File::fake()->image(fake()->word().'.jpg');
     $fsFile = $fs->putFile('', $file);
@@ -31,7 +32,7 @@ test('skipped', function () {
     $this->assertTrue($image->exists());
 });
 
-test('converts to avif', function () {
+test('converts to avif', function (): void {
     $fs = Storage::fake(Config::get(ImageConstants::DISKS_QUALIFIED));
     $file = File::fake()->image(fake()->word().'.jpg');
     $fsFile = $fs->putFile('', $file);
@@ -50,7 +51,7 @@ test('converts to avif', function () {
     $this->assertTrue($image->exists());
 });
 
-test('downscale', function () {
+test('downscale', function (): void {
     $fs = Storage::fake(Config::get(ImageConstants::DISKS_QUALIFIED));
     $file = File::fake()->image(fake()->word().'.jpg');
     $fsFile = $fs->putFile('', $file);

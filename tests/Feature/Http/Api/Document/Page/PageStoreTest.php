@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-test('protected', function () {
+test('protected', function (): void {
     $page = Page::factory()->makeOne();
 
     $response = post(route('api.page.store', $page->toArray()));
@@ -17,7 +17,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $page = Page::factory()->makeOne();
 
     $user = User::factory()->createOne();
@@ -29,7 +29,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('required fields', function () {
+test('required fields', function (): void {
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Page::class))->createOne();
 
     Sanctum::actingAs($user);
@@ -43,7 +43,7 @@ test('required fields', function () {
     ]);
 });
 
-test('create', function () {
+test('create', function (): void {
     $parameters = Page::factory()->raw();
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Page::class))->createOne();

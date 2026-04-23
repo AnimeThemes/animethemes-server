@@ -6,10 +6,11 @@ use App\Actions\Models\List\Playlist\InsertTrackBeforeAction;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
+use Illuminate\Foundation\Testing\WithFaker;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('first track', function () {
+test('first track', function (): void {
     $playlist = Playlist::factory()
         ->tracks(fake()->numberBetween(2, 9))
         ->createOne();
@@ -33,7 +34,7 @@ test('first track', function () {
     $this->assertTrue($track->previous()->doesntExist());
 });
 
-test('last track', function () {
+test('last track', function (): void {
     $playlist = Playlist::factory()
         ->tracks(fake()->numberBetween(2, 9))
         ->createOne();

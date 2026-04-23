@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Actions\Http\Api\AggregatesFields;
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\List\ExternalProfileVisibility;
@@ -23,18 +25,19 @@ use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 
 use function Pest\Laravel\get;
 
-uses(App\Concerns\Actions\Http\Api\AggregatesFields::class);
+uses(AggregatesFields::class);
 
-uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+uses(SortsModels::class);
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $publicCount = fake()->randomDigitNotNull();
 
     $profiles = ExternalProfile::factory()
@@ -63,7 +66,7 @@ test('default', function () {
     );
 });
 
-test('paginated', function () {
+test('paginated', function (): void {
     ExternalProfile::factory()
         ->count(fake()->randomDigitNotNull())
         ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
@@ -77,14 +80,14 @@ test('paginated', function () {
     ]);
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new ExternalProfileSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -114,7 +117,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new ExternalProfileSchema();
 
     $fields = collect($schema->fields());
@@ -123,7 +126,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ExternalProfileJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ExternalProfileJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -145,13 +148,13 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('sorts', function () {
+test('sorts', function (): void {
     $schema = new ExternalProfileSchema();
 
     /** @var Sort $sort */
     $sort = collect($schema->fields())
-        ->filter(fn (Field $field) => $field instanceof SortableField)
-        ->map(fn (SortableField $field) => $field->getSort())
+        ->filter(fn (Field $field): bool => $field instanceof SortableField)
+        ->map(fn (SortableField $field): Sort => $field->getSort())
         ->random();
 
     $parameters = [
@@ -182,7 +185,7 @@ test('sorts', function () {
     );
 });
 
-test('created at filter', function () {
+test('created at filter', function (): void {
     $createdFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -195,13 +198,13 @@ test('created at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($createdFilter, function () {
+    Date::withTestNow($createdFilter, function (): void {
         ExternalProfile::factory()
             ->count(fake()->randomDigitNotNull())
             ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         ExternalProfile::factory()
             ->count(fake()->randomDigitNotNull())
             ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
@@ -223,7 +226,7 @@ test('created at filter', function () {
     );
 });
 
-test('updated at filter', function () {
+test('updated at filter', function (): void {
     $updatedFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -236,13 +239,13 @@ test('updated at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($updatedFilter, function () {
+    Date::withTestNow($updatedFilter, function (): void {
         ExternalProfile::factory()
             ->count(fake()->randomDigitNotNull())
             ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         ExternalProfile::factory()
             ->count(fake()->randomDigitNotNull())
             ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);

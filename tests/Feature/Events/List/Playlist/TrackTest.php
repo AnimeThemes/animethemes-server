@@ -11,7 +11,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('track created event dispatched', function () {
+test('track created event dispatched', function (): void {
     PlaylistTrack::factory()
         ->for(Playlist::factory())
         ->createOne();
@@ -19,7 +19,7 @@ test('track created event dispatched', function () {
     Event::assertDispatched(TrackCreated::class);
 });
 
-test('track deleted event dispatched', function () {
+test('track deleted event dispatched', function (): void {
     $track = PlaylistTrack::factory()
         ->for(Playlist::factory())
         ->createOne();
@@ -29,7 +29,7 @@ test('track deleted event dispatched', function () {
     Event::assertDispatched(TrackDeleted::class);
 });
 
-test('track updated event dispatched', function () {
+test('track updated event dispatched', function (): void {
     $track = PlaylistTrack::factory()
         ->for(Playlist::factory())
         ->createOne();
@@ -44,7 +44,7 @@ test('track updated event dispatched', function () {
     Event::assertDispatched(TrackUpdated::class);
 });
 
-test('playlist updated event embed fields', function () {
+test('playlist updated event embed fields', function (): void {
     $track = PlaylistTrack::factory()
         ->for(Playlist::factory())
         ->createOne();
@@ -56,14 +56,14 @@ test('playlist updated event embed fields', function () {
     $track->fill($changes->getAttributes());
     $track->save();
 
-    Event::assertDispatched(TrackUpdated::class, function (TrackUpdated $event) {
+    Event::assertDispatched(TrackUpdated::class, function (TrackUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });
 
-test('playlist created assigns hashids', function () {
+test('playlist created assigns hashids', function (): void {
     Event::fakeExcept(TrackCreated::class);
 
     PlaylistTrack::factory()

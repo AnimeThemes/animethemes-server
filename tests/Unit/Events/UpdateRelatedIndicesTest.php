@@ -6,6 +6,6 @@ use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Listeners\UpdateRelatedIndices;
 use Illuminate\Support\Facades\Event;
 
-test('listening', function () {
+test('listening', function (): void {
     Event::assertListening(UpdateRelatedIndicesEvent::class, UpdateRelatedIndices::class);
 });

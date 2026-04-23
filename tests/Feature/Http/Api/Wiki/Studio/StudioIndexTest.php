@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Constants\ModelConstants;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
@@ -32,16 +33,17 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 
 use function Pest\Laravel\get;
 
-uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+uses(SortsModels::class);
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $studio = Studio::factory()->count(fake()->randomDigitNotNull())->create();
 
     $response = get(route('api.studio.index'));
@@ -58,7 +60,7 @@ test('default', function () {
     );
 });
 
-test('paginated', function () {
+test('paginated', function (): void {
     Studio::factory()->count(fake()->randomDigitNotNull())->create();
 
     $response = get(route('api.studio.index'));
@@ -70,14 +72,14 @@ test('paginated', function () {
     ]);
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new StudioSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -104,7 +106,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new StudioSchema();
 
     $fields = collect($schema->fields());
@@ -113,7 +115,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            StudioJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            StudioJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -133,13 +135,13 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('sorts', function () {
+test('sorts', function (): void {
     $schema = new StudioSchema();
 
     /** @var Sort $sort */
     $sort = collect($schema->fields())
-        ->filter(fn (Field $field) => $field instanceof SortableField)
-        ->map(fn (SortableField $field) => $field->getSort())
+        ->filter(fn (Field $field): bool => $field instanceof SortableField)
+        ->map(fn (SortableField $field): Sort => $field->getSort())
         ->random();
 
     $parameters = [
@@ -166,7 +168,7 @@ test('sorts', function () {
     );
 });
 
-test('created at filter', function () {
+test('created at filter', function (): void {
     $createdFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -179,11 +181,11 @@ test('created at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($createdFilter, function () {
+    Date::withTestNow($createdFilter, function (): void {
         Studio::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         Studio::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
@@ -203,7 +205,7 @@ test('created at filter', function () {
     );
 });
 
-test('updated at filter', function () {
+test('updated at filter', function (): void {
     $updatedFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -216,11 +218,11 @@ test('updated at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($updatedFilter, function () {
+    Date::withTestNow($updatedFilter, function (): void {
         Studio::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         Studio::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
@@ -240,7 +242,7 @@ test('updated at filter', function () {
     );
 });
 
-test('without trashed filter', function () {
+test('without trashed filter', function (): void {
     $parameters = [
         FilterParser::param() => [
             TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT->value,
@@ -270,7 +272,7 @@ test('without trashed filter', function () {
     );
 });
 
-test('with trashed filter', function () {
+test('with trashed filter', function (): void {
     $parameters = [
         FilterParser::param() => [
             TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
@@ -300,7 +302,7 @@ test('with trashed filter', function () {
     );
 });
 
-test('only trashed filter', function () {
+test('only trashed filter', function (): void {
     $parameters = [
         FilterParser::param() => [
             TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY->value,
@@ -330,7 +332,7 @@ test('only trashed filter', function () {
     );
 });
 
-test('deleted at filter', function () {
+test('deleted at filter', function (): void {
     $deletedFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -344,11 +346,11 @@ test('deleted at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($deletedFilter, function () {
+    Date::withTestNow($deletedFilter, function (): void {
         Studio::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         Studio::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
     });
 
@@ -368,7 +370,7 @@ test('deleted at filter', function () {
     );
 });
 
-test('anime by media format', function () {
+test('anime by media format', function (): void {
     $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
     $parameters = [
@@ -384,7 +386,7 @@ test('anime by media format', function () {
         ->create();
 
     $studio = Studio::with([
-        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
+        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter): void {
             $query->where(Anime::ATTRIBUTE_FORMAT, $mediaFormatFilter->value);
         },
     ])
@@ -404,7 +406,7 @@ test('anime by media format', function () {
     );
 });
 
-test('anime by season', function () {
+test('anime by season', function (): void {
     $seasonFilter = Arr::random(AnimeSeason::cases());
 
     $parameters = [
@@ -420,7 +422,7 @@ test('anime by season', function () {
         ->create();
 
     $studio = Studio::with([
-        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
+        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter): void {
             $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
         },
     ])
@@ -440,7 +442,7 @@ test('anime by season', function () {
     );
 });
 
-test('anime by year', function () {
+test('anime by year', function (): void {
     $yearFilter = fake()->numberBetween(2000, 2002);
 
     $parameters = [
@@ -464,7 +466,7 @@ test('anime by year', function () {
         ->create();
 
     $studio = Studio::with([
-        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
+        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter): void {
             $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
         },
     ])
@@ -484,7 +486,7 @@ test('anime by year', function () {
     );
 });
 
-test('resources by site', function () {
+test('resources by site', function (): void {
     $siteFilter = Arr::random(ResourceSite::cases());
 
     $parameters = [
@@ -500,7 +502,7 @@ test('resources by site', function () {
         ->create();
 
     $studios = Studio::with([
-        Studio::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter) {
+        Studio::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter): void {
             $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
         },
     ])
@@ -520,7 +522,7 @@ test('resources by site', function () {
     );
 });
 
-test('images by facet', function () {
+test('images by facet', function (): void {
     $facetFilter = Arr::random(ImageFacet::cases());
 
     $parameters = [
@@ -536,7 +538,7 @@ test('images by facet', function () {
         ->create();
 
     $anime = Studio::with([
-        Studio::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
+        Studio::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter): void {
             $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
         },
     ])

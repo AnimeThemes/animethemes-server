@@ -8,7 +8,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
 use Illuminate\Support\Facades\Event;
 
-test('anime studio created event dispatched', function () {
+test('anime studio created event dispatched', function (): void {
     $anime = Anime::factory()->createOne();
     $studio = Studio::factory()->createOne();
 
@@ -17,7 +17,7 @@ test('anime studio created event dispatched', function () {
     Event::assertDispatched(AnimeStudioCreated::class);
 });
 
-test('anime studio deleted event dispatched', function () {
+test('anime studio deleted event dispatched', function (): void {
     $anime = Anime::factory()->createOne();
     $studio = Studio::factory()->createOne();
 

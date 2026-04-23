@@ -7,6 +7,7 @@ use App\Enums\Auth\SpecialPermission;
 use App\Features\AllowDumpDownloading;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -15,9 +16,9 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('dump downloading not allowed forbidden', function () {
+test('dump downloading not allowed forbidden', function (): void {
     Feature::deactivate(AllowDumpDownloading::class);
 
     $dump = Dump::factory()->createOne();
@@ -27,7 +28,7 @@ test('dump downloading not allowed forbidden', function () {
     $response->assertForbidden();
 });
 
-test('dump downloading forbidden for private dumps', function () {
+test('dump downloading forbidden for private dumps', function (): void {
     Feature::activate(AllowDumpDownloading::class);
 
     $dump = Dump::factory()
@@ -39,7 +40,7 @@ test('dump downloading forbidden for private dumps', function () {
     $response->assertForbidden();
 });
 
-test('video streaming permitted for bypass', function () {
+test('video streaming permitted for bypass', function (): void {
     Feature::activate(AllowDumpDownloading::class, fake()->boolean());
 
     $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
@@ -60,7 +61,7 @@ test('video streaming permitted for bypass', function () {
     $response->assertDownload($dump->path);
 });
 
-test('downloaded through response', function () {
+test('downloaded through response', function (): void {
     Feature::activate(AllowDumpDownloading::class);
 
     $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
@@ -25,18 +26,19 @@ use App\Models\Wiki\Studio;
 use App\Pivots\BasePivot;
 use App\Pivots\Wiki\AnimeStudio;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 
 use function Pest\Laravel\get;
 
-uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+uses(SortsModels::class);
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
-    Collection::times(fake()->randomDigitNotNull(), function () {
+test('default', function (): void {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         AnimeStudio::factory()
             ->for(Anime::factory())
             ->for(Studio::factory())
@@ -59,8 +61,8 @@ test('default', function () {
     );
 });
 
-test('paginated', function () {
-    Collection::times(fake()->randomDigitNotNull(), function () {
+test('paginated', function (): void {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         AnimeStudio::factory()
             ->for(Anime::factory())
             ->for(Studio::factory())
@@ -76,20 +78,20 @@ test('paginated', function () {
     ]);
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new AnimeStudioSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
     ];
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         AnimeStudio::factory()
             ->for(Anime::factory())
             ->for(Studio::factory())
@@ -112,7 +114,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new AnimeStudioSchema();
 
     $fields = collect($schema->fields());
@@ -121,11 +123,11 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnimeStudioJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnimeStudioJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         AnimeStudio::factory()
             ->for(Anime::factory())
             ->for(Studio::factory())
@@ -148,13 +150,13 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('sorts', function () {
+test('sorts', function (): void {
     $schema = new AnimeStudioSchema();
 
     /** @var Sort $sort */
     $sort = collect($schema->fields())
-        ->filter(fn (Field $field) => $field instanceof SortableField)
-        ->map(fn (SortableField $field) => $field->getSort())
+        ->filter(fn (Field $field): bool => $field instanceof SortableField)
+        ->map(fn (SortableField $field): Sort => $field->getSort())
         ->random();
 
     $parameters = [
@@ -163,7 +165,7 @@ test('sorts', function () {
 
     $query = new Query($parameters);
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         AnimeStudio::factory()
             ->for(Anime::factory())
             ->for(Studio::factory())
@@ -186,7 +188,7 @@ test('sorts', function () {
     );
 });
 
-test('created at filter', function () {
+test('created at filter', function (): void {
     $createdFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -199,8 +201,8 @@ test('created at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($createdFilter, function () {
-        Collection::times(fake()->randomDigitNotNull(), function () {
+    Date::withTestNow($createdFilter, function (): void {
+        Collection::times(fake()->randomDigitNotNull(), function (): void {
             AnimeStudio::factory()
                 ->for(Anime::factory())
                 ->for(Studio::factory())
@@ -208,8 +210,8 @@ test('created at filter', function () {
         });
     });
 
-    Carbon::withTestNow($excludedDate, function () {
-        Collection::times(fake()->randomDigitNotNull(), function () {
+    Date::withTestNow($excludedDate, function (): void {
+        Collection::times(fake()->randomDigitNotNull(), function (): void {
             AnimeStudio::factory()
                 ->for(Anime::factory())
                 ->for(Studio::factory())
@@ -233,7 +235,7 @@ test('created at filter', function () {
     );
 });
 
-test('updated at filter', function () {
+test('updated at filter', function (): void {
     $updatedFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -246,8 +248,8 @@ test('updated at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($updatedFilter, function () {
-        Collection::times(fake()->randomDigitNotNull(), function () {
+    Date::withTestNow($updatedFilter, function (): void {
+        Collection::times(fake()->randomDigitNotNull(), function (): void {
             AnimeStudio::factory()
                 ->for(Anime::factory())
                 ->for(Studio::factory())
@@ -255,8 +257,8 @@ test('updated at filter', function () {
         });
     });
 
-    Carbon::withTestNow($excludedDate, function () {
-        Collection::times(fake()->randomDigitNotNull(), function () {
+    Date::withTestNow($excludedDate, function (): void {
+        Collection::times(fake()->randomDigitNotNull(), function (): void {
             AnimeStudio::factory()
                 ->for(Anime::factory())
                 ->for(Studio::factory())
@@ -280,7 +282,7 @@ test('updated at filter', function () {
     );
 });
 
-test('anime by media format', function () {
+test('anime by media format', function (): void {
     $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
     $parameters = [
@@ -290,7 +292,7 @@ test('anime by media format', function () {
         IncludeParser::param() => AnimeStudio::RELATION_ANIME,
     ];
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         AnimeStudio::factory()
             ->for(Anime::factory())
             ->for(Studio::factory())
@@ -300,7 +302,7 @@ test('anime by media format', function () {
     $response = get(route('api.animestudio.index', $parameters));
 
     $animeStudios = AnimeStudio::with([
-        AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+        AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter): void {
             $query->where(Anime::ATTRIBUTE_FORMAT, $mediaFormatFilter->value);
         },
     ])
@@ -318,7 +320,7 @@ test('anime by media format', function () {
     );
 });
 
-test('anime by season', function () {
+test('anime by season', function (): void {
     $seasonFilter = Arr::random(AnimeSeason::cases());
 
     $parameters = [
@@ -328,7 +330,7 @@ test('anime by season', function () {
         IncludeParser::param() => AnimeStudio::RELATION_ANIME,
     ];
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         AnimeStudio::factory()
             ->for(Anime::factory())
             ->for(Studio::factory())
@@ -338,7 +340,7 @@ test('anime by season', function () {
     $response = get(route('api.animestudio.index', $parameters));
 
     $animeStudios = AnimeStudio::with([
-        AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+        AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter): void {
             $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
         },
     ])
@@ -356,7 +358,7 @@ test('anime by season', function () {
     );
 });
 
-test('anime by year', function () {
+test('anime by year', function (): void {
     $yearFilter = intval(fake()->year());
     $excludedYear = $yearFilter + 1;
 
@@ -367,7 +369,7 @@ test('anime by year', function () {
         IncludeParser::param() => AnimeStudio::RELATION_ANIME,
     ];
 
-    Collection::times(fake()->randomDigitNotNull(), function () use ($yearFilter, $excludedYear) {
+    Collection::times(fake()->randomDigitNotNull(), function () use ($yearFilter, $excludedYear): void {
         AnimeStudio::factory()
             ->for(
                 Anime::factory()
@@ -382,7 +384,7 @@ test('anime by year', function () {
     $response = get(route('api.animestudio.index', $parameters));
 
     $animeStudios = AnimeStudio::with([
-        AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+        AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter): void {
             $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
         },
     ])

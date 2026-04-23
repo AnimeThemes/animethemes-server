@@ -8,19 +8,20 @@ use App\Http\Resources\User\Collection\NotificationCollection;
 use App\Models\Auth\User;
 use App\Models\User\Notification;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('protected', function () {
+test('protected', function (): void {
     $response = get(route('api.me.notification.index'));
 
     $response->assertUnauthorized();
 });
 
-test('forbidden if missing permission', function () {
+test('forbidden if missing permission', function (): void {
     $user = User::factory()->createOne();
 
     Sanctum::actingAs($user);
@@ -30,7 +31,7 @@ test('forbidden if missing permission', function () {
     $response->assertForbidden();
 });
 
-test('only sees owned notifications', function () {
+test('only sees owned notifications', function (): void {
     Notification::factory()
         ->for(User::factory(), Notification::RELATION_NOTIFIABLE)
         ->count(fake()->randomDigitNotNull())

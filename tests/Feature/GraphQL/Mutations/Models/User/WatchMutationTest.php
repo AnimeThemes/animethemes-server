@@ -10,7 +10,7 @@ use App\Models\Wiki\Video;
 
 use function Pest\Laravel\actingAs;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->mutation = '
         mutation($entryId: Int!, $videoId: Int!) {
             Watch(entryId: $entryId, videoId: $videoId) {
@@ -25,7 +25,7 @@ beforeEach(function () {
     ';
 });
 
-test('protected', function () {
+test('protected', function (): void {
     $response = $this->graphQL(
         $this->mutation,
         [
@@ -38,7 +38,7 @@ test('protected', function () {
     $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     actingAs(User::factory()->createOne());
 
     $response = $this->graphQL(
@@ -53,7 +53,7 @@ test('forbidden', function () {
     $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
-test('invalid entry id or video id', function () {
+test('invalid entry id or video id', function (): void {
     $user = User::factory()
         ->withPermissions(CrudPermission::CREATE->format(WatchHistory::class))
         ->createOne();
@@ -75,7 +75,7 @@ test('invalid entry id or video id', function () {
     $response->assertGraphQLValidationKeys(['entryId', 'videoId']);
 });
 
-test('mark as watched', function () {
+test('mark as watched', function (): void {
     $user = User::factory()
         ->withPermissions(CrudPermission::CREATE->format(WatchHistory::class))
         ->createOne();

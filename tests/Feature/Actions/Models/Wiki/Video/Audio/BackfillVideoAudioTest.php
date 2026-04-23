@@ -12,13 +12,14 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('skipped', function () {
+test('skipped', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -35,7 +36,7 @@ test('skipped', function () {
     $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });
 
-test('failed when no entries', function () {
+test('failed when no entries', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -50,7 +51,7 @@ test('failed when no entries', function () {
     $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });
 
-test('passes source video', function () {
+test('passes source video', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -74,7 +75,7 @@ test('passes source video', function () {
     $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });
 
-test('passes with higher priority source', function () {
+test('passes with higher priority source', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -103,7 +104,7 @@ test('passes with higher priority source', function () {
     $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });
 
-test('passes with primary version source', function () {
+test('passes with primary version source', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 

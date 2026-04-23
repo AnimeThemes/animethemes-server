@@ -6,7 +6,7 @@ use App\GraphQL\Filter\EnumFilter;
 use Illuminate\Support\Arr;
 use Tests\Unit\Enums\LocalizedEnum;
 
-test('enum converted to value', function () {
+test('enum converted to value', function (): void {
     $enum = Arr::random(LocalizedEnum::cases());
 
     $filter = new EnumFilter(fake()->word(), LocalizedEnum::class, fake()->word());
@@ -16,7 +16,7 @@ test('enum converted to value', function () {
     $this->assertEquals($enum->value, $filterValues[0]);
 });
 
-test('enum name converted to value', function () {
+test('enum name converted to value', function (): void {
     $enum = Arr::random(LocalizedEnum::cases());
 
     $filter = new EnumFilter(fake()->word(), LocalizedEnum::class, fake()->word());

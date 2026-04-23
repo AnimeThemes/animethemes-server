@@ -11,7 +11,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\delete;
 
-test('protected', function () {
+test('protected', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
@@ -21,7 +21,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
@@ -35,7 +35,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('trashed', function () {
+test('trashed', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->trashed()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -50,7 +50,7 @@ test('trashed', function () {
     $response->assertNotFound();
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();

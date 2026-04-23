@@ -23,7 +23,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
 
-test('casts season to enum', function () {
+test('casts season to enum', function (): void {
     $anime = Anime::factory()->createOne();
 
     $season = $anime->season;
@@ -31,37 +31,37 @@ test('casts season to enum', function () {
     $this->assertInstanceOf(AnimeSeason::class, $season);
 });
 
-test('casts format to enum', function () {
+test('casts format to enum', function (): void {
     $anime = Anime::factory()->createOne();
 
     $this->assertInstanceOf(AnimeFormat::class, $anime->format);
 });
 
-test('searchable as', function () {
+test('searchable as', function (): void {
     $anime = Anime::factory()->createOne();
 
     $this->assertIsString($anime->searchableAs());
 });
 
-test('to searchable array', function () {
+test('to searchable array', function (): void {
     $anime = Anime::factory()->createOne();
 
     $this->assertIsArray($anime->toSearchableArray());
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $anime = Anime::factory()->createOne();
 
     $this->assertIsString($anime->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $anime = Anime::factory()->createOne();
 
     $this->assertIsString($anime->getSubtitle());
 });
 
-test('synonyms', function () {
+test('synonyms', function (): void {
     $synonymCount = fake()->randomDigitNotNull();
 
     $anime = Anime::factory()
@@ -73,7 +73,7 @@ test('synonyms', function () {
     $this->assertInstanceOf(Synonym::class, $anime->synonyms()->first());
 });
 
-test('series', function () {
+test('series', function (): void {
     $seriesCount = fake()->randomDigitNotNull();
 
     $anime = Anime::factory()
@@ -86,7 +86,7 @@ test('series', function () {
     $this->assertEquals(AnimeSeries::class, $anime->series()->getPivotClass());
 });
 
-test('themes', function () {
+test('themes', function (): void {
     $themeCount = fake()->randomDigitNotNull();
 
     $anime = Anime::factory()
@@ -98,7 +98,7 @@ test('themes', function () {
     $this->assertInstanceOf(AnimeTheme::class, $anime->animethemes()->first());
 });
 
-test('external resources', function () {
+test('external resources', function (): void {
     $resourceCount = fake()->randomDigitNotNull();
 
     $anime = Anime::factory()
@@ -111,7 +111,7 @@ test('external resources', function () {
     $this->assertEquals(Resourceable::class, $anime->resources()->getPivotClass());
 });
 
-test('images', function () {
+test('images', function (): void {
     $imageCount = fake()->randomDigitNotNull();
 
     $anime = Anime::factory()
@@ -124,7 +124,7 @@ test('images', function () {
     $this->assertEquals(Imageable::class, $anime->images()->getPivotClass());
 });
 
-test('studios', function () {
+test('studios', function (): void {
     $studioCount = fake()->randomDigitNotNull();
 
     $anime = Anime::factory()

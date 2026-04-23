@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\delete;
 
-test('protected', function () {
+test('protected', function (): void {
     $anime = Anime::factory()->createOne();
 
     $response = delete(route('api.anime.destroy', ['anime' => $anime]));
@@ -17,7 +17,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $anime = Anime::factory()->createOne();
 
     $user = User::factory()->createOne();
@@ -29,7 +29,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('trashed', function () {
+test('trashed', function (): void {
     $anime = Anime::factory()->trashed()->createOne();
 
     $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Anime::class))->createOne();
@@ -41,7 +41,7 @@ test('trashed', function () {
     $response->assertNotFound();
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     $anime = Anime::factory()->createOne();
 
     $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Anime::class))->createOne();

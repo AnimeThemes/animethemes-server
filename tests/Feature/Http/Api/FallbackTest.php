@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 use function Pest\Laravel\get;
 
-test('abort json', function () {
+test('abort json', function (): void {
     $response = get(route('api.anime.index').Str::random());
 
     $response->assertJsonStructure([

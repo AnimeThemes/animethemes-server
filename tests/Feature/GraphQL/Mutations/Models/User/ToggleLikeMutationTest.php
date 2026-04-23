@@ -10,7 +10,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
 use function Pest\Laravel\actingAs;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->mutation = '
         mutation($entryId: Int, $playlistId: String) {
             ToggleLike(entry: $entryId, playlist: $playlistId) {
@@ -29,7 +29,7 @@ beforeEach(function () {
     ';
 });
 
-test('protected', function () {
+test('protected', function (): void {
     $response = $this->graphQL(
         $this->mutation,
         [
@@ -41,7 +41,7 @@ test('protected', function () {
     $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     actingAs(User::factory()->createOne());
 
     $response = $this->graphQL(
@@ -56,7 +56,7 @@ test('forbidden', function () {
     $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
-it('fails if more than one resource is passed', function () {
+it('fails if more than one resource is passed', function (): void {
     $user = User::factory()
         ->withPermissions(CrudPermission::CREATE->format(Like::class))
         ->createOne();
@@ -78,7 +78,7 @@ it('fails if more than one resource is passed', function () {
     $response->assertGraphQLValidationKeys(['entry', 'playlist']);
 });
 
-it('likes entry', function () {
+it('likes entry', function (): void {
     $user = User::factory()
         ->withPermissions(CrudPermission::CREATE->format(Like::class))
         ->createOne();
@@ -107,7 +107,7 @@ it('likes entry', function () {
     ]);
 });
 
-it('likes playlist', function () {
+it('likes playlist', function (): void {
     $user = User::factory()
         ->withPermissions(CrudPermission::CREATE->format(Like::class))
         ->createOne();

@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\delete;
 
-test('protected', function () {
+test('protected', function (): void {
     $studio = Studio::factory()->createOne();
 
     $response = delete(route('api.studio.forceDelete', ['studio' => $studio]));
@@ -17,7 +17,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $studio = Studio::factory()->createOne();
 
     $user = User::factory()->createOne();
@@ -29,7 +29,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     $studio = Studio::factory()->createOne();
 
     $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Studio::class))->createOne();

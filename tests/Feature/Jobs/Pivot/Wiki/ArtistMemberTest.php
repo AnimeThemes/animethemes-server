@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
-test('artist member created sends discord notification', function () {
+test('artist member created sends discord notification', function (): void {
     $artist = Artist::factory()->createOne();
     $member = Artist::factory()->createOne();
 
@@ -26,7 +26,7 @@ test('artist member created sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('artist member deleted sends discord notification', function () {
+test('artist member deleted sends discord notification', function (): void {
     $artist = Artist::factory()->createOne();
     $member = Artist::factory()->createOne();
 
@@ -41,7 +41,7 @@ test('artist member deleted sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('artist member updated sends discord notification', function () {
+test('artist member updated sends discord notification', function (): void {
     $artist = Artist::factory()->createOne();
     $member = Artist::factory()->createOne();
 

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
-test('synonym created sends discord notification', function () {
+test('synonym created sends discord notification', function (): void {
     $anime = Anime::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -26,7 +26,7 @@ test('synonym created sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('synonym deleted sends discord notification', function () {
+test('synonym deleted sends discord notification', function (): void {
     $synonym = Synonym::factory()->forAnime()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -38,7 +38,7 @@ test('synonym deleted sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('synonym restored sends discord notification', function () {
+test('synonym restored sends discord notification', function (): void {
     $synonym = Synonym::factory()->forAnime()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -50,7 +50,7 @@ test('synonym restored sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('synonym updated sends discord notification', function () {
+test('synonym updated sends discord notification', function (): void {
     $synonym = Synonym::factory()->forAnime()->createOne();
 
     $changes = Synonym::factory()->forAnime()->makeOne();

@@ -6,6 +6,6 @@ use App\Contracts\Events\CascadesRestoresEvent;
 use App\Listeners\CascadesRestores;
 use Illuminate\Support\Facades\Event;
 
-test('listening', function () {
+test('listening', function (): void {
     Event::assertListening(CascadesRestoresEvent::class, CascadesRestores::class);
 });

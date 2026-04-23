@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
-test('user created sends discord notification', function () {
+test('user created sends discord notification', function (): void {
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Bus::fake(SendDiscordNotificationJob::class);
     Event::fakeExcept(UserCreated::class);
@@ -23,7 +23,7 @@ test('user created sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('user deleted sends discord notification', function () {
+test('user deleted sends discord notification', function (): void {
     $user = User::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -35,7 +35,7 @@ test('user deleted sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('user restored sends discord notification', function () {
+test('user restored sends discord notification', function (): void {
     $user = User::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -47,7 +47,7 @@ test('user restored sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('user updated sends discord notification', function () {
+test('user updated sends discord notification', function (): void {
     $user = User::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);

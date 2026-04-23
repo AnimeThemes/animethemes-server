@@ -6,6 +6,6 @@ use App\Contracts\Events\UpdatePlaylistTracksEvent;
 use App\Listeners\List\UpdatePlaylistTracks;
 use Illuminate\Support\Facades\Event;
 
-test('listening', function () {
+test('listening', function (): void {
     Event::assertListening(UpdatePlaylistTracksEvent::class, UpdatePlaylistTracks::class);
 });

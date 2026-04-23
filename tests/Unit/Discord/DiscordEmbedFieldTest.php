@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 use App\Discord\DiscordEmbedField;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 use Tests\Unit\Enums\LocalizedEnum;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('discord embed format enum', function () {
+test('discord embed format enum', function (): void {
     $enum = Arr::random(LocalizedEnum::cases());
 
     $field = new DiscordEmbedField(fake()->word(), $enum);
@@ -18,7 +19,7 @@ test('discord embed format enum', function () {
     $this->assertEquals($enum->localize(), Arr::get($field->toArray(), 'value'));
 });
 
-test('discord embed format date', function () {
+test('discord embed format date', function (): void {
     $date = Date::now()->subDays(fake()->randomDigitNotNull());
 
     $field = new DiscordEmbedField(fake()->word(), $date);
@@ -26,7 +27,7 @@ test('discord embed format date', function () {
     $this->assertEquals($date->format(AllowedDateFormat::YMD->value), Arr::get($field->toArray(), 'value'));
 });
 
-test('discord embed format boolean', function () {
+test('discord embed format boolean', function (): void {
     $boolean = fake()->boolean();
 
     $field = new DiscordEmbedField(fake()->word(), $boolean);
@@ -34,7 +35,7 @@ test('discord embed format boolean', function () {
     $this->assertEquals($boolean ? 'true' : 'false', Arr::get($field->toArray(), 'value'));
 });
 
-test('discord embed format number', function () {
+test('discord embed format number', function (): void {
     $number = fake()->randomNumber();
 
     $field = new DiscordEmbedField(fake()->word(), $number);
@@ -42,7 +43,7 @@ test('discord embed format number', function () {
     $this->assertEquals(strval($number), Arr::get($field->toArray(), 'value'));
 });
 
-test('discord embed format float', function () {
+test('discord embed format float', function (): void {
     $float = fake()->randomFloat();
 
     $field = new DiscordEmbedField(fake()->word(), $float);
@@ -50,7 +51,7 @@ test('discord embed format float', function () {
     $this->assertEquals(strval($float), Arr::get($field->toArray(), 'value'));
 });
 
-test('discord embed format string', function () {
+test('discord embed format string', function (): void {
     $string = fake()->word();
 
     $field = new DiscordEmbedField(fake()->word(), $string);
@@ -58,25 +59,25 @@ test('discord embed format string', function () {
     $this->assertEquals($string, Arr::get($field->toArray(), 'value'));
 });
 
-test('discord embed format empty string', function () {
+test('discord embed format empty string', function (): void {
     $field = new DiscordEmbedField(fake()->word(), '');
 
     $this->assertEquals(DiscordEmbedField::DEFAULT_NULL_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
 });
 
-test('discord embed format null', function () {
+test('discord embed format null', function (): void {
     $field = new DiscordEmbedField(fake()->word(), null);
 
     $this->assertEquals(DiscordEmbedField::DEFAULT_NULL_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
 });
 
-test('discord embed format array', function () {
+test('discord embed format array', function (): void {
     $field = new DiscordEmbedField(fake()->word(), []);
 
     $this->assertEquals(DiscordEmbedField::DEFAULT_NULL_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
 });
 
-test('discord embed format object', function () {
+test('discord embed format object', function (): void {
     $field = new DiscordEmbedField(fake()->word(), new stdClass());
 
     $this->assertEquals(DiscordEmbedField::DEFAULT_NULL_FIELD_VALUE, Arr::get($field->toArray(), 'value'));

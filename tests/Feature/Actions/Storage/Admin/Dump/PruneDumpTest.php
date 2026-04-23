@@ -7,14 +7,15 @@ use App\Actions\Storage\Admin\Dump\PruneDumpAction;
 use App\Constants\Config\DumpConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Admin\Dump;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('no results', function () {
+test('no results', function (): void {
     $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
     $action = new PruneDumpAction(fake()->numberBetween(2, 9));
@@ -28,12 +29,12 @@ test('no results', function () {
     $this->assertDatabaseCount(Dump::class, 0);
 });
 
-test('pruned', function () {
+test('pruned', function (): void {
     $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
     $prunedCount = fake()->randomDigitNotNull();
 
-    Collection::times($prunedCount, function () {
+    Collection::times($prunedCount, function (): void {
         Date::setTestNow(fake()->iso8601());
 
         $action = new DumpContentAction();

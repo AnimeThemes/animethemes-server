@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
-test('video created sends discord notification', function () {
+test('video created sends discord notification', function (): void {
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Bus::fake(SendDiscordNotificationJob::class);
     Event::fakeExcept(VideoCreated::class);
@@ -23,7 +23,7 @@ test('video created sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('video deleted sends discord notification', function () {
+test('video deleted sends discord notification', function (): void {
     $video = Video::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -35,7 +35,7 @@ test('video deleted sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('video restored sends discord notification', function () {
+test('video restored sends discord notification', function (): void {
     $video = Video::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -47,7 +47,7 @@ test('video restored sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('video updated sends discord notification', function () {
+test('video updated sends discord notification', function (): void {
     $video = Video::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);

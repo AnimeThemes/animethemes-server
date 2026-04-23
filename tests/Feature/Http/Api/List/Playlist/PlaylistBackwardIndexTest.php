@@ -25,6 +25,7 @@ use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
@@ -32,9 +33,9 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('private playlist cannot be publicly viewed', function () {
+test('private playlist cannot be publicly viewed', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -49,7 +50,7 @@ test('private playlist cannot be publicly viewed', function () {
     $response->assertForbidden();
 });
 
-test('private playlist track cannot be publicly viewed if not owned', function () {
+test('private playlist track cannot be publicly viewed if not owned', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -68,7 +69,7 @@ test('private playlist track cannot be publicly viewed if not owned', function (
     $response->assertForbidden();
 });
 
-test('private playlist track can be viewed by owner', function () {
+test('private playlist track can be viewed by owner', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
@@ -87,7 +88,7 @@ test('private playlist track can be viewed by owner', function () {
     $response->assertOk();
 });
 
-test('unlisted playlist track can be viewed', function () {
+test('unlisted playlist track can be viewed', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -102,7 +103,7 @@ test('unlisted playlist track can be viewed', function () {
     $response->assertOk();
 });
 
-test('public playlist track can be viewed', function () {
+test('public playlist track can be viewed', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -117,7 +118,7 @@ test('public playlist track can be viewed', function () {
     $response->assertOk();
 });
 
-test('default', function () {
+test('default', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $trackCount = fake()->numberBetween(2, 9);
@@ -153,7 +154,7 @@ test('default', function () {
     );
 });
 
-test('paginated', function () {
+test('paginated', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -171,7 +172,7 @@ test('paginated', function () {
     ]);
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $schema = new ForwardBackwardSchema();
@@ -180,7 +181,7 @@ test('allowed include paths', function () {
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -211,7 +212,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $schema = new ForwardBackwardSchema();
@@ -222,7 +223,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            TrackJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            TrackJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -246,15 +247,15 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('sorts', function () {
+test('sorts', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $schema = new ForwardBackwardSchema();
 
     /** @var Sort $sort */
     $sort = collect($schema->fields())
-        ->filter(fn (Field $field) => $field instanceof SortableField)
-        ->map(fn (SortableField $field) => $field->getSort())
+        ->filter(fn (Field $field): bool => $field instanceof SortableField)
+        ->map(fn (SortableField $field): Sort => $field->getSort())
         ->random();
 
     $parameters = [
@@ -274,7 +275,7 @@ test('sorts', function () {
     ]);
 });
 
-test('filters', function () {
+test('filters', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $parameters = [

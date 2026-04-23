@@ -17,7 +17,7 @@ use Livewire\Livewire;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
-test('render index page', function () {
+test('render index page', function (): void {
     $user = User::factory()
         ->withPermissions(
             SpecialPermission::VIEW_FILAMENT->value,
@@ -39,7 +39,7 @@ test('render index page', function () {
         ->assertCanSeeTableRecords($records);
 });
 
-test('render view page', function () {
+test('render view page', function (): void {
     $user = User::factory()
         ->withPermissions(
             SpecialPermission::VIEW_FILAMENT->value,
@@ -57,7 +57,7 @@ test('render view page', function () {
         ->assertSuccessful();
 });
 
-test('mount create action', function () {
+test('mount create action', function (): void {
     $user = User::factory()
         ->withPermissions(
             SpecialPermission::VIEW_FILAMENT->value,
@@ -72,7 +72,7 @@ test('mount create action', function () {
         ->assertActionMounted(CreateAction::class);
 });
 
-test('mount edit action', function () {
+test('mount edit action', function (): void {
     $user = User::factory()
         ->withPermissions(
             SpecialPermission::VIEW_FILAMENT->value,
@@ -92,12 +92,12 @@ test('mount edit action', function () {
         ->assertHasNoErrors();
 });
 
-test('user cannot create record', function () {
+test('user cannot create record', function (): void {
     Livewire::test(getIndexPage(DiscordThreadResource::class))
         ->assertActionHidden(CreateAction::class);
 });
 
-test('user cannot edit record', function () {
+test('user cannot edit record', function (): void {
     $record = DiscordThreadModel::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -106,7 +106,7 @@ test('user cannot edit record', function () {
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
-test('user cannot delete record', function () {
+test('user cannot delete record', function (): void {
     $record = DiscordThreadModel::factory()
         ->for(Anime::factory())
         ->createOne();

@@ -6,6 +6,6 @@ use App\Contracts\Events\RemoveFromStorageEvent;
 use App\Listeners\Storage\RemoveFromStorage;
 use Illuminate\Support\Facades\Event;
 
-test('listening', function () {
+test('listening', function (): void {
     Event::assertListening(RemoveFromStorageEvent::class, RemoveFromStorage::class);
 });

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 use App\Actions\Storage\Base\UploadResults;
 use App\Enums\Actions\ActionStatus;
+use Illuminate\Foundation\Testing\WithFaker;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $uploadResults = new UploadResults();
 
     $result = $uploadResults->toActionResult();
@@ -15,7 +16,7 @@ test('default', function () {
     $this->assertTrue($result->hasFailed());
 });
 
-test('failed', function () {
+test('failed', function (): void {
     $uploads = [];
 
     foreach (range(0, fake()->randomDigitNotNull()) as $ignored) {
@@ -33,7 +34,7 @@ test('failed', function () {
     $this->assertTrue($result->hasFailed());
 });
 
-test('passed', function () {
+test('passed', function (): void {
     $uploads = [];
 
     foreach (range(0, fake()->randomDigitNotNull()) as $ignored) {

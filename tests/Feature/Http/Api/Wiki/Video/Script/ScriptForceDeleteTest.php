@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\delete;
 
-test('protected', function () {
+test('protected', function (): void {
     $script = VideoScript::factory()->createOne();
 
     $response = delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
@@ -17,7 +17,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $script = VideoScript::factory()->createOne();
 
     $user = User::factory()->createOne();
@@ -29,7 +29,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     $script = VideoScript::factory()->createOne();
 
     $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(VideoScript::class))->createOne();

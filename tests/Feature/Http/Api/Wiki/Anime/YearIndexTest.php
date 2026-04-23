@@ -3,12 +3,13 @@
 declare(strict_types=1);
 
 use App\Models\Wiki\Anime;
+use Illuminate\Foundation\Testing\WithFaker;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $anime = Anime::factory()
         ->count(fake()->randomDigitNotNull())
         ->create();

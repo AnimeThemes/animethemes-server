@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 use App\Http\Api\Criteria\Field\Criteria;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('is allowed field', function () {
+test('is allowed field', function (): void {
     $fields = collect(fake()->words(fake()->randomDigitNotNull()));
 
     $criteria = new Criteria(fake()->word(), $fields);
@@ -15,7 +16,7 @@ test('is allowed field', function () {
     $this->assertTrue($criteria->isAllowedField($fields->random()));
 });
 
-test('is not allowed', function () {
+test('is not allowed', function (): void {
     $fields = collect(fake()->words(fake()->randomDigitNotNull()));
 
     $criteria = new Criteria(fake()->word(), $fields);

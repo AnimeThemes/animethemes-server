@@ -11,7 +11,7 @@ use App\Pivots\Morph\Imageable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-test('image', function () {
+test('image', function (): void {
     $imageable = Imageable::factory()
         ->for(Image::factory(), Imageable::RELATION_IMAGE)
         ->forAnime()
@@ -21,7 +21,7 @@ test('image', function () {
     $this->assertInstanceOf(Image::class, $imageable->image()->first());
 });
 
-test('imageable playlist', function () {
+test('imageable playlist', function (): void {
     $imageable = Imageable::factory()
         ->for(Image::factory(), Imageable::RELATION_IMAGE)
         ->forPlaylist()
@@ -31,7 +31,7 @@ test('imageable playlist', function () {
     $this->assertInstanceOf(Playlist::class, $imageable->imageable()->first());
 });
 
-test('imageable anime', function () {
+test('imageable anime', function (): void {
     $imageable = Imageable::factory()
         ->for(Image::factory(), Imageable::RELATION_IMAGE)
         ->forAnime()
@@ -41,7 +41,7 @@ test('imageable anime', function () {
     $this->assertInstanceOf(Anime::class, $imageable->imageable()->first());
 });
 
-test('imageable artist', function () {
+test('imageable artist', function (): void {
     $imageable = Imageable::factory()
         ->for(Image::factory(), Imageable::RELATION_IMAGE)
         ->forArtist()
@@ -51,7 +51,7 @@ test('imageable artist', function () {
     $this->assertInstanceOf(Artist::class, $imageable->imageable()->first());
 });
 
-test('imageable studio', function () {
+test('imageable studio', function (): void {
     $imageable = Imageable::factory()
         ->for(Image::factory(), Imageable::RELATION_IMAGE)
         ->forStudio()

@@ -13,11 +13,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('casts season to enum', function () {
+test('casts season to enum', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     $visibility = $playlist->visibility;
@@ -25,13 +26,13 @@ test('casts season to enum', function () {
     $this->assertInstanceOf(PlaylistVisibility::class, $visibility);
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     $this->assertIsString($playlist->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $playlist = Playlist::factory()
         ->for(User::factory())
         ->createOne();
@@ -39,7 +40,7 @@ test('has subtitle', function () {
     $this->assertIsString($playlist->getSubtitle());
 });
 
-test('searchable if public', function () {
+test('searchable if public', function (): void {
     $playlist = Playlist::factory()
         ->createOne([
             Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
@@ -48,7 +49,7 @@ test('searchable if public', function () {
     $this->assertTrue($playlist->shouldBeSearchable());
 });
 
-test('not searchable if not public', function () {
+test('not searchable if not public', function (): void {
     $visibility = null;
 
     while ($visibility == null) {
@@ -66,14 +67,14 @@ test('not searchable if not public', function () {
     $this->assertFalse($playlist->shouldBeSearchable());
 });
 
-test('hashids nullable user', function () {
+test('hashids nullable user', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     $this->assertEmpty(array_diff([$playlist->playlist_id], $playlist->hashids()));
     $this->assertEmpty(array_diff($playlist->hashids(), [$playlist->playlist_id]));
 });
 
-test('hashids non null user', function () {
+test('hashids non null user', function (): void {
     $user = User::factory()->createOne();
 
     $playlist = Playlist::factory()
@@ -84,7 +85,7 @@ test('hashids non null user', function () {
     $this->assertEmpty(array_diff($playlist->hashids(), [$user->id, $playlist->playlist_id]));
 });
 
-test('user', function () {
+test('user', function (): void {
     $playlist = Playlist::factory()
         ->for(User::factory())
         ->createOne();
@@ -93,7 +94,7 @@ test('user', function () {
     $this->assertInstanceOf(User::class, $playlist->user()->first());
 });
 
-test('first', function () {
+test('first', function (): void {
     $playlist = Playlist::factory()
         ->createOne();
 
@@ -107,7 +108,7 @@ test('first', function () {
     $this->assertInstanceOf(PlaylistTrack::class, $playlist->first()->first());
 });
 
-test('last', function () {
+test('last', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     $last = PlaylistTrack::factory()
@@ -120,7 +121,7 @@ test('last', function () {
     $this->assertInstanceOf(PlaylistTrack::class, $playlist->last()->first());
 });
 
-test('images', function () {
+test('images', function (): void {
     $imageCount = fake()->randomDigitNotNull();
 
     $playlist = Playlist::factory()
@@ -133,7 +134,7 @@ test('images', function () {
     $this->assertEquals(Imageable::class, $playlist->images()->getPivotClass());
 });
 
-test('tracks', function () {
+test('tracks', function (): void {
     $trackCount = fake()->randomDigitNotNull();
 
     $playlist = Playlist::factory()->createOne();
@@ -148,7 +149,7 @@ test('tracks', function () {
     $this->assertInstanceOf(PlaylistTrack::class, $playlist->tracks()->first());
 });
 
-test('likes', function () {
+test('likes', function (): void {
     $playlist = Playlist::factory()
         ->has(Like::factory()->for(User::factory()))
         ->createOne();

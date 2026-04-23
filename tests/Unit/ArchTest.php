@@ -68,7 +68,7 @@ arch()
     ->toBeClasses()
     ->toExtend(ServiceProvider::class);
 
-describe('filament', function () {
+describe('filament', function (): void {
     arch()
         ->expect('App\Filament\Actions')
         ->toBeClasses()

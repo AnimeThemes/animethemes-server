@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 use App\Http\Api\Parser\SearchParser;
 use App\Scout\Criteria;
+use Illuminate\Foundation\Testing\WithFaker;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('no criteria by default', function () {
+test('no criteria by default', function (): void {
     $parameters = [];
 
     $this->assertEmpty(SearchParser::parse($parameters));
 });
 
-test('parse search criteria', function () {
+test('parse search criteria', function (): void {
     $parameters = [
         SearchParser::param() => fake()->word(),
     ];
@@ -23,7 +24,7 @@ test('parse search criteria', function () {
     $this->assertInstanceOf(Criteria::class, $criteria);
 });
 
-test('parse search criteria term', function () {
+test('parse search criteria term', function (): void {
     $term = fake()->word();
 
     $parameters = [

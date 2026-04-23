@@ -9,13 +9,13 @@ use App\Models\Admin\FeaturedTheme;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('featured theme created event dispatched', function () {
+test('featured theme created event dispatched', function (): void {
     FeaturedTheme::factory()->create();
 
     Event::assertDispatched(FeaturedThemeCreated::class);
 });
 
-test('featured theme deleted event dispatched', function () {
+test('featured theme deleted event dispatched', function (): void {
     $featuredTheme = FeaturedTheme::factory()->create();
 
     $featuredTheme->delete();
@@ -23,7 +23,7 @@ test('featured theme deleted event dispatched', function () {
     Event::assertDispatched(FeaturedThemeDeleted::class);
 });
 
-test('featured theme updated event dispatched', function () {
+test('featured theme updated event dispatched', function (): void {
     $featuredTheme = FeaturedTheme::factory()->createOne();
     $changes = FeaturedTheme::factory()->makeOne();
 
@@ -33,16 +33,16 @@ test('featured theme updated event dispatched', function () {
     Event::assertDispatched(FeaturedThemeUpdated::class);
 });
 
-test('featured theme updated event embed fields', function () {
+test('featured theme updated event embed fields', function (): void {
     $featuredTheme = FeaturedTheme::factory()->createOne();
     $changes = FeaturedTheme::factory()->makeOne();
 
     $featuredTheme->fill($changes->getAttributes());
     $featuredTheme->save();
 
-    Event::assertDispatched(FeaturedThemeUpdated::class, function (FeaturedThemeUpdated $event) {
+    Event::assertDispatched(FeaturedThemeUpdated::class, function (FeaturedThemeUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

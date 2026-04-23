@@ -14,13 +14,14 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
 use App\Scout\Criteria as SearchCriteria;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Tests\Unit\Http\Api\Query\FakeQuery;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('get field criteria', function () {
+test('get field criteria', function (): void {
     $type = fake()->word();
 
     $parameters = [
@@ -34,7 +35,7 @@ test('get field criteria', function () {
     $this->assertInstanceOf(FieldCriteria::class, $query->getFieldCriteria($type));
 });
 
-test('get include criteria', function () {
+test('get include criteria', function (): void {
     $parameters = [
         IncludeParser::param() => fake()->word(),
     ];
@@ -44,7 +45,7 @@ test('get include criteria', function () {
     $this->assertInstanceOf(IncludeCriteria::class, $query->getIncludeCriteria(fake()->word()));
 });
 
-test('get include resource criteria', function () {
+test('get include resource criteria', function (): void {
     $type = fake()->word();
 
     $parameters = [
@@ -58,7 +59,7 @@ test('get include resource criteria', function () {
     $this->assertInstanceOf(ResourceCriteria::class, $query->getIncludeCriteria($type));
 });
 
-test('get sort criteria', function () {
+test('get sort criteria', function (): void {
     $fields = collect(fake()->words(fake()->randomDigitNotNull()));
 
     $parameters = [
@@ -70,10 +71,10 @@ test('get sort criteria', function () {
     $this->assertCount($fields->count(), $query->getSortCriteria());
 });
 
-test('get filter criteria', function () {
+test('get filter criteria', function (): void {
     $filterCount = fake()->randomDigitNotNull();
 
-    $parameters = Collection::times($filterCount, fn () => FilterParser::param().'.'.Str::random())
+    $parameters = Collection::times($filterCount, fn (): string => FilterParser::param().'.'.Str::random())
         ->combine(Collection::times($filterCount, fn () => Str::random()))
         ->undot()
         ->all();
@@ -83,7 +84,7 @@ test('get filter criteria', function () {
     $this->assertCount($filterCount, $query->getFilterCriteria());
 });
 
-test('does not have search', function () {
+test('does not have search', function (): void {
     $parameters = [];
 
     $query = new FakeQuery($parameters);
@@ -91,7 +92,7 @@ test('does not have search', function () {
     $this->assertFalse($query->hasSearchCriteria());
 });
 
-test('has search', function () {
+test('has search', function (): void {
     $parameters = [
         SearchParser::param() => fake()->word(),
     ];
@@ -101,7 +102,7 @@ test('has search', function () {
     $this->assertTrue($query->hasSearchCriteria());
 });
 
-test('null search', function () {
+test('null search', function (): void {
     $parameters = [];
 
     $query = new FakeQuery($parameters);
@@ -109,7 +110,7 @@ test('null search', function () {
     $this->assertNull($query->getSearchCriteria());
 });
 
-test('get search', function () {
+test('get search', function (): void {
     $parameters = [
         SearchParser::param() => fake()->word(),
     ];
@@ -119,7 +120,7 @@ test('get search', function () {
     $this->assertInstanceOf(SearchCriteria::class, $query->getSearchCriteria());
 });
 
-test('get limit criteria', function () {
+test('get limit criteria', function (): void {
     $parameters = [];
 
     $query = new FakeQuery($parameters);
@@ -127,7 +128,7 @@ test('get limit criteria', function () {
     $this->assertInstanceOf(LimitCriteria::class, $query->getPagingCriteria(PaginationStrategy::LIMIT));
 });
 
-test('get offset criteria', function () {
+test('get offset criteria', function (): void {
     $parameters = [];
 
     $query = new FakeQuery($parameters);

@@ -5,10 +5,11 @@ declare(strict_types=1);
 use App\Actions\Storage\Base\MoveResults;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Video;
+use Illuminate\Foundation\Testing\WithFaker;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $video = Video::factory()->createOne();
 
     $moveResults = new MoveResults($video, fake()->word(), fake()->word());
@@ -18,7 +19,7 @@ test('default', function () {
     $this->assertTrue($result->hasFailed());
 });
 
-test('failed', function () {
+test('failed', function (): void {
     $video = Video::factory()->createOne();
 
     $moves = [];
@@ -38,7 +39,7 @@ test('failed', function () {
     $this->assertTrue($result->hasFailed());
 });
 
-test('passed', function () {
+test('passed', function (): void {
     $video = Video::factory()->createOne();
 
     $moves = [];

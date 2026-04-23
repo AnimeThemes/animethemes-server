@@ -14,15 +14,16 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     Config::set(VideoConstants::DISKS_QUALIFIED, []);
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -37,7 +38,7 @@ test('default', function () {
     $this->assertTrue($result->hasFailed());
 });
 
-test('passed', function () {
+test('passed', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
@@ -52,7 +53,7 @@ test('passed', function () {
     $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
 });
 
-test('uploaded to disk', function () {
+test('uploaded to disk', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
@@ -65,7 +66,7 @@ test('uploaded to disk', function () {
     $this->assertCount(1, Storage::disk(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });
 
-test('created video', function () {
+test('created video', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
@@ -90,7 +91,7 @@ test('created video', function () {
     $this->assertDatabaseCount(Video::class, 1);
 });
 
-test('sets attributes', function () {
+test('sets attributes', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
@@ -127,7 +128,7 @@ test('sets attributes', function () {
     $this->assertDatabaseHas(Video::class, $attributes);
 });
 
-test('attaches entry', function () {
+test('attaches entry', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
@@ -156,7 +157,7 @@ test('attaches entry', function () {
     $this->assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
 });
 
-test('associates script', function () {
+test('associates script', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
     Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));

@@ -6,6 +6,6 @@ use App\Contracts\Events\NotifiesUsersEvent;
 use App\Listeners\NotifiesUsers;
 use Illuminate\Support\Facades\Event;
 
-test('listening', function () {
+test('listening', function (): void {
     Event::assertListening(NotifiesUsersEvent::class, NotifiesUsers::class);
 });

@@ -11,6 +11,7 @@ use App\Enums\Rules\ModerationService;
 use App\Features\AllowExternalProfileManagement;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -19,9 +20,9 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('protected', function () {
+test('protected', function (): void {
     Feature::activate(AllowExternalProfileManagement::class);
 
     $profile = ExternalProfile::factory()->makeOne();
@@ -31,7 +32,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden if missing permission', function () {
+test('forbidden if missing permission', function (): void {
     Feature::activate(AllowExternalProfileManagement::class);
 
     $profile = ExternalProfile::factory()->makeOne();
@@ -45,7 +46,7 @@ test('forbidden if missing permission', function () {
     $response->assertForbidden();
 });
 
-test('forbidden if flag disabled', function () {
+test('forbidden if flag disabled', function (): void {
     Feature::deactivate(AllowExternalProfileManagement::class);
 
     $visibility = Arr::random(ExternalProfileVisibility::cases());
@@ -64,7 +65,7 @@ test('forbidden if flag disabled', function () {
     $response->assertForbidden();
 });
 
-test('required fields', function () {
+test('required fields', function (): void {
     Feature::activate(AllowExternalProfileManagement::class);
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
@@ -79,7 +80,7 @@ test('required fields', function () {
     ]);
 });
 
-test('create', function () {
+test('create', function (): void {
     Feature::activate(AllowExternalProfileManagement::class);
 
     $visibility = Arr::random(ExternalProfileVisibility::cases());
@@ -100,7 +101,7 @@ test('create', function () {
     $this->assertDatabaseHas(ExternalProfile::class, [ExternalProfile::ATTRIBUTE_USER => $user->getKey()]);
 });
 
-test('create permitted for bypass', function () {
+test('create permitted for bypass', function (): void {
     Feature::activate(AllowExternalProfileManagement::class, fake()->boolean());
 
     $visibility = Arr::random(ExternalProfileVisibility::cases());
@@ -124,7 +125,7 @@ test('create permitted for bypass', function () {
     $response->assertCreated();
 });
 
-test('max profile limit', function () {
+test('max profile limit', function (): void {
     $profileLimit = fake()->randomDigitNotNull();
 
     Config::set(ExternalProfileConstants::MAX_PROFILES_QUALIFIED, $profileLimit);
@@ -149,7 +150,7 @@ test('max profile limit', function () {
     $response->assertForbidden();
 });
 
-test('max profile limit permitted for bypass', function () {
+test('max profile limit permitted for bypass', function (): void {
     $profileLimit = fake()->randomDigitNotNull();
 
     Config::set(ExternalProfileConstants::MAX_PROFILES_QUALIFIED, $profileLimit);
@@ -177,7 +178,7 @@ test('max profile limit permitted for bypass', function () {
     $response->assertCreated();
 });
 
-test('created if not flagged by open ai', function () {
+test('created if not flagged by open ai', function (): void {
     Feature::activate(AllowExternalProfileManagement::class);
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
@@ -207,7 +208,7 @@ test('created if not flagged by open ai', function () {
     $response->assertCreated();
 });
 
-test('created if open ai fails', function () {
+test('created if open ai fails', function (): void {
     Feature::activate(AllowExternalProfileManagement::class);
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Models\Wiki\Anime;
 
-test('fails query season anime field without year', function () {
+test('fails query season anime field without year', function (): void {
     $animes = Anime::factory()
         ->count(fake()->randomDigitNotNull())
         ->create();
@@ -42,7 +42,7 @@ test('fails query season anime field without year', function () {
     $response->assertGraphQLValidationKeys(['year']);
 });
 
-test('query season & seasons field', function () {
+test('query season & seasons field', function (): void {
     $animes = Anime::factory()
         ->count(fake()->randomDigitNotNull())
         ->create();
@@ -79,7 +79,7 @@ test('query season & seasons field', function () {
     ]);
 });
 
-test('query season anime field with year', function () {
+test('query season anime field with year', function (): void {
     $animes = Anime::factory()
         ->count(fake()->randomDigitNotNull())
         ->create();

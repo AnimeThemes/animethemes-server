@@ -8,14 +8,14 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-test('client no forwarded ip not rate limited', function () {
+test('client no forwarded ip not rate limited', function (): void {
     $response = get(route('api.anime.index'));
 
     $response->assertHeaderMissing('X-RateLimit-Limit');
     $response->assertHeaderMissing('X-RateLimit-Remaining');
 });
 
-test('user with bypass not rate limited', function () {
+test('user with bypass not rate limited', function (): void {
     $user = User::factory()->withPermissions(SpecialPermission::BYPASS_API_RATE_LIMITER->value)->createOne();
 
     Sanctum::actingAs($user);
@@ -26,14 +26,14 @@ test('user with bypass not rate limited', function () {
     $response->assertHeaderMissing('X-RateLimit-Remaining');
 });
 
-test('forwarded ip rate limited', function () {
+test('forwarded ip rate limited', function (): void {
     $response = $this->withHeader('x-forwarded-ip', fake()->ipv4())->get(route('api.anime.index'));
 
     $response->assertHeader('X-RateLimit-Limit');
     $response->assertHeader('X-RateLimit-Remaining');
 });
 
-test('user without bypass rate limited', function () {
+test('user without bypass rate limited', function (): void {
     $user = User::factory()->createOne();
 
     Sanctum::actingAs($user);

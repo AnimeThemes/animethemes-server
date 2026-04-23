@@ -11,6 +11,7 @@ use App\Events\List\Playlist\PlaylistCreated;
 use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
@@ -20,9 +21,9 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\put;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('protected', function () {
+test('protected', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -41,7 +42,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden if missing permission', function () {
+test('forbidden if missing permission', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -64,7 +65,7 @@ test('forbidden if missing permission', function () {
     $response->assertForbidden();
 });
 
-test('forbidden if not own playlist', function () {
+test('forbidden if not own playlist', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -89,7 +90,7 @@ test('forbidden if not own playlist', function () {
     $response->assertForbidden();
 });
 
-test('forbidden if flag disabled', function () {
+test('forbidden if flag disabled', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::deactivate(AllowPlaylistManagement::class);
@@ -116,7 +117,7 @@ test('forbidden if flag disabled', function () {
     $response->assertForbidden();
 });
 
-test('update', function () {
+test('update', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -143,7 +144,7 @@ test('update', function () {
     $response->assertOk();
 });
 
-test('update permitted for bypass', function () {
+test('update permitted for bypass', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class, fake()->boolean());
@@ -175,7 +176,7 @@ test('update permitted for bypass', function () {
     $response->assertOk();
 });
 
-test('updated if not flagged by open ai', function () {
+test('updated if not flagged by open ai', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -213,7 +214,7 @@ test('updated if not flagged by open ai', function () {
     $response->assertOk();
 });
 
-test('updated if open ai fails', function () {
+test('updated if open ai fails', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -245,7 +246,7 @@ test('updated if open ai fails', function () {
     $response->assertOk();
 });
 
-test('validation error when flagged by open ai', function () {
+test('validation error when flagged by open ai', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);

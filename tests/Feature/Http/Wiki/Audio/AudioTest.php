@@ -8,6 +8,7 @@ use App\Enums\Http\StreamingMethod;
 use App\Features\AllowAudioStreams;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -18,9 +19,9 @@ use function Pest\Laravel\get;
 
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('audio streaming not allowed forbidden', function () {
+test('audio streaming not allowed forbidden', function (): void {
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::deactivate(AllowAudioStreams::class);
@@ -32,7 +33,7 @@ test('audio streaming not allowed forbidden', function () {
     $response->assertForbidden();
 });
 
-test('audio streaming permitted for bypass', function () {
+test('audio streaming permitted for bypass', function (): void {
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::activate(AllowAudioStreams::class, fake()->boolean());
@@ -52,7 +53,7 @@ test('audio streaming permitted for bypass', function () {
     $response->assertSuccessful();
 });
 
-test('cannot stream soft deleted audio', function () {
+test('cannot stream soft deleted audio', function (): void {
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::activate(AllowAudioStreams::class);
@@ -64,7 +65,7 @@ test('cannot stream soft deleted audio', function () {
     $response->assertNotFound();
 });
 
-test('invalid streaming method error', function () {
+test('invalid streaming method error', function (): void {
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::activate(AllowAudioStreams::class);
@@ -77,7 +78,7 @@ test('invalid streaming method error', function () {
     $response->assertServerError();
 });
 
-test('streamed through response', function () {
+test('streamed through response', function (): void {
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::activate(AllowAudioStreams::class);
@@ -90,7 +91,7 @@ test('streamed through response', function () {
     $this->assertInstanceOf(StreamedResponse::class, $response->baseResponse);
 });
 
-test('streamed through nginx redirect', function () {
+test('streamed through nginx redirect', function (): void {
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::activate(AllowAudioStreams::class);

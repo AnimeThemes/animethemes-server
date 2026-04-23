@@ -13,22 +13,23 @@ use App\Http\Resources\Wiki\Collection\SeriesCollection;
 use App\Http\Resources\Wiki\Collection\SongCollection;
 use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('no search term', function () {
+test('no search term', function (): void {
     $response = get(route('api.search.show'));
 
     $response->assertJsonValidationErrors(SearchParser::param());
 });
 
-test('search attributes', function () {
+test('search attributes', function (): void {
     $driver = Config::get('scout.driver');
-    if (empty($driver)) {
+    if (blank($driver)) {
         $this->markTestSkipped('A driver must be configured for this test');
     }
 
@@ -54,9 +55,9 @@ test('search attributes', function () {
     ]);
 });
 
-test('search sparse fieldsets', function () {
+test('search sparse fieldsets', function (): void {
     $driver = Config::get('scout.driver');
-    if (empty($driver)) {
+    if (blank($driver)) {
         $this->markTestSkipped('A driver must be configured for this test');
     }
 

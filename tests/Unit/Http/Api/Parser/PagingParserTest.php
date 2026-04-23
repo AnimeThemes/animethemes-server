@@ -7,20 +7,19 @@ use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\LimitCriteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Parser\PagingParser;
+use Illuminate\Foundation\Testing\WithFaker;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('parse limit criteria by default', function () {
+test('parse limit criteria by default', function (): void {
     $parameters = [];
 
-    $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-        return $criteria->getStrategy() === PaginationStrategy::LIMIT;
-    });
+    $criteria = collect(PagingParser::parse($parameters))->first(fn (Criteria $criteria): bool => $criteria->getStrategy() === PaginationStrategy::LIMIT);
 
     $this->assertInstanceOf(LimitCriteria::class, $criteria);
 });
 
-test('parse invalid limit criteria', function () {
+test('parse invalid limit criteria', function (): void {
     $limit = fake()->word();
 
     $parameters = [
@@ -29,9 +28,7 @@ test('parse invalid limit criteria', function () {
         ],
     ];
 
-    $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-        return $criteria->getStrategy() === PaginationStrategy::LIMIT;
-    });
+    $criteria = collect(PagingParser::parse($parameters))->first(fn (Criteria $criteria): bool => $criteria->getStrategy() === PaginationStrategy::LIMIT);
 
     $this->assertTrue(
         $criteria instanceof LimitCriteria
@@ -39,7 +36,7 @@ test('parse invalid limit criteria', function () {
     );
 });
 
-test('parse valid limit criteria', function () {
+test('parse valid limit criteria', function (): void {
     $limit = fake()->numberBetween(1, Criteria::DEFAULT_SIZE);
 
     $parameters = [
@@ -48,9 +45,7 @@ test('parse valid limit criteria', function () {
         ],
     ];
 
-    $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-        return $criteria->getStrategy() === PaginationStrategy::LIMIT;
-    });
+    $criteria = collect(PagingParser::parse($parameters))->first(fn (Criteria $criteria): bool => $criteria->getStrategy() === PaginationStrategy::LIMIT);
 
     $this->assertTrue(
         $criteria instanceof LimitCriteria
@@ -58,17 +53,15 @@ test('parse valid limit criteria', function () {
     );
 });
 
-test('parse offset criteria by default', function () {
+test('parse offset criteria by default', function (): void {
     $parameters = [];
 
-    $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-        return $criteria->getStrategy() === PaginationStrategy::OFFSET;
-    });
+    $criteria = collect(PagingParser::parse($parameters))->first(fn (Criteria $criteria): bool => $criteria->getStrategy() === PaginationStrategy::OFFSET);
 
     $this->assertInstanceOf(OffsetCriteria::class, $criteria);
 });
 
-test('parse invalid offset criteria', function () {
+test('parse invalid offset criteria', function (): void {
     $size = fake()->word();
 
     $parameters = [
@@ -77,9 +70,7 @@ test('parse invalid offset criteria', function () {
         ],
     ];
 
-    $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-        return $criteria->getStrategy() === PaginationStrategy::OFFSET;
-    });
+    $criteria = collect(PagingParser::parse($parameters))->first(fn (Criteria $criteria): bool => $criteria->getStrategy() === PaginationStrategy::OFFSET);
 
     $this->assertTrue(
         $criteria instanceof OffsetCriteria
@@ -87,7 +78,7 @@ test('parse invalid offset criteria', function () {
     );
 });
 
-test('parse valid offset criteria', function () {
+test('parse valid offset criteria', function (): void {
     $size = fake()->numberBetween(1, Criteria::MAX_RESULTS);
 
     $parameters = [
@@ -96,9 +87,7 @@ test('parse valid offset criteria', function () {
         ],
     ];
 
-    $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-        return $criteria->getStrategy() === PaginationStrategy::OFFSET;
-    });
+    $criteria = collect(PagingParser::parse($parameters))->first(fn (Criteria $criteria): bool => $criteria->getStrategy() === PaginationStrategy::OFFSET);
 
     $this->assertTrue(
         $criteria instanceof OffsetCriteria

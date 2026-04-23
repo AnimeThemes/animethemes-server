@@ -11,13 +11,14 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('protected', function () {
+test('protected', function (): void {
     $featuredTheme = FeaturedTheme::factory()->makeOne();
 
     $response = post(route('api.featuredtheme.store', $featuredTheme->toArray()));
@@ -25,7 +26,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $featuredTheme = FeaturedTheme::factory()->makeOne();
 
     $user = User::factory()->createOne();
@@ -37,7 +38,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('required fields', function () {
+test('required fields', function (): void {
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(FeaturedTheme::class))->createOne();
 
     Sanctum::actingAs($user);
@@ -50,7 +51,7 @@ test('required fields', function () {
     ]);
 });
 
-test('start at before end date', function () {
+test('start at before end date', function (): void {
     $parameters = FeaturedTheme::factory()->raw([
         FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year')->format(AllowedDateFormat::YMDHISU->value),
         FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween('-1 year', '-1 day')->format(AllowedDateFormat::YMDHISU->value),
@@ -68,7 +69,7 @@ test('start at before end date', function () {
     ]);
 });
 
-test('anime theme entry video exists', function () {
+test('anime theme entry video exists', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->create();
@@ -92,7 +93,7 @@ test('anime theme entry video exists', function () {
     ]);
 });
 
-test('create', function () {
+test('create', function (): void {
     $entryVideo = AnimeThemeEntryVideo::factory()
         ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
         ->for(Video::factory())

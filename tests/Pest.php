@@ -5,8 +5,11 @@ declare(strict_types=1);
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Laravel\actingAs;
+
+use Tests\TestCase;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +22,13 @@ use function Pest\Laravel\actingAs;
 |
 */
 
-pest()->extend(Tests\TestCase::class)
-    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+pest()->extend(TestCase::class)
+    ->use(RefreshDatabase::class)
     ->in('Feature', 'Unit');
 
 pest()
     ->in('Feature/Filament/Resources')
-    ->beforeEach(function () {
+    ->beforeEach(function (): void {
         $user = User::factory()
             ->withPermissions(SpecialPermission::VIEW_FILAMENT->value)
             ->createOne();
@@ -44,9 +47,7 @@ pest()
 |
 */
 
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
-});
+expect()->extend('toBeOne', fn () => $this->toBe(1));
 
 /*
 |--------------------------------------------------------------------------

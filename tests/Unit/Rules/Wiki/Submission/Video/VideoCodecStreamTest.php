@@ -5,14 +5,15 @@ declare(strict_types=1);
 use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\Video\VideoCodecStreamRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('fails when codec is not vp9', function () {
+test('fails when codec is not vp9', function (): void {
     Feature::activate(FeatureConstants::VIDEO_CODEC_STREAM, 'vp9');
 
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
@@ -50,7 +51,7 @@ test('fails when codec is not vp9', function () {
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
 
-test('passes when codec is vp9', function () {
+test('passes when codec is vp9', function (): void {
     Feature::activate(FeatureConstants::VIDEO_CODEC_STREAM, 'vp9');
 
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());

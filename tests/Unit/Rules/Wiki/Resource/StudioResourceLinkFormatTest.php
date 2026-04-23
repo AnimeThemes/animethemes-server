@@ -5,13 +5,14 @@ declare(strict_types=1);
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Studio;
 use App\Rules\Wiki\Resource\StudioResourceLinkFormatRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('fails for no pattern', function () {
+test('fails for no pattern', function (): void {
     $attribute = fake()->word();
 
     $validator = Validator::make(
@@ -22,7 +23,7 @@ test('fails for no pattern', function () {
     $this->assertFalse($validator->passes());
 });
 
-test('passes for pattern', function () {
+test('passes for pattern', function (): void {
     /** @var ResourceSite $site */
     $site = Arr::random(ResourceSite::getForModel(Studio::class));
 
@@ -38,7 +39,7 @@ test('passes for pattern', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('fails for trailing slash', function () {
+test('fails for trailing slash', function (): void {
     /** @var ResourceSite $site */
     $site = Arr::random(ResourceSite::getForModel(Studio::class));
 
@@ -58,7 +59,7 @@ test('fails for trailing slash', function () {
     $this->assertFalse($site->getPattern(Studio::class) && $validator->passes());
 });
 
-test('fails for trailing slug', function () {
+test('fails for trailing slug', function (): void {
     /** @var ResourceSite $site */
     $site = Arr::random(ResourceSite::getForModel(Studio::class));
 
@@ -79,12 +80,12 @@ test('fails for trailing slug', function () {
     $this->assertFalse($site->getPattern(Studio::class) && $validator->passes());
 });
 
-test('fails for other resources', function () {
+test('fails for other resources', function (): void {
     /** @var ResourceSite $site */
     $site = Arr::random(
         array_filter(
             ResourceSite::cases(),
-            fn ($value) => ! in_array($value, ResourceSite::getForModel(Studio::class))
+            fn (ResourceSite $value): bool => ! in_array($value, ResourceSite::getForModel(Studio::class))
         )
     );
 

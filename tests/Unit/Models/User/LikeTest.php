@@ -8,10 +8,11 @@ use App\Models\User\Like;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Foundation\Testing\WithFaker;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('nameable', function () {
+test('nameable', function (): void {
     $like = Like::factory()
         ->forPlaylist()
         ->createOne();
@@ -19,7 +20,7 @@ test('nameable', function () {
     $this->assertIsString($like->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $like = Like::factory()
         ->forPlaylist()
         ->createOne();
@@ -27,7 +28,7 @@ test('has subtitle', function () {
     $this->assertIsString($like->getSubtitle());
 });
 
-test('playlist', function () {
+test('playlist', function (): void {
     $like = Like::factory()
         ->forPlaylist()
         ->createOne();
@@ -36,7 +37,7 @@ test('playlist', function () {
     $this->assertInstanceOf(Playlist::class, $like->likeable()->first());
 });
 
-test('entry', function () {
+test('entry', function (): void {
     $like = Like::factory()
         ->forEntry()
         ->createOne();
@@ -45,7 +46,7 @@ test('entry', function () {
     $this->assertInstanceOf(AnimeThemeEntry::class, $like->likeable()->first());
 });
 
-test('user', function () {
+test('user', function (): void {
     $like = Like::factory()
         ->forPlaylist()
         ->createOne();

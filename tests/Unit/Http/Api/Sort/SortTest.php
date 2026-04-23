@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Sort\Sort;
+use Illuminate\Foundation\Testing\WithFaker;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default column', function () {
+test('default column', function (): void {
     $sort = new Sort(fake()->word());
 
     $this->assertEquals($sort->getKey(), $sort->getColumn());
 });
 
-test('format asc', function () {
+test('format asc', function (): void {
     $sortField = fake()->word();
 
     $sort = new Sort($sortField);
@@ -21,7 +22,7 @@ test('format asc', function () {
     $this->assertEquals($sortField, $sort->format(Direction::ASCENDING));
 });
 
-test('format desc', function () {
+test('format desc', function (): void {
     $sortField = fake()->word();
 
     $sort = new Sort($sortField);

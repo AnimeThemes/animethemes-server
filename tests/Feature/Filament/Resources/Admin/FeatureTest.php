@@ -15,7 +15,7 @@ use Livewire\Livewire;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
-test('render index page', function () {
+test('render index page', function (): void {
     $user = User::factory()
         ->withPermissions(
             SpecialPermission::VIEW_FILAMENT->value,
@@ -34,14 +34,14 @@ test('render index page', function () {
         ->assertCanSeeTableRecords($records);
 });
 
-test('user cannot edit record', function () {
+test('user cannot edit record', function (): void {
     $record = FeatureModel::factory()->createOne();
 
     Livewire::test(getIndexPage(FeatureResource::class))
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
-test('user cannot delete record', function () {
+test('user cannot delete record', function (): void {
     $record = FeatureModel::factory()->createOne();
 
     Livewire::test(getIndexPage(FeatureResource::class))

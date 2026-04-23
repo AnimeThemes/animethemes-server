@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
 
-test('thread deleted sends discord notification', function () {
+test('thread deleted sends discord notification', function (): void {
     $thread = DiscordThread::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -28,7 +28,7 @@ test('thread deleted sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('thread updated sends discord notification', function () {
+test('thread updated sends discord notification', function (): void {
     $thread = DiscordThread::factory()
         ->for(Anime::factory())
         ->createOne();

@@ -5,16 +5,17 @@ declare(strict_types=1);
 use App\Http\Api\Criteria\Include\Criteria;
 use App\Http\Api\Criteria\Include\ResourceCriteria;
 use App\Http\Api\Parser\IncludeParser;
+use Illuminate\Foundation\Testing\WithFaker;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('no criteria by default', function () {
+test('no criteria by default', function (): void {
     $parameters = [];
 
     $this->assertEmpty(IncludeParser::parse($parameters));
 });
 
-test('parse criteria', function () {
+test('parse criteria', function (): void {
     $fields = collect(fake()->words(fake()->randomDigitNotNull()));
 
     $parameters = [
@@ -26,7 +27,7 @@ test('parse criteria', function () {
     $this->assertInstanceOf(Criteria::class, $criteria);
 });
 
-test('parse criteria paths', function () {
+test('parse criteria paths', function (): void {
     $fields = fake()->words(fake()->randomDigitNotNull());
 
     $parameters = [
@@ -38,7 +39,7 @@ test('parse criteria paths', function () {
     $this->assertEquals(collect($fields)->unique()->all(), $criteria->getPaths()->all());
 });
 
-test('parse resource criteria', function () {
+test('parse resource criteria', function (): void {
     $fields = collect(fake()->words(fake()->randomDigitNotNull()));
 
     $parameters = [
@@ -52,7 +53,7 @@ test('parse resource criteria', function () {
     $this->assertInstanceOf(ResourceCriteria::class, $criteria);
 });
 
-test('parse resource criteria type', function () {
+test('parse resource criteria type', function (): void {
     $type = fake()->word();
 
     $fields = collect(fake()->words(fake()->randomDigitNotNull()));
@@ -71,7 +72,7 @@ test('parse resource criteria type', function () {
     );
 });
 
-test('parse resource criteria paths', function () {
+test('parse resource criteria paths', function (): void {
     $fields = collect(fake()->words(fake()->randomDigitNotNull()));
 
     $parameters = [

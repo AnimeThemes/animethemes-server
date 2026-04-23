@@ -10,13 +10,13 @@ use App\Models\Wiki\Series;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('series created event dispatched', function () {
+test('series created event dispatched', function (): void {
     Series::factory()->createOne();
 
     Event::assertDispatched(SeriesCreated::class);
 });
 
-test('series deleted event dispatched', function () {
+test('series deleted event dispatched', function (): void {
     $series = Series::factory()->createOne();
 
     $series->delete();
@@ -24,7 +24,7 @@ test('series deleted event dispatched', function () {
     Event::assertDispatched(SeriesDeleted::class);
 });
 
-test('series restored event dispatched', function () {
+test('series restored event dispatched', function (): void {
     $series = Series::factory()->createOne();
 
     $series->restore();
@@ -32,7 +32,7 @@ test('series restored event dispatched', function () {
     Event::assertDispatched(SeriesRestored::class);
 });
 
-test('series restores quietly', function () {
+test('series restores quietly', function (): void {
     $series = Series::factory()->createOne();
 
     $series->restore();
@@ -40,7 +40,7 @@ test('series restores quietly', function () {
     Event::assertNotDispatched(SeriesUpdated::class);
 });
 
-test('series updated event dispatched', function () {
+test('series updated event dispatched', function (): void {
     $series = Series::factory()->createOne();
     $changes = Series::factory()->makeOne();
 
@@ -50,16 +50,16 @@ test('series updated event dispatched', function () {
     Event::assertDispatched(SeriesUpdated::class);
 });
 
-test('series updated event embed fields', function () {
+test('series updated event embed fields', function (): void {
     $series = Series::factory()->createOne();
     $changes = Series::factory()->makeOne();
 
     $series->fill($changes->getAttributes());
     $series->save();
 
-    Event::assertDispatched(SeriesUpdated::class, function (SeriesUpdated $event) {
+    Event::assertDispatched(SeriesUpdated::class, function (SeriesUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

@@ -11,15 +11,16 @@ use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\delete;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('protected', function () {
+test('protected', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -33,7 +34,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden if missing permission', function () {
+test('forbidden if missing permission', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -51,7 +52,7 @@ test('forbidden if missing permission', function () {
     $response->assertForbidden();
 });
 
-test('forbidden if not own playlist', function () {
+test('forbidden if not own playlist', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -69,7 +70,7 @@ test('forbidden if not own playlist', function () {
     $response->assertForbidden();
 });
 
-test('forbidden if flag disabled', function () {
+test('forbidden if flag disabled', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::deactivate(AllowPlaylistManagement::class);
@@ -91,7 +92,7 @@ test('forbidden if flag disabled', function () {
     $response->assertForbidden();
 });
 
-test('scoped', function () {
+test('scoped', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -116,7 +117,7 @@ test('scoped', function () {
     $response->assertNotFound();
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -144,7 +145,7 @@ test('deleted', function () {
     $this->assertTrue($playlist->last()->doesntExist());
 });
 
-test('destroy permitted for bypass', function () {
+test('destroy permitted for bypass', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class, fake()->boolean());
@@ -171,7 +172,7 @@ test('destroy permitted for bypass', function () {
     $response->assertOk();
 });
 
-test('destroy first', function () {
+test('destroy first', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -200,7 +201,7 @@ test('destroy first', function () {
     $this->assertTrue($second->previous()->doesntExist());
 });
 
-test('destroy last', function () {
+test('destroy last', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -229,7 +230,7 @@ test('destroy last', function () {
     $this->assertTrue($previous->next()->doesntExist());
 });
 
-test('destroy second', function () {
+test('destroy second', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);

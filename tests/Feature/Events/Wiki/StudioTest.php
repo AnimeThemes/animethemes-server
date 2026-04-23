@@ -10,13 +10,13 @@ use App\Models\Wiki\Studio;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('studio created event dispatched', function () {
+test('studio created event dispatched', function (): void {
     Studio::factory()->createOne();
 
     Event::assertDispatched(StudioCreated::class);
 });
 
-test('studio deleted event dispatched', function () {
+test('studio deleted event dispatched', function (): void {
     $studio = Studio::factory()->createOne();
 
     $studio->delete();
@@ -24,7 +24,7 @@ test('studio deleted event dispatched', function () {
     Event::assertDispatched(StudioDeleted::class);
 });
 
-test('studio restored event dispatched', function () {
+test('studio restored event dispatched', function (): void {
     $studio = Studio::factory()->createOne();
 
     $studio->restore();
@@ -32,7 +32,7 @@ test('studio restored event dispatched', function () {
     Event::assertDispatched(StudioRestored::class);
 });
 
-test('studio restores quietly', function () {
+test('studio restores quietly', function (): void {
     $studio = Studio::factory()->createOne();
 
     $studio->restore();
@@ -40,7 +40,7 @@ test('studio restores quietly', function () {
     Event::assertNotDispatched(StudioUpdated::class);
 });
 
-test('studio updated event dispatched', function () {
+test('studio updated event dispatched', function (): void {
     $studio = Studio::factory()->createOne();
     $changes = Studio::factory()->makeOne();
 
@@ -50,16 +50,16 @@ test('studio updated event dispatched', function () {
     Event::assertDispatched(StudioUpdated::class);
 });
 
-test('studio updated event embed fields', function () {
+test('studio updated event embed fields', function (): void {
     $studio = Studio::factory()->createOne();
     $changes = Studio::factory()->makeOne();
 
     $studio->fill($changes->getAttributes());
     $studio->save();
 
-    Event::assertDispatched(StudioUpdated::class, function (StudioUpdated $event) {
+    Event::assertDispatched(StudioUpdated::class, function (StudioUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

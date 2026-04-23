@@ -10,13 +10,13 @@ use App\Models\Wiki\Artist;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('artist created event dispatched', function () {
+test('artist created event dispatched', function (): void {
     Artist::factory()->createOne();
 
     Event::assertDispatched(ArtistCreated::class);
 });
 
-test('artist deleted event dispatched', function () {
+test('artist deleted event dispatched', function (): void {
     $artist = Artist::factory()->createOne();
 
     $artist->delete();
@@ -24,7 +24,7 @@ test('artist deleted event dispatched', function () {
     Event::assertDispatched(ArtistDeleted::class);
 });
 
-test('artist restored event dispatched', function () {
+test('artist restored event dispatched', function (): void {
     $artist = Artist::factory()->createOne();
 
     $artist->restore();
@@ -32,7 +32,7 @@ test('artist restored event dispatched', function () {
     Event::assertDispatched(ArtistRestored::class);
 });
 
-test('artist restores quietly', function () {
+test('artist restores quietly', function (): void {
     $artist = Artist::factory()->createOne();
 
     $artist->restore();
@@ -40,7 +40,7 @@ test('artist restores quietly', function () {
     Event::assertNotDispatched(ArtistUpdated::class);
 });
 
-test('artist updated event dispatched', function () {
+test('artist updated event dispatched', function (): void {
     $artist = Artist::factory()->createOne();
     $changes = Artist::factory()->makeOne();
 
@@ -50,16 +50,16 @@ test('artist updated event dispatched', function () {
     Event::assertDispatched(ArtistUpdated::class);
 });
 
-test('artist updated event embed fields', function () {
+test('artist updated event embed fields', function (): void {
     $artist = Artist::factory()->createOne();
     $changes = Artist::factory()->makeOne();
 
     $artist->fill($changes->getAttributes());
     $artist->save();
 
-    Event::assertDispatched(ArtistUpdated::class, function (ArtistUpdated $event) {
+    Event::assertDispatched(ArtistUpdated::class, function (ArtistUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

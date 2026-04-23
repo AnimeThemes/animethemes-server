@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Rules\Wiki\Resource\ResourceSiteMatchesLinkRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('passes if site matches link', function () {
+test('passes if site matches link', function (): void {
     $site = null;
 
     while ($site === null) {
@@ -35,7 +36,7 @@ test('passes if site matches link', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('resource site domain rule official passes', function () {
+test('resource site domain rule official passes', function (): void {
     $attribute = fake()->word();
 
     $validator = Validator::make(
@@ -46,7 +47,7 @@ test('resource site domain rule official passes', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('resource site domain rule fails', function () {
+test('resource site domain rule fails', function (): void {
     $site = null;
 
     while ($site === null) {

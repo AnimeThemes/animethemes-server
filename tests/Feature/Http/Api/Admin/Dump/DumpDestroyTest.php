@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\delete;
 
-test('protected', function () {
+test('protected', function (): void {
     $dump = Dump::factory()->createOne();
 
     $response = delete(route('api.dump.destroy', ['dump' => $dump]));
@@ -17,7 +17,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $dump = Dump::factory()->createOne();
 
     $user = User::factory()->createOne();
@@ -29,7 +29,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     $dump = Dump::factory()->createOne();
 
     $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Dump::class))->createOne();

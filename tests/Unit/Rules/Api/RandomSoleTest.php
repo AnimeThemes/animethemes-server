@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 use App\Http\Api\Criteria\Sort\RandomCriteria;
 use App\Rules\Api\RandomSoleRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('fails if random is not sole sort', function () {
+test('fails if random is not sole sort', function (): void {
     $sorts = fake()->words(fake()->randomDigitNotNull());
 
     $sorts[] = RandomCriteria::PARAM_VALUE;
@@ -23,7 +24,7 @@ test('fails if random is not sole sort', function () {
     $this->assertFalse($validator->passes());
 });
 
-test('passes if random is not included', function () {
+test('passes if random is not included', function (): void {
     $sorts = fake()->words(fake()->randomDigitNotNull());
 
     $attribute = fake()->word();
@@ -36,7 +37,7 @@ test('passes if random is not included', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('passes if random is sole sort', function () {
+test('passes if random is sole sort', function (): void {
     $attribute = fake()->word();
 
     $validator = Validator::make(

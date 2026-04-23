@@ -16,25 +16,25 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
 
-test('searchable as', function () {
+test('searchable as', function (): void {
     $song = Song::factory()->createOne();
 
     $this->assertIsString($song->searchableAs());
 });
 
-test('to searchable array', function () {
+test('to searchable array', function (): void {
     $song = Song::factory()->createOne();
 
     $this->assertIsArray($song->toSearchableArray());
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $song = Song::factory()->createOne();
 
     $this->assertIsString($song->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $song = Song::factory()
         ->has(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
@@ -42,7 +42,7 @@ test('has subtitle', function () {
     $this->assertIsString($song->getSubtitle());
 });
 
-test('themes', function () {
+test('themes', function (): void {
     $themeCount = fake()->randomDigitNotNull();
 
     $song = Song::factory()
@@ -54,7 +54,7 @@ test('themes', function () {
     $this->assertInstanceOf(AnimeTheme::class, $song->animethemes()->first());
 });
 
-test('artists', function () {
+test('artists', function (): void {
     $artistCount = fake()->randomDigitNotNull();
 
     $song = Song::factory()
@@ -66,7 +66,7 @@ test('artists', function () {
     $this->assertInstanceOf(Artist::class, $song->artists()->first());
 });
 
-test('performances', function () {
+test('performances', function (): void {
     $performanceCount = fake()->randomDigitNotNull();
 
     $song = Song::factory()
@@ -78,7 +78,7 @@ test('performances', function () {
     $this->assertInstanceOf(Performance::class, $song->performances()->first());
 });
 
-test('external resources', function () {
+test('external resources', function (): void {
     $resourceCount = fake()->randomDigitNotNull();
 
     $song = Song::factory()

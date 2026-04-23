@@ -19,11 +19,11 @@ use function Pest\Laravel\get;
 /**
  * Initial setup for the tests.
  */
-beforeEach(function () {
+beforeEach(function (): void {
     Filament::setServingStatus();
 });
 
-test('render view page', function () {
+test('render view page', function (): void {
     $user = User::factory()
         ->withAdmin()
         ->withPermissions(
@@ -40,7 +40,7 @@ test('render view page', function () {
         ->assertSuccessful();
 });
 
-test('render index page', function () {
+test('render index page', function (): void {
     $user = User::factory()
         ->withAdmin()
         ->withPermissions(
@@ -60,7 +60,7 @@ test('render index page', function () {
         ->assertCanSeeTableRecords($records);
 });
 
-test('mount create action', function () {
+test('mount create action', function (): void {
     $user = User::factory()
         ->withAdmin()
         ->withPermissions(
@@ -76,7 +76,7 @@ test('mount create action', function () {
         ->assertActionMounted(CreateAction::class);
 });
 
-test('mount edit action', function () {
+test('mount edit action', function (): void {
     $user = User::factory()
         ->withAdmin()
         ->withPermissions(

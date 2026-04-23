@@ -11,13 +11,13 @@ use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
-test('nameable', function () {
+test('nameable', function (): void {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
     $this->assertIsString($featuredTheme->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $featuredTheme = FeaturedTheme::factory()
         ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
         ->createOne();
@@ -25,19 +25,19 @@ test('has subtitle', function () {
     $this->assertIsString($featuredTheme->getSubtitle());
 });
 
-test('casts end at', function () {
+test('casts end at', function (): void {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
     $this->assertInstanceOf(Carbon::class, $featuredTheme->end_at);
 });
 
-test('casts start at', function () {
+test('casts start at', function (): void {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
     $this->assertInstanceOf(Carbon::class, $featuredTheme->start_at);
 });
 
-test('user', function () {
+test('user', function (): void {
     $featuredTheme = FeaturedTheme::factory()
         ->for(User::factory())
         ->createOne();
@@ -46,7 +46,7 @@ test('user', function () {
     $this->assertInstanceOf(User::class, $featuredTheme->user()->first());
 });
 
-test('video', function () {
+test('video', function (): void {
     $featuredTheme = FeaturedTheme::factory()
         ->for(Video::factory())
         ->createOne();
@@ -55,7 +55,7 @@ test('video', function () {
     $this->assertInstanceOf(Video::class, $featuredTheme->video()->first());
 });
 
-test('entry', function () {
+test('entry', function (): void {
     $featuredTheme = FeaturedTheme::factory()
         ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
         ->createOne();

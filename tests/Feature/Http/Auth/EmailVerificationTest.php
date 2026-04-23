@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
@@ -15,18 +16,18 @@ use function Pest\Laravel\actingAs;
 
 use Spatie\Permission\PermissionRegistrar;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('assigns default roles', function () {
+test('assigns default roles', function (): void {
     Event::fakeExcept(Verified::class);
 
-    Collection::times(fake()->randomDigitNotNull, function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         Role::findOrCreate(Str::random());
     });
 
     $defaultRoleCount = fake()->randomDigitNotNull();
 
-    Collection::times($defaultRoleCount, function () {
+    Collection::times($defaultRoleCount, function (): void {
         /** @var Role $role */
         $role = Role::findOrCreate(Str::random());
 

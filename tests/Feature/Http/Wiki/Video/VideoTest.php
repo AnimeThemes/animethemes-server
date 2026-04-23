@@ -11,6 +11,7 @@ use App\Features\AllowVideoStreams;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
@@ -24,9 +25,9 @@ use function Pest\Laravel\get;
 
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('video streaming not allowed forbidden', function () {
+test('video streaming not allowed forbidden', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::deactivate(AllowVideoStreams::class);
@@ -38,7 +39,7 @@ test('video streaming not allowed forbidden', function () {
     $response->assertForbidden();
 });
 
-test('cannot stream soft deleted video', function () {
+test('cannot stream soft deleted video', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::activate(AllowVideoStreams::class);
@@ -50,7 +51,7 @@ test('cannot stream soft deleted video', function () {
     $response->assertNotFound();
 });
 
-test('video streaming permitted for bypass', function () {
+test('video streaming permitted for bypass', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::activate(AllowVideoStreams::class, fake()->boolean());
@@ -70,7 +71,7 @@ test('video streaming permitted for bypass', function () {
     $response->assertSuccessful();
 });
 
-test('invalid streaming method error', function () {
+test('invalid streaming method error', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::activate(AllowVideoStreams::class);
@@ -83,7 +84,7 @@ test('invalid streaming method error', function () {
     $response->assertServerError();
 });
 
-test('streamed through response', function () {
+test('streamed through response', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::activate(AllowVideoStreams::class);
@@ -96,7 +97,7 @@ test('streamed through response', function () {
     $this->assertInstanceOf(StreamedResponse::class, $response->baseResponse);
 });
 
-test('streamed through nginx redirect', function () {
+test('streamed through nginx redirect', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::activate(AllowVideoStreams::class);
@@ -109,7 +110,7 @@ test('streamed through nginx redirect', function () {
     $response->assertHeader('X-Accel-Redirect');
 });
 
-test('not throttled', function () {
+test('not throttled', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::activate(AllowVideoStreams::class);
@@ -124,7 +125,7 @@ test('not throttled', function () {
     $response->assertHeaderMissing('X-RateLimit-Remaining');
 });
 
-test('rate limited', function () {
+test('rate limited', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
     Feature::activate(AllowVideoStreams::class);
@@ -139,7 +140,7 @@ test('rate limited', function () {
     $response->assertHeader('X-RateLimit-Remaining');
 });
 
-test('throttled event', function () {
+test('throttled event', function (): void {
     $limit = fake()->randomDigitNotNull();
 
     Event::fake();
@@ -152,14 +153,14 @@ test('throttled event', function () {
 
     $video = Video::factory()->createOne();
 
-    Collection::times($limit + 1, function () use ($video) {
+    Collection::times($limit + 1, function () use ($video): void {
         get(route('video.show', ['video' => $video]));
     });
 
     Event::assertDispatched(VideoThrottled::class);
 });
 
-test('throttled notification', function () {
+test('throttled notification', function (): void {
     $limit = fake()->randomDigitNotNull();
 
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
@@ -174,7 +175,7 @@ test('throttled notification', function () {
 
     $video = Video::factory()->createOne();
 
-    Collection::times($limit + 1, function () use ($video) {
+    Collection::times($limit + 1, function () use ($video): void {
         get(route('video.show', ['video' => $video]));
     });
 

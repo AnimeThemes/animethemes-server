@@ -11,12 +11,13 @@ use App\Http\Api\Schema\Pivot\Wiki\ArtistMemberSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberJsonResource;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
+use Illuminate\Foundation\Testing\WithFaker;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('not found', function () {
+test('not found', function (): void {
     $artist = Artist::factory()->createOne();
     $member = Artist::factory()->createOne();
 
@@ -25,7 +26,7 @@ test('not found', function () {
     $response->assertNotFound();
 });
 
-test('default', function () {
+test('default', function (): void {
     $artistMember = ArtistMember::factory()
         ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
         ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
@@ -47,14 +48,14 @@ test('default', function () {
     );
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new ArtistMemberSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -81,7 +82,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new ArtistMemberSchema();
 
     $fields = collect($schema->fields());
@@ -90,7 +91,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ArtistMemberJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ArtistMemberJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 use App\Console\Commands\Storage\Admin\ListDumpCommand;
 use App\Constants\Config\DumpConstants;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('database dump output', function () {
+test('database dump output', function (): void {
     Storage::fake('local');
     Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -21,7 +22,7 @@ test('database dump output', function () {
         ->expectsOutputToContain('has been created');
 });
 
-test('database dump file', function () {
+test('database dump file', function (): void {
     $local = Storage::fake('local');
     $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Rules\Wiki\Submission\Format\ExtraneousChaptersFormatRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('fails when chapter data is not empty', function () {
+test('fails when chapter data is not empty', function (): void {
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
     Process::fake([
@@ -43,7 +44,7 @@ test('fails when chapter data is not empty', function () {
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
 
-test('passes when chapter data is empty', function () {
+test('passes when chapter data is empty', function (): void {
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
     Process::fake([

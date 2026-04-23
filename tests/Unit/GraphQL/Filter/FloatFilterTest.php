@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\GraphQL\Filter\FloatFilter;
 use Illuminate\Support\Arr;
 
-it('converts validated floats', function () {
+it('converts validated floats', function (): void {
     $floatValue = fake()->randomFloat();
 
     $filter = new FloatFilter(fake()->word(), fake()->word());

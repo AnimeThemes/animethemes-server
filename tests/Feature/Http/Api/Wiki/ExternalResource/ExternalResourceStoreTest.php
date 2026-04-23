@@ -10,7 +10,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-test('protected', function () {
+test('protected', function (): void {
     $resource = ExternalResource::factory()->makeOne();
 
     $response = post(route('api.resource.store', $resource->toArray()));
@@ -18,7 +18,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $resource = ExternalResource::factory()->makeOne();
 
     $user = User::factory()->createOne();
@@ -30,7 +30,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('required fields', function () {
+test('required fields', function (): void {
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalResource::class))->createOne();
 
     Sanctum::actingAs($user);
@@ -43,7 +43,7 @@ test('required fields', function () {
     ]);
 });
 
-test('create', function () {
+test('create', function (): void {
     $parameters = array_merge(
         ExternalResource::factory()->raw(),
         [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()],

@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\patch;
 
-test('protected', function () {
+test('protected', function (): void {
     $artist = Artist::factory()->trashed()->createOne();
 
     $response = patch(route('api.artist.restore', ['artist' => $artist]));
@@ -17,7 +17,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $artist = Artist::factory()->trashed()->createOne();
 
     $user = User::factory()->createOne();
@@ -29,7 +29,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('trashed', function () {
+test('trashed', function (): void {
     $artist = Artist::factory()->createOne();
 
     $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Artist::class))->createOne();
@@ -41,7 +41,7 @@ test('trashed', function () {
     $response->assertOk();
 });
 
-test('restored', function () {
+test('restored', function (): void {
     $artist = Artist::factory()->trashed()->createOne();
 
     $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Artist::class))->createOne();

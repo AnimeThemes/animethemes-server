@@ -7,6 +7,7 @@ use App\Enums\Auth\SpecialPermission;
 use App\Features\AllowScriptDownloading;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -15,9 +16,9 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('script downloading not allowed forbidden', function () {
+test('script downloading not allowed forbidden', function (): void {
     Feature::deactivate(AllowScriptDownloading::class);
 
     $script = VideoScript::factory()->createOne();
@@ -27,7 +28,7 @@ test('script downloading not allowed forbidden', function () {
     $response->assertForbidden();
 });
 
-test('video streaming permitted for bypass', function () {
+test('video streaming permitted for bypass', function (): void {
     Feature::activate(AllowScriptDownloading::class, fake()->boolean());
 
     $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
@@ -47,7 +48,7 @@ test('video streaming permitted for bypass', function () {
     $response->assertDownload($script->path);
 });
 
-test('cannot stream soft deleted video', function () {
+test('cannot stream soft deleted video', function (): void {
     Feature::activate(AllowScriptDownloading::class);
 
     $script = VideoScript::factory()->trashed()->createOne();
@@ -57,7 +58,7 @@ test('cannot stream soft deleted video', function () {
     $response->assertNotFound();
 });
 
-test('downloaded through response', function () {
+test('downloaded through response', function (): void {
     Feature::activate(AllowScriptDownloading::class);
 
     $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));

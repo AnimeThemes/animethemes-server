@@ -14,11 +14,12 @@ use App\Http\Api\Scope\GlobalScope;
 use App\Scout\Elasticsearch\Api\Criteria\Filter\WhereCriteria;
 use App\Scout\Elasticsearch\Api\Criteria\Filter\WhereInCriteria;
 use App\Scout\Elasticsearch\Api\Parser\FilterParser;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('where criteria', function () {
+test('where criteria', function (): void {
     $expression = new Expression(fake()->word());
 
     $comparisonOperator = Arr::random(ComparisonOperator::cases());
@@ -32,7 +33,7 @@ test('where criteria', function () {
     $this->assertInstanceOf(WhereCriteria::class, FilterParser::parse($criteria));
 });
 
-test('where in criteria', function () {
+test('where in criteria', function (): void {
     $expression = new Expression(fake()->word());
 
     $comparisonOperator = Arr::random(ComparisonOperator::cases());
@@ -49,7 +50,7 @@ test('where in criteria', function () {
     $this->assertInstanceOf(WhereInCriteria::class, FilterParser::parse($criteria));
 });
 
-test('has criteria', function () {
+test('has criteria', function (): void {
     $expression = new Expression(fake()->word());
 
     $comparisonOperator = Arr::random(ComparisonOperator::cases());
@@ -66,7 +67,7 @@ test('has criteria', function () {
     $this->assertNull(FilterParser::parse($criteria));
 });
 
-test('trashed criteria', function () {
+test('trashed criteria', function (): void {
     $expression = new Expression(fake()->word());
 
     $comparisonOperator = Arr::random(ComparisonOperator::cases());

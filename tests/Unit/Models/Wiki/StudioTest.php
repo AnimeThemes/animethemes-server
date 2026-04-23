@@ -15,31 +15,31 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
 
-test('searchable as', function () {
+test('searchable as', function (): void {
     $studio = Studio::factory()->createOne();
 
     $this->assertIsString($studio->searchableAs());
 });
 
-test('to searchable array', function () {
+test('to searchable array', function (): void {
     $studio = Studio::factory()->createOne();
 
     $this->assertIsArray($studio->toSearchableArray());
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $studio = Studio::factory()->createOne();
 
     $this->assertIsString($studio->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $studio = Studio::factory()->createOne();
 
     $this->assertIsString($studio->getSubtitle());
 });
 
-test('anime', function () {
+test('anime', function (): void {
     $animeCount = fake()->randomDigitNotNull();
 
     $studio = Studio::factory()
@@ -52,7 +52,7 @@ test('anime', function () {
     $this->assertEquals(AnimeStudio::class, $studio->anime()->getPivotClass());
 });
 
-test('external resources', function () {
+test('external resources', function (): void {
     $resourceCount = fake()->randomDigitNotNull();
 
     $studio = Studio::factory()
@@ -65,7 +65,7 @@ test('external resources', function () {
     $this->assertEquals(Resourceable::class, $studio->resources()->getPivotClass());
 });
 
-test('images', function () {
+test('images', function (): void {
     $imageCount = fake()->randomDigitNotNull();
 
     $studio = Studio::factory()

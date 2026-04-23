@@ -8,15 +8,16 @@ use App\Events\List\Playlist\PlaylistCreated;
 use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\delete;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('protected', function () {
+test('protected', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -28,7 +29,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden if missing permission', function () {
+test('forbidden if missing permission', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -44,7 +45,7 @@ test('forbidden if missing permission', function () {
     $response->assertForbidden();
 });
 
-test('forbidden if not own playlist', function () {
+test('forbidden if not own playlist', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -62,7 +63,7 @@ test('forbidden if not own playlist', function () {
     $response->assertForbidden();
 });
 
-test('forbidden if flag disabled', function () {
+test('forbidden if flag disabled', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::deactivate(AllowPlaylistManagement::class);
@@ -80,7 +81,7 @@ test('forbidden if flag disabled', function () {
     $response->assertForbidden();
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -99,7 +100,7 @@ test('deleted', function () {
     $this->assertModelMissing($playlist);
 });
 
-test('destroy permitted for bypass', function () {
+test('destroy permitted for bypass', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class, fake()->boolean());

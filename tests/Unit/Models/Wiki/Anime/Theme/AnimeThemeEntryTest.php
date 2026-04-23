@@ -20,7 +20,7 @@ use Znck\Eloquent\Relations\BelongsToThrough;
 
 uses(WithFaker::class);
 
-test('searchable as', function () {
+test('searchable as', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
@@ -28,7 +28,7 @@ test('searchable as', function () {
     $this->assertIsString($entry->searchableAs());
 });
 
-test('to searchable array', function () {
+test('to searchable array', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
@@ -36,7 +36,7 @@ test('to searchable array', function () {
     $this->assertIsArray($entry->toSearchableArray());
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
@@ -44,7 +44,7 @@ test('nameable', function () {
     $this->assertIsString($entry->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
@@ -52,7 +52,7 @@ test('has subtitle', function () {
     $this->assertIsString($entry->getSubtitle());
 });
 
-test('theme', function () {
+test('theme', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
@@ -61,7 +61,7 @@ test('theme', function () {
     $this->assertInstanceOf(AnimeTheme::class, $entry->animetheme()->first());
 });
 
-test('external resources', function () {
+test('external resources', function (): void {
     $resourcesCount = fake()->randomDigitNotNull();
 
     $entry = AnimeThemeEntry::factory()
@@ -75,7 +75,7 @@ test('external resources', function () {
     $this->assertEquals(Resourceable::class, $entry->resources()->getPivotClass());
 });
 
-test('videos', function () {
+test('videos', function (): void {
     $videoCount = fake()->randomDigitNotNull();
 
     $entry = AnimeThemeEntry::factory()
@@ -89,7 +89,7 @@ test('videos', function () {
     $this->assertEquals(AnimeThemeEntryVideo::class, $entry->videos()->getPivotClass());
 });
 
-test('anime', function () {
+test('anime', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
@@ -98,7 +98,7 @@ test('anime', function () {
     $this->assertInstanceOf(Anime::class, $entry->anime()->first());
 });
 
-test('likes', function () {
+test('likes', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->has(Like::factory()->for(User::factory()))
         ->createOne();

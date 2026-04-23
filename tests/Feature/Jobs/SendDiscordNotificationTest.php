@@ -15,7 +15,7 @@ use NotificationChannels\Discord\DiscordMessage;
 
 use function Pest\Laravel\get;
 
-test('send discord notification job sends notification', function () {
+test('send discord notification job sends notification', function (): void {
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Notification::fake();
 
@@ -25,8 +25,6 @@ test('send discord notification job sends notification', function () {
 
         /**
          * Get Discord message payload.
-         *
-         * @return DiscordMessage
          */
         public function getDiscordMessage(): DiscordMessage
         {
@@ -59,7 +57,7 @@ test('send discord notification job sends notification', function () {
     );
 });
 
-test('rate limited', function () {
+test('rate limited', function (): void {
     $event = new class implements DiscordMessageEvent
     {
         use Dispatchable;

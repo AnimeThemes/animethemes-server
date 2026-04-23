@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\put;
 
-test('protected', function () {
+test('protected', function (): void {
     $script = VideoScript::factory()->createOne();
 
     $parameters = VideoScript::factory()->raw();
@@ -19,7 +19,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $script = VideoScript::factory()->createOne();
 
     $parameters = VideoScript::factory()->raw();
@@ -33,7 +33,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('trashed', function () {
+test('trashed', function (): void {
     $script = VideoScript::factory()->trashed()->createOne();
 
     $parameters = VideoScript::factory()->raw();
@@ -47,7 +47,7 @@ test('trashed', function () {
     $response->assertNotFound();
 });
 
-test('update', function () {
+test('update', function (): void {
     $script = VideoScript::factory()->createOne();
 
     $parameters = VideoScript::factory()->raw();

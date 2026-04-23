@@ -6,6 +6,7 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Constants\Config\ValidationConstants;
 use App\Enums\Rules\ModerationService;
 use App\Models\Auth\User;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -13,9 +14,9 @@ use Illuminate\Validation\ValidationException;
 use Mockery\MockInterface;
 use Propaganistas\LaravelDisposableEmail\Validation\Indisposable;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('required', function () {
+test('required', function (): void {
     $this->expectException(ValidationException::class);
 
     $action = new CreateNewUser();
@@ -23,7 +24,7 @@ test('required', function () {
     $action->create([]);
 });
 
-test('username alpha dash', function () {
+test('username alpha dash', function (): void {
     $this->expectException(ValidationException::class);
 
     $action = new CreateNewUser();
@@ -39,7 +40,7 @@ test('username alpha dash', function () {
     ]);
 });
 
-test('username unique', function () {
+test('username unique', function (): void {
     $this->expectException(ValidationException::class);
 
     $name = fake()->word();
@@ -61,7 +62,7 @@ test('username unique', function () {
     ]);
 });
 
-test('created', function () {
+test('created', function (): void {
     $action = new CreateNewUser();
 
     $password = Str::password(20);
@@ -77,7 +78,7 @@ test('created', function () {
     $this->assertDatabaseCount(User::class, 1);
 });
 
-test('created if not flagged by open ai', function () {
+test('created if not flagged by open ai', function (): void {
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
     Http::fake([
@@ -105,7 +106,7 @@ test('created if not flagged by open ai', function () {
     $this->assertDatabaseCount(User::class, 1);
 });
 
-test('created if open ai fails', function () {
+test('created if open ai fails', function (): void {
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
     Http::fake([
@@ -127,7 +128,7 @@ test('created if open ai fails', function () {
     $this->assertDatabaseCount(User::class, 1);
 });
 
-test('validation error when flagged by open ai', function () {
+test('validation error when flagged by open ai', function (): void {
     $this->expectException(ValidationException::class);
 
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
@@ -155,10 +156,10 @@ test('validation error when flagged by open ai', function () {
     ]);
 });
 
-test('disposable email', function () {
+test('disposable email', function (): void {
     $this->expectException(ValidationException::class);
 
-    $this->mock(Indisposable::class, function (MockInterface $mock) {
+    $this->mock(Indisposable::class, function (MockInterface $mock): void {
         $mock->shouldReceive('validate')->once()->andReturn(false);
     });
 
@@ -175,8 +176,8 @@ test('disposable email', function () {
     ]);
 });
 
-test('indisposable email', function () {
-    $this->mock(Indisposable::class, function (MockInterface $mock) {
+test('indisposable email', function (): void {
+    $this->mock(Indisposable::class, function (MockInterface $mock): void {
         $mock->shouldReceive('validate')->once()->andReturn(true);
     });
 
@@ -195,7 +196,7 @@ test('indisposable email', function () {
     $this->assertDatabaseCount(User::class, 1);
 });
 
-test('email unique', function () {
+test('email unique', function (): void {
     $this->expectException(ValidationException::class);
 
     $email = fake()->companyEmail();

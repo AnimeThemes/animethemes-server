@@ -10,13 +10,13 @@ use App\Models\Wiki\Anime;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('anime created event dispatched', function () {
+test('anime created event dispatched', function (): void {
     Anime::factory()->createOne();
 
     Event::assertDispatched(AnimeCreated::class);
 });
 
-test('anime deleted event dispatched', function () {
+test('anime deleted event dispatched', function (): void {
     $anime = Anime::factory()->createOne();
 
     $anime->delete();
@@ -24,7 +24,7 @@ test('anime deleted event dispatched', function () {
     Event::assertDispatched(AnimeDeleted::class);
 });
 
-test('anime restored event dispatched', function () {
+test('anime restored event dispatched', function (): void {
     $anime = Anime::factory()->createOne();
 
     $anime->restore();
@@ -32,7 +32,7 @@ test('anime restored event dispatched', function () {
     Event::assertDispatched(AnimeRestored::class);
 });
 
-test('anime restores quietly', function () {
+test('anime restores quietly', function (): void {
     $anime = Anime::factory()->createOne();
 
     $anime->restore();
@@ -40,7 +40,7 @@ test('anime restores quietly', function () {
     Event::assertNotDispatched(AnimeUpdated::class);
 });
 
-test('anime updated event dispatched', function () {
+test('anime updated event dispatched', function (): void {
     $anime = Anime::factory()->createOne();
     $changes = Anime::factory()->makeOne();
 
@@ -50,16 +50,16 @@ test('anime updated event dispatched', function () {
     Event::assertDispatched(AnimeUpdated::class);
 });
 
-test('anime updated event embed fields', function () {
+test('anime updated event embed fields', function (): void {
     $anime = Anime::factory()->createOne();
     $changes = Anime::factory()->makeOne();
 
     $anime->fill($changes->getAttributes());
     $anime->save();
 
-    Event::assertDispatched(AnimeUpdated::class, function (AnimeUpdated $event) {
+    Event::assertDispatched(AnimeUpdated::class, function (AnimeUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

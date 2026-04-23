@@ -5,14 +5,15 @@ declare(strict_types=1);
 use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\Format\EncoderVersionFormatRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('fails when encoder version is older than required', function () {
+test('fails when encoder version is older than required', function (): void {
     Feature::activate(FeatureConstants::REQUIRED_ENCODER_VERSION, 'Lavf59.27.100');
 
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
@@ -49,7 +50,7 @@ test('fails when encoder version is older than required', function () {
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
 
-test('fails when encoder version is up to date', function () {
+test('fails when encoder version is up to date', function (): void {
     Feature::activate(FeatureConstants::REQUIRED_ENCODER_VERSION, 'Lavf59.27.100');
 
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());

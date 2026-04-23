@@ -9,7 +9,7 @@ use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-test('video', function () {
+test('video', function (): void {
     $animeThemeEntryVideo = AnimeThemeEntryVideo::factory()
         ->for(Video::factory())
         ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
@@ -19,7 +19,7 @@ test('video', function () {
     $this->assertInstanceOf(Video::class, $animeThemeEntryVideo->video()->first());
 });
 
-test('entry', function () {
+test('entry', function (): void {
     $animeThemeEntryVideo = AnimeThemeEntryVideo::factory()
         ->for(Video::factory())
         ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))

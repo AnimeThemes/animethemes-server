@@ -20,13 +20,14 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $studio = Studio::factory()->create();
 
     $response = get(route('api.studio.show', ['studio' => $studio]));
@@ -43,7 +44,7 @@ test('default', function () {
     );
 });
 
-test('soft delete', function () {
+test('soft delete', function (): void {
     $studio = Studio::factory()->trashed()->createOne();
 
     $studio->unsetRelations();
@@ -62,14 +63,14 @@ test('soft delete', function () {
     );
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new StudioSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -93,7 +94,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new StudioSchema();
 
     $fields = collect($schema->fields());
@@ -102,7 +103,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            StudioJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            StudioJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -122,7 +123,7 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('anime by media format', function () {
+test('anime by media format', function (): void {
     $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
     $parameters = [
@@ -137,7 +138,7 @@ test('anime by media format', function () {
         ->create();
 
     $studio->unsetRelations()->load([
-        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
+        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter): void {
             $query->where(Anime::ATTRIBUTE_FORMAT, $mediaFormatFilter->value);
         },
     ]);
@@ -156,7 +157,7 @@ test('anime by media format', function () {
     );
 });
 
-test('anime by season', function () {
+test('anime by season', function (): void {
     $seasonFilter = Arr::random(AnimeSeason::cases());
 
     $parameters = [
@@ -171,7 +172,7 @@ test('anime by season', function () {
         ->create();
 
     $studio->unsetRelations()->load([
-        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
+        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter): void {
             $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
         },
     ]);
@@ -190,7 +191,7 @@ test('anime by season', function () {
     );
 });
 
-test('anime by year', function () {
+test('anime by year', function (): void {
     $yearFilter = fake()->numberBetween(2000, 2002);
 
     $parameters = [
@@ -213,7 +214,7 @@ test('anime by year', function () {
         ->createOne();
 
     $studio->unsetRelations()->load([
-        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
+        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter): void {
             $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
         },
     ]);
@@ -232,7 +233,7 @@ test('anime by year', function () {
     );
 });
 
-test('resources by site', function () {
+test('resources by site', function (): void {
     $siteFilter = Arr::random(ResourceSite::cases());
 
     $parameters = [
@@ -247,7 +248,7 @@ test('resources by site', function () {
         ->createOne();
 
     $studio->unsetRelations()->load([
-        Studio::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter) {
+        Studio::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter): void {
             $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
         },
     ]);
@@ -266,7 +267,7 @@ test('resources by site', function () {
     );
 });
 
-test('images by facet', function () {
+test('images by facet', function (): void {
     $facetFilter = Arr::random(ImageFacet::cases());
 
     $parameters = [
@@ -281,7 +282,7 @@ test('images by facet', function () {
         ->createOne();
 
     $studio->unsetRelations()->load([
-        Studio::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
+        Studio::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter): void {
             $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
         },
     ]);

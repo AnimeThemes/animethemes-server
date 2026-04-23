@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Rules\Wiki\Submission\Audio\AudioChannelsStreamRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('fails when channel count is not two', function () {
+test('fails when channel count is not two', function (): void {
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
     Process::fake([
@@ -46,7 +47,7 @@ test('fails when channel count is not two', function () {
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
 
-test('passes when channel count is two', function () {
+test('passes when channel count is two', function (): void {
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
     Process::fake([

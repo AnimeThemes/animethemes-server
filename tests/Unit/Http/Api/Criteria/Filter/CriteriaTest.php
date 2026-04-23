@@ -9,13 +9,14 @@ use App\Http\Api\Criteria\Filter\Predicate;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Scope\GlobalScope;
 use App\Http\Api\Scope\TypeScope;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('should not filter if key mismatch', function () {
+test('should not filter if key mismatch', function (): void {
     $expression = new Expression(fake()->word());
     $comparisonOperator = Arr::random(ComparisonOperator::cases());
     $predicate = new Predicate(fake()->unique()->word(), $comparisonOperator, $expression);
@@ -28,9 +29,6 @@ test('should not filter if key mismatch', function () {
     {
         /**
          * Convert filter values to integers.
-         *
-         * @param  array  $filterValues
-         * @return array
          */
         public function convertFilterValues(array $filterValues): array
         {
@@ -39,9 +37,6 @@ test('should not filter if key mismatch', function () {
 
         /**
          * Get only filter values that are integers.
-         *
-         * @param  array  $filterValues
-         * @return array
          */
         public function getValidFilterValues(array $filterValues): array
         {
@@ -51,8 +46,6 @@ test('should not filter if key mismatch', function () {
         /**
          * Determine if all valid filter values have been specified.
          * By default, this is false as we assume an unrestricted amount of valid values.
-         *
-         * @param  array  $filterValues
          */
         public function isAllFilterValues(array $filterValues): bool
         {
@@ -61,8 +54,6 @@ test('should not filter if key mismatch', function () {
 
         /**
          * Get the validation rules for the filter.
-         *
-         * @return array
          */
         public function getRules(): array
         {
@@ -83,7 +74,7 @@ test('should not filter if key mismatch', function () {
     $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
-test('should filter if key match', function () {
+test('should filter if key match', function (): void {
     $key = fake()->word();
 
     $expression = new Expression(fake()->word());
@@ -98,9 +89,6 @@ test('should filter if key match', function () {
     {
         /**
          * Convert filter values to integers.
-         *
-         * @param  array  $filterValues
-         * @return array
          */
         public function convertFilterValues(array $filterValues): array
         {
@@ -109,9 +97,6 @@ test('should filter if key match', function () {
 
         /**
          * Get only filter values that are integers.
-         *
-         * @param  array  $filterValues
-         * @return array
          */
         public function getValidFilterValues(array $filterValues): array
         {
@@ -121,8 +106,6 @@ test('should filter if key match', function () {
         /**
          * Determine if all valid filter values have been specified.
          * By default, this is false as we assume an unrestricted amount of valid values.
-         *
-         * @param  array  $filterValues
          */
         public function isAllFilterValues(array $filterValues): bool
         {
@@ -131,8 +114,6 @@ test('should filter if key match', function () {
 
         /**
          * Get the validation rules for the filter.
-         *
-         * @return array
          */
         public function getRules(): array
         {
@@ -153,7 +134,7 @@ test('should filter if key match', function () {
     $this->assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
-test('should not filter if not within scope', function () {
+test('should not filter if not within scope', function (): void {
     $key = fake()->word();
 
     $expression = new Expression(fake()->word());
@@ -168,9 +149,6 @@ test('should not filter if not within scope', function () {
     {
         /**
          * Convert filter values to integers.
-         *
-         * @param  array  $filterValues
-         * @return array
          */
         public function convertFilterValues(array $filterValues): array
         {
@@ -179,9 +157,6 @@ test('should not filter if not within scope', function () {
 
         /**
          * Get only filter values that are integers.
-         *
-         * @param  array  $filterValues
-         * @return array
          */
         public function getValidFilterValues(array $filterValues): array
         {
@@ -191,8 +166,6 @@ test('should not filter if not within scope', function () {
         /**
          * Determine if all valid filter values have been specified.
          * By default, this is false as we assume an unrestricted amount of valid values.
-         *
-         * @param  array  $filterValues
          */
         public function isAllFilterValues(array $filterValues): bool
         {
@@ -201,8 +174,6 @@ test('should not filter if not within scope', function () {
 
         /**
          * Get the validation rules for the filter.
-         *
-         * @return array
          */
         public function getRules(): array
         {
@@ -223,7 +194,7 @@ test('should not filter if not within scope', function () {
     $this->assertFalse($criteria->shouldFilter($filter, new GlobalScope()));
 });
 
-test('should filter if within scope', function () {
+test('should filter if within scope', function (): void {
     $key = fake()->word();
 
     $expression = new Expression(fake()->word());
@@ -238,9 +209,6 @@ test('should filter if within scope', function () {
     {
         /**
          * Convert filter values to integers.
-         *
-         * @param  array  $filterValues
-         * @return array
          */
         public function convertFilterValues(array $filterValues): array
         {
@@ -249,9 +217,6 @@ test('should filter if within scope', function () {
 
         /**
          * Get only filter values that are integers.
-         *
-         * @param  array  $filterValues
-         * @return array
          */
         public function getValidFilterValues(array $filterValues): array
         {
@@ -261,8 +226,6 @@ test('should filter if within scope', function () {
         /**
          * Determine if all valid filter values have been specified.
          * By default, this is false as we assume an unrestricted amount of valid values.
-         *
-         * @param  array  $filterValues
          */
         public function isAllFilterValues(array $filterValues): bool
         {
@@ -271,8 +234,6 @@ test('should filter if within scope', function () {
 
         /**
          * Get the validation rules for the filter.
-         *
-         * @return array
          */
         public function getRules(): array
         {

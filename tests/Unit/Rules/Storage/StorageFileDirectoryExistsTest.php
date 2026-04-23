@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 use App\Rules\Storage\StorageFileDirectoryExistsRule;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('passes if directory exists', function () {
+test('passes if directory exists', function (): void {
     /** @var FilesystemAdapter $fs */
     $fs = Storage::fake(fake()->word());
 
@@ -28,7 +29,7 @@ test('passes if directory exists', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('fails if directory does not exist', function () {
+test('fails if directory does not exist', function (): void {
     $fs = Storage::fake(fake()->word());
 
     $attribute = fake()->word();

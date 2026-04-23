@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 use App\Rules\Api\IsValidBoolean;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('passes if boolean', function () {
+test('passes if boolean', function (): void {
     $attribute = fake()->word();
 
     $validator = Validator::make(
@@ -18,7 +19,7 @@ test('passes if boolean', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('passes if boolean string', function () {
+test('passes if boolean string', function (): void {
     $booleanString = fake()->boolean() ? 'true' : 'false';
 
     $attribute = fake()->word();
@@ -31,7 +32,7 @@ test('passes if boolean string', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('passes if boolean integer', function () {
+test('passes if boolean integer', function (): void {
     $booleanInteger = fake()->boolean() ? 1 : 0;
 
     $attribute = fake()->word();
@@ -44,7 +45,7 @@ test('passes if boolean integer', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('passes if boolean checkbox', function () {
+test('passes if boolean checkbox', function (): void {
     $booleanCheckbox = fake()->boolean() ? 'on' : 'off';
 
     $attribute = fake()->word();
@@ -57,7 +58,7 @@ test('passes if boolean checkbox', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('fails if string', function () {
+test('fails if string', function (): void {
     $attribute = fake()->word();
 
     $validator = Validator::make(
@@ -68,7 +69,7 @@ test('fails if string', function () {
     $this->assertFalse($validator->passes());
 });
 
-test('fails if number', function () {
+test('fails if number', function (): void {
     $attribute = fake()->word();
 
     $validator = Validator::make(

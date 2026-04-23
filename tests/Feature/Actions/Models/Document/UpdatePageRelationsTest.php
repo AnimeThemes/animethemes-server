@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Actions\Models\Document\UpdatePageRelations;
 use App\Models\Document\Page;
 
-test('associates next of previous page', function () {
+test('associates next of previous page', function (): void {
     $previous = Page::factory()->createOne();
 
     $page = Page::factory()
@@ -21,7 +21,7 @@ test('associates next of previous page', function () {
     $this->assertTrue($previous->next()->is($page));
 });
 
-test('associates previous of next page', function () {
+test('associates previous of next page', function (): void {
     $next = Page::factory()->createOne();
 
     $page = Page::factory()

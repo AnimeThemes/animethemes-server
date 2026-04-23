@@ -10,7 +10,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\delete;
 
-test('protected', function () {
+test('protected', function (): void {
     $artistMember = ArtistMember::factory()
         ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
         ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
@@ -21,7 +21,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $artistMember = ArtistMember::factory()
         ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
         ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
@@ -36,7 +36,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('not found', function () {
+test('not found', function (): void {
     $artist = Artist::factory()->createOne();
     $member = Artist::factory()->createOne();
 
@@ -49,7 +49,7 @@ test('not found', function () {
     $response->assertNotFound();
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     $artistMember = ArtistMember::factory()
         ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
         ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)

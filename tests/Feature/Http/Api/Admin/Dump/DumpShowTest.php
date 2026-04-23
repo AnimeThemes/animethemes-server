@@ -8,12 +8,13 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\DumpSchema;
 use App\Http\Resources\Admin\Resource\DumpJsonResource;
 use App\Models\Admin\Dump;
+use Illuminate\Foundation\Testing\WithFaker;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $dump = Dump::factory()->create();
 
     $response = get(route('api.dump.show', ['dump' => $dump]));
@@ -30,7 +31,7 @@ test('default', function () {
     );
 });
 
-test('cannot view private', function () {
+test('cannot view private', function (): void {
     $dump = Dump::factory()->private()->create();
 
     $response = get(route('api.dump.show', ['dump' => $dump]));
@@ -38,7 +39,7 @@ test('cannot view private', function () {
     $response->assertForbidden();
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new DumpSchema();
 
     $fields = collect($schema->fields());
@@ -47,7 +48,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            DumpJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            DumpJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 

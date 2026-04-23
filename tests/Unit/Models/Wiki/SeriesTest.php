@@ -10,31 +10,31 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
 
-test('searchable as', function () {
+test('searchable as', function (): void {
     $series = Series::factory()->createOne();
 
     $this->assertIsString($series->searchableAs());
 });
 
-test('to searchable array', function () {
+test('to searchable array', function (): void {
     $series = Series::factory()->createOne();
 
     $this->assertIsArray($series->toSearchableArray());
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $series = Series::factory()->createOne();
 
     $this->assertIsString($series->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $series = Series::factory()->createOne();
 
     $this->assertIsString($series->getSubtitle());
 });
 
-test('anime', function () {
+test('anime', function (): void {
     $animeCount = fake()->randomDigitNotNull();
 
     $series = Series::factory()

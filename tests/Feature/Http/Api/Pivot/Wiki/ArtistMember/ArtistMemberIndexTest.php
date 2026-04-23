@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Paging\Criteria;
@@ -21,18 +22,19 @@ use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberJsonResource;
 use App\Models\Wiki\Artist;
 use App\Pivots\BasePivot;
 use App\Pivots\Wiki\ArtistMember;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 
 use function Pest\Laravel\get;
 
-uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+uses(SortsModels::class);
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
-    Collection::times(fake()->randomDigitNotNull(), function () {
+test('default', function (): void {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         ArtistMember::factory()
             ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
             ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
@@ -55,8 +57,8 @@ test('default', function () {
     );
 });
 
-test('paginated', function () {
-    Collection::times(fake()->randomDigitNotNull(), function () {
+test('paginated', function (): void {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         ArtistMember::factory()
             ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
             ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
@@ -72,20 +74,20 @@ test('paginated', function () {
     ]);
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new ArtistMemberSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
     ];
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         ArtistMember::factory()
             ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
             ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
@@ -108,7 +110,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new ArtistMemberSchema();
 
     $fields = collect($schema->fields());
@@ -117,11 +119,11 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ArtistMemberJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ArtistMemberJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         ArtistMember::factory()
             ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
             ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
@@ -144,13 +146,13 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('sorts', function () {
+test('sorts', function (): void {
     $schema = new ArtistMemberSchema();
 
     /** @var Sort $sort */
     $sort = collect($schema->fields())
-        ->filter(fn (Field $field) => $field instanceof SortableField)
-        ->map(fn (SortableField $field) => $field->getSort())
+        ->filter(fn (Field $field): bool => $field instanceof SortableField)
+        ->map(fn (SortableField $field): Sort => $field->getSort())
         ->random();
 
     $parameters = [
@@ -159,7 +161,7 @@ test('sorts', function () {
 
     $query = new Query($parameters);
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         ArtistMember::factory()
             ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
             ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
@@ -182,7 +184,7 @@ test('sorts', function () {
     );
 });
 
-test('created at filter', function () {
+test('created at filter', function (): void {
     $createdFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -195,8 +197,8 @@ test('created at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($createdFilter, function () {
-        Collection::times(fake()->randomDigitNotNull(), function () {
+    Date::withTestNow($createdFilter, function (): void {
+        Collection::times(fake()->randomDigitNotNull(), function (): void {
             ArtistMember::factory()
                 ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
                 ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
@@ -204,8 +206,8 @@ test('created at filter', function () {
         });
     });
 
-    Carbon::withTestNow($excludedDate, function () {
-        Collection::times(fake()->randomDigitNotNull(), function () {
+    Date::withTestNow($excludedDate, function (): void {
+        Collection::times(fake()->randomDigitNotNull(), function (): void {
             ArtistMember::factory()
                 ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
                 ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
@@ -229,7 +231,7 @@ test('created at filter', function () {
     );
 });
 
-test('updated at filter', function () {
+test('updated at filter', function (): void {
     $updatedFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -242,8 +244,8 @@ test('updated at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($updatedFilter, function () {
-        Collection::times(fake()->randomDigitNotNull(), function () {
+    Date::withTestNow($updatedFilter, function (): void {
+        Collection::times(fake()->randomDigitNotNull(), function (): void {
             ArtistMember::factory()
                 ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
                 ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
@@ -251,8 +253,8 @@ test('updated at filter', function () {
         });
     });
 
-    Carbon::withTestNow($excludedDate, function () {
-        Collection::times(fake()->randomDigitNotNull(), function () {
+    Date::withTestNow($excludedDate, function (): void {
+        Collection::times(fake()->randomDigitNotNull(), function (): void {
             ArtistMember::factory()
                 ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
                 ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)

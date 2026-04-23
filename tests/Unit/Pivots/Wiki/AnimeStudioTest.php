@@ -7,7 +7,7 @@ use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\AnimeStudio;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-test('anime', function () {
+test('anime', function (): void {
     $animeStudio = AnimeStudio::factory()
         ->for(Anime::factory())
         ->for(Studio::factory())
@@ -17,7 +17,7 @@ test('anime', function () {
     $this->assertInstanceOf(Anime::class, $animeStudio->anime()->first());
 });
 
-test('studio', function () {
+test('studio', function (): void {
     $animeStudio = AnimeStudio::factory()
         ->for(Anime::factory())
         ->for(Studio::factory())

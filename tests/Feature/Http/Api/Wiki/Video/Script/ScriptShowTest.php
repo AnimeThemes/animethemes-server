@@ -15,13 +15,14 @@ use App\Http\Resources\Wiki\Video\Resource\ScriptJsonResource;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $script = VideoScript::factory()->create();
 
     $response = get(route('api.videoscript.show', ['videoscript' => $script]));
@@ -38,7 +39,7 @@ test('default', function () {
     );
 });
 
-test('soft delete', function () {
+test('soft delete', function (): void {
     $script = VideoScript::factory()->trashed()->createOne();
 
     $response = get(route('api.videoscript.show', ['videoscript' => $script]));
@@ -55,14 +56,14 @@ test('soft delete', function () {
     );
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new ScriptSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -86,7 +87,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new ScriptSchema();
 
     $fields = collect($schema->fields());
@@ -95,7 +96,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ScriptJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ScriptJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -115,7 +116,7 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('videos by lyrics', function () {
+test('videos by lyrics', function (): void {
     $lyricsFilter = fake()->boolean();
 
     $parameters = [
@@ -130,7 +131,7 @@ test('videos by lyrics', function () {
         ->create();
 
     $script->unsetRelations()->load([
-        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($lyricsFilter) {
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($lyricsFilter): void {
             $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
         },
     ]);
@@ -149,7 +150,7 @@ test('videos by lyrics', function () {
     );
 });
 
-test('videos by nc', function () {
+test('videos by nc', function (): void {
     $ncFilter = fake()->boolean();
 
     $parameters = [
@@ -164,7 +165,7 @@ test('videos by nc', function () {
         ->create();
 
     $script->unsetRelations()->load([
-        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($ncFilter) {
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($ncFilter): void {
             $query->where(Video::ATTRIBUTE_NC, $ncFilter);
         },
     ]);
@@ -183,7 +184,7 @@ test('videos by nc', function () {
     );
 });
 
-test('videos by overlap', function () {
+test('videos by overlap', function (): void {
     $overlapFilter = Arr::random(VideoOverlap::cases());
 
     $parameters = [
@@ -198,7 +199,7 @@ test('videos by overlap', function () {
         ->create();
 
     $script->unsetRelations()->load([
-        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($overlapFilter) {
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($overlapFilter): void {
             $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
         },
     ]);
@@ -217,7 +218,7 @@ test('videos by overlap', function () {
     );
 });
 
-test('videos by resolution', function () {
+test('videos by resolution', function (): void {
     $resolutionFilter = fake()->randomNumber();
     $excludedResolution = $resolutionFilter + 1;
 
@@ -237,7 +238,7 @@ test('videos by resolution', function () {
         ->create();
 
     $script->unsetRelations()->load([
-        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($resolutionFilter) {
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($resolutionFilter): void {
             $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
         },
     ]);
@@ -256,7 +257,7 @@ test('videos by resolution', function () {
     );
 });
 
-test('videos by source', function () {
+test('videos by source', function (): void {
     $sourceFilter = Arr::random(VideoSource::cases());
 
     $parameters = [
@@ -271,7 +272,7 @@ test('videos by source', function () {
         ->create();
 
     $script->unsetRelations()->load([
-        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($sourceFilter) {
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($sourceFilter): void {
             $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
         },
     ]);
@@ -290,7 +291,7 @@ test('videos by source', function () {
     );
 });
 
-test('videos by subbed', function () {
+test('videos by subbed', function (): void {
     $subbedFilter = fake()->boolean();
 
     $parameters = [
@@ -305,7 +306,7 @@ test('videos by subbed', function () {
         ->create();
 
     $script->unsetRelations()->load([
-        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($subbedFilter) {
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($subbedFilter): void {
             $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
         },
     ]);
@@ -324,7 +325,7 @@ test('videos by subbed', function () {
     );
 });
 
-test('videos by uncen', function () {
+test('videos by uncen', function (): void {
     $uncenFilter = fake()->boolean();
 
     $parameters = [
@@ -339,7 +340,7 @@ test('videos by uncen', function () {
         ->create();
 
     $script->unsetRelations()->load([
-        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($uncenFilter) {
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($uncenFilter): void {
             $query->where(Video::ATTRIBUTE_UNCEN, $uncenFilter);
         },
     ]);

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Http\Api\Sort\Direction;
@@ -26,26 +27,27 @@ use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+uses(SortsModels::class);
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
 /**
  * Setup the test environment.
  */
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 });
 
-test('private external entry cannot be publicly viewed', function () {
+test('private external entry cannot be publicly viewed', function (): void {
     $profile = ExternalProfile::factory()
         ->for(User::factory())
         ->entries(fake()->numberBetween(2, 9))
@@ -58,7 +60,7 @@ test('private external entry cannot be publicly viewed', function () {
     $response->assertForbidden();
 });
 
-test('private external entry cannot be publicly viewed if not owned', function () {
+test('private external entry cannot be publicly viewed if not owned', function (): void {
     $profile = ExternalProfile::factory()
         ->for(User::factory())
         ->entries(fake()->numberBetween(2, 9))
@@ -75,7 +77,7 @@ test('private external entry cannot be publicly viewed if not owned', function (
     $response->assertForbidden();
 });
 
-test('private external entry can be viewed by owner', function () {
+test('private external entry can be viewed by owner', function (): void {
     $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
     $profile = ExternalProfile::factory()
@@ -92,7 +94,7 @@ test('private external entry can be viewed by owner', function () {
     $response->assertOk();
 });
 
-test('public external entry can be viewed', function () {
+test('public external entry can be viewed', function (): void {
     $profile = ExternalProfile::factory()
         ->for(User::factory())
         ->entries(fake()->numberBetween(2, 9))
@@ -105,7 +107,7 @@ test('public external entry can be viewed', function () {
     $response->assertOk();
 });
 
-test('default', function () {
+test('default', function (): void {
     $entryCount = fake()->randomDigitNotNull();
 
     $profile = ExternalProfile::factory()
@@ -139,7 +141,7 @@ test('default', function () {
     );
 });
 
-test('paginated', function () {
+test('paginated', function (): void {
     $profile = ExternalProfile::factory()
         ->has(ExternalEntry::factory()->count(fake()->randomDigitNotNull()), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
         ->createOne([
@@ -155,14 +157,14 @@ test('paginated', function () {
     ]);
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new ExternalEntrySchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -198,7 +200,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new ExternalEntrySchema();
 
     $fields = collect($schema->fields());
@@ -207,7 +209,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ExternalEntryJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ExternalEntryJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -231,13 +233,13 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('sorts', function () {
+test('sorts', function (): void {
     $schema = new ExternalEntrySchema();
 
     /** @var Sort $sort */
     $sort = collect($schema->fields())
-        ->filter(fn (Field $field) => $field instanceof SortableField)
-        ->map(fn (SortableField $field) => $field->getSort())
+        ->filter(fn (Field $field): bool => $field instanceof SortableField)
+        ->map(fn (SortableField $field): Sort => $field->getSort())
         ->random();
 
     $parameters = [
@@ -268,7 +270,7 @@ test('sorts', function () {
     );
 });
 
-test('created at filter', function () {
+test('created at filter', function (): void {
     $createdFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -286,7 +288,7 @@ test('created at filter', function () {
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
         ]);
 
-    Carbon::withTestNow(
+    Date::withTestNow(
         $createdFilter,
         fn () => ExternalEntry::factory()
             ->for($profile)
@@ -294,7 +296,7 @@ test('created at filter', function () {
             ->create()
     );
 
-    Carbon::withTestNow(
+    Date::withTestNow(
         $excludedDate,
         fn () => ExternalEntry::factory()
             ->for($profile)
@@ -318,7 +320,7 @@ test('created at filter', function () {
     );
 });
 
-test('updated at filter', function () {
+test('updated at filter', function (): void {
     $updatedFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -336,7 +338,7 @@ test('updated at filter', function () {
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
         ]);
 
-    Carbon::withTestNow(
+    Date::withTestNow(
         $updatedFilter,
         fn () => ExternalEntry::factory()
             ->for($profile)
@@ -344,7 +346,7 @@ test('updated at filter', function () {
             ->create()
     );
 
-    Carbon::withTestNow(
+    Date::withTestNow(
         $excludedDate,
         fn () => ExternalEntry::factory()
             ->for($profile)

@@ -12,7 +12,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-test('protected', function () {
+test('protected', function (): void {
     $theme = AnimeTheme::factory()->for(Anime::factory())->makeOne();
 
     $response = post(route('api.animetheme.store', $theme->toArray()));
@@ -20,7 +20,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $theme = AnimeTheme::factory()->for(Anime::factory())->makeOne();
 
     $user = User::factory()->createOne();
@@ -32,7 +32,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('required fields', function () {
+test('required fields', function (): void {
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeTheme::class))->createOne();
 
     Sanctum::actingAs($user);
@@ -46,7 +46,7 @@ test('required fields', function () {
     ]);
 });
 
-test('create', function () {
+test('create', function (): void {
     $anime = Anime::factory()->createOne();
 
     $type = Arr::random(ThemeType::cases());

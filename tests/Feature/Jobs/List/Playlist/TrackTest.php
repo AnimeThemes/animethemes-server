@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
-test('playlist created sends discord notification', function () {
+test('playlist created sends discord notification', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -28,7 +28,7 @@ test('playlist created sends discord notification', function () {
     Bus::assertNotDispatched(SendDiscordNotificationJob::class);
 });
 
-test('playlist deleted sends discord notification', function () {
+test('playlist deleted sends discord notification', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     $track = PlaylistTrack::factory()
@@ -44,7 +44,7 @@ test('playlist deleted sends discord notification', function () {
     Bus::assertNotDispatched(SendDiscordNotificationJob::class);
 });
 
-test('playlist updated sends discord notification', function () {
+test('playlist updated sends discord notification', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     $track = PlaylistTrack::factory()

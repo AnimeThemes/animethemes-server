@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\put;
 
-test('protected', function () {
+test('protected', function (): void {
     $feature = Feature::factory()->createOne();
 
     $parameters = [
@@ -21,7 +21,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $feature = Feature::factory()->createOne();
 
     $parameters = [
@@ -37,7 +37,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('update', function () {
+test('update', function (): void {
     $feature = Feature::factory()->createOne();
 
     $parameters = [

@@ -10,13 +10,13 @@ use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('video script created event dispatched', function () {
+test('video script created event dispatched', function (): void {
     VideoScript::factory()->createOne();
 
     Event::assertDispatched(VideoScriptCreated::class);
 });
 
-test('video script deleted event dispatched', function () {
+test('video script deleted event dispatched', function (): void {
     $script = VideoScript::factory()->createOne();
 
     $script->delete();
@@ -24,7 +24,7 @@ test('video script deleted event dispatched', function () {
     Event::assertDispatched(VideoScriptDeleted::class);
 });
 
-test('video script restored event dispatched', function () {
+test('video script restored event dispatched', function (): void {
     $script = VideoScript::factory()->createOne();
 
     $script->restore();
@@ -32,7 +32,7 @@ test('video script restored event dispatched', function () {
     Event::assertDispatched(VideoScriptRestored::class);
 });
 
-test('video script restores quietly', function () {
+test('video script restores quietly', function (): void {
     $script = VideoScript::factory()->createOne();
 
     $script->restore();
@@ -40,7 +40,7 @@ test('video script restores quietly', function () {
     Event::assertNotDispatched(VideoScriptUpdated::class);
 });
 
-test('video script updated event dispatched', function () {
+test('video script updated event dispatched', function (): void {
     $script = VideoScript::factory()->createOne();
     $changes = VideoScript::factory()->makeOne();
 
@@ -50,16 +50,16 @@ test('video script updated event dispatched', function () {
     Event::assertDispatched(VideoScriptUpdated::class);
 });
 
-test('video script updated event embed fields', function () {
+test('video script updated event embed fields', function (): void {
     $script = VideoScript::factory()->createOne();
     $changes = VideoScript::factory()->makeOne();
 
     $script->fill($changes->getAttributes());
     $script->save();
 
-    Event::assertDispatched(VideoScriptUpdated::class, function (VideoScriptUpdated $event) {
+    Event::assertDispatched(VideoScriptUpdated::class, function (VideoScriptUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

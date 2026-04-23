@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 use App\Rules\Api\DelimitedRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('passes if all values pass', function () {
+test('passes if all values pass', function (): void {
     $attribute = fake()->word();
 
     $values = collect(fake()->words())->unique();
@@ -20,7 +21,7 @@ test('passes if all values pass', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('fails for duplicate values', function () {
+test('fails for duplicate values', function (): void {
     $attribute = fake()->word();
 
     $duplicate = fake()->word();
@@ -35,7 +36,7 @@ test('fails for duplicate values', function () {
     $this->assertFalse($validator->passes());
 });
 
-test('fails for invalid value', function () {
+test('fails for invalid value', function (): void {
     $attribute = fake()->word();
 
     $values = collect([fake()->randomDigitNotNull(), fake()->word(), fake()->randomDigitNotNull()]);
@@ -48,7 +49,7 @@ test('fails for invalid value', function () {
     $this->assertFalse($validator->passes());
 });
 
-test('validates empty values', function () {
+test('validates empty values', function (): void {
     $attribute = fake()->word();
 
     $values = collect(array_merge(fake()->words(), ['']));

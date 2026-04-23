@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
-test('theme created sends discord notification', function () {
+test('theme created sends discord notification', function (): void {
     $anime = Anime::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -26,7 +26,7 @@ test('theme created sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('theme deleted sends discord notification', function () {
+test('theme deleted sends discord notification', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -40,7 +40,7 @@ test('theme deleted sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('theme restored sends discord notification', function () {
+test('theme restored sends discord notification', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -54,7 +54,7 @@ test('theme restored sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('theme updated sends discord notification', function () {
+test('theme updated sends discord notification', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();

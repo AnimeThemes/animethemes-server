@@ -5,10 +5,11 @@ declare(strict_types=1);
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Testing\WithFaker;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('nameable', function () {
+test('nameable', function (): void {
     $thread = DiscordThread::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -16,7 +17,7 @@ test('nameable', function () {
     $this->assertIsString($thread->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $thread = DiscordThread::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -24,7 +25,7 @@ test('has subtitle', function () {
     $this->assertIsString($thread->getSubtitle());
 });
 
-test('anime', function () {
+test('anime', function (): void {
     $thread = DiscordThread::factory()
         ->for(Anime::factory())
         ->createOne();

@@ -7,6 +7,7 @@ use App\Constants\Config\ValidationConstants;
 use App\Enums\Rules\ModerationService;
 use App\Models\Auth\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Notification;
@@ -14,9 +15,9 @@ use Illuminate\Validation\ValidationException;
 use Mockery\MockInterface;
 use Propaganistas\LaravelDisposableEmail\Validation\Indisposable;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('required', function () {
+test('required', function (): void {
     $this->expectException(ValidationException::class);
 
     $user = User::factory()->createOne();
@@ -26,7 +27,7 @@ test('required', function () {
     $action->update($user, []);
 });
 
-test('username alpha dash', function () {
+test('username alpha dash', function (): void {
     $this->expectException(ValidationException::class);
 
     $user = User::factory()->createOne();
@@ -38,7 +39,7 @@ test('username alpha dash', function () {
     ]);
 });
 
-test('username unique', function () {
+test('username unique', function (): void {
     $this->expectException(ValidationException::class);
 
     $name = fake()->word();
@@ -56,7 +57,7 @@ test('username unique', function () {
     ]);
 });
 
-test('update name', function () {
+test('update name', function (): void {
     $name = fake()->unique()->word();
 
     $user = User::factory()->createOne([
@@ -78,7 +79,7 @@ test('update name', function () {
     ]);
 });
 
-test('update email', function () {
+test('update email', function (): void {
     Notification::fake();
 
     $email = fake()->unique()->companyEmail();
@@ -102,7 +103,7 @@ test('update email', function () {
     Notification::assertSentTimes(VerifyEmail::class, 1);
 });
 
-test('created if not flagged by open ai', function () {
+test('created if not flagged by open ai', function (): void {
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
     Http::fake([
@@ -136,7 +137,7 @@ test('created if not flagged by open ai', function () {
     ]);
 });
 
-test('created if open ai fails', function () {
+test('created if open ai fails', function (): void {
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
     Http::fake([
@@ -164,7 +165,7 @@ test('created if open ai fails', function () {
     ]);
 });
 
-test('validation error when flagged by open ai', function () {
+test('validation error when flagged by open ai', function (): void {
     $this->expectException(ValidationException::class);
 
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
@@ -192,10 +193,10 @@ test('validation error when flagged by open ai', function () {
     ]);
 });
 
-test('disposable email', function () {
+test('disposable email', function (): void {
     $this->expectException(ValidationException::class);
 
-    $this->mock(Indisposable::class, function (MockInterface $mock) {
+    $this->mock(Indisposable::class, function (MockInterface $mock): void {
         $mock->shouldReceive('validate')->once()->andReturn(false);
     });
 
@@ -212,10 +213,10 @@ test('disposable email', function () {
     ]);
 });
 
-test('indisposable email', function () {
+test('indisposable email', function (): void {
     Notification::fake();
 
-    $this->mock(Indisposable::class, function (MockInterface $mock) {
+    $this->mock(Indisposable::class, function (MockInterface $mock): void {
         $mock->shouldReceive('validate')->once()->andReturn(true);
     });
 
@@ -240,7 +241,7 @@ test('indisposable email', function () {
     Notification::assertSentTimes(VerifyEmail::class, 1);
 });
 
-test('email unique', function () {
+test('email unique', function (): void {
     $this->expectException(ValidationException::class);
 
     $email = fake()->companyEmail();

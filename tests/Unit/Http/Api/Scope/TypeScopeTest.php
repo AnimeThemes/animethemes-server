@@ -5,10 +5,11 @@ declare(strict_types=1);
 use App\Http\Api\Scope\GlobalScope;
 use App\Http\Api\Scope\RelationScope;
 use App\Http\Api\Scope\TypeScope;
+use Illuminate\Foundation\Testing\WithFaker;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('global scope is not within scope', function () {
+test('global scope is not within scope', function (): void {
     $scope = new TypeScope(fake()->word());
 
     $otherScope = new GlobalScope();
@@ -16,7 +17,7 @@ test('global scope is not within scope', function () {
     $this->assertFalse($scope->isWithinScope($otherScope));
 });
 
-test('type scope is not within scope', function () {
+test('type scope is not within scope', function (): void {
     $scope = new TypeScope(fake()->unique()->word());
 
     $otherScope = new TypeScope(fake()->unique()->word());
@@ -24,7 +25,7 @@ test('type scope is not within scope', function () {
     $this->assertFalse($scope->isWithinScope($otherScope));
 });
 
-test('type scope is within scope', function () {
+test('type scope is within scope', function (): void {
     $type = fake()->word();
 
     $scope = new TypeScope($type);
@@ -34,7 +35,7 @@ test('type scope is within scope', function () {
     $this->assertTrue($scope->isWithinScope($otherScope));
 });
 
-test('relation scope is not within scope', function () {
+test('relation scope is not within scope', function (): void {
     $scope = new TypeScope(fake()->word());
 
     $otherScope = new RelationScope(fake()->word());
@@ -42,7 +43,7 @@ test('relation scope is not within scope', function () {
     $this->assertFalse($scope->isWithinScope($otherScope));
 });
 
-test('relation scope is within scope', function () {
+test('relation scope is within scope', function (): void {
     $type = fake()->word();
 
     $scope = new TypeScope($type);

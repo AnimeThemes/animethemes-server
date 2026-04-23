@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\delete;
 
-test('protected', function () {
+test('protected', function (): void {
     $audio = Audio::factory()->createOne();
 
     $response = delete(route('api.audio.destroy', ['audio' => $audio]));
@@ -17,7 +17,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $audio = Audio::factory()->createOne();
 
     $user = User::factory()->createOne();
@@ -29,7 +29,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('trashed', function () {
+test('trashed', function (): void {
     $audio = Audio::factory()->trashed()->createOne();
 
     $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Audio::class))->createOne();
@@ -41,7 +41,7 @@ test('trashed', function () {
     $response->assertNotFound();
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     $audio = Audio::factory()->createOne();
 
     $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Audio::class))->createOne();

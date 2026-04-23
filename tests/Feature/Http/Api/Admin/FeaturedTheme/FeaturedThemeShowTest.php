@@ -18,12 +18,13 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
+use Illuminate\Foundation\Testing\WithFaker;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('forbidden if future start date', function () {
+test('forbidden if future start date', function (): void {
     $featuredTheme = FeaturedTheme::factory()->create([
         FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year'),
     ]);
@@ -33,7 +34,7 @@ test('forbidden if future start date', function () {
     $response->assertForbidden();
 });
 
-test('default', function () {
+test('default', function (): void {
     $featuredTheme = FeaturedTheme::factory()->create();
 
     $response = get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme]));
@@ -50,14 +51,14 @@ test('default', function () {
     );
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new FeaturedThemeSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -90,7 +91,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new FeaturedThemeSchema();
 
     $fields = collect($schema->fields());
@@ -99,7 +100,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            FeaturedThemeJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            FeaturedThemeJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 

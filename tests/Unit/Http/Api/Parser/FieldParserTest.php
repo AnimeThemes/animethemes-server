@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Parser\FieldParser;
+use Illuminate\Foundation\Testing\WithFaker;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('no criteria by default', function () {
+test('no criteria by default', function (): void {
     $parameters = [];
 
     $this->assertEmpty(FieldParser::parse($parameters));
 });
 
-test('parse criteria', function () {
+test('parse criteria', function (): void {
     $fields = collect(fake()->words(fake()->randomDigitNotNull()));
 
     $parameters = [
@@ -27,7 +28,7 @@ test('parse criteria', function () {
     $this->assertInstanceOf(Criteria::class, $criteria);
 });
 
-test('parse type', function () {
+test('parse type', function (): void {
     $type = fake()->word();
 
     $fields = collect(fake()->words(fake()->randomDigitNotNull()));
@@ -43,7 +44,7 @@ test('parse type', function () {
     $this->assertEquals($type, $criteria->getType());
 });
 
-test('parse fields', function () {
+test('parse fields', function (): void {
     $fields = fake()->words(fake()->randomDigitNotNull());
 
     $parameters = [

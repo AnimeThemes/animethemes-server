@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Constants\ModelConstants;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
@@ -31,16 +32,17 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 
 use function Pest\Laravel\get;
 
-uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+uses(SortsModels::class);
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $entries = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->count(fake()->randomDigitNotNull())
@@ -60,7 +62,7 @@ test('default', function () {
     );
 });
 
-test('paginated', function () {
+test('paginated', function (): void {
     AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->count(fake()->randomDigitNotNull())
@@ -75,14 +77,14 @@ test('paginated', function () {
     ]);
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new EntrySchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -110,7 +112,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new EntrySchema();
 
     $fields = collect($schema->fields());
@@ -119,7 +121,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            EntryJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            EntryJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -142,13 +144,13 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('sorts', function () {
+test('sorts', function (): void {
     $schema = new EntrySchema();
 
     /** @var Sort $sort */
     $sort = collect($schema->fields())
-        ->filter(fn (Field $field) => $field instanceof SortableField)
-        ->map(fn (SortableField $field) => $field->getSort())
+        ->filter(fn (Field $field): bool => $field instanceof SortableField)
+        ->map(fn (SortableField $field): Sort => $field->getSort())
         ->random();
 
     $parameters = [
@@ -178,7 +180,7 @@ test('sorts', function () {
     );
 });
 
-test('created at filter', function () {
+test('created at filter', function (): void {
     $createdFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -191,14 +193,14 @@ test('created at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($createdFilter, function () {
+    Date::withTestNow($createdFilter, function (): void {
         AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count(fake()->randomDigitNotNull())
             ->create();
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count(fake()->randomDigitNotNull())
@@ -221,7 +223,7 @@ test('created at filter', function () {
     );
 });
 
-test('updated at filter', function () {
+test('updated at filter', function (): void {
     $updatedFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -234,14 +236,14 @@ test('updated at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($updatedFilter, function () {
+    Date::withTestNow($updatedFilter, function (): void {
         AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count(fake()->randomDigitNotNull())
             ->create();
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count(fake()->randomDigitNotNull())
@@ -264,7 +266,7 @@ test('updated at filter', function () {
     );
 });
 
-test('without trashed filter', function () {
+test('without trashed filter', function (): void {
     $parameters = [
         FilterParser::param() => [
             TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT->value,
@@ -301,7 +303,7 @@ test('without trashed filter', function () {
     );
 });
 
-test('with trashed filter', function () {
+test('with trashed filter', function (): void {
     $parameters = [
         FilterParser::param() => [
             TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
@@ -338,7 +340,7 @@ test('with trashed filter', function () {
     );
 });
 
-test('only trashed filter', function () {
+test('only trashed filter', function (): void {
     $parameters = [
         FilterParser::param() => [
             TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY->value,
@@ -375,7 +377,7 @@ test('only trashed filter', function () {
     );
 });
 
-test('deleted at filter', function () {
+test('deleted at filter', function (): void {
     $deletedFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -389,7 +391,7 @@ test('deleted at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($deletedFilter, function () {
+    Date::withTestNow($deletedFilter, function (): void {
         AnimeThemeEntry::factory()
             ->trashed()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -397,7 +399,7 @@ test('deleted at filter', function () {
             ->create();
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         AnimeThemeEntry::factory()
             ->trashed()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -421,7 +423,7 @@ test('deleted at filter', function () {
     );
 });
 
-test('entries by nsfw', function () {
+test('entries by nsfw', function (): void {
     $nsfwFilter = fake()->boolean();
 
     $parameters = [
@@ -451,7 +453,7 @@ test('entries by nsfw', function () {
     );
 });
 
-test('entries by spoiler', function () {
+test('entries by spoiler', function (): void {
     $spoilerFilter = fake()->boolean();
 
     $parameters = [
@@ -481,7 +483,7 @@ test('entries by spoiler', function () {
     );
 });
 
-test('entries by version', function () {
+test('entries by version', function (): void {
     $versionFilter = fake()->randomDigitNotNull();
     $excludedVersion = $versionFilter + 1;
 
@@ -516,7 +518,7 @@ test('entries by version', function () {
     );
 });
 
-test('anime by media format', function () {
+test('anime by media format', function (): void {
     $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
     $parameters = [
@@ -532,7 +534,7 @@ test('anime by media format', function () {
         ->create();
 
     $entries = AnimeThemeEntry::with([
-        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter): void {
             $query->where(Anime::ATTRIBUTE_FORMAT, $mediaFormatFilter->value);
         },
     ])
@@ -552,7 +554,7 @@ test('anime by media format', function () {
     );
 });
 
-test('anime by season', function () {
+test('anime by season', function (): void {
     $seasonFilter = Arr::random(AnimeSeason::cases());
 
     $parameters = [
@@ -568,7 +570,7 @@ test('anime by season', function () {
         ->create();
 
     $entries = AnimeThemeEntry::with([
-        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter): void {
             $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
         },
     ])
@@ -588,7 +590,7 @@ test('anime by season', function () {
     );
 });
 
-test('anime by year', function () {
+test('anime by year', function (): void {
     $yearFilter = intval(fake()->year());
     $excludedYear = $yearFilter + 1;
 
@@ -612,7 +614,7 @@ test('anime by year', function () {
         ->create();
 
     $entries = AnimeThemeEntry::with([
-        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter): void {
             $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
         },
     ])
@@ -632,7 +634,7 @@ test('anime by year', function () {
     );
 });
 
-test('themes by sequence', function () {
+test('themes by sequence', function (): void {
     $sequenceFilter = fake()->randomDigitNotNull();
     $excludedSequence = $sequenceFilter + 1;
 
@@ -655,7 +657,7 @@ test('themes by sequence', function () {
         ->create();
 
     $entries = AnimeThemeEntry::with([
-        AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($sequenceFilter) {
+        AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($sequenceFilter): void {
             $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
         },
     ])
@@ -675,7 +677,7 @@ test('themes by sequence', function () {
     );
 });
 
-test('themes by type', function () {
+test('themes by type', function (): void {
     $typeFilter = Arr::random(ThemeType::cases());
 
     $parameters = [
@@ -691,7 +693,7 @@ test('themes by type', function () {
         ->create();
 
     $entries = AnimeThemeEntry::with([
-        AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($typeFilter) {
+        AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($typeFilter): void {
             $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
         },
     ])

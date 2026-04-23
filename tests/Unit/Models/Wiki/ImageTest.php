@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Storage;
 
 uses(WithFaker::class);
 
-test('casts facet to enum', function () {
+test('casts facet to enum', function (): void {
     $image = Image::factory()->createOne();
 
     $facet = $image->facet;
@@ -28,19 +28,19 @@ test('casts facet to enum', function () {
     $this->assertInstanceOf(ImageFacet::class, $facet);
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $image = Image::factory()->createOne();
 
     $this->assertIsString($image->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $image = Image::factory()->createOne();
 
     $this->assertIsString($image->getSubtitle());
 });
 
-test('anime', function () {
+test('anime', function (): void {
     $animeCount = fake()->randomDigitNotNull();
 
     $image = Image::factory()
@@ -53,7 +53,7 @@ test('anime', function () {
     $this->assertEquals(Imageable::class, $image->anime()->getPivotClass());
 });
 
-test('artists', function () {
+test('artists', function (): void {
     $artistCount = fake()->randomDigitNotNull();
 
     $image = Image::factory()
@@ -66,7 +66,7 @@ test('artists', function () {
     $this->assertEquals(Imageable::class, $image->artists()->getPivotClass());
 });
 
-test('studios', function () {
+test('studios', function (): void {
     $studioCount = fake()->randomDigitNotNull();
 
     $image = Image::factory()
@@ -79,7 +79,7 @@ test('studios', function () {
     $this->assertEquals(Imageable::class, $image->studios()->getPivotClass());
 });
 
-test('playlists', function () {
+test('playlists', function (): void {
     $playlistCount = fake()->randomDigitNotNull();
 
     $image = Image::factory()
@@ -92,7 +92,7 @@ test('playlists', function () {
     $this->assertEquals(Imageable::class, $image->playlists()->getPivotClass());
 });
 
-test('image storage deletion', function () {
+test('image storage deletion', function (): void {
     $fs = Storage::fake(Config::get('image.disk'));
     $file = File::fake()->image(fake()->word().'.jpg');
     $fsFile = $fs->putFile('', $file);
@@ -109,7 +109,7 @@ test('image storage deletion', function () {
     $this->assertTrue($fs->exists($image->path));
 });
 
-test('image storage force deletion', function () {
+test('image storage force deletion', function (): void {
     Event::fakeExcept(ImageForceDeleting::class);
 
     $fs = Storage::fake(Config::get('image.disk'));

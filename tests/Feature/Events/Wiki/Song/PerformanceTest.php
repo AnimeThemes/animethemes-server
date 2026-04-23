@@ -10,13 +10,13 @@ use App\Models\Wiki\Song\Performance;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('performance created event dispatched', function () {
+test('performance created event dispatched', function (): void {
     Performance::factory()->createOne();
 
     Event::assertDispatched(PerformanceCreated::class);
 });
 
-test('performance deleted event dispatched', function () {
+test('performance deleted event dispatched', function (): void {
     $performance = Performance::factory()->createOne();
 
     $performance->delete();
@@ -24,7 +24,7 @@ test('performance deleted event dispatched', function () {
     Event::assertDispatched(PerformanceDeleted::class);
 });
 
-test('performance restored event dispatched', function () {
+test('performance restored event dispatched', function (): void {
     $performance = Performance::factory()->createOne();
 
     $performance->restore();
@@ -32,7 +32,7 @@ test('performance restored event dispatched', function () {
     Event::assertDispatched(PerformanceRestored::class);
 });
 
-test('performance restores quietly', function () {
+test('performance restores quietly', function (): void {
     $performance = Performance::factory()->createOne();
 
     $performance->restore();
@@ -40,7 +40,7 @@ test('performance restores quietly', function () {
     Event::assertNotDispatched(PerformanceUpdated::class);
 });
 
-test('performance updated event dispatched', function () {
+test('performance updated event dispatched', function (): void {
     $performance = Performance::factory()->createOne();
     $changes = Performance::factory()->makeOne();
 
@@ -50,16 +50,16 @@ test('performance updated event dispatched', function () {
     Event::assertDispatched(PerformanceUpdated::class);
 });
 
-test('performance updated event embed fields', function () {
+test('performance updated event embed fields', function (): void {
     $performance = Performance::factory()->createOne();
     $changes = Performance::factory()->makeOne();
 
     $performance->fill($changes->getAttributes());
     $performance->save();
 
-    Event::assertDispatched(PerformanceUpdated::class, function (PerformanceUpdated $event) {
+    Event::assertDispatched(PerformanceUpdated::class, function (PerformanceUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

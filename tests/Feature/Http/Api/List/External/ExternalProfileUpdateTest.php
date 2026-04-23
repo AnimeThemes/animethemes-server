@@ -9,6 +9,7 @@ use App\Events\List\ExternalProfile\ExternalProfileCreated;
 use App\Features\AllowExternalProfileManagement;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
@@ -16,9 +17,9 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\put;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('protected', function () {
+test('protected', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 
     Feature::activate(AllowExternalProfileManagement::class);
@@ -37,7 +38,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden if missing permission', function () {
+test('forbidden if missing permission', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 
     Feature::activate(AllowExternalProfileManagement::class);
@@ -60,7 +61,7 @@ test('forbidden if missing permission', function () {
     $response->assertForbidden();
 });
 
-test('forbidden if not own external profile', function () {
+test('forbidden if not own external profile', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 
     Feature::activate(AllowExternalProfileManagement::class);
@@ -85,7 +86,7 @@ test('forbidden if not own external profile', function () {
     $response->assertForbidden();
 });
 
-test('forbidden if flag disabled', function () {
+test('forbidden if flag disabled', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 
     Feature::deactivate(AllowExternalProfileManagement::class);
@@ -112,7 +113,7 @@ test('forbidden if flag disabled', function () {
     $response->assertForbidden();
 });
 
-test('update', function () {
+test('update', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 
     Feature::activate(AllowExternalProfileManagement::class);
@@ -139,7 +140,7 @@ test('update', function () {
     $response->assertOk();
 });
 
-test('update permitted for bypass', function () {
+test('update permitted for bypass', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 
     Feature::activate(AllowExternalProfileManagement::class, fake()->boolean());

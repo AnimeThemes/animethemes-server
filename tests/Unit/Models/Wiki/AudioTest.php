@@ -15,19 +15,19 @@ use Illuminate\Support\Facades\Storage;
 
 uses(WithFaker::class);
 
-test('nameable', function () {
+test('nameable', function (): void {
     $audio = Audio::factory()->createOne();
 
     $this->assertIsString($audio->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $audio = Audio::factory()->createOne();
 
     $this->assertIsString($audio->getSubtitle());
 });
 
-test('videos', function () {
+test('videos', function (): void {
     $videoCount = fake()->randomDigitNotNull();
 
     $audio = Audio::factory()
@@ -39,7 +39,7 @@ test('videos', function () {
     $this->assertInstanceOf(Video::class, $audio->videos()->first());
 });
 
-test('audio storage deletion', function () {
+test('audio storage deletion', function (): void {
     $fs = Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
     $file = File::fake()->create(fake()->word().'.ogg', fake()->randomDigitNotNull());
     $fsFile = $fs->putFile('', $file);
@@ -53,7 +53,7 @@ test('audio storage deletion', function () {
     $this->assertTrue($fs->exists($audio->path));
 });
 
-test('audio storage force deletion', function () {
+test('audio storage force deletion', function (): void {
     Event::fakeExcept(AudioForceDeleting::class);
 
     $fs = Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));

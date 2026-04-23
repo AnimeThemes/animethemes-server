@@ -8,12 +8,13 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\SynonymSchema;
 use App\Http\Resources\Wiki\Resource\SynonymJsonResource;
 use App\Models\Wiki\Synonym;
+use Illuminate\Foundation\Testing\WithFaker;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $synonym = Synonym::factory()->forAnime()->createOne();
 
     $synonym->unsetRelations();
@@ -32,7 +33,7 @@ test('default', function () {
     );
 });
 
-test('soft delete', function () {
+test('soft delete', function (): void {
     $synonym = Synonym::factory()
         ->trashed()
         ->forAnime()
@@ -54,7 +55,7 @@ test('soft delete', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new SynonymSchema();
 
     $fields = collect($schema->fields());
@@ -63,7 +64,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            SynonymJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            SynonymJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 

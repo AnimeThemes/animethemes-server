@@ -5,11 +5,12 @@ declare(strict_types=1);
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Sort\Sort;
 use App\Rules\Api\DistinctIgnoringDirectionRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('fails if duplicate sort', function () {
+test('fails if duplicate sort', function (): void {
     $key = fake()->word();
 
     $sorts = collect()->pad(fake()->numberBetween(2, 9), $key);
@@ -24,7 +25,7 @@ test('fails if duplicate sort', function () {
     $this->assertFalse($validator->passes());
 });
 
-test('fails if duplicate sort different direction', function () {
+test('fails if duplicate sort different direction', function (): void {
     $key = fake()->word();
 
     $sort = new Sort($key);
@@ -45,7 +46,7 @@ test('fails if duplicate sort different direction', function () {
     $this->assertFalse($validator->passes());
 });
 
-test('passes if no duplicates', function () {
+test('passes if no duplicates', function (): void {
     $sorts = collect(fake()->words(fake()->randomDigitNotNull()))->unique();
 
     $attribute = fake()->word();

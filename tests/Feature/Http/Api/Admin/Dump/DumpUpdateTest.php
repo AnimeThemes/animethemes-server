@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\put;
 
-test('protected', function () {
+test('protected', function (): void {
     $dump = Dump::factory()->createOne();
 
     $parameters = Dump::factory()->raw();
@@ -19,7 +19,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $dump = Dump::factory()->createOne();
 
     $parameters = Dump::factory()->raw();
@@ -33,7 +33,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('update', function () {
+test('update', function (): void {
     $dump = Dump::factory()->createOne();
 
     $parameters = Dump::factory()->raw();

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
-test('imageable created sends discord notification', function () {
+test('imageable created sends discord notification', function (): void {
     $modelClass = Arr::random(Imageable::$imageables);
 
     $model = $modelClass::factory()->createOne();
@@ -29,7 +29,7 @@ test('imageable created sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('imageable deleted sends discord notification', function () {
+test('imageable deleted sends discord notification', function (): void {
     $modelClass = Arr::random(Imageable::$imageables);
 
     $model = $modelClass::factory()->createOne();
@@ -46,7 +46,7 @@ test('imageable deleted sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('imageable updated sends discord notification', function () {
+test('imageable updated sends discord notification', function (): void {
     $modelClass = Arr::random(Imageable::$imageables);
 
     $model = $modelClass::factory()->createOne();

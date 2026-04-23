@@ -24,15 +24,16 @@ use App\Rules\Wiki\Submission\Video\VideoColorSpaceStreamRule;
 use App\Rules\Wiki\Submission\Video\VideoColorTransferStreamRule;
 use App\Rules\Wiki\Submission\Video\VideoIndexStreamRule;
 use App\Rules\Wiki\Submission\Video\VideoPixelFormatStreamRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('runs processes once', function () {
+test('runs processes once', function (): void {
     Feature::activate(FeatureConstants::REQUIRED_ENCODER_VERSION, 'Lavf59.27.100');
     Feature::activate(FeatureConstants::AUDIO_BITRATE_RESTRICTION);
     Feature::activate(FeatureConstants::VIDEO_BITRATE_RESTRICTION);

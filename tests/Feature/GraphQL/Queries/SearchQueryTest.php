@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Config;
 
-test('searches attributes', function () {
+test('searches attributes', function (): void {
     Config::set('scout.driver', 'collection');
 
     $response = $this->graphQL(

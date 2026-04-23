@@ -5,13 +5,14 @@ declare(strict_types=1);
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('parse id from anime resource', function () {
+test('parse id from anime resource', function (): void {
     $animeId = fake()->randomDigitNotNull();
 
     /** @var ResourceSite $site */
@@ -28,7 +29,7 @@ test('parse id from anime resource', function () {
     $this->assertEquals(strval($animeId), ResourceSite::parseIdFromLink($link));
 });
 
-test('parse id from studio resource', function () {
+test('parse id from studio resource', function (): void {
     $studioId = fake()->randomDigitNotNull();
 
     /** @var ResourceSite $site */
@@ -44,7 +45,7 @@ test('parse id from studio resource', function () {
     $this->assertEquals(strval($studioId), ResourceSite::parseIdFromLink($link));
 });
 
-test('fail parse anime planet id from studio resource', function () {
+test('fail parse anime planet id from studio resource', function (): void {
     $link = ResourceSite::ANIME_PLANET->formatResourceLink(
         Studio::class,
         fake()->randomDigitNotNull(),
@@ -55,7 +56,7 @@ test('fail parse anime planet id from studio resource', function () {
     Http::assertNothingSent();
 });
 
-test('fail parse anime planet id from anime resource', function () {
+test('fail parse anime planet id from anime resource', function (): void {
     Http::fake([
         'https://www.anime-planet.com/anime/*' => Http::response([
             fake()->word() => fake()->word(),
@@ -72,7 +73,7 @@ test('fail parse anime planet id from anime resource', function () {
     Http::assertSentCount(1);
 });
 
-test('parse anime planet id from anime resource', function () {
+test('parse anime planet id from anime resource', function (): void {
     $id = fake()->randomDigitNotNull();
 
     Http::fake([
@@ -97,7 +98,7 @@ test('parse anime planet id from anime resource', function () {
     Http::assertSentCount(1);
 });
 
-test('parse kitsu id for id from anime resource', function () {
+test('parse kitsu id for id from anime resource', function (): void {
     $id = fake()->randomDigitNotNull();
 
     $link = ResourceSite::KITSU->formatResourceLink(Anime::class, $id);
@@ -105,7 +106,7 @@ test('parse kitsu id for id from anime resource', function () {
     $this->assertEquals($id, ResourceSite::parseIdFromLink($link));
 });
 
-test('parse kitsu id for slug from anime resource', function () {
+test('parse kitsu id for slug from anime resource', function (): void {
     $id = fake()->randomDigitNotNull();
     $slug = fake()->slug();
 

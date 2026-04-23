@@ -7,7 +7,7 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 
-test('first track', function () {
+test('first track', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     $track = PlaylistTrack::factory()
@@ -23,7 +23,7 @@ test('first track', function () {
     $this->assertTrue($playlist->last()->is($track));
 });
 
-test('second track', function () {
+test('second track', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     $first = PlaylistTrack::factory()
@@ -51,7 +51,7 @@ test('second track', function () {
     $this->assertTrue($second->next()->doesntExist());
 });
 
-test('third track', function () {
+test('third track', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     $first = PlaylistTrack::factory()

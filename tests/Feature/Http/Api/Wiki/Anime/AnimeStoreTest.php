@@ -12,7 +12,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-test('protected', function () {
+test('protected', function (): void {
     $anime = Anime::factory()->makeOne();
 
     $response = post(route('api.anime.store', $anime->toArray()));
@@ -20,7 +20,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $anime = Anime::factory()->makeOne();
 
     $user = User::factory()->createOne();
@@ -32,7 +32,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('required fields', function () {
+test('required fields', function (): void {
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Anime::class))->createOne();
 
     Sanctum::actingAs($user);
@@ -48,7 +48,7 @@ test('required fields', function () {
     ]);
 });
 
-test('create', function () {
+test('create', function (): void {
     $season = Arr::random(AnimeSeason::cases());
     $mediaFormat = Arr::random(AnimeMediaFormat::cases());
 

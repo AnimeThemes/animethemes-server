@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\patch;
 
-test('protected', function () {
+test('protected', function (): void {
     $synonym = Synonym::factory()
         ->trashed()
         ->forAnime()
@@ -20,7 +20,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $synonym = Synonym::factory()
         ->trashed()
         ->forAnime()
@@ -35,7 +35,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('trashed', function () {
+test('trashed', function (): void {
     $synonym = Synonym::factory()->forAnime()->createOne();
 
     $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Synonym::class))->createOne();
@@ -47,7 +47,7 @@ test('trashed', function () {
     $response->assertOk();
 });
 
-test('restored', function () {
+test('restored', function (): void {
     $synonym = Synonym::factory()
         ->trashed()
         ->forAnime()

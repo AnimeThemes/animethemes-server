@@ -8,19 +8,19 @@ use App\Pivots\Document\PageRole;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-test('nameable', function () {
+test('nameable', function (): void {
     $page = Page::factory()->createOne();
 
     $this->assertIsString($page->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $page = Page::factory()->createOne();
 
     $this->assertIsString($page->getSubtitle());
 });
 
-test('previous', function () {
+test('previous', function (): void {
     $page = Page::factory()
         ->for(Page::factory(), Page::RELATION_PREVIOUS)
         ->createOne();
@@ -29,7 +29,7 @@ test('previous', function () {
     $this->assertInstanceOf(Page::class, $page->previous()->first());
 });
 
-test('next', function () {
+test('next', function (): void {
     $page = Page::factory()
         ->for(Page::factory(), Page::RELATION_NEXT)
         ->createOne();
@@ -38,7 +38,7 @@ test('next', function () {
     $this->assertInstanceOf(Page::class, $page->next()->first());
 });
 
-test('roles', function () {
+test('roles', function (): void {
     $roleCount = fake()->randomDigitNotNull();
 
     $page = Page::factory()->createOne();

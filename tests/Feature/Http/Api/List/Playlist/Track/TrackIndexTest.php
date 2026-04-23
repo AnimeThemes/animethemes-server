@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Http\Api\Sort\Direction;
@@ -26,19 +27,20 @@ use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+uses(SortsModels::class);
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('private playlist track cannot be publicly viewed', function () {
+test('private playlist track cannot be publicly viewed', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -53,7 +55,7 @@ test('private playlist track cannot be publicly viewed', function () {
     $response->assertForbidden();
 });
 
-test('private playlist track cannot be publicly viewed if not owned', function () {
+test('private playlist track cannot be publicly viewed if not owned', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -72,7 +74,7 @@ test('private playlist track cannot be publicly viewed if not owned', function (
     $response->assertForbidden();
 });
 
-test('private playlist track can be viewed by owner', function () {
+test('private playlist track can be viewed by owner', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
@@ -91,7 +93,7 @@ test('private playlist track can be viewed by owner', function () {
     $response->assertOk();
 });
 
-test('unlisted playlist track can be viewed', function () {
+test('unlisted playlist track can be viewed', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -106,7 +108,7 @@ test('unlisted playlist track can be viewed', function () {
     $response->assertOk();
 });
 
-test('public playlist track can be viewed', function () {
+test('public playlist track can be viewed', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -121,7 +123,7 @@ test('public playlist track can be viewed', function () {
     $response->assertOk();
 });
 
-test('default', function () {
+test('default', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $trackCount = fake()->randomDigitNotNull();
@@ -157,7 +159,7 @@ test('default', function () {
     );
 });
 
-test('paginated', function () {
+test('paginated', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $playlist = Playlist::factory()
@@ -175,7 +177,7 @@ test('paginated', function () {
     ]);
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $schema = new TrackSchema();
@@ -184,7 +186,7 @@ test('allowed include paths', function () {
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -222,7 +224,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $schema = new TrackSchema();
@@ -233,7 +235,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            TrackJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            TrackJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -257,15 +259,15 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('sorts', function () {
+test('sorts', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $schema = new TrackSchema();
 
     /** @var Sort $sort */
     $sort = collect($schema->fields())
-        ->filter(fn (Field $field) => $field instanceof SortableField)
-        ->map(fn (SortableField $field) => $field->getSort())
+        ->filter(fn (Field $field): bool => $field instanceof SortableField)
+        ->map(fn (SortableField $field): Sort => $field->getSort())
         ->random();
 
     $parameters = [
@@ -296,7 +298,7 @@ test('sorts', function () {
     );
 });
 
-test('created at filter', function () {
+test('created at filter', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $createdFilter = fake()->date();
@@ -316,7 +318,7 @@ test('created at filter', function () {
             Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
         ]);
 
-    Carbon::withTestNow(
+    Date::withTestNow(
         $createdFilter,
         fn () => PlaylistTrack::factory()
             ->for($playlist)
@@ -324,7 +326,7 @@ test('created at filter', function () {
             ->create()
     );
 
-    Carbon::withTestNow(
+    Date::withTestNow(
         $excludedDate,
         fn () => PlaylistTrack::factory()
             ->for($playlist)
@@ -348,7 +350,7 @@ test('created at filter', function () {
     );
 });
 
-test('updated at filter', function () {
+test('updated at filter', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     $updatedFilter = fake()->date();
@@ -368,7 +370,7 @@ test('updated at filter', function () {
             Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
         ]);
 
-    Carbon::withTestNow(
+    Date::withTestNow(
         $updatedFilter,
         fn () => PlaylistTrack::factory()
             ->for($playlist)
@@ -376,7 +378,7 @@ test('updated at filter', function () {
             ->create()
     );
 
-    Carbon::withTestNow(
+    Date::withTestNow(
         $excludedDate,
         fn () => PlaylistTrack::factory()
             ->for($playlist)

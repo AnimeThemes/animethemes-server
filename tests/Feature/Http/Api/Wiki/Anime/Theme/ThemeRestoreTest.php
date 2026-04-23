@@ -10,7 +10,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\patch;
 
-test('protected', function () {
+test('protected', function (): void {
     $theme = AnimeTheme::factory()
         ->trashed()
         ->for(Anime::factory())
@@ -21,7 +21,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $theme = AnimeTheme::factory()
         ->trashed()
         ->for(Anime::factory())
@@ -36,7 +36,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('trashed', function () {
+test('trashed', function (): void {
     $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
     $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(AnimeTheme::class))->createOne();
@@ -48,7 +48,7 @@ test('trashed', function () {
     $response->assertOk();
 });
 
-test('restored', function () {
+test('restored', function (): void {
     $theme = AnimeTheme::factory()
         ->trashed()
         ->for(Anime::factory())

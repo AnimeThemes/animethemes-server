@@ -9,13 +9,13 @@ use App\Models\Admin\Announcement;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('announcement created event dispatched', function () {
+test('announcement created event dispatched', function (): void {
     Announcement::factory()->create();
 
     Event::assertDispatched(AnnouncementCreated::class);
 });
 
-test('announcement deleted event dispatched', function () {
+test('announcement deleted event dispatched', function (): void {
     $announcement = Announcement::factory()->create();
 
     $announcement->delete();
@@ -23,7 +23,7 @@ test('announcement deleted event dispatched', function () {
     Event::assertDispatched(AnnouncementDeleted::class);
 });
 
-test('announcement updated event dispatched', function () {
+test('announcement updated event dispatched', function (): void {
     $announcement = Announcement::factory()->createOne();
     $changes = Announcement::factory()->makeOne();
 
@@ -33,16 +33,16 @@ test('announcement updated event dispatched', function () {
     Event::assertDispatched(AnnouncementUpdated::class);
 });
 
-test('announcement updated event embed fields', function () {
+test('announcement updated event embed fields', function (): void {
     $announcement = Announcement::factory()->createOne();
     $changes = Announcement::factory()->makeOne();
 
     $announcement->fill($changes->getAttributes());
     $announcement->save();
 
-    Event::assertDispatched(AnnouncementUpdated::class, function (AnnouncementUpdated $event) {
+    Event::assertDispatched(AnnouncementUpdated::class, function (AnnouncementUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

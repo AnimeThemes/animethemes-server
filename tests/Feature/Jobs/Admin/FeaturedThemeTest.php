@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
-test('featured theme created sends discord notification', function () {
+test('featured theme created sends discord notification', function (): void {
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Bus::fake(SendDiscordNotificationJob::class);
     Event::fakeExcept(FeaturedThemeCreated::class);
@@ -22,7 +22,7 @@ test('featured theme created sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('featured theme deleted sends discord notification', function () {
+test('featured theme deleted sends discord notification', function (): void {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -34,7 +34,7 @@ test('featured theme deleted sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('featured theme updated sends discord notification', function () {
+test('featured theme updated sends discord notification', function (): void {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);

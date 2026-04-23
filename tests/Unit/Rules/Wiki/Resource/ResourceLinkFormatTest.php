@@ -8,13 +8,14 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Rules\Wiki\Resource\ResourceLinkFormatRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('passes for no site', function () {
+test('passes for no site', function (): void {
     $attribute = fake()->word();
 
     $validator = Validator::make(
@@ -25,7 +26,7 @@ test('passes for no site', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('passes for no pattern', function () {
+test('passes for no pattern', function (): void {
     $attribute = fake()->word();
 
     $validator = Validator::make(
@@ -36,7 +37,7 @@ test('passes for no pattern', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('passes for anime resource', function () {
+test('passes for anime resource', function (): void {
     /** @var ResourceSite $site */
     $site = Arr::random([
         ResourceSite::X,
@@ -61,7 +62,7 @@ test('passes for anime resource', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('passes for artist resource', function () {
+test('passes for artist resource', function (): void {
     /** @var ResourceSite $site */
     $site = Arr::random([
         ResourceSite::X,
@@ -86,7 +87,7 @@ test('passes for artist resource', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('passes for song resource', function () {
+test('passes for song resource', function (): void {
     /** @var ResourceSite $site */
     $site = Arr::random([
         ResourceSite::SPOTIFY,
@@ -108,7 +109,7 @@ test('passes for song resource', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('passes for studio resource', function () {
+test('passes for studio resource', function (): void {
     /** @var ResourceSite $site */
     $site = Arr::random([
         ResourceSite::X,
@@ -131,7 +132,7 @@ test('passes for studio resource', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('fails for trailing slash', function () {
+test('fails for trailing slash', function (): void {
     // Resource sites that can be attached for all models.
     $site = Arr::random([
         ResourceSite::ANIDB,

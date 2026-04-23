@@ -11,7 +11,7 @@ use App\Pivots\Document\PageRole;
 
 use function Pest\Laravel\actingAs;
 
-test('only public pages are readable by guests', function () {
+test('only public pages are readable by guests', function (): void {
     $publicPage = Page::factory()->createOne();
 
     /** @var Role $role */
@@ -31,7 +31,7 @@ test('only public pages are readable by guests', function () {
     $this->assertEquals($publicPage->getKey(), $pages->first()->getKey());
 })->repeat(5);
 
-test('admin can see all pages', function () {
+test('admin can see all pages', function (): void {
     $user = User::factory()->withAdmin()->createOne();
 
     Page::factory()->createOne();
@@ -57,7 +57,7 @@ test('admin can see all pages', function () {
     $this->assertCount($roleCount + 1, $pages);
 });
 
-test('user with role can see pages with that role', function () {
+test('user with role can see pages with that role', function (): void {
     $user = User::factory()->createOne();
 
     /** @var Role $role */

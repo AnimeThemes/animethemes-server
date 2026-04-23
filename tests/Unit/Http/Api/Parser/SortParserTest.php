@@ -9,17 +9,18 @@ use App\Http\Api\Criteria\Sort\RelationCriteria;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Scope\GlobalScope;
 use App\Http\Api\Scope\TypeScope;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('no criteria by default', function () {
+test('no criteria by default', function (): void {
     $parameters = [];
 
     $this->assertEmpty(SortParser::parse($parameters));
 });
 
-test('parse random criteria', function () {
+test('parse random criteria', function (): void {
     $parameters = [
         SortParser::param() => RandomCriteria::PARAM_VALUE,
     ];
@@ -29,7 +30,7 @@ test('parse random criteria', function () {
     $this->assertInstanceOf(RandomCriteria::class, $criteria);
 });
 
-test('parse relation criteria', function () {
+test('parse relation criteria', function (): void {
     $parameters = [
         SortParser::param() => collect(fake()->words())->join('.'),
     ];
@@ -39,7 +40,7 @@ test('parse relation criteria', function () {
     $this->assertInstanceOf(RelationCriteria::class, $criteria);
 });
 
-test('parse field criteria', function () {
+test('parse field criteria', function (): void {
     $parameters = [
         SortParser::param() => fake()->word(),
     ];
@@ -49,7 +50,7 @@ test('parse field criteria', function () {
     $this->assertInstanceOf(FieldCriteria::class, $criteria);
 });
 
-test('parse criteria field', function () {
+test('parse criteria field', function (): void {
     $field = fake()->word();
 
     $parameters = [
@@ -61,7 +62,7 @@ test('parse criteria field', function () {
     $this->assertEquals($field, $criteria->getField());
 });
 
-test('parse default direction', function () {
+test('parse default direction', function (): void {
     $parameters = [
         SortParser::param() => fake()->word(),
     ];
@@ -74,7 +75,7 @@ test('parse default direction', function () {
     );
 });
 
-test('parse descending direction', function () {
+test('parse descending direction', function (): void {
     $field = Str::of('-')->append(fake()->word())->__toString();
 
     $parameters = [
@@ -89,7 +90,7 @@ test('parse descending direction', function () {
     );
 });
 
-test('parse global scope', function () {
+test('parse global scope', function (): void {
     $parameters = [
         SortParser::param() => fake()->word(),
     ];
@@ -99,7 +100,7 @@ test('parse global scope', function () {
     $this->assertInstanceOf(GlobalScope::class, $criteria->getScope());
 });
 
-test('parse type scope', function () {
+test('parse type scope', function (): void {
     $type = Str::singular(fake()->word());
 
     $parameters = [

@@ -15,14 +15,15 @@ use App\Http\Resources\List\Resource\ExternalProfileJsonResource;
 use App\Models\Auth\User;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('private external profile cannot be publicly viewed', function () {
+test('private external profile cannot be publicly viewed', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 
     $profile = ExternalProfile::factory()
@@ -36,7 +37,7 @@ test('private external profile cannot be publicly viewed', function () {
     $response->assertForbidden();
 });
 
-test('private external profile cannot be publicly if not owned', function () {
+test('private external profile cannot be publicly if not owned', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 
     $profile = ExternalProfile::factory()
@@ -54,7 +55,7 @@ test('private external profile cannot be publicly if not owned', function () {
     $response->assertForbidden();
 });
 
-test('private external profile can be viewed by owner', function () {
+test('private external profile can be viewed by owner', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 
     $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalProfile::class))->createOne();
@@ -72,7 +73,7 @@ test('private external profile can be viewed by owner', function () {
     $response->assertOk();
 });
 
-test('public external profile can be viewed', function () {
+test('public external profile can be viewed', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 
     $profile = ExternalProfile::factory()
@@ -86,7 +87,7 @@ test('public external profile can be viewed', function () {
     $response->assertOk();
 });
 
-test('default', function () {
+test('default', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 
     $profile = ExternalProfile::factory()
@@ -108,7 +109,7 @@ test('default', function () {
     );
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 
     $schema = new ExternalProfileSchema();
@@ -117,7 +118,7 @@ test('allowed include paths', function () {
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -144,7 +145,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);
 
     $schema = new ExternalProfileSchema();
@@ -155,7 +156,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ExternalProfileJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ExternalProfileJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 use App\Actions\Models\List\Playlist\RemoveTrackAction;
 use App\Models\List\Playlist;
+use Illuminate\Foundation\Testing\WithFaker;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('remove sole', function () {
+test('remove sole', function (): void {
     $playlist = Playlist::factory()
         ->tracks(1)
         ->createOne();
@@ -25,7 +26,7 @@ test('remove sole', function () {
     $this->assertTrue($first->next()->doesntExist());
 });
 
-test('remove first', function () {
+test('remove first', function (): void {
     $playlist = Playlist::factory()
         ->tracks(fake()->numberBetween(3, 9))
         ->createOne();
@@ -45,7 +46,7 @@ test('remove first', function () {
     $this->assertTrue($second->previous()->doesntExist());
 });
 
-test('remove last', function () {
+test('remove last', function (): void {
     $playlist = Playlist::factory()
         ->tracks(fake()->numberBetween(3, 9))
         ->createOne();
@@ -65,7 +66,7 @@ test('remove last', function () {
     $this->assertTrue($previous->next()->doesntExist());
 });
 
-test('remove second', function () {
+test('remove second', function (): void {
     $playlist = Playlist::factory()
         ->tracks(3)
         ->createOne();

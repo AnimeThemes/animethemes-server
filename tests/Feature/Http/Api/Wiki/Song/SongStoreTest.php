@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-test('protected', function () {
+test('protected', function (): void {
     $song = Song::factory()->makeOne();
 
     $response = post(route('api.song.store', $song->toArray()));
@@ -17,7 +17,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $song = Song::factory()->makeOne();
 
     $user = User::factory()->createOne();
@@ -29,7 +29,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('create', function () {
+test('create', function (): void {
     $parameters = Song::factory()->raw();
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Song::class))->createOne();

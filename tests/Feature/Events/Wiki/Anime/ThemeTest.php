@@ -11,7 +11,7 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('theme created event dispatched', function () {
+test('theme created event dispatched', function (): void {
     AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -19,7 +19,7 @@ test('theme created event dispatched', function () {
     Event::assertDispatched(ThemeCreated::class);
 });
 
-test('theme deleted event dispatched', function () {
+test('theme deleted event dispatched', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -29,7 +29,7 @@ test('theme deleted event dispatched', function () {
     Event::assertDispatched(ThemeDeleted::class);
 });
 
-test('theme restored event dispatched', function () {
+test('theme restored event dispatched', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -39,7 +39,7 @@ test('theme restored event dispatched', function () {
     Event::assertDispatched(ThemeRestored::class);
 });
 
-test('theme restores quietly', function () {
+test('theme restores quietly', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -49,7 +49,7 @@ test('theme restores quietly', function () {
     Event::assertNotDispatched(ThemeUpdated::class);
 });
 
-test('theme updated event dispatched', function () {
+test('theme updated event dispatched', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -64,7 +64,7 @@ test('theme updated event dispatched', function () {
     Event::assertDispatched(ThemeUpdated::class);
 });
 
-test('theme updated event embed fields', function () {
+test('theme updated event embed fields', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -76,9 +76,9 @@ test('theme updated event embed fields', function () {
     $theme->fill($changes->getAttributes());
     $theme->save();
 
-    Event::assertDispatched(ThemeUpdated::class, function (ThemeUpdated $event) {
+    Event::assertDispatched(ThemeUpdated::class, function (ThemeUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

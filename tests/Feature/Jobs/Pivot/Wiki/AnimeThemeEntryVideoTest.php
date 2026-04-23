@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
-test('anime theme entry video created sends discord notification', function () {
+test('anime theme entry video created sends discord notification', function (): void {
     $video = Video::factory()->createOne();
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -29,7 +29,7 @@ test('anime theme entry video created sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('anime theme entry video deleted sends discord notification', function () {
+test('anime theme entry video deleted sends discord notification', function (): void {
     $video = Video::factory()->createOne();
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))

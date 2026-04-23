@@ -11,13 +11,14 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\put;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('protected', function () {
+test('protected', function (): void {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
     $parameters = FeaturedTheme::factory()->raw();
@@ -27,7 +28,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
     $parameters = FeaturedTheme::factory()->raw();
@@ -41,7 +42,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('start at before end date', function () {
+test('start at before end date', function (): void {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
     $parameters = FeaturedTheme::factory()->raw([
@@ -61,7 +62,7 @@ test('start at before end date', function () {
     ]);
 });
 
-test('anime theme entry video exists', function () {
+test('anime theme entry video exists', function (): void {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
     $entry = AnimeThemeEntry::factory()
@@ -87,7 +88,7 @@ test('anime theme entry video exists', function () {
     ]);
 });
 
-test('update', function () {
+test('update', function (): void {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
     $entryVideo = AnimeThemeEntryVideo::factory()

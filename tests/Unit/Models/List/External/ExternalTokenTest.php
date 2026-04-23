@@ -8,14 +8,14 @@ use App\Models\List\ExternalProfile;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
-test('nameable', function () {
+test('nameable', function (): void {
     $token = ExternalToken::factory()
         ->createOne();
 
     $this->assertIsString($token->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $token = ExternalToken::factory()
         ->for(ExternalProfile::factory())
         ->createOne();
@@ -23,7 +23,7 @@ test('has subtitle', function () {
     $this->assertIsString($token->getSubtitle());
 });
 
-test('profile', function () {
+test('profile', function (): void {
     $token = ExternalToken::factory()
         ->for(ExternalProfile::factory())
         ->createOne();
@@ -32,7 +32,7 @@ test('profile', function () {
     $this->assertInstanceOf(ExternalProfile::class, $token->externalprofile()->first());
 });
 
-test('user', function () {
+test('user', function (): void {
     $token = ExternalToken::factory()
         ->for(ExternalProfile::factory()->for(User::factory()))
         ->createOne();

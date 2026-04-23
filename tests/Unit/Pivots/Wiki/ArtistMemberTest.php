@@ -6,7 +6,7 @@ use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-test('artist', function () {
+test('artist', function (): void {
     $artistMember = ArtistMember::factory()
         ->for(Artist::factory(), 'artist')
         ->for(Artist::factory(), 'member')
@@ -16,7 +16,7 @@ test('artist', function () {
     $this->assertInstanceOf(Artist::class, $artistMember->artist()->first());
 });
 
-test('member', function () {
+test('member', function (): void {
     $artistMember = ArtistMember::factory()
         ->for(Artist::factory(), 'artist')
         ->for(Artist::factory(), 'member')

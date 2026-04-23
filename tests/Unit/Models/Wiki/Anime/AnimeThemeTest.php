@@ -14,7 +14,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
 
-test('casts type to enum', function () {
+test('casts type to enum', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -24,7 +24,7 @@ test('casts type to enum', function () {
     $this->assertInstanceOf(ThemeType::class, $type);
 });
 
-test('searchable as', function () {
+test('searchable as', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -32,7 +32,7 @@ test('searchable as', function () {
     $this->assertIsString($theme->searchableAs());
 });
 
-test('to searchable array', function () {
+test('to searchable array', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -40,7 +40,7 @@ test('to searchable array', function () {
     $this->assertIsArray($theme->toSearchableArray());
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -48,7 +48,7 @@ test('nameable', function () {
     $this->assertIsString($theme->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -56,7 +56,7 @@ test('has subtitle', function () {
     $this->assertIsString($theme->getSubtitle());
 });
 
-test('anime', function () {
+test('anime', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -65,7 +65,7 @@ test('anime', function () {
     $this->assertInstanceOf(Anime::class, $theme->anime()->first());
 });
 
-test('group', function () {
+test('group', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->for(Group::factory())
@@ -75,7 +75,7 @@ test('group', function () {
     $this->assertInstanceOf(Group::class, $theme->group()->first());
 });
 
-test('song', function () {
+test('song', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->for(Song::factory())
@@ -85,7 +85,7 @@ test('song', function () {
     $this->assertInstanceOf(Song::class, $theme->song()->first());
 });
 
-test('entries', function () {
+test('entries', function (): void {
     $entryCount = fake()->randomDigitNotNull();
 
     $theme = AnimeTheme::factory()
@@ -98,7 +98,7 @@ test('entries', function () {
     $this->assertInstanceOf(AnimeThemeEntry::class, $theme->animethemeentries()->first());
 });
 
-test('theme creates slug', function () {
+test('theme creates slug', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();

@@ -16,13 +16,14 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use App\Pivots\Wiki\AnimeSeries;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('not found', function () {
+test('not found', function (): void {
     $anime = Anime::factory()->createOne();
     $series = Series::factory()->createOne();
 
@@ -31,7 +32,7 @@ test('not found', function () {
     $response->assertNotFound();
 });
 
-test('default', function () {
+test('default', function (): void {
     $animeSeries = AnimeSeries::factory()
         ->for(Anime::factory())
         ->for(Series::factory())
@@ -53,14 +54,14 @@ test('default', function () {
     );
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new AnimeSeriesSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -87,7 +88,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new AnimeSeriesSchema();
 
     $fields = collect($schema->fields());
@@ -96,7 +97,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnimeSeriesJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnimeSeriesJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -121,7 +122,7 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('anime by media format', function () {
+test('anime by media format', function (): void {
     $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
     $parameters = [
@@ -139,7 +140,7 @@ test('anime by media format', function () {
     $response = get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series] + $parameters));
 
     $animeSeries->unsetRelations()->load([
-        AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+        AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter): void {
             $query->where(Anime::ATTRIBUTE_FORMAT, $mediaFormatFilter->value);
         },
     ]);
@@ -156,7 +157,7 @@ test('anime by media format', function () {
     );
 });
 
-test('anime by season', function () {
+test('anime by season', function (): void {
     $seasonFilter = Arr::random(AnimeSeason::cases());
 
     $parameters = [
@@ -174,7 +175,7 @@ test('anime by season', function () {
     $response = get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series] + $parameters));
 
     $animeSeries->unsetRelations()->load([
-        AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+        AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter): void {
             $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
         },
     ]);
@@ -191,7 +192,7 @@ test('anime by season', function () {
     );
 });
 
-test('anime by year', function () {
+test('anime by year', function (): void {
     $yearFilter = intval(fake()->year());
     $excludedYear = $yearFilter + 1;
 
@@ -215,7 +216,7 @@ test('anime by year', function () {
     $response = get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series] + $parameters));
 
     $animeSeries->unsetRelations()->load([
-        AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+        AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter): void {
             $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
         },
     ]);

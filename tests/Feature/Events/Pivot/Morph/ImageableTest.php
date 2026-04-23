@@ -10,7 +10,7 @@ use App\Pivots\Morph\Imageable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('imageable created event dispatched', function () {
+test('imageable created event dispatched', function (): void {
     $modelClass = Arr::random(Imageable::$imageables);
 
     $model = $modelClass::factory()->createOne();
@@ -21,7 +21,7 @@ test('imageable created event dispatched', function () {
     Event::assertDispatched(ImageableCreated::class);
 });
 
-test('imageable deleted event dispatched', function () {
+test('imageable deleted event dispatched', function (): void {
     $modelClass = Arr::random(Imageable::$imageables);
 
     $model = $modelClass::factory()->createOne();
@@ -33,7 +33,7 @@ test('imageable deleted event dispatched', function () {
     Event::assertDispatched(ImageableDeleted::class);
 });
 
-test('imageable updated event dispatched', function () {
+test('imageable updated event dispatched', function (): void {
     $modelClass = Arr::random(Imageable::$imageables);
 
     $model = $modelClass::factory()->createOne();
@@ -55,7 +55,7 @@ test('imageable updated event dispatched', function () {
     Event::assertDispatched(ImageableUpdated::class);
 });
 
-test('imageable updated event embed fields', function () {
+test('imageable updated event embed fields', function (): void {
     $modelClass = Arr::random(Imageable::$imageables);
 
     $model = $modelClass::factory()->createOne();
@@ -74,9 +74,9 @@ test('imageable updated event embed fields', function () {
     $imageable->fill($changes->getAttributes());
     $imageable->save();
 
-    Event::assertDispatched(ImageableUpdated::class, function (ImageableUpdated $event) {
+    Event::assertDispatched(ImageableUpdated::class, function (ImageableUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

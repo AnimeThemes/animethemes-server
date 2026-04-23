@@ -12,13 +12,14 @@ use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
 use App\Models\Wiki\Anime;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $year = intval(fake()->year());
 
     $winterAnime = Anime::factory()
@@ -67,7 +68,7 @@ test('default', function () {
     ]);
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $year = intval(fake()->year());
 
     $schema = new AnimeSchema();
@@ -76,7 +77,7 @@ test('allowed include paths', function () {
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -132,7 +133,7 @@ test('allowed include paths', function () {
     ]);
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $year = intval(fake()->year());
 
     $schema = new AnimeSchema();
@@ -143,7 +144,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnimeJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnimeJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 

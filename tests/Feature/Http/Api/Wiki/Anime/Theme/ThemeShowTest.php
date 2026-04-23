@@ -25,13 +25,14 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $theme = AnimeTheme::factory()
         ->for(Anime::factory())
         ->createOne();
@@ -52,7 +53,7 @@ test('default', function () {
     );
 });
 
-test('soft delete', function () {
+test('soft delete', function (): void {
     $theme = AnimeTheme::factory()
         ->trashed()
         ->for(Anime::factory())
@@ -74,14 +75,14 @@ test('soft delete', function () {
     );
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new ThemeSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -113,7 +114,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new ThemeSchema();
 
     $fields = collect($schema->fields());
@@ -122,7 +123,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ThemeJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ThemeJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -147,7 +148,7 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('anime by media format', function () {
+test('anime by media format', function (): void {
     $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
     $parameters = [
@@ -162,7 +163,7 @@ test('anime by media format', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+        AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter): void {
             $query->where(Anime::ATTRIBUTE_FORMAT, $mediaFormatFilter->value);
         },
     ]);
@@ -181,7 +182,7 @@ test('anime by media format', function () {
     );
 });
 
-test('anime by season', function () {
+test('anime by season', function (): void {
     $seasonFilter = Arr::random(AnimeSeason::cases());
 
     $parameters = [
@@ -196,7 +197,7 @@ test('anime by season', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+        AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter): void {
             $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
         },
     ]);
@@ -215,7 +216,7 @@ test('anime by season', function () {
     );
 });
 
-test('anime by year', function () {
+test('anime by year', function (): void {
     $yearFilter = intval(fake()->year());
     $excludedYear = $yearFilter + 1;
 
@@ -236,7 +237,7 @@ test('anime by year', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+        AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter): void {
             $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
         },
     ]);
@@ -255,7 +256,7 @@ test('anime by year', function () {
     );
 });
 
-test('images by facet', function () {
+test('images by facet', function (): void {
     $facetFilter = Arr::random(ImageFacet::cases());
 
     $parameters = [
@@ -273,7 +274,7 @@ test('images by facet', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
+        AnimeTheme::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter): void {
             $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
         },
     ]);
@@ -292,7 +293,7 @@ test('images by facet', function () {
     );
 });
 
-test('entries by nsfw', function () {
+test('entries by nsfw', function (): void {
     $nsfwFilter = fake()->boolean();
 
     $parameters = [
@@ -308,7 +309,7 @@ test('entries by nsfw', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($nsfwFilter) {
+        AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($nsfwFilter): void {
             $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter);
         },
     ]);
@@ -327,7 +328,7 @@ test('entries by nsfw', function () {
     );
 });
 
-test('entries by spoiler', function () {
+test('entries by spoiler', function (): void {
     $spoilerFilter = fake()->boolean();
 
     $parameters = [
@@ -343,7 +344,7 @@ test('entries by spoiler', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($spoilerFilter) {
+        AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($spoilerFilter): void {
             $query->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter);
         },
     ]);
@@ -362,7 +363,7 @@ test('entries by spoiler', function () {
     );
 });
 
-test('entries by version', function () {
+test('entries by version', function (): void {
     $versionFilter = fake()->randomDigitNotNull();
     $excludedVersion = $versionFilter + 1;
 
@@ -386,7 +387,7 @@ test('entries by version', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($versionFilter) {
+        AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($versionFilter): void {
             $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter);
         },
     ]);
@@ -405,7 +406,7 @@ test('entries by version', function () {
     );
 });
 
-test('videos by lyrics', function () {
+test('videos by lyrics', function (): void {
     $lyricsFilter = fake()->boolean();
 
     $parameters = [
@@ -425,7 +426,7 @@ test('videos by lyrics', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($lyricsFilter) {
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($lyricsFilter): void {
             $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
         },
     ]);
@@ -444,7 +445,7 @@ test('videos by lyrics', function () {
     );
 });
 
-test('videos by nc', function () {
+test('videos by nc', function (): void {
     $ncFilter = fake()->boolean();
 
     $parameters = [
@@ -464,7 +465,7 @@ test('videos by nc', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($ncFilter) {
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($ncFilter): void {
             $query->where(Video::ATTRIBUTE_NC, $ncFilter);
         },
     ]);
@@ -483,7 +484,7 @@ test('videos by nc', function () {
     );
 });
 
-test('videos by overlap', function () {
+test('videos by overlap', function (): void {
     $overlapFilter = Arr::random(VideoOverlap::cases());
 
     $parameters = [
@@ -503,7 +504,7 @@ test('videos by overlap', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($overlapFilter) {
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($overlapFilter): void {
             $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
         },
     ]);
@@ -522,7 +523,7 @@ test('videos by overlap', function () {
     );
 });
 
-test('videos by resolution', function () {
+test('videos by resolution', function (): void {
     $resolutionFilter = fake()->randomNumber();
     $excludedResolution = $resolutionFilter + 1;
 
@@ -550,7 +551,7 @@ test('videos by resolution', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($resolutionFilter) {
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($resolutionFilter): void {
             $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
         },
     ]);
@@ -569,7 +570,7 @@ test('videos by resolution', function () {
     );
 });
 
-test('videos by source', function () {
+test('videos by source', function (): void {
     $sourceFilter = Arr::random(VideoSource::cases());
 
     $parameters = [
@@ -589,7 +590,7 @@ test('videos by source', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($sourceFilter) {
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($sourceFilter): void {
             $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
         },
     ]);
@@ -608,7 +609,7 @@ test('videos by source', function () {
     );
 });
 
-test('videos by subbed', function () {
+test('videos by subbed', function (): void {
     $subbedFilter = fake()->boolean();
 
     $parameters = [
@@ -628,7 +629,7 @@ test('videos by subbed', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($subbedFilter) {
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($subbedFilter): void {
             $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
         },
     ]);
@@ -647,7 +648,7 @@ test('videos by subbed', function () {
     );
 });
 
-test('videos by uncen', function () {
+test('videos by uncen', function (): void {
     $uncenFilter = fake()->boolean();
 
     $parameters = [
@@ -667,7 +668,7 @@ test('videos by uncen', function () {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($uncenFilter) {
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($uncenFilter): void {
             $query->where(Video::ATTRIBUTE_UNCEN, $uncenFilter);
         },
     ]);

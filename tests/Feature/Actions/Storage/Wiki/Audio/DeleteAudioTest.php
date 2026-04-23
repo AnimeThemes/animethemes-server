@@ -6,15 +6,16 @@ use App\Actions\Storage\Wiki\Audio\DeleteAudioAction;
 use App\Constants\Config\AudioConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Audio;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File as FileFacade;
 use Illuminate\Support\Facades\Storage;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     Config::set(AudioConstants::DISKS_QUALIFIED, []);
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -29,7 +30,7 @@ test('default', function () {
     $this->assertTrue($result->hasFailed());
 });
 
-test('passed', function () {
+test('passed', function (): void {
     Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -51,7 +52,7 @@ test('passed', function () {
     $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
 });
 
-test('deleted from disk', function () {
+test('deleted from disk', function (): void {
     Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -71,7 +72,7 @@ test('deleted from disk', function () {
     $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });
 
-test('audio deleted', function () {
+test('audio deleted', function (): void {
     Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 

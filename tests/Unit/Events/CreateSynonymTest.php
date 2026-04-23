@@ -6,6 +6,6 @@ use App\Contracts\Events\CreateSynonymEvent;
 use App\Listeners\CreateSynonym;
 use Illuminate\Support\Facades\Event;
 
-test('listening', function () {
+test('listening', function (): void {
     Event::assertListening(CreateSynonymEvent::class, CreateSynonym::class);
 });

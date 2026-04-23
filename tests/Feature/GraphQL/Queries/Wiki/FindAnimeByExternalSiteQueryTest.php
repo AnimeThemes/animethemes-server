@@ -8,7 +8,7 @@ use App\Pivots\Morph\Resourceable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-test('fails without id or link', function () {
+test('fails without id or link', function (): void {
     $resourceSite = Arr::random(ResourceSite::cases());
 
     $response = $this->graphQL(
@@ -28,7 +28,7 @@ test('fails without id or link', function () {
     $response->assertGraphQLValidationKeys(['id', 'link']);
 });
 
-test('fails with for than 100 ids', function () {
+test('fails with for than 100 ids', function (): void {
     $resourceSite = Arr::random(ResourceSite::cases());
 
     $response = $this->graphQL(
@@ -41,7 +41,7 @@ test('fails with for than 100 ids', function () {
         ',
         [
             'site' => $resourceSite->name,
-            'ids' => Collection::times(101, fn (int $int) => $int + 1)->toArray(),
+            'ids' => Collection::times(101, fn (int $int): int => $int + 1)->toArray(),
         ],
     );
 
@@ -49,7 +49,7 @@ test('fails with for than 100 ids', function () {
     $response->assertGraphQLValidationKeys(['id']);
 });
 
-test('passes with id', function () {
+test('passes with id', function (): void {
     Resourceable::factory()
         ->for(
             ExternalResource::factory()->create([
@@ -86,7 +86,7 @@ test('passes with id', function () {
     ]);
 });
 
-test('passes with link', function () {
+test('passes with link', function (): void {
     Resourceable::factory()
         ->for(
             ExternalResource::factory()->create([

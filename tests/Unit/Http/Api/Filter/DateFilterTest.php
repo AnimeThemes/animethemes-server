@@ -5,13 +5,14 @@ declare(strict_types=1);
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Http\Api\Filter\DateFilter;
 use App\Http\Api\Scope\GlobalScope;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('should not apply if no dates', function () {
+test('should not apply if no dates', function (): void {
     $filterField = fake()->word();
 
     $criteria = FakeCriteria::make(new GlobalScope(), $filterField, fake()->words(fake()->randomDigitNotNull()));
@@ -21,7 +22,7 @@ test('should not apply if no dates', function () {
     $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
-test('should not apply if wrong format', function () {
+test('should not apply if wrong format', function (): void {
     $filterField = fake()->word();
 
     $criteria = FakeCriteria::make(new GlobalScope(), $filterField, Date::now()->format(DateTimeInterface::RFC1036));
@@ -31,7 +32,7 @@ test('should not apply if wrong format', function () {
     $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
-test('should apply if accepted format', function () {
+test('should apply if accepted format', function (): void {
     $filterField = fake()->word();
 
     $dateFormat = Arr::random(AllowedDateFormat::cases());
@@ -43,7 +44,7 @@ test('should apply if accepted format', function () {
     $this->assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
-test('converts dates to canonical format', function () {
+test('converts dates to canonical format', function (): void {
     $filterField = fake()->word();
 
     $dateFormat = Arr::random(AllowedDateFormat::cases());

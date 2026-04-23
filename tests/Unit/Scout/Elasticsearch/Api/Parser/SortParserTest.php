@@ -10,11 +10,12 @@ use App\Http\Api\Scope\GlobalScope;
 use App\Scout\Elasticsearch\Api\Criteria\Sort\FieldCriteria;
 use App\Scout\Elasticsearch\Api\Criteria\Sort\RelationCriteria;
 use App\Scout\Elasticsearch\Api\Parser\SortParser;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('relation criteria', function () {
+test('relation criteria', function (): void {
     $direction = Arr::random(Direction::cases());
 
     $criteria = new BaseRelationCriteria(new GlobalScope(), fake()->word(), $direction);
@@ -22,7 +23,7 @@ test('relation criteria', function () {
     $this->assertInstanceOf(RelationCriteria::class, SortParser::parse($criteria));
 });
 
-test('field criteria', function () {
+test('field criteria', function (): void {
     $direction = Arr::random(Direction::cases());
 
     $criteria = new BaseFieldCriteria(new GlobalScope(), fake()->word(), $direction);
@@ -30,7 +31,7 @@ test('field criteria', function () {
     $this->assertInstanceOf(FieldCriteria::class, SortParser::parse($criteria));
 });
 
-test('random criteria', function () {
+test('random criteria', function (): void {
     $criteria = new RandomCriteria(new GlobalScope());
 
     $this->assertNull(SortParser::parse($criteria));

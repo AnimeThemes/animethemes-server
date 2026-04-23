@@ -13,7 +13,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\delete;
 
-test('protected', function () {
+test('protected', function (): void {
     $entryVideo = AnimeThemeEntryVideo::factory()
         ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
         ->for(Video::factory())
@@ -24,7 +24,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $entryVideo = AnimeThemeEntryVideo::factory()
         ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
         ->for(Video::factory())
@@ -39,7 +39,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('not found', function () {
+test('not found', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->create();
@@ -60,7 +60,7 @@ test('not found', function () {
     $response->assertNotFound();
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     $entryVideo = AnimeThemeEntryVideo::factory()
         ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
         ->for(Video::factory())

@@ -16,6 +16,7 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
@@ -23,9 +24,9 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('protected', function () {
+test('protected', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -48,7 +49,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden if missing permission', function () {
+test('forbidden if missing permission', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -75,7 +76,7 @@ test('forbidden if missing permission', function () {
     $response->assertForbidden();
 });
 
-test('forbidden if not own playlist', function () {
+test('forbidden if not own playlist', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -104,7 +105,7 @@ test('forbidden if not own playlist', function () {
     $response->assertForbidden();
 });
 
-test('forbidden if flag disabled', function () {
+test('forbidden if flag disabled', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::deactivate(AllowPlaylistManagement::class);
@@ -133,7 +134,7 @@ test('forbidden if flag disabled', function () {
     $response->assertForbidden();
 });
 
-test('required fields', function () {
+test('required fields', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -154,7 +155,7 @@ test('required fields', function () {
     ]);
 });
 
-test('anime theme entry video exists', function () {
+test('anime theme entry video exists', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -188,7 +189,7 @@ test('anime theme entry video exists', function () {
     ]);
 });
 
-test('prohibits next and previous', function () {
+test('prohibits next and previous', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -245,7 +246,7 @@ test('prohibits next and previous', function () {
     ]);
 });
 
-test('scope next', function () {
+test('scope next', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -289,7 +290,7 @@ test('scope next', function () {
     ]);
 });
 
-test('scope previous', function () {
+test('scope previous', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -333,7 +334,7 @@ test('scope previous', function () {
     ]);
 });
 
-test('create', function () {
+test('create', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -370,7 +371,7 @@ test('create', function () {
     $this->assertTrue($playlist->last()->is($track));
 });
 
-test('create after last track', function () {
+test('create after last track', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -420,7 +421,7 @@ test('create after last track', function () {
     $this->assertTrue($track->next()->doesntExist());
 });
 
-test('create after first track', function () {
+test('create after first track', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -471,7 +472,7 @@ test('create after first track', function () {
     $this->assertTrue($track->next()->is($next));
 });
 
-test('create before last track', function () {
+test('create before last track', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -522,7 +523,7 @@ test('create before last track', function () {
     $this->assertTrue($track->next()->is($last));
 });
 
-test('create before first track', function () {
+test('create before first track', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -570,7 +571,7 @@ test('create before first track', function () {
     $this->assertTrue($track->next()->is($first));
 });
 
-test('create permitted for bypass', function () {
+test('create permitted for bypass', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class, fake()->boolean());
@@ -604,7 +605,7 @@ test('create permitted for bypass', function () {
     $response->assertCreated();
 });
 
-test('max track limit', function () {
+test('max track limit', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     $trackLimit = fake()->randomDigitNotNull();
@@ -637,7 +638,7 @@ test('max track limit', function () {
     $response->assertForbidden();
 });
 
-test('max track limit permitted for bypass', function () {
+test('max track limit permitted for bypass', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     $trackLimit = fake()->randomDigitNotNull();

@@ -9,6 +9,7 @@ use App\Enums\Auth\SpecialPermission;
 use App\Features\AllowDumpDownloading;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -19,9 +20,9 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('dump downloading not allowed forbidden', function () {
+test('dump downloading not allowed forbidden', function (): void {
     Storage::fake('local');
     Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -36,19 +37,19 @@ test('dump downloading not allowed forbidden', function () {
     $response->assertForbidden();
 });
 
-test('video streaming permitted for bypass', function () {
+test('video streaming permitted for bypass', function (): void {
     Storage::fake('local');
     $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
     Feature::activate(AllowDumpDownloading::class, fake()->boolean());
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         $action = new DumpDocumentAction();
 
         $action->handle();
     });
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         $action = new DumpContentAction();
 
         $action->handle();
@@ -75,7 +76,7 @@ test('video streaming permitted for bypass', function () {
     $response->assertDownload($dump->path);
 });
 
-test('not found if no content dumps', function () {
+test('not found if no content dumps', function (): void {
     Storage::fake('local');
     Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -86,13 +87,13 @@ test('not found if no content dumps', function () {
     $response->assertNotFound();
 });
 
-test('not found if document dumps exist', function () {
+test('not found if document dumps exist', function (): void {
     Storage::fake('local');
     Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
     Feature::activate(AllowDumpDownloading::class);
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         $action = new DumpDocumentAction();
 
         $action->handle();
@@ -103,19 +104,19 @@ test('not found if document dumps exist', function () {
     $response->assertNotFound();
 });
 
-test('latest content dump downloaded', function () {
+test('latest content dump downloaded', function (): void {
     Storage::fake('local');
     $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
     Feature::activate(AllowDumpDownloading::class);
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         $action = new DumpDocumentAction();
 
         $action->handle();
     });
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         $action = new DumpContentAction();
 
         $action->handle();

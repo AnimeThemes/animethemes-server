@@ -6,17 +6,18 @@ use App\Console\Commands\Repositories\Storage\Wiki\Video\ScriptReconcileCommand;
 use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Video\VideoScript;
 use App\Repositories\Storage\Wiki\Video\ScriptRepository;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Mockery\MockInterface;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('no results', function () {
+test('no results', function (): void {
     Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
-    $this->mock(ScriptRepository::class, function (MockInterface $mock) {
+    $this->mock(ScriptRepository::class, function (MockInterface $mock): void {
         $mock->shouldReceive('get')->once()->andReturn(Collection::make());
     });
 
@@ -25,14 +26,14 @@ test('no results', function () {
         ->expectsOutput('No Video Scripts created or deleted or updated');
 });
 
-test('created', function () {
+test('created', function (): void {
     Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
     $createdScriptCount = fake()->numberBetween(2, 9);
 
     $scripts = VideoScript::factory()->count($createdScriptCount)->make();
 
-    $this->mock(ScriptRepository::class, function (MockInterface $mock) use ($scripts) {
+    $this->mock(ScriptRepository::class, function (MockInterface $mock) use ($scripts): void {
         $mock->shouldReceive('get')->once()->andReturn($scripts);
     });
 
@@ -41,14 +42,14 @@ test('created', function () {
         ->expectsOutput("$createdScriptCount Video Scripts created, 0 Video Scripts deleted, 0 Video Scripts updated");
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
     $deletedScriptCount = fake()->numberBetween(2, 9);
 
     VideoScript::factory()->count($deletedScriptCount)->create();
 
-    $this->mock(ScriptRepository::class, function (MockInterface $mock) {
+    $this->mock(ScriptRepository::class, function (MockInterface $mock): void {
         $mock->shouldReceive('get')->once()->andReturn(Collection::make());
     });
 

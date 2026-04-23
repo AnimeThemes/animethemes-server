@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
-test('external profile created sends discord notification', function () {
+test('external profile created sends discord notification', function (): void {
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Bus::fake(SendDiscordNotificationJob::class);
     Event::fakeExcept(ExternalProfileCreated::class);
@@ -22,7 +22,7 @@ test('external profile created sends discord notification', function () {
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
-test('external profile deleted sends discord notification', function () {
+test('external profile deleted sends discord notification', function (): void {
     $profile = ExternalProfile::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -34,7 +34,7 @@ test('external profile deleted sends discord notification', function () {
     Bus::assertNotDispatched(SendDiscordNotificationJob::class);
 });
 
-test('external profile updated sends discord notification', function () {
+test('external profile updated sends discord notification', function (): void {
     $profile = ExternalProfile::factory()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);

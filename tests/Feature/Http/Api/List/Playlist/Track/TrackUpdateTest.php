@@ -12,15 +12,16 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\put;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('protected', function () {
+test('protected', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -41,7 +42,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden if missing permission', function () {
+test('forbidden if missing permission', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -66,7 +67,7 @@ test('forbidden if missing permission', function () {
     $response->assertForbidden();
 });
 
-test('forbidden if not own playlist', function () {
+test('forbidden if not own playlist', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -93,7 +94,7 @@ test('forbidden if not own playlist', function () {
     $response->assertForbidden();
 });
 
-test('scoped', function () {
+test('scoped', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -123,7 +124,7 @@ test('scoped', function () {
     $response->assertNotFound();
 });
 
-test('scope previous', function () {
+test('scope previous', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -159,7 +160,7 @@ test('scope previous', function () {
     ]);
 });
 
-test('previous is not self', function () {
+test('previous is not self', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -191,7 +192,7 @@ test('previous is not self', function () {
     ]);
 });
 
-test('scope next', function () {
+test('scope next', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -227,7 +228,7 @@ test('scope next', function () {
     ]);
 });
 
-test('next is not self', function () {
+test('next is not self', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -259,7 +260,7 @@ test('next is not self', function () {
     ]);
 });
 
-test('prohibits next and previous', function () {
+test('prohibits next and previous', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -301,7 +302,7 @@ test('prohibits next and previous', function () {
     ]);
 });
 
-test('forbidden if flag disabled', function () {
+test('forbidden if flag disabled', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::deactivate(AllowPlaylistManagement::class);
@@ -330,7 +331,7 @@ test('forbidden if flag disabled', function () {
     $response->assertForbidden();
 });
 
-test('update', function () {
+test('update', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -359,7 +360,7 @@ test('update', function () {
     $response->assertOk();
 });
 
-test('insert first after second', function () {
+test('insert first after second', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -403,7 +404,7 @@ test('insert first after second', function () {
     $this->assertTrue($third->next()->doesntExist());
 });
 
-test('insert first after third', function () {
+test('insert first after third', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -447,7 +448,7 @@ test('insert first after third', function () {
     $this->assertTrue($third->next()->is($first));
 });
 
-test('insert first before third', function () {
+test('insert first before third', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -491,7 +492,7 @@ test('insert first before third', function () {
     $this->assertTrue($third->next()->doesntExist());
 });
 
-test('insert second after third', function () {
+test('insert second after third', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -535,7 +536,7 @@ test('insert second after third', function () {
     $this->assertTrue($third->next()->is($second));
 });
 
-test('insert second before first', function () {
+test('insert second before first', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -579,7 +580,7 @@ test('insert second before first', function () {
     $this->assertTrue($third->next()->doesntExist());
 });
 
-test('insert third after first', function () {
+test('insert third after first', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -623,7 +624,7 @@ test('insert third after first', function () {
     $this->assertTrue($third->next()->is($second));
 });
 
-test('insert third before second', function () {
+test('insert third before second', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -667,7 +668,7 @@ test('insert third before second', function () {
     $this->assertTrue($third->next()->is($second));
 });
 
-test('insert third before first', function () {
+test('insert third before first', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class);
@@ -711,7 +712,7 @@ test('insert third before first', function () {
     $this->assertTrue($third->next()->is($first));
 });
 
-test('update permitted for bypass', function () {
+test('update permitted for bypass', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     Feature::activate(AllowPlaylistManagement::class, fake()->boolean());

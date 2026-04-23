@@ -11,11 +11,12 @@ use App\Models\List\ExternalProfile;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('casts site to enum', function () {
+test('casts site to enum', function (): void {
     $profile = ExternalProfile::factory()->createOne();
 
     $site = $profile->site;
@@ -23,7 +24,7 @@ test('casts site to enum', function () {
     $this->assertInstanceOf(ExternalProfileSite::class, $site);
 });
 
-test('casts visibility to enum', function () {
+test('casts visibility to enum', function (): void {
     $profile = ExternalProfile::factory()->createOne();
 
     $visibility = $profile->visibility;
@@ -31,13 +32,13 @@ test('casts visibility to enum', function () {
     $this->assertInstanceOf(ExternalProfileVisibility::class, $visibility);
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $profile = ExternalProfile::factory()->createOne();
 
     $this->assertIsString($profile->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $profile = ExternalProfile::factory()
         ->for(User::factory())
         ->createOne();
@@ -45,7 +46,7 @@ test('has subtitle', function () {
     $this->assertIsString($profile->getSubtitle());
 });
 
-test('searchable if public', function () {
+test('searchable if public', function (): void {
     $profile = ExternalProfile::factory()
         ->createOne([
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
@@ -54,7 +55,7 @@ test('searchable if public', function () {
     $this->assertTrue($profile->shouldBeSearchable());
 });
 
-test('not searchable if not public', function () {
+test('not searchable if not public', function (): void {
     $visibility = null;
 
     while ($visibility == null) {
@@ -72,7 +73,7 @@ test('not searchable if not public', function () {
     $this->assertFalse($profile->shouldBeSearchable());
 });
 
-test('claimed', function () {
+test('claimed', function (): void {
     $claimedProfile = ExternalProfile::factory()
         ->for(User::factory())
         ->createOne();
@@ -84,7 +85,7 @@ test('claimed', function () {
     $this->assertFalse($unclaimedProfile->isClaimed());
 });
 
-test('user', function () {
+test('user', function (): void {
     $profile = ExternalProfile::factory()
         ->for(User::factory())
         ->createOne();
@@ -93,7 +94,7 @@ test('user', function () {
     $this->assertInstanceOf(User::class, $profile->user()->first());
 });
 
-test('external token', function () {
+test('external token', function (): void {
     $profile = ExternalProfile::factory()
         ->has(ExternalToken::factory(), ExternalProfile::RELATION_EXTERNAL_TOKEN)
         ->createOne();
@@ -102,7 +103,7 @@ test('external token', function () {
     $this->assertInstanceOf(ExternalToken::class, $profile->externaltoken()->first());
 });
 
-test('external entries', function () {
+test('external entries', function (): void {
     $entryCount = fake()->randomDigitNotNull();
 
     $profile = ExternalProfile::factory()->createOne();

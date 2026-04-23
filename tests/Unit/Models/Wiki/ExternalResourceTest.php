@@ -15,7 +15,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
 
-test('casts season to enum', function () {
+test('casts season to enum', function (): void {
     $resource = ExternalResource::factory()->createOne();
 
     $site = $resource->site;
@@ -23,19 +23,19 @@ test('casts season to enum', function () {
     $this->assertInstanceOf(ResourceSite::class, $site);
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $resource = ExternalResource::factory()->createOne();
 
     $this->assertIsString($resource->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $resource = ExternalResource::factory()->createOne();
 
     $this->assertIsString($resource->getSubtitle());
 });
 
-test('anime', function () {
+test('anime', function (): void {
     $animeCount = fake()->randomDigitNotNull();
 
     $resource = ExternalResource::factory()
@@ -48,7 +48,7 @@ test('anime', function () {
     $this->assertEquals(Resourceable::class, $resource->anime()->getPivotClass());
 });
 
-test('anime theme entry', function () {
+test('anime theme entry', function (): void {
     $entryCount = fake()->randomDigitNotNull();
 
     $resource = ExternalResource::factory()
@@ -61,7 +61,7 @@ test('anime theme entry', function () {
     $this->assertEquals(Resourceable::class, $resource->animethemeentries()->getPivotClass());
 });
 
-test('artists', function () {
+test('artists', function (): void {
     $artistCount = fake()->randomDigitNotNull();
 
     $resource = ExternalResource::factory()
@@ -74,7 +74,7 @@ test('artists', function () {
     $this->assertEquals(Resourceable::class, $resource->artists()->getPivotClass());
 });
 
-test('song', function () {
+test('song', function (): void {
     $songCount = fake()->randomDigitNotNull();
 
     $resource = ExternalResource::factory()
@@ -87,7 +87,7 @@ test('song', function () {
     $this->assertEquals(Resourceable::class, $resource->songs()->getPivotClass());
 });
 
-test('studio', function () {
+test('studio', function (): void {
     $studioCount = fake()->randomDigitNotNull();
 
     $resource = ExternalResource::factory()

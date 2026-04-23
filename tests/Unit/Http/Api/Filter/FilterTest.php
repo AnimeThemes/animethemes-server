@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Filter\Filter;
+use Illuminate\Foundation\Testing\WithFaker;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default column', function () {
+test('default column', function (): void {
     $filter = new class(fake()->word()) extends Filter
     {
         /**
          * Convert filter values to integers.
-         *
-         * @param  array  $filterValues
-         * @return array
          */
         public function convertFilterValues(array $filterValues): array
         {
@@ -23,9 +21,6 @@ test('default column', function () {
 
         /**
          * Get only filter values that are integers.
-         *
-         * @param  array  $filterValues
-         * @return array
          */
         public function getValidFilterValues(array $filterValues): array
         {
@@ -35,8 +30,6 @@ test('default column', function () {
         /**
          * Determine if all valid filter values have been specified.
          * By default, this is false as we assume an unrestricted amount of valid values.
-         *
-         * @param  array  $filterValues
          */
         public function isAllFilterValues(array $filterValues): bool
         {
@@ -45,8 +38,6 @@ test('default column', function () {
 
         /**
          * Get the validation rules for the filter.
-         *
-         * @return array
          */
         public function getRules(): array
         {

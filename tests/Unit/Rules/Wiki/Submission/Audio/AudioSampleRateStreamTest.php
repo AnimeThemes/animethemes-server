@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Rules\Wiki\Submission\Audio\AudioSampleRateStreamRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('fails when sample rate is not expected', function () {
+test('fails when sample rate is not expected', function (): void {
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
     Process::fake([
@@ -46,7 +47,7 @@ test('fails when sample rate is not expected', function () {
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
 
-test('passes when sample rate is expected', function () {
+test('passes when sample rate is expected', function (): void {
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
     Process::fake([

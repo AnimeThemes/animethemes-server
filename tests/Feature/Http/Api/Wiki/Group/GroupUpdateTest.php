@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\put;
 
-test('protected', function () {
+test('protected', function (): void {
     $group = Group::factory()->createOne();
 
     $parameters = Group::factory()->raw();
@@ -19,7 +19,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $group = Group::factory()->createOne();
 
     $parameters = Group::factory()->raw();
@@ -33,7 +33,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('trashed', function () {
+test('trashed', function (): void {
     $group = Group::factory()->trashed()->createOne();
 
     $parameters = Group::factory()->raw();
@@ -47,7 +47,7 @@ test('trashed', function () {
     $response->assertNotFound();
 });
 
-test('update', function () {
+test('update', function (): void {
     $group = Group::factory()->createOne();
 
     $parameters = Group::factory()->raw();

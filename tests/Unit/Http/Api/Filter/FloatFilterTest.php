@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 use App\Http\Api\Filter\FloatFilter;
 use App\Http\Api\Scope\GlobalScope;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('should not apply if no floats', function () {
+test('should not apply if no floats', function (): void {
     $filterField = fake()->word();
 
     $criteria = FakeCriteria::make(new GlobalScope(), $filterField, fake()->words(fake()->randomDigitNotNull()));
@@ -18,7 +19,7 @@ test('should not apply if no floats', function () {
     $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
-test('converts validated floats', function () {
+test('converts validated floats', function (): void {
     $filterField = fake()->word();
 
     $floatValue = fake()->randomFloat();

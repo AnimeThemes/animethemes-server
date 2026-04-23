@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Storage;
 
 uses(WithFaker::class);
 
-test('casts overlap to enum', function () {
+test('casts overlap to enum', function (): void {
     $video = Video::factory()->createOne();
 
     $overlap = $video->overlap;
@@ -37,7 +37,7 @@ test('casts overlap to enum', function () {
     $this->assertInstanceOf(VideoOverlap::class, $overlap);
 });
 
-test('casts source to enum', function () {
+test('casts source to enum', function (): void {
     $video = Video::factory()->createOne();
 
     $source = $video->source;
@@ -45,37 +45,37 @@ test('casts source to enum', function () {
     $this->assertInstanceOf(VideoSource::class, $source);
 });
 
-test('searchable as', function () {
+test('searchable as', function (): void {
     $video = Video::factory()->createOne();
 
     $this->assertIsString($video->searchableAs());
 });
 
-test('to searchable array', function () {
+test('to searchable array', function (): void {
     $video = Video::factory()->createOne();
 
     $this->assertIsArray($video->toSearchableArray());
 });
 
-test('nameable', function () {
+test('nameable', function (): void {
     $video = Video::factory()->createOne();
 
     $this->assertIsString($video->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $video = Video::factory()->createOne();
 
     $this->assertIsString($video->getSubtitle());
 });
 
-test('appends tags', function () {
+test('appends tags', function (): void {
     $video = Video::factory()->createOne();
 
     $this->assertArrayHasKey(Video::ATTRIBUTE_TAGS, $video);
 });
 
-test('nc tag', function () {
+test('nc tag', function (): void {
     $video = Video::factory()->createOne([
         Video::ATTRIBUTE_NC => true,
     ]);
@@ -83,7 +83,7 @@ test('nc tag', function () {
     $this->assertStringContainsString('NC', $video->tags);
 });
 
-test('no nc tag', function () {
+test('no nc tag', function (): void {
     $video = Video::factory()->createOne([
         Video::ATTRIBUTE_NC => false,
     ]);
@@ -91,7 +91,7 @@ test('no nc tag', function () {
     $this->assertStringNotContainsString('NC', $video->tags);
 });
 
-test('dvd tag', function () {
+test('dvd tag', function (): void {
     $source = VideoSource::DVD;
 
     $video = Video::factory()->createOne([
@@ -101,7 +101,7 @@ test('dvd tag', function () {
     $this->assertStringContainsString($source->localize(), $video->tags);
 });
 
-test('bd tag', function () {
+test('bd tag', function (): void {
     $source = VideoSource::BD;
 
     $video = Video::factory()->createOne([
@@ -111,7 +111,7 @@ test('bd tag', function () {
     $this->assertStringContainsString($source->localize(), $video->tags);
 });
 
-test('other source tag', function () {
+test('other source tag', function (): void {
     $source = null;
     while ($source === null) {
         $sourceCandidate = Arr::random(VideoSource::cases());
@@ -127,13 +127,13 @@ test('other source tag', function () {
     $this->assertStringNotContainsString($source->localize(), $video->tags);
 });
 
-test('resolution tag', function () {
+test('resolution tag', function (): void {
     $video = Video::factory()->createOne();
 
     $this->assertStringContainsString(strval($video->resolution), $video->tags);
 });
 
-test('no720 resolution tag', function () {
+test('no720 resolution tag', function (): void {
     $video = Video::factory()->createOne([
         Video::ATTRIBUTE_RESOLUTION => 720,
     ]);
@@ -141,7 +141,7 @@ test('no720 resolution tag', function () {
     $this->assertStringNotContainsString(strval($video->resolution), $video->tags);
 });
 
-test('subbed tag', function () {
+test('subbed tag', function (): void {
     $video = Video::factory()->createOne([
         Video::ATTRIBUTE_SUBBED => true,
     ]);
@@ -150,7 +150,7 @@ test('subbed tag', function () {
     $this->assertStringNotContainsString('Lyrics', $video->tags);
 });
 
-test('lyrics tag', function () {
+test('lyrics tag', function (): void {
     $video = Video::factory()->createOne([
         Video::ATTRIBUTE_SUBBED => false,
         Video::ATTRIBUTE_LYRICS => true,
@@ -160,14 +160,14 @@ test('lyrics tag', function () {
     $this->assertStringContainsString('Lyrics', $video->tags);
 });
 
-test('source priority', function (array $a, array $b) {
+test('source priority', function (array $a, array $b): void {
     $first = Video::factory()->createOne($a);
 
     $second = Video::factory()->createOne($b);
 
     $this->assertGreaterThan($first->getAttribute(Video::ATTRIBUTE_PRIORITY), $second->getAttribute(Video::ATTRIBUTE_PRIORITY));
 })->with('priorityProvider');
-test('entries', function () {
+test('entries', function (): void {
     $entryCount = fake()->randomDigitNotNull();
 
     $video = Video::factory()
@@ -180,7 +180,7 @@ test('entries', function () {
     $this->assertEquals(AnimeThemeEntryVideo::class, $video->animethemeentries()->getPivotClass());
 });
 
-test('audio', function () {
+test('audio', function (): void {
     $video = Video::factory()
         ->for(Audio::factory())
         ->createOne();
@@ -189,7 +189,7 @@ test('audio', function () {
     $this->assertInstanceOf(Audio::class, $video->audio()->first());
 });
 
-test('tracks public', function () {
+test('tracks public', function (): void {
     $trackCount = fake()->randomDigitNotNull();
 
     $playlist = Playlist::factory()->createOne([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
@@ -202,7 +202,7 @@ test('tracks public', function () {
     $this->assertInstanceOf(PlaylistTrack::class, $video->tracks()->first());
 });
 
-test('tracks not public', function () {
+test('tracks not public', function (): void {
     $trackCount = fake()->randomDigitNotNull();
 
     $visibility = Arr::random([PlaylistVisibility::PRIVATE, PlaylistVisibility::UNLISTED]);
@@ -215,7 +215,7 @@ test('tracks not public', function () {
     $this->assertNotEquals($trackCount, $video->tracks()->count());
 });
 
-test('script', function () {
+test('script', function (): void {
     $video = Video::factory()
         ->has(VideoScript::factory(), Video::RELATION_SCRIPT)
         ->createOne();
@@ -228,76 +228,74 @@ test('script', function () {
  *
  * @return array
  */
-dataset('priorityProvider', function () {
-    return [
+dataset('priorityProvider', fn (): array => [
+    [
         [
-            [
-                Video::ATTRIBUTE_SOURCE => VideoSource::WEB->value,
-            ],
-            [
-                Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
-            ],
+            Video::ATTRIBUTE_SOURCE => VideoSource::WEB->value,
         ],
         [
-            [
-                Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::OVER->value,
-                Video::ATTRIBUTE_LYRICS => false,
-                Video::ATTRIBUTE_SUBBED => false,
-            ],
-            [
-                Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
-                Video::ATTRIBUTE_LYRICS => false,
-                Video::ATTRIBUTE_SUBBED => false,
-            ],
+            Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+        ],
+    ],
+    [
+        [
+            Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+            Video::ATTRIBUTE_OVERLAP => VideoOverlap::OVER->value,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_SUBBED => false,
         ],
         [
-            [
-                Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::TRANS->value,
-                Video::ATTRIBUTE_LYRICS => false,
-                Video::ATTRIBUTE_SUBBED => false,
-            ],
-            [
-                Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
-                Video::ATTRIBUTE_LYRICS => false,
-                Video::ATTRIBUTE_SUBBED => false,
-            ],
+            Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+            Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_SUBBED => false,
+        ],
+    ],
+    [
+        [
+            Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+            Video::ATTRIBUTE_OVERLAP => VideoOverlap::TRANS->value,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_SUBBED => false,
         ],
         [
-            [
-                Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
-                Video::ATTRIBUTE_LYRICS => true,
-                Video::ATTRIBUTE_SUBBED => false,
-            ],
-            [
-                Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
-                Video::ATTRIBUTE_LYRICS => false,
-                Video::ATTRIBUTE_SUBBED => false,
-            ],
+            Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+            Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_SUBBED => false,
+        ],
+    ],
+    [
+        [
+            Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+            Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
+            Video::ATTRIBUTE_LYRICS => true,
+            Video::ATTRIBUTE_SUBBED => false,
         ],
         [
-            [
-                Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
-                Video::ATTRIBUTE_LYRICS => false,
-                Video::ATTRIBUTE_SUBBED => true,
-            ],
-            [
-                Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
-                Video::ATTRIBUTE_LYRICS => false,
-                Video::ATTRIBUTE_SUBBED => false,
-            ],
+            Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+            Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_SUBBED => false,
         ],
-    ];
-});
+    ],
+    [
+        [
+            Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+            Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_SUBBED => true,
+        ],
+        [
+            Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+            Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
+            Video::ATTRIBUTE_LYRICS => false,
+            Video::ATTRIBUTE_SUBBED => false,
+        ],
+    ],
+]);
 
-test('video storage deletion', function () {
+test('video storage deletion', function (): void {
     $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     $file = File::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
     $fsFile = $fs->putFile('', $file);
@@ -311,7 +309,7 @@ test('video storage deletion', function () {
     $this->assertTrue($fs->exists($video->path));
 });
 
-test('video storage force deletion', function () {
+test('video storage force deletion', function (): void {
     Event::fakeExcept(VideoForceDeleting::class);
 
     $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));

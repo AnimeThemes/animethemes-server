@@ -10,7 +10,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\put;
 
-test('protected', function () {
+test('protected', function (): void {
     $artistMember = ArtistMember::factory()
         ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
         ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
@@ -23,7 +23,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $artistMember = ArtistMember::factory()
         ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
         ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
@@ -40,7 +40,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('update', function () {
+test('update', function (): void {
     $artistMember = ArtistMember::factory()
         ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
         ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)

@@ -5,13 +5,14 @@ declare(strict_types=1);
 use App\Constants\Config\ValidationConstants;
 use App\Enums\Rules\ModerationService;
 use App\Rules\ModerationRule;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('fails if unknown moderation service', function () {
+test('fails if unknown moderation service', function (): void {
     $this->expectException(RuntimeException::class);
 
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, fake()->word());
@@ -26,7 +27,7 @@ test('fails if unknown moderation service', function () {
     $validator->passes();
 });
 
-test('fails if flagged by open ai', function () {
+test('fails if flagged by open ai', function (): void {
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
     Http::fake([
@@ -49,7 +50,7 @@ test('fails if flagged by open ai', function () {
     $this->assertFalse($validator->passes());
 });
 
-test('passes if not flagged by open ai', function () {
+test('passes if not flagged by open ai', function (): void {
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
     Http::fake([
@@ -72,7 +73,7 @@ test('passes if not flagged by open ai', function () {
     $this->assertTrue($validator->passes());
 });
 
-test('passes if open ai fails', function () {
+test('passes if open ai fails', function (): void {
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
     Http::fake([

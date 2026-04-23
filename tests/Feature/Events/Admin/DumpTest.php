@@ -9,13 +9,13 @@ use App\Models\Admin\Dump;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('dump created event dispatched', function () {
+test('dump created event dispatched', function (): void {
     Dump::factory()->create();
 
     Event::assertDispatched(DumpCreated::class);
 });
 
-test('dump deleted event dispatched', function () {
+test('dump deleted event dispatched', function (): void {
     $dump = Dump::factory()->create();
 
     $dump->delete();
@@ -23,7 +23,7 @@ test('dump deleted event dispatched', function () {
     Event::assertDispatched(DumpDeleted::class);
 });
 
-test('dump updated event dispatched', function () {
+test('dump updated event dispatched', function (): void {
     $dump = Dump::factory()->createOne();
     $changes = Dump::factory()->makeOne();
 
@@ -33,16 +33,16 @@ test('dump updated event dispatched', function () {
     Event::assertDispatched(DumpUpdated::class);
 });
 
-test('dump updated event embed fields', function () {
+test('dump updated event embed fields', function (): void {
     $dump = Dump::factory()->createOne();
     $changes = Dump::factory()->makeOne();
 
     $dump->fill($changes->getAttributes());
     $dump->save();
 
-    Event::assertDispatched(DumpUpdated::class, function (DumpUpdated $event) {
+    Event::assertDispatched(DumpUpdated::class, function (DumpUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

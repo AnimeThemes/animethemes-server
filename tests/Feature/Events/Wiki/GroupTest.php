@@ -10,13 +10,13 @@ use App\Models\Wiki\Group;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('group created event dispatched', function () {
+test('group created event dispatched', function (): void {
     Group::factory()->createOne();
 
     Event::assertDispatched(GroupCreated::class);
 });
 
-test('group deleted event dispatched', function () {
+test('group deleted event dispatched', function (): void {
     $group = Group::factory()->createOne();
 
     $group->delete();
@@ -24,7 +24,7 @@ test('group deleted event dispatched', function () {
     Event::assertDispatched(GroupDeleted::class);
 });
 
-test('group restored event dispatched', function () {
+test('group restored event dispatched', function (): void {
     $group = Group::factory()->createOne();
 
     $group->restore();
@@ -32,7 +32,7 @@ test('group restored event dispatched', function () {
     Event::assertDispatched(GroupRestored::class);
 });
 
-test('group restores quietly', function () {
+test('group restores quietly', function (): void {
     $group = Group::factory()->createOne();
 
     $group->restore();
@@ -40,7 +40,7 @@ test('group restores quietly', function () {
     Event::assertNotDispatched(GroupUpdated::class);
 });
 
-test('group updated event dispatched', function () {
+test('group updated event dispatched', function (): void {
     $group = Group::factory()->createOne();
     $changes = Group::factory()->makeOne();
 
@@ -50,16 +50,16 @@ test('group updated event dispatched', function () {
     Event::assertDispatched(GroupUpdated::class);
 });
 
-test('group updated event embed fields', function () {
+test('group updated event embed fields', function (): void {
     $group = Group::factory()->createOne();
     $changes = Group::factory()->makeOne();
 
     $group->fill($changes->getAttributes());
     $group->save();
 
-    Event::assertDispatched(GroupUpdated::class, function (GroupUpdated $event) {
+    Event::assertDispatched(GroupUpdated::class, function (GroupUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

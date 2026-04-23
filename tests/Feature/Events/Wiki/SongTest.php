@@ -10,13 +10,13 @@ use App\Models\Wiki\Song;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('song created event dispatched', function () {
+test('song created event dispatched', function (): void {
     Song::factory()->createOne();
 
     Event::assertDispatched(SongCreated::class);
 });
 
-test('song deleted event dispatched', function () {
+test('song deleted event dispatched', function (): void {
     $song = Song::factory()->createOne();
 
     $song->delete();
@@ -24,7 +24,7 @@ test('song deleted event dispatched', function () {
     Event::assertDispatched(SongDeleted::class);
 });
 
-test('song restored event dispatched', function () {
+test('song restored event dispatched', function (): void {
     $song = Song::factory()->createOne();
 
     $song->restore();
@@ -32,7 +32,7 @@ test('song restored event dispatched', function () {
     Event::assertDispatched(SongRestored::class);
 });
 
-test('song restores quietly', function () {
+test('song restores quietly', function (): void {
     $song = Song::factory()->createOne();
 
     $song->restore();
@@ -40,7 +40,7 @@ test('song restores quietly', function () {
     Event::assertNotDispatched(SongUpdated::class);
 });
 
-test('song updated event dispatched', function () {
+test('song updated event dispatched', function (): void {
     $song = Song::factory()->createOne();
     $changes = Song::factory()->makeOne();
 
@@ -50,16 +50,16 @@ test('song updated event dispatched', function () {
     Event::assertDispatched(SongUpdated::class);
 });
 
-test('song updated event embed fields', function () {
+test('song updated event embed fields', function (): void {
     $song = Song::factory()->createOne();
     $changes = Song::factory()->makeOne();
 
     $song->fill($changes->getAttributes());
     $song->save();
 
-    Event::assertDispatched(SongUpdated::class, function (SongUpdated $event) {
+    Event::assertDispatched(SongUpdated::class, function (SongUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

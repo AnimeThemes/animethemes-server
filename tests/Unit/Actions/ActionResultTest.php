@@ -6,13 +6,13 @@ use App\Actions\ActionResult;
 use App\Enums\Actions\ActionStatus;
 use Illuminate\Support\Arr;
 
-test('has failed', function () {
+test('has failed', function (): void {
     $result = new ActionResult(ActionStatus::FAILED);
 
     $this->assertTrue($result->hasFailed());
 });
 
-test('has not failed', function () {
+test('has not failed', function (): void {
     $status = null;
 
     while ($status === null) {

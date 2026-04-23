@@ -10,19 +10,19 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
 
-test('nameable', function () {
+test('nameable', function (): void {
     $performance = Performance::factory()->createOne();
 
     $this->assertIsString($performance->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $performance = Performance::factory()->createOne();
 
     $this->assertIsString($performance->getSubtitle());
 });
 
-test('song', function () {
+test('song', function (): void {
     $performance = Performance::factory()
         ->for(Song::factory())
         ->createOne();
@@ -31,7 +31,7 @@ test('song', function () {
     $this->assertInstanceOf(Song::class, $performance->song()->first());
 });
 
-test('artist', function () {
+test('artist', function (): void {
     $performance = Performance::factory()
         ->for(Artist::factory()->createOne(), Performance::RELATION_ARTIST)
         ->createOne();
@@ -40,7 +40,7 @@ test('artist', function () {
     $this->assertInstanceOf(Artist::class, $performance->artist()->first());
 });
 
-test('member', function () {
+test('member', function (): void {
     $performance = Performance::factory()
         ->for(Artist::factory(), Performance::RELATION_ARTIST)
         ->for(Artist::factory(), Performance::RELATION_MEMBER)

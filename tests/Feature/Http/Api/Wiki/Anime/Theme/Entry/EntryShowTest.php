@@ -18,13 +18,14 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->create();
@@ -43,7 +44,7 @@ test('default', function () {
     );
 });
 
-test('soft delete', function () {
+test('soft delete', function (): void {
     $entry = AnimeThemeEntry::factory()
         ->trashed()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -65,14 +66,14 @@ test('soft delete', function () {
     );
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new EntrySchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -97,7 +98,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new EntrySchema();
 
     $fields = collect($schema->fields());
@@ -106,7 +107,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            EntryJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            EntryJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -128,7 +129,7 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('anime by media format', function () {
+test('anime by media format', function (): void {
     $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
     $parameters = [
@@ -143,7 +144,7 @@ test('anime by media format', function () {
         ->createOne();
 
     $entry->unsetRelations()->load([
-        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter): void {
             $query->where(Anime::ATTRIBUTE_FORMAT, $mediaFormatFilter->value);
         },
     ]);
@@ -162,7 +163,7 @@ test('anime by media format', function () {
     );
 });
 
-test('anime by season', function () {
+test('anime by season', function (): void {
     $seasonFilter = Arr::random(AnimeSeason::cases());
 
     $parameters = [
@@ -177,7 +178,7 @@ test('anime by season', function () {
         ->createOne();
 
     $entry->unsetRelations()->load([
-        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter): void {
             $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
         },
     ]);
@@ -196,7 +197,7 @@ test('anime by season', function () {
     );
 });
 
-test('anime by year', function () {
+test('anime by year', function (): void {
     $yearFilter = intval(fake()->year());
     $excludedYear = $yearFilter + 1;
 
@@ -219,7 +220,7 @@ test('anime by year', function () {
         ->createOne();
 
     $entry->unsetRelations()->load([
-        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter): void {
             $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
         },
     ]);
@@ -238,7 +239,7 @@ test('anime by year', function () {
     );
 });
 
-test('themes by sequence', function () {
+test('themes by sequence', function (): void {
     $sequenceFilter = fake()->randomDigitNotNull();
     $excludedSequence = $sequenceFilter + 1;
 
@@ -260,7 +261,7 @@ test('themes by sequence', function () {
         ->createOne();
 
     $entry->unsetRelations()->load([
-        AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($sequenceFilter) {
+        AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($sequenceFilter): void {
             $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
         },
     ]);
@@ -279,7 +280,7 @@ test('themes by sequence', function () {
     );
 });
 
-test('themes by type', function () {
+test('themes by type', function (): void {
     $typeFilter = Arr::random(ThemeType::cases());
 
     $parameters = [
@@ -294,7 +295,7 @@ test('themes by type', function () {
         ->createOne();
 
     $entry->unsetRelations()->load([
-        AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($typeFilter) {
+        AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($typeFilter): void {
             $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
         },
     ]);

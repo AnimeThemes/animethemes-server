@@ -12,7 +12,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\put;
 
-test('protected', function () {
+test('protected', function (): void {
     $anime = Anime::factory()->createOne();
 
     $season = Arr::random(AnimeSeason::cases());
@@ -28,7 +28,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $anime = Anime::factory()->createOne();
 
     $season = Arr::random(AnimeSeason::cases());
@@ -48,7 +48,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('trashed', function () {
+test('trashed', function (): void {
     $anime = Anime::factory()->trashed()->createOne();
 
     $season = Arr::random(AnimeSeason::cases());
@@ -68,7 +68,7 @@ test('trashed', function () {
     $response->assertNotFound();
 });
 
-test('update', function () {
+test('update', function (): void {
     $anime = Anime::factory()->createOne();
 
     $season = Arr::random(AnimeSeason::cases());

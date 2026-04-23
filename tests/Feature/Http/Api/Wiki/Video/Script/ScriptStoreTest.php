@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-test('protected', function () {
+test('protected', function (): void {
     $script = VideoScript::factory()->makeOne();
 
     $response = post(route('api.videoscript.store', $script->toArray()));
@@ -17,7 +17,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $script = VideoScript::factory()->makeOne();
 
     $user = User::factory()->createOne();
@@ -29,7 +29,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('required fields', function () {
+test('required fields', function (): void {
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(VideoScript::class))->createOne();
 
     Sanctum::actingAs($user);
@@ -41,7 +41,7 @@ test('required fields', function () {
     ]);
 });
 
-test('create', function () {
+test('create', function (): void {
     $parameters = VideoScript::factory()->raw();
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(VideoScript::class))->createOne();

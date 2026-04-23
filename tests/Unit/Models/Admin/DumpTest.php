@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 use App\Models\Admin\Dump;
 
-test('nameable', function () {
+test('nameable', function (): void {
     $dump = Dump::factory()->createOne();
 
     $this->assertIsString($dump->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $dump = Dump::factory()->createOne();
 
     $this->assertIsString($dump->getSubtitle());

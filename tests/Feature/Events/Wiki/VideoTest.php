@@ -10,13 +10,13 @@ use App\Models\Wiki\Video;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('video created event dispatched', function () {
+test('video created event dispatched', function (): void {
     Video::factory()->createOne();
 
     Event::assertDispatched(VideoCreated::class);
 });
 
-test('video deleted event dispatched', function () {
+test('video deleted event dispatched', function (): void {
     $video = Video::factory()->createOne();
 
     $video->delete();
@@ -24,7 +24,7 @@ test('video deleted event dispatched', function () {
     Event::assertDispatched(VideoDeleted::class);
 });
 
-test('video restored event dispatched', function () {
+test('video restored event dispatched', function (): void {
     $video = Video::factory()->createOne();
 
     $video->restore();
@@ -32,7 +32,7 @@ test('video restored event dispatched', function () {
     Event::assertDispatched(VideoRestored::class);
 });
 
-test('video restores quietly', function () {
+test('video restores quietly', function (): void {
     $video = Video::factory()->createOne();
 
     $video->restore();
@@ -40,7 +40,7 @@ test('video restores quietly', function () {
     Event::assertNotDispatched(VideoUpdated::class);
 });
 
-test('video updated event dispatched', function () {
+test('video updated event dispatched', function (): void {
     $video = Video::factory()->createOne();
     $changes = Video::factory()->makeOne();
 
@@ -50,16 +50,16 @@ test('video updated event dispatched', function () {
     Event::assertDispatched(VideoUpdated::class);
 });
 
-test('video updated event embed fields', function () {
+test('video updated event embed fields', function (): void {
     $video = Video::factory()->createOne();
     $changes = Video::factory()->makeOne();
 
     $video->fill($changes->getAttributes());
     $video->save();
 
-    Event::assertDispatched(VideoUpdated::class, function (VideoUpdated $event) {
+    Event::assertDispatched(VideoUpdated::class, function (VideoUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

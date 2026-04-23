@@ -10,7 +10,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\delete;
 
-test('protected', function () {
+test('protected', function (): void {
     $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
     $response = delete(route('api.animetheme.destroy', ['animetheme' => $theme]));
@@ -18,7 +18,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
     $user = User::factory()->createOne();
@@ -30,7 +30,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('trashed', function () {
+test('trashed', function (): void {
     $theme = AnimeTheme::factory()
         ->trashed()
         ->for(Anime::factory())
@@ -45,7 +45,7 @@ test('trashed', function () {
     $response->assertNotFound();
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
     $user = User::factory()->withPermissions(CrudPermission::DELETE->format(AnimeTheme::class))->createOne();

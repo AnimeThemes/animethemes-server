@@ -7,13 +7,14 @@ use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     Config::set(VideoConstants::SCRIPT_DISK_QUALIFIED, []);
     Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
@@ -28,7 +29,7 @@ test('default', function () {
     $this->assertTrue($result->hasFailed());
 });
 
-test('passed', function () {
+test('passed', function (): void {
     Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
     $file = File::fake()->create(fake()->word().'.txt', fake()->randomDigitNotNull());
@@ -42,7 +43,7 @@ test('passed', function () {
     $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
 });
 
-test('uploaded to disk', function () {
+test('uploaded to disk', function (): void {
     $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
     $file = File::fake()->create(fake()->word().'.txt', fake()->randomDigitNotNull());
@@ -54,7 +55,7 @@ test('uploaded to disk', function () {
     $this->assertCount(1, $fs->allFiles());
 });
 
-test('created video', function () {
+test('created video', function (): void {
     Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
     $file = File::fake()->create(fake()->word().'.txt', fake()->randomDigitNotNull());
@@ -68,7 +69,7 @@ test('created video', function () {
     $this->assertDatabaseCount(VideoScript::class, 1);
 });
 
-test('attaches video', function () {
+test('attaches video', function (): void {
     Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
     $file = File::fake()->create(fake()->word().'.txt', fake()->randomDigitNotNull());

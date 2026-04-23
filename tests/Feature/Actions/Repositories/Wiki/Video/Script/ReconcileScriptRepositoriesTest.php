@@ -7,14 +7,15 @@ use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Video\VideoScript;
 use App\Repositories\Eloquent\Wiki\Video\ScriptRepository as ScriptDestinationRepository;
 use App\Repositories\Storage\Wiki\Video\ScriptRepository as ScriptSourceRepository;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Mockery\MockInterface;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('no results', function () {
-    $this->mock(ScriptSourceRepository::class, function (MockInterface $mock) {
+test('no results', function (): void {
+    $this->mock(ScriptSourceRepository::class, function (MockInterface $mock): void {
         $mock->shouldReceive('get')->once()->andReturn(Collection::make());
     });
 
@@ -30,12 +31,12 @@ test('no results', function () {
     $this->assertDatabaseCount(VideoScript::class, 0);
 });
 
-test('created', function () {
+test('created', function (): void {
     $createdScriptCount = fake()->numberBetween(2, 9);
 
     $scripts = VideoScript::factory()->count($createdScriptCount)->make();
 
-    $this->mock(ScriptSourceRepository::class, function (MockInterface $mock) use ($scripts) {
+    $this->mock(ScriptSourceRepository::class, function (MockInterface $mock) use ($scripts): void {
         $mock->shouldReceive('get')->once()->andReturn($scripts);
     });
 
@@ -52,12 +53,12 @@ test('created', function () {
     $this->assertDatabaseCount(VideoScript::class, $createdScriptCount);
 });
 
-test('deleted', function () {
+test('deleted', function (): void {
     $deletedScriptCount = fake()->numberBetween(2, 9);
 
     $scripts = VideoScript::factory()->count($deletedScriptCount)->create();
 
-    $this->mock(ScriptSourceRepository::class, function (MockInterface $mock) {
+    $this->mock(ScriptSourceRepository::class, function (MockInterface $mock): void {
         $mock->shouldReceive('get')->once()->andReturn(Collection::make());
     });
 

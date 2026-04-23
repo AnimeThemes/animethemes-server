@@ -10,7 +10,7 @@ use App\Pivots\Morph\Resourceable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('resourceable created event dispatched', function () {
+test('resourceable created event dispatched', function (): void {
     $modelClass = Arr::random(Resourceable::$resourceables);
 
     $model = $modelClass::factory()->createOne();
@@ -21,7 +21,7 @@ test('resourceable created event dispatched', function () {
     Event::assertDispatched(ResourceableCreated::class);
 });
 
-test('resourceable deleted event dispatched', function () {
+test('resourceable deleted event dispatched', function (): void {
     $modelClass = Arr::random(Resourceable::$resourceables);
 
     $model = $modelClass::factory()->createOne();
@@ -33,7 +33,7 @@ test('resourceable deleted event dispatched', function () {
     Event::assertDispatched(ResourceableDeleted::class);
 });
 
-test('resourceable updated event dispatched', function () {
+test('resourceable updated event dispatched', function (): void {
     $modelClass = Arr::random(Resourceable::$resourceables);
 
     $model = $modelClass::factory()->createOne();
@@ -55,7 +55,7 @@ test('resourceable updated event dispatched', function () {
     Event::assertDispatched(ResourceableUpdated::class);
 });
 
-test('resourceable updated event embed fields', function () {
+test('resourceable updated event embed fields', function (): void {
     $modelClass = Arr::random(Resourceable::$resourceables);
 
     $model = $modelClass::factory()->createOne();
@@ -74,9 +74,9 @@ test('resourceable updated event embed fields', function () {
     $resourceable->fill($changes->getAttributes());
     $resourceable->save();
 
-    Event::assertDispatched(ResourceableUpdated::class, function (ResourceableUpdated $event) {
+    Event::assertDispatched(ResourceableUpdated::class, function (ResourceableUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

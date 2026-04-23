@@ -8,12 +8,13 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Document\PageSchema;
 use App\Http\Resources\Document\Resource\PageJsonResource;
 use App\Models\Document\Page;
+use Illuminate\Foundation\Testing\WithFaker;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $page = Page::factory()->create();
 
     $response = get(route('api.page.show', ['page' => $page]));
@@ -30,7 +31,7 @@ test('default', function () {
     );
 });
 
-test('soft delete', function () {
+test('soft delete', function (): void {
     $page = Page::factory()->trashed()->createOne();
 
     $page->unsetRelations();
@@ -49,7 +50,7 @@ test('soft delete', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new PageSchema();
 
     $fields = collect($schema->fields());
@@ -58,7 +59,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            PageJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            PageJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 

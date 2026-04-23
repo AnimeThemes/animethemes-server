@@ -18,19 +18,20 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('not found if no featured themes', function () {
+test('not found if no featured themes', function (): void {
     $response = get(route('api.featuredtheme.current.show'));
 
     $response->assertNotFound();
 });
 
-test('not found if theme start at after now', function () {
+test('not found if theme start at after now', function (): void {
     FeaturedTheme::factory()->create([
         FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year'),
     ]);
@@ -40,7 +41,7 @@ test('not found if theme start at after now', function () {
     $response->assertNotFound();
 });
 
-test('not found if theme end at before now', function () {
+test('not found if theme end at before now', function (): void {
     FeaturedTheme::factory()->create([
         FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween(),
     ]);
@@ -50,12 +51,12 @@ test('not found if theme end at before now', function () {
     $response->assertNotFound();
 });
 
-test('default', function () {
-    Collection::times(fake()->randomDigitNotNull(), function () {
+test('default', function (): void {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         FeaturedTheme::factory()->future()->create();
     });
 
-    Collection::times(fake()->randomDigitNotNull(), function () {
+    Collection::times(fake()->randomDigitNotNull(), function (): void {
         FeaturedTheme::factory()->past()->create();
     });
 
@@ -75,14 +76,14 @@ test('default', function () {
     );
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new FeaturedThemeSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -115,7 +116,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new FeaturedThemeSchema();
 
     $fields = collect($schema->fields());
@@ -124,7 +125,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            FeaturedThemeJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            FeaturedThemeJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 

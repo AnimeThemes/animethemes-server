@@ -16,7 +16,7 @@ use Laravel\Pennant\Feature;
 
 use function Pest\Laravel\actingAs;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->mutation = '
         mutation($playlist: String!, $id: String!, $entryId: Int, $videoId: Int) {
             UpdatePlaylistTrack(playlist: $playlist, id: $id, entryId: $entryId, videoId: $videoId) {
@@ -31,7 +31,7 @@ beforeEach(function () {
     ';
 });
 
-test('protected', function () {
+test('protected', function (): void {
     $response = $this->graphQL(
         $this->mutation,
         [
@@ -44,7 +44,7 @@ test('protected', function () {
     $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     actingAs(User::factory()->createOne());
@@ -64,7 +64,7 @@ test('forbidden', function () {
     $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
-test('forbidden if feature flag is disabled', function () {
+test('forbidden if feature flag is disabled', function (): void {
     Feature::deactivate(AllowPlaylistManagement::class);
 
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
@@ -91,7 +91,7 @@ test('forbidden if feature flag is disabled', function () {
     $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
-test('forbidden if not owner', function () {
+test('forbidden if not owner', function (): void {
     Feature::activate(AllowPlaylistManagement::class);
 
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
@@ -118,7 +118,7 @@ test('forbidden if not owner', function () {
     $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
-it('updates', function () {
+it('updates', function (): void {
     Feature::activate(AllowPlaylistManagement::class);
 
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);

@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Storage;
 
 uses(WithFaker::class);
 
-test('nameable', function () {
+test('nameable', function (): void {
     $script = VideoScript::factory()->createOne();
 
     $this->assertIsString($script->getName());
 });
 
-test('has subtitle', function () {
+test('has subtitle', function (): void {
     $script = VideoScript::factory()
         ->for(Video::factory())
         ->createOne();
@@ -29,7 +29,7 @@ test('has subtitle', function () {
     $this->assertIsString($script->getSubtitle());
 });
 
-test('video', function () {
+test('video', function (): void {
     $script = VideoScript::factory()
         ->for(Video::factory())
         ->createOne();
@@ -38,7 +38,7 @@ test('video', function () {
     $this->assertInstanceOf(Video::class, $script->video()->first());
 });
 
-test('script storage deletion', function () {
+test('script storage deletion', function (): void {
     $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
     $file = File::fake()->create(fake()->word().'.ogg', fake()->randomDigitNotNull());
     $fsFile = $fs->putFile('', $file);
@@ -52,7 +52,7 @@ test('script storage deletion', function () {
     $this->assertTrue($fs->exists($script->path));
 });
 
-test('script storage force deletion', function () {
+test('script storage force deletion', function (): void {
     Event::fakeExcept(VideoScriptForceDeleting::class);
 
     $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));

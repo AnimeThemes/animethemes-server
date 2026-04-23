@@ -11,12 +11,13 @@ use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Resources\Wiki\Resource\AudioJsonResource;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
+use Illuminate\Foundation\Testing\WithFaker;
 
 use function Pest\Laravel\get;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $audio = Audio::factory()->create();
 
     $response = get(route('api.audio.show', ['audio' => $audio]));
@@ -33,7 +34,7 @@ test('default', function () {
     );
 });
 
-test('soft delete', function () {
+test('soft delete', function (): void {
     $audio = Audio::factory()->trashed()->createOne();
 
     $response = get(route('api.audio.show', ['audio' => $audio]));
@@ -50,14 +51,14 @@ test('soft delete', function () {
     );
 });
 
-test('allowed include paths', function () {
+test('allowed include paths', function (): void {
     $schema = new AudioSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
     $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include): string => $include->path());
 
     $parameters = [
         IncludeParser::param() => $includedPaths->join(','),
@@ -81,7 +82,7 @@ test('allowed include paths', function () {
     );
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new AudioSchema();
 
     $fields = collect($schema->fields());
@@ -90,7 +91,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AudioJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AudioJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 

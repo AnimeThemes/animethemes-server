@@ -10,13 +10,13 @@ use App\Models\Auth\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('user created event dispatched', function () {
+test('user created event dispatched', function (): void {
     User::factory()->createOne();
 
     Event::assertDispatched(UserCreated::class);
 });
 
-test('user deleted event dispatched', function () {
+test('user deleted event dispatched', function (): void {
     $user = User::factory()->createOne();
 
     $user->delete();
@@ -24,7 +24,7 @@ test('user deleted event dispatched', function () {
     Event::assertDispatched(UserDeleted::class);
 });
 
-test('user restored event dispatched', function () {
+test('user restored event dispatched', function (): void {
     $user = User::factory()->createOne();
 
     $user->restore();
@@ -32,7 +32,7 @@ test('user restored event dispatched', function () {
     Event::assertDispatched(UserRestored::class);
 });
 
-test('user restores quietly', function () {
+test('user restores quietly', function (): void {
     $user = User::factory()->createOne();
 
     $user->restore();
@@ -40,7 +40,7 @@ test('user restores quietly', function () {
     Event::assertNotDispatched(UserUpdated::class);
 });
 
-test('user updated event dispatched', function () {
+test('user updated event dispatched', function (): void {
     $user = User::factory()->createOne();
     $changes = User::factory()->makeOne();
 
@@ -50,16 +50,16 @@ test('user updated event dispatched', function () {
     Event::assertDispatched(UserUpdated::class);
 });
 
-test('user updated event embed fields', function () {
+test('user updated event embed fields', function (): void {
     $user = User::factory()->createOne();
     $changes = User::factory()->makeOne();
 
     $user->fill($changes->getAttributes());
     $user->save();
 
-    Event::assertDispatched(UserUpdated::class, function (UserUpdated $event) {
+    Event::assertDispatched(UserUpdated::class, function (UserUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

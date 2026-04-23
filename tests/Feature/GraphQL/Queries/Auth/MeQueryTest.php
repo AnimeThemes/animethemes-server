@@ -6,7 +6,7 @@ use App\Models\Auth\User;
 
 use function Pest\Laravel\actingAs;
 
-test('unauthenticated returns null', function () {
+test('unauthenticated returns null', function (): void {
     $response = $this->graphQL('
         query {
             me {
@@ -23,7 +23,7 @@ test('unauthenticated returns null', function () {
     ]);
 });
 
-test('authenticated returns user', function () {
+test('authenticated returns user', function (): void {
     $user = User::factory()->createOne();
 
     actingAs($user);

@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\patch;
 
-test('protected', function () {
+test('protected', function (): void {
     $song = Song::factory()->trashed()->createOne();
 
     $response = patch(route('api.song.restore', ['song' => $song]));
@@ -17,7 +17,7 @@ test('protected', function () {
     $response->assertUnauthorized();
 });
 
-test('forbidden', function () {
+test('forbidden', function (): void {
     $song = Song::factory()->trashed()->createOne();
 
     $user = User::factory()->createOne();
@@ -29,7 +29,7 @@ test('forbidden', function () {
     $response->assertForbidden();
 });
 
-test('trashed', function () {
+test('trashed', function (): void {
     $song = Song::factory()->createOne();
 
     $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Song::class))->createOne();
@@ -41,7 +41,7 @@ test('trashed', function () {
     $response->assertOk();
 });
 
-test('restored', function () {
+test('restored', function (): void {
     $song = Song::factory()->trashed()->createOne();
 
     $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Song::class))->createOne();

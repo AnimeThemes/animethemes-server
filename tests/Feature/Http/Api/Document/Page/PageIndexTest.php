@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Constants\ModelConstants;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
@@ -21,16 +22,17 @@ use App\Http\Resources\Document\Collection\PageCollection;
 use App\Http\Resources\Document\Resource\PageJsonResource;
 use App\Models\BaseModel;
 use App\Models\Document\Page;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 
 use function Pest\Laravel\get;
 
-uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+uses(SortsModels::class);
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $pages = Page::factory()->count(fake()->randomDigitNotNull())->create();
 
     $response = get(route('api.page.index'));
@@ -47,7 +49,7 @@ test('default', function () {
     );
 });
 
-test('paginated', function () {
+test('paginated', function (): void {
     Page::factory()->count(fake()->randomDigitNotNull())->create();
 
     $response = get(route('api.page.index'));
@@ -59,7 +61,7 @@ test('paginated', function () {
     ]);
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new PageSchema();
 
     $fields = collect($schema->fields());
@@ -68,7 +70,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            PageJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            PageJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -88,13 +90,13 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('sorts', function () {
+test('sorts', function (): void {
     $schema = new PageSchema();
 
     /** @var Sort $sort */
     $sort = collect($schema->fields())
-        ->filter(fn (Field $field) => $field instanceof SortableField)
-        ->map(fn (SortableField $field) => $field->getSort())
+        ->filter(fn (Field $field): bool => $field instanceof SortableField)
+        ->map(fn (SortableField $field): Sort => $field->getSort())
         ->random();
 
     $parameters = [
@@ -121,7 +123,7 @@ test('sorts', function () {
     );
 });
 
-test('created at filter', function () {
+test('created at filter', function (): void {
     $createdFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -134,11 +136,11 @@ test('created at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($createdFilter, function () {
+    Date::withTestNow($createdFilter, function (): void {
         Page::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         Page::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
@@ -158,7 +160,7 @@ test('created at filter', function () {
     );
 });
 
-test('updated at filter', function () {
+test('updated at filter', function (): void {
     $updatedFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -171,11 +173,11 @@ test('updated at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($updatedFilter, function () {
+    Date::withTestNow($updatedFilter, function (): void {
         Page::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         Page::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
@@ -195,7 +197,7 @@ test('updated at filter', function () {
     );
 });
 
-test('without trashed filter', function () {
+test('without trashed filter', function (): void {
     $parameters = [
         FilterParser::param() => [
             TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT->value,
@@ -225,7 +227,7 @@ test('without trashed filter', function () {
     );
 });
 
-test('with trashed filter', function () {
+test('with trashed filter', function (): void {
     $parameters = [
         FilterParser::param() => [
             TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
@@ -255,7 +257,7 @@ test('with trashed filter', function () {
     );
 });
 
-test('only trashed filter', function () {
+test('only trashed filter', function (): void {
     $parameters = [
         FilterParser::param() => [
             TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY->value,
@@ -285,7 +287,7 @@ test('only trashed filter', function () {
     );
 });
 
-test('deleted at filter', function () {
+test('deleted at filter', function (): void {
     $deletedFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -299,11 +301,11 @@ test('deleted at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($deletedFilter, function () {
+    Date::withTestNow($deletedFilter, function (): void {
         Page::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         Page::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
     });
 

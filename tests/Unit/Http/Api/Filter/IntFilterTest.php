@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 use App\Http\Api\Filter\IntFilter;
 use App\Http\Api\Scope\GlobalScope;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('should not apply if no integers', function () {
+test('should not apply if no integers', function (): void {
     $filterField = fake()->word();
 
     $criteria = FakeCriteria::make(new GlobalScope(), $filterField, fake()->words(fake()->randomDigitNotNull()));
@@ -18,7 +19,7 @@ test('should not apply if no integers', function () {
     $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
-test('converts validated integers', function () {
+test('converts validated integers', function (): void {
     $filterField = fake()->word();
 
     $intValue = fake()->year();

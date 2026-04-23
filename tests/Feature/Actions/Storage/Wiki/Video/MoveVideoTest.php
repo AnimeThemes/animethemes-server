@@ -7,6 +7,7 @@ use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Video;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Config;
@@ -14,9 +15,9 @@ use Illuminate\Support\Facades\File as FileFacade;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     Config::set(VideoConstants::DISKS_QUALIFIED, []);
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -31,7 +32,7 @@ test('default', function () {
     $this->assertTrue($result->hasFailed());
 });
 
-test('passed', function () {
+test('passed', function (): void {
     /** @var FilesystemAdapter $fs */
     $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
@@ -56,7 +57,7 @@ test('passed', function () {
     $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
 });
 
-test('moved in disk', function () {
+test('moved in disk', function (): void {
     /** @var FilesystemAdapter $fs */
     $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
@@ -83,7 +84,7 @@ test('moved in disk', function () {
     $fs->assertExists($to);
 });
 
-test('video updated', function () {
+test('video updated', function (): void {
     /** @var FilesystemAdapter $fs */
     $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);

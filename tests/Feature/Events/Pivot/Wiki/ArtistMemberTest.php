@@ -10,7 +10,7 @@ use App\Pivots\Wiki\ArtistMember;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 
-test('artist member created event dispatched', function () {
+test('artist member created event dispatched', function (): void {
     $artist = Artist::factory()->createOne();
     $member = Artist::factory()->createOne();
 
@@ -19,7 +19,7 @@ test('artist member created event dispatched', function () {
     Event::assertDispatched(ArtistMemberCreated::class);
 });
 
-test('artist member deleted event dispatched', function () {
+test('artist member deleted event dispatched', function (): void {
     $artist = Artist::factory()->createOne();
     $member = Artist::factory()->createOne();
 
@@ -29,7 +29,7 @@ test('artist member deleted event dispatched', function () {
     Event::assertDispatched(ArtistMemberDeleted::class);
 });
 
-test('artist member updated event dispatched', function () {
+test('artist member updated event dispatched', function (): void {
     $artist = Artist::factory()->createOne();
     $member = Artist::factory()->createOne();
 
@@ -49,7 +49,7 @@ test('artist member updated event dispatched', function () {
     Event::assertDispatched(ArtistMemberUpdated::class);
 });
 
-test('artist member updated event embed fields', function () {
+test('artist member updated event embed fields', function (): void {
     $artist = Artist::factory()->createOne();
     $member = Artist::factory()->createOne();
 
@@ -66,9 +66,9 @@ test('artist member updated event embed fields', function () {
     $artistMember->fill($changes->getAttributes());
     $artistMember->save();
 
-    Event::assertDispatched(ArtistMemberUpdated::class, function (ArtistMemberUpdated $event) {
+    Event::assertDispatched(ArtistMemberUpdated::class, function (ArtistMemberUpdated $event): bool {
         $message = $event->getDiscordMessage();
 
-        return ! empty(Arr::get($message->embed, 'fields'));
+        return filled(Arr::get($message->embed, 'fields'));
     });
 });

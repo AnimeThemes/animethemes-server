@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Paging\Criteria;
@@ -18,16 +19,17 @@ use App\Http\Resources\Admin\Collection\AnnouncementCollection;
 use App\Http\Resources\Admin\Resource\AnnouncementJsonResource;
 use App\Models\Admin\Announcement;
 use App\Models\BaseModel;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 
 use function Pest\Laravel\get;
 
-uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+uses(SortsModels::class);
 
-uses(Illuminate\Foundation\Testing\WithFaker::class);
+uses(WithFaker::class);
 
-test('default', function () {
+test('default', function (): void {
     $announcements = Announcement::factory()->count(fake()->randomDigitNotNull())->create();
 
     $response = get(route('api.announcement.index'));
@@ -44,7 +46,7 @@ test('default', function () {
     );
 });
 
-test('past', function () {
+test('past', function (): void {
     Announcement::factory()
         ->past()
         ->count(fake()->randomDigitNotNull())
@@ -68,7 +70,7 @@ test('past', function () {
     );
 });
 
-test('future', function () {
+test('future', function (): void {
     Announcement::factory()
         ->future()
         ->count(fake()->randomDigitNotNull())
@@ -92,7 +94,7 @@ test('future', function () {
     );
 });
 
-test('paginated', function () {
+test('paginated', function (): void {
     Announcement::factory()->count(fake()->randomDigitNotNull())->create();
 
     $response = get(route('api.announcement.index'));
@@ -104,7 +106,7 @@ test('paginated', function () {
     ]);
 });
 
-test('sparse fieldsets', function () {
+test('sparse fieldsets', function (): void {
     $schema = new AnnouncementSchema();
 
     $fields = collect($schema->fields());
@@ -113,7 +115,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnnouncementJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnnouncementJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -133,13 +135,13 @@ test('sparse fieldsets', function () {
     );
 });
 
-test('sorts', function () {
+test('sorts', function (): void {
     $schema = new AnnouncementSchema();
 
     /** @var Sort $sort */
     $sort = collect($schema->fields())
-        ->filter(fn (Field $field) => $field instanceof SortableField)
-        ->map(fn (SortableField $field) => $field->getSort())
+        ->filter(fn (Field $field): bool => $field instanceof SortableField)
+        ->map(fn (SortableField $field): Sort => $field->getSort())
         ->random();
 
     $parameters = [
@@ -166,7 +168,7 @@ test('sorts', function () {
     );
 });
 
-test('created at filter', function () {
+test('created at filter', function (): void {
     $createdFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -179,11 +181,11 @@ test('created at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($createdFilter, function () {
+    Date::withTestNow($createdFilter, function (): void {
         Announcement::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         Announcement::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
@@ -203,7 +205,7 @@ test('created at filter', function () {
     );
 });
 
-test('updated at filter', function () {
+test('updated at filter', function (): void {
     $updatedFilter = fake()->date();
     $excludedDate = fake()->date();
 
@@ -216,11 +218,11 @@ test('updated at filter', function () {
         ],
     ];
 
-    Carbon::withTestNow($updatedFilter, function () {
+    Date::withTestNow($updatedFilter, function (): void {
         Announcement::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
-    Carbon::withTestNow($excludedDate, function () {
+    Date::withTestNow($excludedDate, function (): void {
         Announcement::factory()->count(fake()->randomDigitNotNull())->create();
     });
 
