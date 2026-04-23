@@ -27,9 +27,9 @@ class ArtistPerformanceTab extends BaseTab
             ->whereDoesntHave(Artist::RELATION_MEMBER_PERFORMANCES);
     }
 
-    public function getBadge(): int
+    public function getBadge(): ?string
     {
-        return Artist::query()
+        return (string) Artist::query()
             ->whereDoesntHave(Artist::RELATION_PERFORMANCES)
             ->whereDoesntHave(Artist::RELATION_MEMBER_PERFORMANCES)
             ->count();

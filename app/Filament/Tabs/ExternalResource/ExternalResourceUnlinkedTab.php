@@ -30,9 +30,9 @@ class ExternalResourceUnlinkedTab extends BaseTab
             ->whereDoesntHave(ExternalResource::RELATION_STUDIOS);
     }
 
-    public function getBadge(): int
+    public function getBadge(): ?string
     {
-        return ExternalResource::query()
+        return (string) ExternalResource::query()
             ->whereDoesntHave(ExternalResource::RELATION_ANIME)
             ->whereDoesntHave(ExternalResource::RELATION_ANIMETHEMEENTRIES)
             ->whereDoesntHave(ExternalResource::RELATION_ARTISTS)

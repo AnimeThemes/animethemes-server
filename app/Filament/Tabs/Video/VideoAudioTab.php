@@ -28,9 +28,9 @@ class VideoAudioTab extends BaseTab
             ->where(Video::ATTRIBUTE_PATH, ComparisonOperator::NOTLIKE->value, 'misc%');
     }
 
-    public function getBadge(): int
+    public function getBadge(): ?string
     {
-        return Video::query()
+        return (string) Video::query()
             ->whereDoesntHave(Video::RELATION_AUDIO)
             ->where(Video::ATTRIBUTE_PATH, ComparisonOperator::NOTLIKE->value, 'misc%')
             ->count();

@@ -25,8 +25,8 @@ class AudioVideoTab extends BaseTab
         return $query->whereDoesntHave(Audio::RELATION_VIDEOS);
     }
 
-    public function getBadge(): int
+    public function getBadge(): ?string
     {
-        return Audio::query()->whereDoesntHave(Audio::RELATION_VIDEOS)->count();
+        return (string) Audio::query()->whereDoesntHave(Audio::RELATION_VIDEOS)->count();
     }
 }

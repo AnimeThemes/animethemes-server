@@ -25,8 +25,8 @@ class AnimeStudioTab extends BaseTab
         return $query->whereDoesntHave(Anime::RELATION_STUDIOS);
     }
 
-    public function getBadge(): int
+    public function getBadge(): ?string
     {
-        return Anime::query()->whereDoesntHave(Anime::RELATION_STUDIOS)->count();
+        return (string) Anime::query()->whereDoesntHave(Anime::RELATION_STUDIOS)->count();
     }
 }

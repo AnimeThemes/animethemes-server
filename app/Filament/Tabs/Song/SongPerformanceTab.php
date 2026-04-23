@@ -25,8 +25,8 @@ class SongPerformanceTab extends BaseTab
         return $query->whereDoesntHave(Song::RELATION_PERFORMANCES);
     }
 
-    public function getBadge(): int
+    public function getBadge(): ?string
     {
-        return Song::query()->whereDoesntHave(Song::RELATION_PERFORMANCES)->count();
+        return (string) Song::query()->whereDoesntHave(Song::RELATION_PERFORMANCES)->count();
     }
 }

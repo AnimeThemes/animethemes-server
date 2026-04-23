@@ -32,9 +32,9 @@ class ImageUnlinkedTab extends BaseTab
             ->whereDoesntHave(Image::RELATION_PLAYLISTS);
     }
 
-    public function getBadge(): int
+    public function getBadge(): ?string
     {
-        return Image::query()
+        return (string) Image::query()
             ->whereNot(Image::ATTRIBUTE_FACET, ImageFacet::GRILL->value)
             ->whereNot(Image::ATTRIBUTE_FACET, ImageFacet::DOCUMENT->value)
             ->whereDoesntHave(Image::RELATION_ANIME)

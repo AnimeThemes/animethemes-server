@@ -13,7 +13,7 @@ abstract class BaseTab extends Tab
 
     public function count(): mixed
     {
-        $count = Cache::flexible("filament_badge_{$this->getSlug()}", [15, 60], fn (): string|int|float|null => $this->getBadge());
+        $count = Cache::flexible("filament_badge_{$this->getSlug()}", [15, 60], fn (): ?string => $this->getBadge());
 
         $this->badge($count);
 

@@ -25,8 +25,8 @@ class StudioUnlinkedTab extends BaseTab
         return $query->whereDoesntHave(Studio::RELATION_ANIME);
     }
 
-    public function getBadge(): int
+    public function getBadge(): ?string
     {
-        return Studio::query()->whereDoesntHave(Studio::RELATION_ANIME)->count();
+        return (string) Studio::query()->whereDoesntHave(Studio::RELATION_ANIME)->count();
     }
 }
