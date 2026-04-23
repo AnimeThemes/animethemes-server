@@ -23,7 +23,6 @@
         "ext-fileinfo": "*",
         "ext-gd": "*",
         "ext-pdo": "*",
-        "ajcastro/eager-load-pivot-relations": "^0.3.0",
         "awcodes/recently": "^3.0.2",
         "babenkoivan/elastic-adapter": "^5.1",
         "babenkoivan/elastic-migrations": "^5",

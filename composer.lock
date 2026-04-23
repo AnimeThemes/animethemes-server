@@ -4,60 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "87ce5edcc2159daa48ace06b30f9b22d",
+    "content-hash": "0f69c949274699340f975584bb463d72",
     "packages": [
-        {
-            "name": "ajcastro/eager-load-pivot-relations",
-            "version": "v0.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ajcastro/eager-load-pivot-relations.git",
-                "reference": "e7e27ce2fe68822d1c31ff2cfcdde679e85f166d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ajcastro/eager-load-pivot-relations/zipball/e7e27ce2fe68822d1c31ff2cfcdde679e85f166d",
-                "reference": "e7e27ce2fe68822d1c31ff2cfcdde679e85f166d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.6.0"
-            },
-            "require-dev": {
-                "laravel/framework": ">= 5.0.0",
-                "laravel/legacy-factories": ">= 1.0.0",
-                "orchestra/testbench": ">= 3.0.0",
-                "phpunit/phpunit": ">= 6.0.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": [],
-                    "providers": []
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "AjCastro\\EagerLoadPivotRelations\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Arjon Jason Castro",
-                    "email": "ajcastro29@gmail.com"
-                }
-            ],
-            "description": "Eager load pivot relations for Laravel Eloquent's BelongsToMany relation.",
-            "support": {
-                "issues": "https://github.com/ajcastro/eager-load-pivot-relations/issues",
-                "source": "https://github.com/ajcastro/eager-load-pivot-relations/tree/v0.3.0"
-            },
-            "time": "2022-11-02T13:31:59+00:00"
-        },
         {
             "name": "awcodes/recently",
             "version": "v3.0.2",

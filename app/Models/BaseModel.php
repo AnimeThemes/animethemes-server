@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use AjCastro\EagerLoadPivotRelations\EagerLoadPivotTrait;
 use App\Concerns\Filament\ActionLogs\ModelHasActionLogs;
 use App\Contracts\Models\HasSubtitle;
 use App\Contracts\Models\Nameable;
@@ -19,7 +18,6 @@ use Illuminate\Support\Str;
  */
 abstract class BaseModel extends Model implements HasSubtitle, Nameable
 {
-    use EagerLoadPivotTrait;
     use ModelHasActionLogs;
 
     /**
