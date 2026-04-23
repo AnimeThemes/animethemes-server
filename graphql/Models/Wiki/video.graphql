@@ -98,7 +98,7 @@ type VideoAnimeThemeEntryEdge @model(class: "App\\Pivots\\Wiki\\AnimeThemeEntryV
 
 extend type Query {
     "Returns a video resource."
-    video(id: String! @eq(key: "video_id")): Video @find(model: "App\\Models\\Wiki\\Video")
+    video(id: Int! @eq(key: "video_id")): Video @find(model: "App\\Models\\Wiki\\Video")
 
     "Returns a listing of video resources given fields."
     videoPagination(
