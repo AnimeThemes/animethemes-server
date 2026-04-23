@@ -35,7 +35,7 @@ test('protected', function (): void {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
+    $response->assertJsonPath('errors.0.message', 'Unauthenticated.');
 });
 
 test('forbidden', function (): void {

@@ -57,6 +57,11 @@ directive @canFindMultiple(
   columns: [String!]!
 
   """
+  Specify the model to use indicate the policy that should be used.
+  """
+  modelForPolicy: String
+
+  """
   Should the query fail when the models of `find` were not found?
   """
   findOrFail: Boolean! = true
@@ -73,7 +78,10 @@ GRAPHQL;
     {
         $ability = $this->directiveArgValue('ability');
 
-        Gate::authorize($ability, [ASTHelper::modelName($this->definitionNode), ...$this->modelsToCheck($root, $args, $context, $resolveInfo)]);
+        $model = $this->directiveArgValue('modelForPolicy')
+            ?? $this->directiveArgValue('models')[0];
+
+        Gate::authorize($ability, [$model, ...$this->modelsToCheck($root, $args, $context, $resolveInfo)]);
 
         return null;
     }

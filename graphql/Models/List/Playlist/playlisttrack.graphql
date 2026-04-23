@@ -52,7 +52,13 @@ extend type Mutation {
         previous: String @deprecated(reason: "Use position instead")
         next: String @deprecated(reason: "Use position instead")
     ): PlaylistTrack!
-    @canFindMultiple(ability: "create", find: ["playlist"], models: ["App\\Models\\List\\Playlist"], columns: ["hashid"])
+    @canFindMultiple(
+        ability: "create",
+        find: ["playlist"],
+        models: ["App\\Models\\List\\Playlist"],
+        columns: ["hashid"],
+        modelForPolicy: "App\\Models\\List\\Playlist\\PlaylistTrack"
+    )
     @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutation@create")
 
     UpdatePlaylistTrack(

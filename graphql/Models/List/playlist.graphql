@@ -90,6 +90,11 @@ extend type Mutation {
     DeletePlaylist(
         id: String!
     ): MessageResponse! 
-    @canFindMultiple(ability: "delete", find: ["id"], models: ["App\\Models\\List\\Playlist"], columns: ["hashid"])
+    @canFindMultiple(
+        ability: "delete",
+        find: ["id"],
+        models: ["App\\Models\\List\\Playlist"],
+        columns: ["hashid"],
+    )
     @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutation@delete")
 }

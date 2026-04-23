@@ -29,10 +29,10 @@ type MessageResponse {
 
 type Mutation @guard {
     ToggleLike(
-        entry: Int @bind(class: "App\\Models\\Wiki\\Anime\\Theme\\AnimeThemeEntry", column: "entry_id")
-        playlist: String @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+        entryId: Int
+        playlistId: String
     ): Like
-    @canModel(ability: "create")
+    @canModel(ability: "create", model: "App\\Models\\User\\Like")
     @field(resolver: "App\\GraphQL\\Mutations\\User\\ToggleLikeMutation")
 
     "Mark a video as watched."
@@ -40,7 +40,7 @@ type Mutation @guard {
         entryId: Int!
         videoId: Int!
     ): WatchHistory
-    @canModel(ability: "create")
+    @canModel(ability: "create", model: "App\\Models\\User\\WatchHistory")
     @field(resolver: "App\\GraphQL\\Mutations\\User\\WatchMutation")
 }
 

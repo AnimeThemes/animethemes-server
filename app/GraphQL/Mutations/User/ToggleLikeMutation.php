@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Mutations\User;
 
+use App\Concerns\GraphQL\BindModels;
 use App\Concerns\GraphQL\ValidateArgs;
-use App\Contracts\Models\Likeable;
 use App\GraphQL\Validators\User\ToggleLikeMutationValidator;
+use App\Models\List\Playlist;
 use App\Models\User\Like;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
@@ -16,6 +17,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class ToggleLikeMutation
 {
+    use BindModels;
     use ValidateArgs;
 
     /**
@@ -25,9 +27,14 @@ class ToggleLikeMutation
     {
         $validated = $this->validated(ToggleLikeMutationValidator::class, $resolveInfo);
 
-        /** @var Model&Likeable $likeable */
-        $likeable = Arr::first($validated);
+        if ($entryId = Arr::get($validated, 'entryId')) {
+            $likeable = $this->bind(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID, $entryId);
+        } elseif ($playlistId = Arr::get($validated, 'playlistId')) {
+            $likeable = $this->bind(Playlist::class, Playlist::ATTRIBUTE_HASHID, $playlistId);
+        } else {
+            return null;
+        }
 
-        return $likeable->toggleLike(Auth::user());
+        return $likeable?->toggleLike(Auth::user());
     }
 }

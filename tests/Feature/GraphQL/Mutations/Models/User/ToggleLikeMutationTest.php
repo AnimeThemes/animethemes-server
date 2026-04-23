@@ -3,17 +3,19 @@
 declare(strict_types=1);
 
 use App\Enums\Auth\CrudPermission;
+use App\Events\List\Playlist\PlaylistCreated;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\User\Like;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use Illuminate\Support\Facades\Event;
 
 use function Pest\Laravel\actingAs;
 
 beforeEach(function (): void {
     $this->mutation = '
         mutation($entryId: Int, $playlistId: String) {
-            ToggleLike(entry: $entryId, playlist: $playlistId) {
+            ToggleLike(entryId: $entryId, playlistId: $playlistId) {
                 animethemeentry: likeable {
                     ... on AnimeThemeEntry {
                         id
@@ -38,7 +40,7 @@ test('protected', function (): void {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
+    $response->assertJsonPath('errors.0.message', 'Unauthenticated.');
 });
 
 test('forbidden', function (): void {
@@ -57,6 +59,8 @@ test('forbidden', function (): void {
 });
 
 it('fails if more than one resource is passed', function (): void {
+    Event::fakeExcept(PlaylistCreated::class);
+
     $user = User::factory()
         ->withPermissions(CrudPermission::CREATE->format(Like::class))
         ->createOne();
@@ -75,10 +79,12 @@ it('fails if more than one resource is passed', function (): void {
     );
 
     $response->assertOk();
-    $response->assertGraphQLValidationKeys(['entry', 'playlist']);
+    $response->assertGraphQLValidationKeys(['entryId', 'playlistId']);
 });
 
 it('likes entry', function (): void {
+    Event::fakeExcept(PlaylistCreated::class);
+
     $user = User::factory()
         ->withPermissions(CrudPermission::CREATE->format(Like::class))
         ->createOne();
