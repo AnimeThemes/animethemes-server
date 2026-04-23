@@ -3,7 +3,7 @@ name: GraphQL Schema
 on: push
 
 jobs:
-  static-analysis:
+  graphql:
 
     runs-on: ubuntu-22.04
 
