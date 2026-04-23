@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0fb7d7822a64c6bb9d29bce8af173695",
+    "content-hash": "870fc36928d050857667bd93bab337ed",
     "packages": [
         {
             "name": "ajcastro/eager-load-pivot-relations",
@@ -13717,27 +13717,91 @@
             "time": "2024-05-16T03:13:13+00:00"
         },
         {
-            "name": "mrpunyapal/rector-pest",
-            "version": "0.2.7",
+            "name": "mrpunyapal/peststan",
+            "version": "0.2.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/MrPunyapal/rector-pest.git",
-                "reference": "869ee278263df1ef4fb120cf3e2097ba546d6479"
+                "url": "https://github.com/MrPunyapal/PestStan.git",
+                "reference": "e9a2142e9a289613e333b3764030f40429b75af0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MrPunyapal/rector-pest/zipball/869ee278263df1ef4fb120cf3e2097ba546d6479",
-                "reference": "869ee278263df1ef4fb120cf3e2097ba546d6479",
+                "url": "https://api.github.com/repos/MrPunyapal/PestStan/zipball/e9a2142e9a289613e333b3764030f40429b75af0",
+                "reference": "e9a2142e9a289613e333b3764030f40429b75af0",
                 "shasum": ""
             },
             "require": {
+                "php": "^8.2",
+                "phpstan/phpstan": "^2.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.18",
+                "mrpunyapal/rector-pest": "^0.2.0",
+                "nunomaduro/pao": "^0.1.4",
+                "pestphp/pest": "^3.0 || ^4.0 || ^5.0",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan-strict-rules": "^2.0",
+                "rector/rector": "^2.0"
+            },
+            "type": "phpstan-extension",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "extension.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PestStan\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan extension for Pest PHP testing framework",
+            "keywords": [
+                "PHPStan",
+                "pest",
+                "static-analysis",
+                "testing"
+            ],
+            "support": {
+                "issues": "https://github.com/MrPunyapal/PestStan/issues",
+                "source": "https://github.com/MrPunyapal/PestStan/tree/0.2.5"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/mrpunyapal",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-04-10T14:30:52+00:00"
+        },
+        {
+            "name": "mrpunyapal/rector-pest",
+            "version": "0.2.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MrPunyapal/rector-pest.git",
+                "reference": "6f3e2a736f9e145e2fa8b08cf6645d23bfcee77a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MrPunyapal/rector-pest/zipball/6f3e2a736f9e145e2fa8b08cf6645d23bfcee77a",
+                "reference": "6f3e2a736f9e145e2fa8b08cf6645d23bfcee77a",
+                "shasum": ""
+            },
+            "require": {
+                "mrpunyapal/peststan": "^0.2.5",
                 "php": "^8.2",
                 "rector/rector": "^2.0",
                 "symplify/rule-doc-generator-contracts": "^11.2"
             },
             "require-dev": {
                 "laravel/pint": "^1.18",
-                "mrpunyapal/peststan": "^0.1.5",
+                "nunomaduro/pao": "^0.1.4",
                 "pestphp/pest": "^3.0 || ^4.0",
                 "phpstan/phpstan": "^2.1",
                 "symplify/rule-doc-generator": "^12.2"
@@ -13773,7 +13837,7 @@
             ],
             "support": {
                 "issues": "https://github.com/MrPunyapal/rector-pest/issues",
-                "source": "https://github.com/MrPunyapal/rector-pest/tree/0.2.7"
+                "source": "https://github.com/MrPunyapal/rector-pest/tree/0.2.11"
             },
             "funding": [
                 {
@@ -13781,7 +13845,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-08T17:53:37+00:00"
+            "time": "2026-04-13T17:44:38+00:00"
         },
         {
             "name": "myclabs/deep-copy",
