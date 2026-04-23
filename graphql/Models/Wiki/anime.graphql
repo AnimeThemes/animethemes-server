@@ -11,10 +11,10 @@ type Anime @model(class: "App\\Models\\Wiki\\Anime") {
     name: String!
 
     "The media format of the anime"
-    mediaFormat: AnimeMediaFormat @rename(attribute: "media_format") @deprecated(reason: "Use the 'format' field and its filters instead")
+    mediaFormat: AnimeMediaFormat @rename(attribute: "media_format") @deprecated(reason: "Use 'format' instead")
 
     "The formatted string value of the mediaFormat field"
-    mediaFormatLocalized: String @localized @deprecated(reason: "Use the 'formatLocalized' field instead")
+    mediaFormatLocalized: String @localized @deprecated(reason: "Use 'formatLocalized' instead")
 
     "The format of the anime"
     format: AnimeFormat
@@ -126,8 +126,8 @@ extend type Query {
         search: String @search
         name: String @eq
         name_like: String @like(key: "name")
-        mediaFormat: AnimeMediaFormat @eq(key: "media_format")
-        mediaFormat_in: [AnimeMediaFormat!] @in(key: "media_format")
+        mediaFormat: AnimeMediaFormat @eq(key: "media_format") @deprecated(reason: "Use 'format' instead")
+        mediaFormat_in: [AnimeMediaFormat!] @in(key: "media_format") @deprecated(reason: "Use 'format_in' instead")
         format: AnimeFormat @eq
         format_in: [AnimeFormat!] @in(key: "format")
         season: AnimeSeason @eq

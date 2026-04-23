@@ -6,7 +6,9 @@ namespace App\Enums\Models\Wiki;
 
 use App\Concerns\Enums\LocalizesName;
 use Filament\Support\Contracts\HasLabel;
+use GraphQL\Type\Definition\Deprecated;
 
+#[Deprecated('Use \'AnimeFormat\' instead')]
 enum AnimeMediaFormat: int implements HasLabel
 {
     use LocalizesName;

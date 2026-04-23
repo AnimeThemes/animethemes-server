@@ -21,8 +21,8 @@ type Studio @model(class: "App\\Models\\Wiki\\Studio") {
 
     anime(
         name_like: String @like(key: "name")
-        mediaFormat: AnimeMediaFormat @eq(key: "media_format")
-        mediaFormat_in: [AnimeMediaFormat!] @in(key: "media_format")
+        mediaFormat: AnimeMediaFormat @eq(key: "media_format") @deprecated(reason: "Use 'format' instead")
+        mediaFormat_in: [AnimeMediaFormat!] @in(key: "media_format") @deprecated(reason: "Use 'format_in' instead")
         format: AnimeFormat @eq
         format_in: [AnimeFormat!] @in(key: "format")
         season: AnimeSeason @eq

@@ -14,11 +14,13 @@ use App\GraphQL\Filter\IntFilter;
 use App\GraphQL\Filter\StringFilter;
 use App\GraphQL\Filter\TimestampFilter;
 use App\Models\Wiki\Anime;
+use GraphQL\Type\Definition\Deprecated;
 
 enum AnimeFilterableColumns implements EnumFilterableColumns
 {
     case ID;
     case NAME;
+    #[Deprecated('Use FORMAT instead')]
     case MEDIA_FORMAT;
     case FORMAT;
     case SEASON;
