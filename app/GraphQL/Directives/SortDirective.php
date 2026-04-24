@@ -6,15 +6,19 @@ namespace App\GraphQL\Directives;
 
 use App\Contracts\GraphQL\EnumSort;
 use App\Enums\Http\Api\Field\AggregateFunction;
+use App\GraphQL\Sort\FieldSortCriteria;
+use GraphQL\Error\Error;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Laravel\Scout\Builder as ScoutBuilder;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
+use Nuwave\Lighthouse\Scout\ScoutBuilderDirective;
 use Nuwave\Lighthouse\Support\Contracts\ArgBuilderDirective;
 use Nuwave\Lighthouse\Support\Contracts\ArgDirective;
 use UnitEnum;
 
-class SortDirective extends BaseDirective implements ArgBuilderDirective, ArgDirective
+class SortDirective extends BaseDirective implements ArgBuilderDirective, ArgDirective, ScoutBuilderDirective
 {
     public static function definition(): string
     {
@@ -44,6 +48,26 @@ GRAPHQL;
             }
 
             $criteria->sort($builder);
+        }
+
+        return $builder;
+    }
+
+    /**
+     * Modify the scout builder with a client given value.
+     *
+     * @param  array<int, UnitEnum&EnumSort>  $value  the client given value of the argument
+     */
+    public function handleScoutBuilder(ScoutBuilder $builder, mixed $value): ScoutBuilder
+    {
+        foreach ($value as $sort) {
+            
+            $criteria = $sort->getSortCriteria();
+
+            match (true) {
+                $criteria instanceof FieldSortCriteria => $builder->orderBy($criteria->getColumn(), $criteria->getDirection()->value),
+                default => throw new Error('Nested sorting is not supported when using the \'search\' argument.'),
+            };
         }
 
         return $builder;
