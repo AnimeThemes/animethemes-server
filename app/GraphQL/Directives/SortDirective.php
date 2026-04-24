@@ -61,12 +61,11 @@ GRAPHQL;
     public function handleScoutBuilder(ScoutBuilder $builder, mixed $value): ScoutBuilder
     {
         foreach ($value as $sort) {
-            
             $criteria = $sort->getSortCriteria();
 
             match (true) {
                 $criteria instanceof FieldSortCriteria => $builder->orderBy($criteria->getColumn(), $criteria->getDirection()->value),
-                default => throw new Error('Nested sorting is not supported when using the \'search\' argument.'),
+                default => throw new Error('Sorting by this value is not supported when using the \'search\' parameter.'),
             };
         }
 
