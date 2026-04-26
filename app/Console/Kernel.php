@@ -9,7 +9,6 @@ use App\Console\Commands\Repositories\Storage\Admin\DumpReconcileCommand;
 use App\Console\Commands\Storage\Admin\AdminDumpCommand;
 use App\Console\Commands\Storage\Admin\AuthDumpCommand;
 use App\Console\Commands\Storage\Admin\ContentDumpCommand;
-use App\Console\Commands\Storage\Admin\DiscordDumpCommand;
 use App\Console\Commands\Storage\Admin\DocumentDumpCommand;
 use App\Console\Commands\Storage\Admin\DumpPruneCommand;
 use App\Console\Commands\Storage\Admin\ListDumpCommand;
@@ -56,12 +55,6 @@ class Kernel extends ConsoleKernel
             ->weeklyOn(Schedule::MONDAY);
 
         $schedule->command(AuthDumpCommand::class)
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY);
-
-        $schedule->command(DiscordDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()

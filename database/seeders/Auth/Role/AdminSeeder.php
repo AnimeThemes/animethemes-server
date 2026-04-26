@@ -17,7 +17,6 @@ use App\Models\Auth\Prohibition;
 use App\Models\Auth\Role;
 use App\Models\Auth\Sanction;
 use App\Models\Auth\User;
-use App\Models\Discord\DiscordThread;
 use App\Models\Document\Page;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
@@ -76,9 +75,6 @@ class AdminSeeder extends RoleSeeder
         $this->configureResource($role, Role::class, CrudPermission::cases());
         $this->configureResource($role, Sanction::class, CrudPermission::cases());
         $this->configureResource($role, User::class, $extendedCrudPermissions);
-
-        // Discord Resources
-        $this->configureResource($role, DiscordThread::class, CrudPermission::cases());
 
         // List Resources
         $this->configureResource($role, ExternalEntry::class, CrudPermission::cases());

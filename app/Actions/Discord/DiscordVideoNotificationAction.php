@@ -8,12 +8,23 @@ use App\Actions\ActionResult;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Actions\Models\Wiki\Video\DiscordNotificationType;
 use App\Models\Wiki\Video;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 
 class DiscordVideoNotificationAction
 {
+    /**
+     * Get the HTTP client for Discord API.
+     */
+    public static function getHttp(): PendingRequest
+    {
+        return Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
+            ->baseUrl(Config::get('services.discord.api_url'));
+    }
+
     /**
      * @param  Collection<int, Video>  $videos
      * @param  array<string, mixed>  $fields
@@ -22,37 +33,10 @@ class DiscordVideoNotificationAction
     {
         $type = Arr::get($fields, DiscordNotificationType::getFieldKey());
 
-        $newVideos = [];
-
-        foreach ($videos as $video) {
-            $video
-                ->load([
-                    'animethemeentries.animetheme.anime.discordthread',
-                ]);
-
-            $anime = $video->animethemeentries->first()->animetheme->anime;
-
-            if ($anime->discordthread === null) {
-                if (Str::length($anime->name) >= 100) {
-                    $anime->name = Str::limit($anime->name, 96, '...');
-                }
-
-                $threadAction = new DiscordThreadAction();
-
-                $threadAction->handle($anime, ['name' => $anime->getName()]);
-                $anime->load('discordthread');
-            }
-
-            $newVideos[] = [
-                'threadId' => $anime->discordthread->getKey(),
-                'videoId' => $video->getKey(),
-            ];
-        }
-
-        DiscordThreadAction::getHttp()
+        static::getHttp()
             ->post('/notification', [
                 'type' => $type->value,
-                'videos' => $newVideos,
+                'videos' => $videos->map(fn (Video $video): array => ['videoId' => $video->getKey()])->toArray(),
             ])
             ->throw();
 

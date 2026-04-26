@@ -16,7 +16,6 @@ use App\Models\Auth\Prohibition;
 use App\Models\Auth\Role;
 use App\Models\Auth\Sanction;
 use App\Models\Auth\User;
-use App\Models\Discord\DiscordThread;
 use App\Models\Document\Page;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
@@ -68,9 +67,6 @@ class PermissionSeeder extends Seeder
         $this->registerResource(Role::class, CrudPermission::cases());
         $this->registerResource(Sanction::class, CrudPermission::cases());
         $this->registerResource(User::class, $extendedCrudPermissions);
-
-        // Discord Resources
-        $this->registerResource(DiscordThread::class, CrudPermission::cases());
 
         // List Resources
         $this->registerResource(ExternalEntry::class, CrudPermission::cases());

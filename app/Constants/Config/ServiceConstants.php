@@ -8,7 +8,6 @@ class ServiceConstants
 {
     final public const string ADMIN_DISCORD_CHANNEL_QUALIFIED = 'services.discord.admin_discord_channel';
     final public const string DB_UPDATES_DISCORD_CHANNEL_QUALIFIED = 'services.discord.db_updates_discord_channel';
-    final public const string SUBMISSIONS_DISCORD_CHANNEL_QUALIFIED = 'services.discord.submissions_discord_channel';
 
     final public const string OPENAI_BEARER_TOKEN = 'services.openai.token';
 

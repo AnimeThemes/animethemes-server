@@ -9,7 +9,6 @@ use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\Role;
-use App\Models\Discord\DiscordThread;
 use App\Models\Document\Page;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
@@ -53,9 +52,6 @@ class EncoderRoleSeeder extends RoleSeeder
             CrudPermission::cases(),
             ExtendedCrudPermission::cases(),
         );
-
-        // Discord Resources
-        $this->configureResource($role, DiscordThread::class, [CrudPermission::CREATE, CrudPermission::UPDATE, CrudPermission::VIEW]);
 
         // List Resources
         $this->configureResource($role, ExternalEntry::class, [CrudPermission::VIEW]);

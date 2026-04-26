@@ -71,9 +71,6 @@ return [
                 ],
                 'name' => 'Backfill Anime',
             ],
-            'discord_thread' => [
-                'name' => 'Create Discord Thread',
-            ],
         ],
         'audio' => [
             'delete' => [
@@ -99,12 +96,6 @@ return [
             'move_all' => 'Move All',
             'restore' => 'Restore',
             'view' => 'View',
-        ],
-        'discord' => [
-            'thread' => [
-                'name' => 'Name',
-                'help' => 'The name of the thread to be created. Use the default name or a shorter synonym if it exceeds 100 characters.',
-            ],
         ],
         'dump' => [
             'dump' => [
@@ -691,16 +682,6 @@ return [
             'timestamps' => 'Timestamps',
             'updated_at' => 'Updated At',
         ],
-        'discord_thread' => [
-            'id' => [
-                'help' => 'The thread ID on Discord',
-                'name' => 'Thread ID',
-            ],
-            'name' => [
-                'help' => 'The name of the thread on Discord',
-                'name' => 'Name',
-            ],
-        ],
         'dump' => [
             'path' => 'Path',
             'public' => 'Public',
@@ -1041,7 +1022,6 @@ return [
             'announcements' => 'Announcements',
             'artists' => 'Artists',
             'audios' => 'Audios',
-            'discord_threads' => 'Threads',
             'dumps' => 'Dumps',
             'external_entries' => 'External Entries',
             'external_profiles' => 'External Profiles',
@@ -1078,7 +1058,6 @@ return [
             'announcement' => 'Announcement',
             'artist' => 'Artist',
             'audio' => 'Audio',
-            'discord_thread' => 'Thread',
             'dump' => 'Dump',
             'external_entry' => 'External Entry',
             'external_profile' => 'External Profile',

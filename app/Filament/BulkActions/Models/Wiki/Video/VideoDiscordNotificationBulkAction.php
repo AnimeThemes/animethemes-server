@@ -8,7 +8,6 @@ use App\Actions\Discord\DiscordVideoNotificationAction as DiscordVideoNotificati
 use App\Enums\Actions\Models\Wiki\Video\DiscordNotificationType;
 use App\Filament\BulkActions\BaseBulkAction;
 use App\Filament\Components\Fields\Select;
-use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Video;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
@@ -32,7 +31,7 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
         $this->label(__('filament.bulk_actions.discord.notification.name'));
         $this->icon(Heroicon::OutlinedBell);
 
-        $this->visible(Gate::allows('create', DiscordThread::class));
+        $this->visible(Gate::allows('create', Video::class));
     }
 
     /**

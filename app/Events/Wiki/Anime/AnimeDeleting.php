@@ -20,12 +20,9 @@ class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent
     public function cascadeDeletes(): void
     {
         $anime = $this->getModel()->load([
-            'discordthread',
             Anime::RELATION_SYNONYMS,
             Anime::RELATION_VIDEOS,
         ]);
-
-        $anime->discordthread?->delete();
 
         $anime->synonyms->each(function (Synonym $synonym): void {
             Synonym::withoutEvents(function () use ($synonym): void {

@@ -21,7 +21,6 @@ use App\Events\Wiki\Anime\AnimeUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesJsonResource;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioJsonResource;
 use App\Models\BaseModel;
-use App\Models\Discord\DiscordThread;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -41,7 +40,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
@@ -53,7 +51,6 @@ use RuntimeException;
 /**
  * @property int $anime_id
  * @property Collection<int, AnimeTheme> $animethemes
- * @property DiscordThread|null $discordthread
  * @property Collection<int, ExternalEntry> $externalentries
  * @property AnimeFormat|null $format
  * @property Collection<int, Image> $images
@@ -216,14 +213,6 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     public function synonyms(): MorphMany
     {
         return $this->morphMany(Synonym::class, Synonym::RELATION_SYNONYMABLE);
-    }
-
-    /**
-     * @return HasOne<DiscordThread, $this>
-     */
-    public function discordthread(): HasOne
-    {
-        return $this->hasOne(DiscordThread::class, DiscordThread::ATTRIBUTE_ANIME);
     }
 
     /**

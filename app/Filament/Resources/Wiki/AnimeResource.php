@@ -10,7 +10,6 @@ use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
 use App\Filament\Actions\Models\Wiki\Anime\BackfillAnimeAction;
-use App\Filament\Actions\Models\Wiki\Anime\DiscordThreadAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\Slug;
@@ -260,8 +259,6 @@ class AnimeResource extends BaseResource
         ];
 
         return [
-            DiscordThreadAction::make(),
-
             BackfillAnimeAction::make(),
 
             AttachAnimeResourceAction::make(),
