@@ -13,7 +13,7 @@ class AnimeObserver
      */
     public function creating(Anime $anime): void
     {
-        $anime->setAttribute(Anime::ATTRIBUTE_MEDIA_FORMAT, $anime->getAttribute(Anime::ATTRIBUTE_FORMAT));
+        $anime->setAttribute(Anime::ATTRIBUTE_MEDIA_FORMAT, $anime->getAttribute(Anime::ATTRIBUTE_FORMAT)->value);
     }
 
     /**
@@ -21,6 +21,6 @@ class AnimeObserver
      */
     public function updating(Anime $anime): void
     {
-        $anime->setAttribute(Anime::ATTRIBUTE_MEDIA_FORMAT, $anime->getAttribute(Anime::ATTRIBUTE_FORMAT));
+        $anime->setAttribute(Anime::ATTRIBUTE_MEDIA_FORMAT, $anime->getAttribute(Anime::ATTRIBUTE_FORMAT)->value);
     }
 }

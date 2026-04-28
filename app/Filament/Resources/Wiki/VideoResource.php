@@ -138,7 +138,8 @@ class VideoResource extends BaseResource
 
                 TextColumn::make(Video::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.video.filename.name'))
-                    ->copyableWithMessage(),
+                    ->copyableWithMessage()
+                    ->searchable(isIndividual:true),
 
                 TextColumn::make(Video::ATTRIBUTE_RESOLUTION)
                     ->label(__('filament.fields.video.resolution.name')),
