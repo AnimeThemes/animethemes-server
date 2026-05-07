@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Components\Fields;
 
-use App\Contracts\Models\Nameable;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Scout\Criteria;
 use App\Scout\Search;
@@ -50,7 +49,7 @@ class Select extends ComponentsSelect
 
         return $this->searchable()
             /** @phpstan-ignore-next-line */
-            ->getOptionLabelUsing(fn (mixed $value): string => $modelClass::find($value)->getName());
+            ->getOptionLabelUsing(fn (mixed $value): string => $modelClass::query()->find($value)->getName());
     }
 
     public function escapeReservedChars(string $search): string
