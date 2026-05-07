@@ -49,7 +49,8 @@ class Select extends ComponentsSelect
         }
 
         return $this->searchable()
-            ->getOptionLabelUsing(fn (Model&Nameable $record): string => $record->getName());
+            /** @phpstan-ignore-next-line */
+            ->getOptionLabelUsing(fn (mixed $value): string => $modelClass::find($value)->getName());
     }
 
     public function escapeReservedChars(string $search): string
