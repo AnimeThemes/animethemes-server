@@ -14,11 +14,11 @@ class SongTypesenseModel
     public static function toSearchableArray(Song $song): array
     {
         return [
-            ...$song->attributesToArray(),
             'id' => (string) $song->getKey(),
+            'title' => $song->title,
+            'title_native' => $song->title_native,
             'created_at' => $song->created_at?->timestamp,
             'updated_at' => $song->updated_at?->timestamp,
-            'deleted_at' => $song->deleted_at?->timestamp,
         ];
     }
 }

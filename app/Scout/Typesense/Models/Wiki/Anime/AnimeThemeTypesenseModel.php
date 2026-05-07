@@ -18,7 +18,7 @@ class AnimeThemeTypesenseModel
             'created_at' => $theme->created_at?->timestamp,
 
             'type_sequence' => $theme->type->localize().($theme->sequence ?? 1),
-            'type' => $theme->type->localize(),
+            'type' => $theme->type->value,
             'sequence' => (string) ($theme->sequence ?? 1),
 
             'anime' => $theme->anime->toSearchableArray(),

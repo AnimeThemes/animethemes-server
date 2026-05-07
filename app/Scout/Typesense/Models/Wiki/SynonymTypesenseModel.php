@@ -14,9 +14,9 @@ class SynonymTypesenseModel
     public static function toSearchableArray(Synonym $synonym): array
     {
         return [
-            ...$synonym->attributesToArray(),
             'id' => (string) $synonym->getKey(),
-            'created_at' => $synonym->created_at?->timestamp,
+            'text' => $synonym->text,
+            'type' => $synonym->type->value,
         ];
     }
 }

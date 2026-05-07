@@ -15,9 +15,10 @@ class SeriesTypesenseModel
     public static function toSearchableArray(Series $series): array
     {
         return [
-            ...$series->attributesToArray(),
             'id' => (string) $series->getKey(),
+            'name' => $series->name,
             'created_at' => $series->created_at?->timestamp,
+            'updated_at' => $series->updated_at?->timestamp,
             'anime' => $series->anime->map(
                 fn (Anime $anime): array => $anime->toSearchableArray()
             )->all(),

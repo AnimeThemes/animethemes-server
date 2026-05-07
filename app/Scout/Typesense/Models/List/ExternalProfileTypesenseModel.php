@@ -14,8 +14,9 @@ class ExternalProfileTypesenseModel
     public static function toSearchableArray(ExternalProfile $profile): array
     {
         return [
-            ...$profile->attributesToArray(),
             'id' => (string) $profile->getKey(),
+            'name' => $profile->name,
+            'site' => $profile->site->value,
         ];
     }
 }

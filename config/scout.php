@@ -199,6 +199,10 @@ return [
                             'name' => 'name',
                             'type' => 'string',
                         ],
+                        [
+                            'name' => 'site',
+                            'type' => 'int32',
+                        ],
                     ],
                 ],
                 'search-parameters' => [
@@ -216,6 +220,11 @@ return [
                             'name' => 'name',
                             'type' => 'string',
                         ],
+                        [
+                            'name' => 'created_at',
+                            'type' => 'int64',
+                            'optional' => true,
+                        ],
                     ],
                 ],
                 'search-parameters' => [
@@ -230,12 +239,17 @@ return [
                             'type' => 'string',
                         ],
                         [
+                            'name' => 'format',
+                            'type' => 'int32',
+                            'optional' => true,
+                        ],
+                        [
                             'name' => 'name',
                             'type' => 'string',
                         ],
                         [
                             'name' => 'season',
-                            'type' => 'string',
+                            'type' => 'int32',
                             'optional' => true,
                         ],
                         [
@@ -250,11 +264,6 @@ return [
                         [
                             'name' => 'updated_at',
                             'type' => 'int64',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => '__soft_deleted',
-                            'type' => 'int32',
                             'optional' => true,
                         ],
                         [
@@ -282,7 +291,7 @@ return [
                         ],
                         [
                             'name' => 'type',
-                            'type' => 'string',
+                            'type' => 'int32',
                         ],
                         [
                             'name' => 'sequence',
@@ -322,11 +331,6 @@ return [
                         [
                             'name' => 'id',
                             'type' => 'string',
-                        ],
-                        [
-                            'name' => 'created_at',
-                            'type' => 'int64',
-                            'optional' => true,
                         ],
                         [
                             'name' => 'version',
@@ -414,6 +418,11 @@ return [
                             'optional' => true,
                         ],
                         [
+                            'name' => 'updated_at',
+                            'type' => 'int64',
+                            'optional' => true,
+                        ],
+                        [
                             'name' => 'anime',
                             'type' => 'object[]',
                         ],
@@ -473,6 +482,11 @@ return [
                             'type' => 'int64',
                             'optional' => true,
                         ],
+                        [
+                            'name' => 'updated_at',
+                            'type' => 'int64',
+                            'optional' => true,
+                        ],
                     ],
                 ],
                 'search-parameters' => [
@@ -509,9 +523,8 @@ return [
                             'type' => 'string',
                         ],
                         [
-                            'name' => 'created_at',
-                            'type' => 'int64',
-                            'optional' => true,
+                            'name' => 'type',
+                            'type' => 'int32',
                         ],
                     ],
                 ],

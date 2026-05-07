@@ -15,11 +15,10 @@ class VideoTypesenseModel
     public static function toSearchableArray(Video $video): array
     {
         return [
-            ...$video->attributesToArray(),
             'id' => (string) $video->getKey(),
+            'filename' => $video->filename,
+            'tags' => $video->tags,
             'created_at' => $video->created_at?->timestamp,
-            'updated_at' => $video->updated_at?->timestamp,
-            'deleted_at' => $video->deleted_at?->timestamp,
             'entries' => $video->animethemeentries->map(
                 fn (AnimeThemeEntry $entry): array => $entry->toSearchableArray()
             )->all(),

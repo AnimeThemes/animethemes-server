@@ -14,8 +14,9 @@ class PlaylistTypesenseModel
     public static function toSearchableArray(Playlist $playlist): array
     {
         return [
-            ...$playlist->attributesToArray(),
             'id' => (string) $playlist->getKey(),
+            'name' => $playlist->name,
+            'created_at' => $playlist->created_at?->timestamp,
         ];
     }
 }
