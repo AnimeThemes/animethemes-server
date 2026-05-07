@@ -32,7 +32,7 @@ class PlaylistTrackFactory extends Factory
      */
     public function configure(): static
     {
-        return $this->afterCreating(function (PlaylistTrack $track): void {
+        $this->afterCreating(function (PlaylistTrack $track): void {
             if ($track->playlist_id === null) {
                 return;
             }
@@ -43,5 +43,7 @@ class PlaylistTrackFactory extends Factory
 
             $track->update([PlaylistTrack::ATTRIBUTE_POSITION => $position + 1]);
         });
+
+        return $this;
     }
 }
