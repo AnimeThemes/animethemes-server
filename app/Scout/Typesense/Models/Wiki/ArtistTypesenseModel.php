@@ -20,7 +20,6 @@ class ArtistTypesenseModel
             'name' => $artist->name,
             'created_at' => $artist->created_at?->timestamp,
             'updated_at' => $artist->updated_at?->timestamp,
-            'deleted_at' => $artist->deleted_at?->timestamp,
             'synonyms' => $synonyms = $artist->synonyms->map(fn (Synonym $synonym) => $synonym->text)->all(),
             'as' => $as = $artist->performances->map(fn (Performance $performance) => $performance->as)
                 ->toBase()

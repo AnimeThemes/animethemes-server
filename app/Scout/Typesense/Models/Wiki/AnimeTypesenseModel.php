@@ -15,12 +15,13 @@ class AnimeTypesenseModel
     public static function toSearchableArray(Anime $anime): array
     {
         return [
-            ...$anime->attributesToArray(),
             'id' => (string) $anime->getKey(),
-            'season' => $anime->season?->localize(),
+            'format' => $anime->format?->value,
+            'name' => $anime->name,
+            'season' => $anime->season?->value,
+            'year' => $anime->year,
             'created_at' => $anime->created_at?->timestamp,
             'updated_at' => $anime->updated_at?->timestamp,
-            'deleted_at' => $anime->deleted_at?->timestamp,
             'synonyms' => $anime->synonyms->map(fn (Synonym $synonym) => $synonym->text)->all(),
         ];
     }
