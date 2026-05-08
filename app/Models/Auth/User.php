@@ -14,7 +14,7 @@ use App\Events\Auth\User\UserCreated;
 use App\Events\Auth\User\UserDeleted;
 use App\Events\Auth\User\UserRestored;
 use App\Events\Auth\User\UserUpdated;
-use App\Models\Admin\ActionLog;
+use App\Models\Admin\Activity;
 use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\User\Like;
@@ -229,13 +229,13 @@ class User extends Authenticatable implements Auditable, FilamentUser, HasAvatar
     }
 
     /**
-     * Get the action logs that the user has executed.
+     * Get the activities that the user has executed.
      *
-     * @return HasMany<ActionLog, $this>
+     * @return MorphMany<Activity, $this>
      */
-    public function actionlogs(): HasMany
+    public function activities(): MorphMany
     {
-        return $this->hasMany(ActionLog::class, ActionLog::ATTRIBUTE_USER);
+        return $this->morphMany(Activity::class, 'causer');
     }
 
     /**

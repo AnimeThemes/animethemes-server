@@ -7,7 +7,6 @@ namespace App\Filament\Actions\Base;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Base\BaseManageResources;
-use App\Models\Admin\ActionLog;
 use Filament\Actions\ReplicateAction as BaseReplicateAction;
 use Filament\Facades\Filament;
 use Filament\Schemas\Schema;
@@ -22,7 +21,5 @@ class ReplicateAction extends BaseReplicateAction
         $this->schema(fn (Schema $schema, BaseListResources|BaseManageResources|BaseRelationManager $livewire): array => $livewire->form($schema)->getComponents());
 
         $this->successRedirectUrl(fn (Model $replica) => Filament::getModelResource($replica)::getUrl('view', ['record' => $replica]));
-
-        $this->after(fn (Model $replica): ActionLog => ActionLog::modelCreated($replica));
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Enums\Models\Admin\ActionLogStatus;
+use App\Enums\Models\Admin\ActivityStatus;
 use App\Enums\Models\List\ExternalEntryStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
@@ -20,10 +20,10 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\Enums\Pivots\Document\PageRoleType;
 
 return [
-    ActionLogStatus::class => [
-        ActionLogStatus::RUNNING->name => 'Running',
-        ActionLogStatus::FAILED->name => 'Failed',
-        ActionLogStatus::FINISHED->name => 'Finished',
+    ActivityStatus::class => [
+        ActivityStatus::RUNNING->name => 'Running',
+        ActivityStatus::FAILED->name => 'Failed',
+        ActivityStatus::FINISHED->name => 'Finished',
     ],
     AnimeFormat::class => [
         AnimeFormat::TV->name => 'TV',

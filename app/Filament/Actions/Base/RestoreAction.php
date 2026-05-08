@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Base;
 
 use App\Contracts\Models\SoftDeletable;
-use App\Models\Admin\ActionLog;
 use Filament\Actions\RestoreAction as BaseRestoreAction;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
@@ -32,8 +31,6 @@ class RestoreAction extends BaseRestoreAction
 
             return $record->trashed();
         });
-
-        $this->after(fn (Model $record): ActionLog => ActionLog::modelRestored($record));
 
         $this->using(function (Model&SoftDeletable $record): bool {
             Gate::authorize('restore', $record);

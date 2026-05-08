@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions;
 
-use App\Concerns\Filament\ActionLogs\HasActionLogs;
+use App\Concerns\Filament\HasActivityLogs;
+use App\Enums\Models\Admin\ActivityStatus;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Base\BaseViewResource;
 use Filament\Actions\Action;
@@ -15,7 +16,7 @@ use Illuminate\Support\Str;
 
 abstract class BaseAction extends Action
 {
-    use HasActionLogs;
+    use HasActivityLogs;
 
     public static function getDefaultName(): ?string
     {
@@ -32,10 +33,10 @@ abstract class BaseAction extends Action
 
         $this->before(function (BaseAction $action, mixed $livewire): void {
             if ($livewire instanceof BaseRelationManager) {
-                $this->createActionLog($action, $livewire->getOwnerRecord());
+                $this->createActivityLog($action, $livewire->getOwnerRecord());
                 $livewire->dispatch('updateAllRelationManager');
             } elseif (($record = $this->getRecord()) instanceof Model) {
-                $this->createActionLog($action, $record);
+                $this->createActivityLog($action, $record);
             }
         });
 
@@ -43,6 +44,11 @@ abstract class BaseAction extends Action
             if ($action instanceof ShouldQueue) {
                 return;
             }
+
+            $this->activity?->update([
+                'status' => ActivityStatus::FINISHED,
+                'finished_at' => now(),
+            ]);
 
             $this->finishedLog();
 

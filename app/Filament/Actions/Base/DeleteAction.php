@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Base;
 
 use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
-use App\Models\Admin\ActionLog;
 use App\Models\List\Playlist\PlaylistTrack;
 use Filament\Actions\DeleteAction as BaseDeleteAction;
 use Filament\Support\Icons\Heroicon;
@@ -35,8 +34,6 @@ class DeleteAction extends BaseDeleteAction
 
             return (bool) $result;
         });
-
-        $this->after(fn (Model $record): ActionLog => ActionLog::modelDeleted($record));
 
         $this->authorize(true);
     }

@@ -5,23 +5,28 @@ declare(strict_types=1);
 namespace App\Filament\RelationManagers\Base;
 
 use App\Filament\RelationManagers\BaseRelationManager;
-use App\Filament\Resources\Admin\ActionLogResource;
+use App\Filament\Resources\Admin\ActivityResource;
 use App\Filament\Resources\BaseResource;
-use App\Models\Admin\ActionLog;
+use App\Models\Admin\Activity;
 use Filament\Tables\Table;
 
-class ActionLogRelationManager extends BaseRelationManager
+class ActivityRelationManager extends BaseRelationManager
 {
-    protected static string $relationship = 'actionlogs';
+    protected static string $relationship = 'activities';
 
-    protected static ?string $recordTitleAttribute = ActionLog::ATTRIBUTE_ID;
+    protected static ?string $recordTitleAttribute = Activity::ATTRIBUTE_ID;
 
     /**
      * The resource of the relation manager.
      *
      * @var class-string<BaseResource>|null
      */
-    protected static ?string $relatedResource = ActionLogResource::class;
+    protected static ?string $relatedResource = ActivityResource::class;
+
+    public static function isLazy(): true
+    {
+        return true;
+    }
 
     public function table(Table $table): Table
     {

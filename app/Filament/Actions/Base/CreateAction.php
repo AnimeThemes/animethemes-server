@@ -4,23 +4,18 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Base;
 
-use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Base\BaseManageResources;
-use App\Models\Admin\ActionLog;
 use Filament\Actions\CreateAction as BaseCreateAction;
 use Filament\Facades\Filament;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Gate;
 
 class CreateAction extends BaseCreateAction
 {
-    use HasPivotActionLogs;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -36,20 +31,6 @@ class CreateAction extends BaseCreateAction
             }
 
             return null;
-        });
-
-        $this->after(function (BaseManageResources|BaseListResources|BaseRelationManager $livewire, Model $record, CreateAction $action): void {
-            if ($livewire instanceof BaseListResources) {
-                ActionLog::modelCreated($record);
-            }
-
-            if ($livewire instanceof BaseRelationManager) {
-                $relationship = $livewire->getRelationship();
-
-                if ($relationship instanceof HasMany) {
-                    $this->associateActionLog('Create and Associate', $livewire, $record, $action);
-                }
-            }
         });
 
         $this->visible(function (BaseManageResources|BaseListResources|BaseRelationManager $livewire, string $model): bool {
