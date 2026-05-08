@@ -26,24 +26,4 @@ class PlaylistTrackFactory extends Factory
     {
         return [];
     }
-
-    /**
-     * Configure the model factory.
-     */
-    public function configure(): static
-    {
-        $this->afterCreating(function (PlaylistTrack $track): void {
-            if ($track->playlist_id === null) {
-                return;
-            }
-
-            $position = PlaylistTrack::query()
-                ->whereBelongsTo($track->playlist)
-                ->max(PlaylistTrack::ATTRIBUTE_POSITION) ?? 0;
-
-            $track->update([PlaylistTrack::ATTRIBUTE_POSITION => $position + 1]);
-        });
-
-        return $this;
-    }
 }

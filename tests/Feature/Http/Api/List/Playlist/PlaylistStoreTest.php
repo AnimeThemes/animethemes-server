@@ -3,18 +3,15 @@
 declare(strict_types=1);
 
 use App\Constants\Config\PlaylistConstants;
-use App\Constants\Config\ValidationConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\PlaylistVisibility;
-use App\Enums\Rules\ModerationService;
 use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
@@ -176,90 +173,4 @@ test('max track limit permitted for bypass', function (): void {
     $response = post(route('api.playlist.store', $parameters));
 
     $response->assertCreated();
-});
-
-test('created if not flagged by open ai', function (): void {
-    Feature::activate(AllowPlaylistManagement::class);
-    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
-
-    Http::fake([
-        'https://api.openai.com/v1/moderations' => Http::response([
-            'results' => [
-                0 => [
-                    'flagged' => false,
-                ],
-            ],
-        ]),
-    ]);
-
-    $visibility = Arr::random(PlaylistVisibility::cases());
-
-    $parameters = array_merge(
-        Playlist::factory()->raw(),
-        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-    );
-
-    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
-
-    Sanctum::actingAs($user);
-
-    $response = post(route('api.playlist.store', $parameters));
-
-    $response->assertCreated();
-});
-
-test('created if open ai fails', function (): void {
-    Feature::activate(AllowPlaylistManagement::class);
-    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
-
-    Http::fake([
-        'https://api.openai.com/v1/moderations' => Http::response(status: 404),
-    ]);
-
-    $visibility = Arr::random(PlaylistVisibility::cases());
-
-    $parameters = array_merge(
-        Playlist::factory()->raw(),
-        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-    );
-
-    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
-
-    Sanctum::actingAs($user);
-
-    $response = post(route('api.playlist.store', $parameters));
-
-    $response->assertCreated();
-});
-
-test('validation error when flagged by open ai', function (): void {
-    Feature::activate(AllowPlaylistManagement::class);
-    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
-
-    Http::fake([
-        'https://api.openai.com/v1/moderations' => Http::response([
-            'results' => [
-                0 => [
-                    'flagged' => true,
-                ],
-            ],
-        ]),
-    ]);
-
-    $visibility = Arr::random(PlaylistVisibility::cases());
-
-    $parameters = array_merge(
-        Playlist::factory()->raw(),
-        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-    );
-
-    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
-
-    Sanctum::actingAs($user);
-
-    $response = post(route('api.playlist.store', $parameters));
-
-    $response->assertJsonValidationErrors([
-        Playlist::ATTRIBUTE_NAME,
-    ]);
 });

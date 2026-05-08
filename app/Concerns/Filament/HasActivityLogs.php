@@ -9,7 +9,6 @@ use App\Models\Admin\Activity;
 use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Spatie\Activitylog\Contracts\Activity as ContractsActivity;
 use Throwable;
 
 trait HasActivityLogs
