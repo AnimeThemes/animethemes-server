@@ -39,9 +39,12 @@ class PlaylistTrackFactory extends Factory
 
             $position = PlaylistTrack::query()
                 ->whereBelongsTo($track->playlist)
+                ->whereKeyNot($track->getKey())
                 ->max(PlaylistTrack::ATTRIBUTE_POSITION) ?? 0;
 
             $track->update([PlaylistTrack::ATTRIBUTE_POSITION => $position + 1]);
+
+            $track->refresh();
         });
 
         return $this;
