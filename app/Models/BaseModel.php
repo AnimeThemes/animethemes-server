@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Concerns\Filament\ActionLogs\ModelHasActionLogs;
 use App\Contracts\Models\HasSubtitle;
 use App\Contracts\Models\Nameable;
+use App\Models\Admin\Activity;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
@@ -18,8 +19,6 @@ use Illuminate\Support\Str;
  */
 abstract class BaseModel extends Model implements HasSubtitle, Nameable
 {
-    use ModelHasActionLogs;
-
     /**
      * The storage format of the model's date columns.
      *
@@ -41,5 +40,11 @@ abstract class BaseModel extends Model implements HasSubtitle, Nameable
         if (Config::has($connectionKey)) {
             $this->setConnection(Config::get($connectionKey));
         }
+    }
+
+    /** @return MorphMany<Activity, $this> */
+    public function activities(): MorphMany
+    {
+        return $this->morphMany(Activity::class, 'subject');
     }
 }

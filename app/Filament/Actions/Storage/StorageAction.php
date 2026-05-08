@@ -6,9 +6,7 @@ namespace App\Filament\Actions\Storage;
 
 use App\Contracts\Actions\Storage\StorageAction as BaseStorageAction;
 use App\Filament\Actions\BaseAction;
-use App\Filament\RelationManagers\BaseRelationManager;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 abstract class StorageAction extends BaseAction
 {
@@ -57,22 +55,5 @@ abstract class StorageAction extends BaseAction
         }
 
         $this->afterStorageAction($record, $data);
-
-        $livewire = $this->getLivewire();
-        if ($livewire instanceof BaseRelationManager && $record instanceof Model) {
-            $relation = $livewire->getRelationship();
-            $pivot = $record;
-
-            if ($relation instanceof BelongsToMany) {
-                $pivotClass = $relation->getPivotClass();
-
-                $pivot = $pivotClass::query()
-                    ->where($livewire->getOwnerRecord()->getKeyName(), $livewire->getOwnerRecord()->getKey())
-                    ->where($record->getKeyName(), $record->getKey())
-                    ->first();
-            }
-
-            $this->updateLog($record, $pivot);
-        }
     }
 }

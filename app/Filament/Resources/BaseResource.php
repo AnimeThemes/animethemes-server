@@ -15,7 +15,7 @@ use App\Filament\Actions\Base\ViewAction;
 use App\Filament\BulkActions\Base\DeleteBulkAction;
 use App\Filament\BulkActions\Base\ForceDeleteBulkAction;
 use App\Filament\BulkActions\Base\RestoreBulkAction;
-use App\Filament\RelationManagers\Base\ActionLogRelationManager;
+use App\Filament\RelationManagers\Base\ActivityRelationManager;
 use App\Models\BaseModel;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -169,7 +169,7 @@ abstract class BaseResource extends Resource
     public static function getBaseRelations(): array
     {
         return [
-            ActionLogRelationManager::class,
+            ActivityRelationManager::class,
             AuditsRelationManager::class,
         ];
     }

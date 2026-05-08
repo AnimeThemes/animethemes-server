@@ -6,17 +6,16 @@ namespace App\Filament\Resources\Admin;
 
 use App\Enums\Auth\Role;
 use App\Enums\Filament\NavigationGroup;
-use App\Enums\Models\Admin\ActionLogStatus;
+use App\Enums\Models\Admin\ActivityStatus;
 use App\Filament\Actions\Base\ViewAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
-use App\Filament\Components\Filters\DateFilter;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\Admin\ActionLog\Pages\ManageActionLogs;
+use App\Filament\Resources\Admin\Activity\Pages\ManageActivities;
 use App\Filament\Resources\Auth\UserResource;
 use App\Filament\Resources\BaseResource;
-use App\Models\Admin\ActionLog;
+use App\Models\Admin\Activity;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use Filament\Facades\Filament;
@@ -29,27 +28,26 @@ use Filament\Support\Enums\TextSize;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class ActionLogResource extends BaseResource
+class ActivityResource extends BaseResource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var class-string<Model>|null
      */
-    protected static ?string $model = ActionLog::class;
+    protected static ?string $model = Activity::class;
 
     public static function getModelLabel(): string
     {
-        return __('filament.resources.singularLabel.action_log');
+        return __('filament.resources.singularLabel.activity');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('filament.resources.label.action_logs');
+        return __('filament.resources.label.activities');
     }
 
     public static function getNavigationGroup(): NavigationGroup
@@ -69,18 +67,7 @@ class ActionLogResource extends BaseResource
 
     public static function getRecordTitleAttribute(): string
     {
-        return ActionLog::ATTRIBUTE_NAME;
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        $query = parent::getEloquentQuery();
-
-        // Necessary to prevent lazy loading when loading related resources
-        return $query->with([
-            ActionLog::RELATION_USER,
-            ActionLog::RELATION_TARGET,
-        ]);
+        return Activity::ATTRIBUTE_NAME;
     }
 
     public static function form(Schema $schema): Schema
@@ -88,10 +75,10 @@ class ActionLogResource extends BaseResource
         return $schema
             ->components([
                 // TODO: JSON values are not being displayed
-                KeyValue::make(ActionLog::ATTRIBUTE_FIELDS)
-                    ->label(__('filament.fields.action_log.fields.name'))
-                    ->keyLabel(__('filament.fields.action_log.fields.keys'))
-                    ->valueLabel(__('filament.fields.action_log.fields.values'))
+                KeyValue::make(Activity::ATTRIBUTE_PROPERTIES)
+                    ->label(__('filament.fields.activity.fields.name'))
+                    ->keyLabel(__('filament.fields.activity.fields.keys'))
+                    ->valueLabel(__('filament.fields.activity.fields.values'))
                     ->columnSpanFull()
                     ->hidden(fn ($state): bool => is_null($state))
                     ->formatStateUsing(fn (?array $state) => collect($state)->mapWithKeys(function ($value, $key): array {
@@ -102,8 +89,8 @@ class ActionLogResource extends BaseResource
                         return [$key => blank($value) ? '-' : $value];
                     })->toArray()),
 
-                Textarea::make(ActionLog::ATTRIBUTE_EXCEPTION)
-                    ->label(__('filament.fields.action_log.exception'))
+                Textarea::make(Activity::ATTRIBUTE_EXCEPTION)
+                    ->label(__('filament.fields.activity.exception'))
                     ->disabled()
                     ->columnSpanFull(),
             ]);
@@ -114,30 +101,30 @@ class ActionLogResource extends BaseResource
         return parent::table($table)
             ->recordUrl('')
             ->columns([
-                TextColumn::make(ActionLog::ATTRIBUTE_ID)
+                TextColumn::make(Activity::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
 
-                TextColumn::make(ActionLog::ATTRIBUTE_NAME)
-                    ->label(__('filament.fields.action_log.name'))
+                TextColumn::make(Activity::ATTRIBUTE_NAME)
+                    ->label(__('filament.fields.activity.name'))
                     ->searchable(),
 
-                BelongsToColumn::make(ActionLog::RELATION_USER, UserResource::class),
+                BelongsToColumn::make(Activity::RELATION_USER, UserResource::class),
 
-                TextColumn::make(ActionLog::ATTRIBUTE_TARGET)
-                    ->label(__('filament.fields.action_log.target'))
+                TextColumn::make(Activity::RELATION_RELATED)
+                    ->label(__('filament.fields.activity.target'))
                     ->formatStateUsing(fn ($state): string => Str::headline(class_basename($state)).': '.$state->getName()),
 
-                TextColumn::make(ActionLog::ATTRIBUTE_STATUS)
-                    ->label(__('filament.fields.action_log.status'))
-                    ->formatStateUsing(fn (ActionLogStatus $state): ?string => $state->localize())
+                TextColumn::make(Activity::ATTRIBUTE_STATUS)
+                    ->label(__('filament.fields.activity.status'))
+                    ->formatStateUsing(fn (ActivityStatus $state): ?string => $state->localize())
                     ->badge(),
 
                 TextColumn::make(BaseModel::ATTRIBUTE_CREATED_AT)
-                    ->label(__('filament.fields.action_log.happened_at'))
+                    ->label(__('filament.fields.activity.happened_at'))
                     ->dateTime(),
 
-                TextColumn::make(ActionLog::ATTRIBUTE_FINISHED_AT)
-                    ->label(__('filament.fields.action_log.finished_at'))
+                TextColumn::make(Activity::ATTRIBUTE_FINISHED_AT)
+                    ->label(__('filament.fields.activity.finished_at'))
                     ->dateTime(),
             ]);
     }
@@ -146,33 +133,33 @@ class ActionLogResource extends BaseResource
     {
         return $schema
             ->components([
-                TextEntry::make(ActionLog::ATTRIBUTE_NAME)
-                    ->label(__('filament.fields.action_log.name'))
+                TextEntry::make(Activity::ATTRIBUTE_NAME)
+                    ->label(__('filament.fields.activity.name'))
                     ->formatStateUsing(fn ($state): string => ucfirst((string) $state)),
 
-                BelongsToEntry::make(ActionLog::RELATION_USER, UserResource::class),
+                BelongsToEntry::make(Activity::RELATION_USER, UserResource::class),
 
-                TextEntry::make(ActionLog::ATTRIBUTE_TARGET)
-                    ->label(__('filament.fields.action_log.target'))
+                TextEntry::make(Activity::RELATION_RELATED)
+                    ->label(__('filament.fields.activity.target'))
                     ->formatStateUsing(fn ($state): string => class_basename($state).': '.$state->getName()),
 
-                TextEntry::make(ActionLog::ATTRIBUTE_STATUS)
-                    ->label(__('filament.fields.action_log.status'))
-                    ->formatStateUsing(fn (ActionLogStatus $state): ?string => $state->localize())
+                TextEntry::make(Activity::ATTRIBUTE_STATUS)
+                    ->label(__('filament.fields.activity.status'))
+                    ->formatStateUsing(fn (ActivityStatus $state): ?string => $state->localize())
                     ->badge(),
 
                 TextEntry::make(BaseModel::ATTRIBUTE_CREATED_AT)
-                    ->label(__('filament.fields.action_log.happened_at'))
+                    ->label(__('filament.fields.activity.happened_at'))
                     ->dateTime(),
 
-                TextEntry::make(ActionLog::ATTRIBUTE_FINISHED_AT)
-                    ->label(__('filament.fields.action_log.finished_at'))
+                TextEntry::make(Activity::ATTRIBUTE_FINISHED_AT)
+                    ->label(__('filament.fields.activity.finished_at'))
                     ->dateTime(),
 
-                KeyValueEntry::make(ActionLog::ATTRIBUTE_FIELDS)
-                    ->label(__('filament.fields.action_log.fields.name'))
-                    ->keyLabel(__('filament.fields.action_log.fields.keys'))
-                    ->valueLabel(__('filament.fields.action_log.fields.values'))
+                KeyValueEntry::make(Activity::ATTRIBUTE_PROPERTIES)
+                    ->label(__('filament.fields.activity.fields.name'))
+                    ->keyLabel(__('filament.fields.activity.fields.keys'))
+                    ->valueLabel(__('filament.fields.activity.fields.values'))
                     ->columnSpanFull()
                     ->hidden(fn ($state): bool => is_null($state))
                     ->formatStateUsing(fn (?array $state) => collect($state)->mapWithKeys(function ($value, $key): array {
@@ -183,8 +170,8 @@ class ActionLogResource extends BaseResource
                         return [$key => blank($value) ? '-' : $value];
                     })->toArray()),
 
-                TextEntry::make(ActionLog::ATTRIBUTE_EXCEPTION)
-                    ->label(__('filament.fields.action_log.exception'))
+                TextEntry::make(Activity::ATTRIBUTE_EXCEPTION)
+                    ->label(__('filament.fields.activity.exception'))
                     ->columnSpanFull()
                     ->size(TextSize::Large),
             ])
@@ -197,15 +184,9 @@ class ActionLogResource extends BaseResource
     public static function getFilters(): array
     {
         return [
-            SelectFilter::make(ActionLog::ATTRIBUTE_STATUS)
-                ->label(__('filament.fields.action_log.status'))
-                ->options(ActionLogStatus::class),
-
-            DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
-                ->label(__('filament.fields.action_log.happened_at')),
-
-            DateFilter::make(ActionLog::ATTRIBUTE_FINISHED_AT)
-                ->label(__('filament.fields.action_log.finished_at')),
+            SelectFilter::make(Activity::ATTRIBUTE_STATUS)
+                ->label(__('filament.fields.activity.status'))
+                ->options(ActivityStatus::class),
         ];
     }
 
@@ -270,7 +251,7 @@ class ActionLogResource extends BaseResource
     public static function getPages(): array
     {
         return [
-            'index' => ManageActionLogs::route('/'),
+            'index' => ManageActivities::route('/'),
         ];
     }
 }

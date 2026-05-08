@@ -53,6 +53,7 @@
         "propaganistas/laravel-disposable-email": "^2.4.27",
         "spatie/db-dumper": "^3.8.3",
         "spatie/eloquent-sortable": "^5.0.1",
+        "spatie/laravel-activitylog": "^5.0",
         "spatie/laravel-permission": "^6.25.0",
         "staudenmeir/belongs-to-through": "^2.18",
         "staudenmeir/eloquent-has-many-deep": "^1.22.1",

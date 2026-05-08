@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\BulkActions\Base;
 
-use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use Filament\Actions\ForceDeleteBulkAction as BaseForceDeleteBulkAction;
 use Illuminate\Support\Facades\Gate;
 
 class ForceDeleteBulkAction extends BaseForceDeleteBulkAction
 {
-    use HasActionLogs;
-
     protected function setUp(): void
     {
         parent::setUp();

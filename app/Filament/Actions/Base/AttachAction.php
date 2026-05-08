@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Base;
 
-use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\Components\Fields\Select;
 use App\Filament\RelationManagers\BaseRelationManager;
-use App\Models\Admin\ActionLog;
 use App\Models\Wiki\Image;
 use Filament\Actions\AttachAction as BaseAttachAction;
 use Filament\Facades\Filament;
@@ -20,8 +18,6 @@ use Illuminate\Support\Str;
 
 class AttachAction extends BaseAttachAction
 {
-    use HasPivotActionLogs;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -56,13 +52,7 @@ class AttachAction extends BaseAttachAction
             if ($this->shouldShowCreateOption($model)) {
                 return $select
                     ->createOptionForm(fn (Schema $schema) => Filament::getModelResource($model)::form($schema)->getComponents())
-                    ->createOptionUsing(function (array $data) use ($model) {
-                        $created = $model::query()->create($data);
-
-                        ActionLog::modelCreated($created);
-
-                        return $created->getKey();
-                    });
+                    ->createOptionUsing(fn (array $data) => $model::query()->create($data)->getKey());
             }
 
             return $select;
@@ -72,8 +62,6 @@ class AttachAction extends BaseAttachAction
             $action->getRecordSelect(),
             ...$livewire->getPivotComponents(),
         ]);
-
-        $this->after(fn (BaseRelationManager $livewire, Model $record, AttachAction $action) => $this->pivotActionLog('Attach', $livewire, $record, $action));
     }
 
     /**

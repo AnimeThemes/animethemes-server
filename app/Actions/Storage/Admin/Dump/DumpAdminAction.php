@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Storage\Admin\Dump;
 
 use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
-use App\Models\Admin\ActionLog;
+use App\Models\Admin\Activity;
 use App\Models\Admin\Announcement;
 use App\Models\Admin\Dump;
 use App\Models\Admin\Feature;
@@ -27,7 +27,8 @@ class DumpAdminAction extends DumpAction
     {
         return [
             'action_events', // Nova events
-            ActionLog::TABLE,
+            'action_logs',
+            Activity::TABLE,
             Announcement::TABLE,
             Dump::TABLE,
             Feature::TABLE,

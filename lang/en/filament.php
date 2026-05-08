@@ -515,7 +515,7 @@ return [
         ],
     ],
     'fields' => [
-        'action_log' => [
+        'activity' => [
             'name' => 'Name',
             'target' => 'Target',
             'status' => 'Status',
@@ -1015,7 +1015,7 @@ return [
     ],
     'resources' => [
         'label' => [
-            'action_logs' => 'Action Logs',
+            'activities' => 'Activities',
             'anime_theme_entries' => 'Anime Theme Entries',
             'anime_themes' => 'Anime Themes',
             'anime' => 'Anime',
@@ -1051,7 +1051,7 @@ return [
             'videos' => 'Videos',
         ],
         'singularLabel' => [
-            'action_log' => 'Action Log',
+            'activity' => 'Activity',
             'anime_theme_entry' => 'Anime Theme Entry',
             'anime_theme' => 'Anime Theme',
             'anime' => 'Anime',

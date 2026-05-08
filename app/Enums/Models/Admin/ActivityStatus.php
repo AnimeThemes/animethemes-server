@@ -9,7 +9,7 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 
-enum ActionLogStatus: int implements HasColor, HasLabel
+enum ActivityStatus: int implements HasColor, HasLabel
 {
     use LocalizesName;
 
@@ -25,9 +25,9 @@ enum ActionLogStatus: int implements HasColor, HasLabel
     public function getColor(): string|array
     {
         return match ($this) {
-            ActionLogStatus::RUNNING => Color::Amber,
-            ActionLogStatus::FAILED => 'danger',
-            ActionLogStatus::FINISHED => 'success',
+            ActivityStatus::RUNNING => Color::Amber,
+            ActivityStatus::FAILED => 'danger',
+            ActivityStatus::FINISHED => 'success',
         };
     }
 }
