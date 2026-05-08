@@ -9,11 +9,9 @@ use App\Console\Commands\BaseCommand;
 use Database\Seeders\Admin\Feature\FeatureSeeder;
 use Database\Seeders\Auth\Permission\PermissionSeeder;
 use Database\Seeders\Auth\Role\RoleSeeder;
-use Database\Seeders\Scout\ImportModelsSeeder;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
@@ -62,19 +60,19 @@ class DatabaseSyncCommand extends BaseCommand
         DB::unprepared($content);
 
         $this->info('Migrating database');
-        Artisan::call('migrate');
+        $this->call('migrate');
 
         $this->info('Seeding permissions');
-        Artisan::call('db:seed', ['class' => PermissionSeeder::class]);
+        $this->call('db:seed', ['class' => PermissionSeeder::class]);
 
         $this->info('Seeding roles');
-        Artisan::call('db:seed', ['class' => RoleSeeder::class]);
+        $this->call('db:seed', ['class' => RoleSeeder::class]);
 
         $this->info('Seeding features');
-        Artisan::call('db:seed', ['class' => FeatureSeeder::class]);
+        $this->call('db:seed', ['class' => FeatureSeeder::class]);
 
         $this->info('Importing models for scout');
-        Artisan::call('db:seed', ['class' => ImportModelsSeeder::class]);
+        $this->call('scout:import-all');
 
         return 0;
     }
