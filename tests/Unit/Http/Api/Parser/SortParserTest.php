@@ -101,7 +101,7 @@ test('parse global scope', function (): void {
 });
 
 test('parse type scope', function (): void {
-    $type = Str::singular(fake()->word());
+    $type = Str::singular('posts');
 
     $parameters = [
         SortParser::param() => [
