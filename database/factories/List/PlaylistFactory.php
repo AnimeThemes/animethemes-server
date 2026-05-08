@@ -64,7 +64,7 @@ class PlaylistFactory extends Factory
                         ->createOne();
 
                     if ($index === 1) {
-                        $track->moveToStart();
+                        $track->position = 1;
                         $playlist->first()->associate($track)->save();
                     }
 
@@ -78,7 +78,7 @@ class PlaylistFactory extends Factory
                     }
 
                     if ($index === $count) {
-                        $track->moveToEnd();
+                        $track->position = $index;
                         $playlist->last()->associate($track);
                         $playlist->save();
                     }
@@ -114,6 +114,7 @@ class PlaylistFactory extends Factory
                         ->createOne();
 
                     if ($index === 1) {
+                        $track->position = 1;
                         $playlist->first()->associate($track)->save();
                     }
 
@@ -126,6 +127,7 @@ class PlaylistFactory extends Factory
                     }
 
                     if ($index === count($videoIds)) {
+                        $track->position = $index;
                         $playlist->last()->associate($track);
                         $playlist->save();
                     }
