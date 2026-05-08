@@ -127,7 +127,7 @@ Migrate and import models into our indices using:
 php artisan elastic:migrate
 
 # Elasticsearch and Typesense: Import Models with a seeder
-php artisan db:seed --class="Database\Seeders\Scout\ImportModelsSeeder"
+php artisan scout:import-all
 ```
 
 ### Local Storage

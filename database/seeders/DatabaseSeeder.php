@@ -8,7 +8,6 @@ use Database\Seeders\Admin\Feature\FeatureSeeder;
 use Database\Seeders\Auth\Permission\PermissionSeeder;
 use Database\Seeders\Auth\Prohibition\ProhibitionSeeder;
 use Database\Seeders\Auth\Role\RoleSeeder;
-use Database\Seeders\Scout\ImportModelsSeeder;
 use Database\Seeders\Wiki\Audio\AudioSeeder;
 use Database\Seeders\Wiki\Video\VideoSeeder;
 use Illuminate\Database\Seeder;
@@ -27,6 +26,5 @@ class DatabaseSeeder extends Seeder
         $this->call(AudioSeeder::class);
         $this->call(HashidsSeeder::class);
         $this->call(FeatureSeeder::class);
-        $this->call(ImportModelsSeeder::class);
     }
 }
