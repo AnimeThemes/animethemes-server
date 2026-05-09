@@ -74,6 +74,8 @@ services:
             - sail
     elasticsearch:
         image: 'elasticsearch:9.4.0'
+        profiles:
+            - elastic
         ports:
             - '9200:9200'
             - '9300:9300'
