@@ -24,7 +24,7 @@ return [
             'name' => 'graphiql',
             'middleware' => ['web'],
             'prefix' => env('GRAPHQL_PREFIX', null),
-            'domain' => env('GRAPHQL_URL', env('APP_URL')),
+            'domain' => env('GRAPHIQL_URL'),
 
             /*
             |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ return [
             |
             */
 
-            'endpoint' => env('GRAPHQL_URL', env('APP_URL')).'/'.env('GRAPHQL_PATH'),
+            'endpoint' => env('GRAPHQL_URL').'/'.env('GRAPHQL_PATH'),
 
             /*
             |--------------------------------------------------------------------------

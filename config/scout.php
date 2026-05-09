@@ -556,6 +556,7 @@ return [
                         [
                             'name' => 'entries',
                             'type' => 'object[]',
+                            'optional' => true,
                         ],
                     ],
                 ],
