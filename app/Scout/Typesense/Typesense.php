@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Scout\Typesense;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Http\Api\Criteria\Paging\Criteria as PagingCriteria;
+use App\Http\Api\Criteria\Sort\FieldCriteria;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Scope\ScopeParser;
 use App\Scout\Criteria;
 use App\Scout\Search;
 use Closure;
@@ -15,6 +18,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Laravel\Scout\Builder as ScoutBuilder;
 
 class Typesense extends Search
 {
@@ -31,8 +35,36 @@ class Typesense extends Search
         EloquentSchema $schema,
         PaginationStrategy $paginationStrategy
     ): Collection|Paginator {
-        // TODO
-        return $this->search();
+        $model = $schema->model();
+
+        /** @var ScoutBuilder $builder */
+        $builder = $model::search($this->criteria->getTerm());
+        $scope = ScopeParser::parse($schema->type());
+        foreach ($query->getFilterCriteria() as $filter) {
+            foreach ($schema->filters() as $schemaFilter) {
+                if ($filter->shouldFilter($schemaFilter, $scope)) {
+                    $builder->where(
+                        $filter->getField(),
+                        $filter->getComparisonOperator()->value,
+                        $schemaFilter->getFilterValues($filter->getFilterValues()),
+                    );
+                }
+            }
+        }
+
+        foreach ($query->getSortCriteria() as $sort) {
+            foreach ($schema->sorts() as $schemaSort) {
+                if ($sort->shouldSort($schemaSort, $scope) && $sort instanceof FieldCriteria) {
+                    $builder->orderBy($sort->getField(), $sort->getDirection()->value);
+                }
+            }
+        }
+
+        $paginationCriteria = $query->getPagingCriteria($paginationStrategy);
+
+        return $paginationCriteria instanceof PagingCriteria
+            ? $builder->paginate($paginationCriteria->getResultSize())
+            : $builder->get();
     }
 
     /**
