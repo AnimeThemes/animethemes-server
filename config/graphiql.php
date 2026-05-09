@@ -37,7 +37,7 @@ return [
             |
             */
 
-            'endpoint' => env('GRAPHQL_URL').'/'.env('GRAPHQL_PATH'),
+            'endpoint' => env('GRAPHIQL_GRAPHQL_ENDPOINT', 'GRAPHQL_URL').'/'.env('GRAPHQL_PATH', ''),
 
             /*
             |--------------------------------------------------------------------------
