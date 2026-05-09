@@ -25,7 +25,6 @@ services:
             - mysql
             - redis
             - mailpit
-            - typesense
     mysql:
         image: 'mysql:8.4'
         ports:
