@@ -18,7 +18,7 @@ class EnabledOnlyOnLocalhost
     public function handle(Request $request, Closure $next): mixed
     {
         if (Feature::for(null)->active(FeatureConstants::ENABLED_ONLY_ON_LOCALHOST)) {
-            abort_if(!in_array($request->ip(), Config::array('app.local_ips'), true), 403, 'Route only available for localhost');
+            abort_if(! in_array($request->ip(), Config::array('app.local_ips'), true), 403, 'Route only available for localhost');
         }
 
         return $next($request);
