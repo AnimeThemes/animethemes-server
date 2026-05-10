@@ -38,6 +38,7 @@ class Typesense extends Search
         $model = $schema->model();
 
         /** @var ScoutBuilder $builder */
+        /** @phpstan-ignore-next-line */
         $builder = $model::search($this->criteria->getTerm());
         $scope = ScopeParser::parse($schema->type());
         foreach ($query->getFilterCriteria() as $filter) {
