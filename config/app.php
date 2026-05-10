@@ -254,6 +254,6 @@ return [
     'local_ips' => [
         '127.0.0.1',
         '172.19.0.1',
-        ...explode(',', env('APP_LOCAL_IPS', [])),
+        ...explode(',', env('APP_LOCAL_IPS', '')),
     ],
 ];
