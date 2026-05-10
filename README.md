@@ -46,8 +46,9 @@ Laravel Herd will setup PHP 8.5 for you. You should download and setup MySQL and
 
 ### PHP
 
+You can skip this if you are using Docker.
+
 In order to accept video uploads, we should ensure that php will accept requests of adequate sizes.
-You **don't** need to change this if you are using Docker.
 
 Set `post_max_size` to `200M`.
 
