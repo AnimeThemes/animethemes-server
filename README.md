@@ -112,6 +112,7 @@ The following instruction assume you have configured a shell alias. If not you n
 Open the following file and paste the contents there:
 
 For Windows/WSL: `C:\Windows\System32\drivers\etc\hosts`
+
 For Linux: `/etc/hosts`
 
 ```
