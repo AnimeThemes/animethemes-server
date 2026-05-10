@@ -21,7 +21,8 @@ This project is powered by [**Laravel**](https://laravel.com/), a PHP framework 
 - [Pre Setup](#pre-setup)
   - [PHP](#php)
 - [Setup](#setup)
-  - [Web Server](#web-server)
+  - [Laravel Herd](#laravel-herd)
+  - [Docker](#docker)
   - [Running](#running)
 - [Extra Configuration](#extra-configuration)
   - [Feature Flags](#feature-flags)
@@ -33,37 +34,28 @@ This project is powered by [**Laravel**](https://laravel.com/), a PHP framework 
 
 ## Prerequisites
 
-* [Laravel Herd](https://herd.laravel.com/) or a webserver such as [Apache](https://httpd.apache.org/download.cgi) or
-[Nginx](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/)
-* PHP 8.5
-* MySQL 8+
-* [composer](https://getcomposer.org/download/) for vendor dependencies
+* [Laravel Herd](https://herd.laravel.com/) or [Docker](https://www.docker.com/)
+* MySQL 8+ or Docker
+* [composer](https://getcomposer.org/download/) or Docker
 
-A LAMP stack, such as [XAMPP](https://www.apachefriends.org/download.html), can
-also be used to set up Apache, MySQL, and PHP.
+Docker will setup PHP, MySQL and Typesense for you. If you are on Windows, use the [WSL](https://learn.microsoft.com/windows/wsl/install) terminal.
 
-Alternatively, you may use [Laravel Herd](https://herd.laravel.com), which
-provides a simple local development environment with PHP and a web server.
+Laravel Herd will setup PHP 8.5 for you. You should download and setup MySQL and Typesense manually.
 
 ## Pre Setup
 
 ### PHP
 
-We should ensure that we have the following extensions enabled for php in `php.ini`.
-
-`fileinfo` - Needed to detect MIME type of files during seeding.
-
-`gd` - Needed to fake image files for testing.
-
-`pdo_mysql` - Needed to use MySQL.
-
 In order to accept video uploads, we should ensure that php will accept requests of adequate sizes.
+You **don't** need to change this if you are using Docker.
 
 Set `post_max_size` to `200M`.
 
 Set `upload_max_filesize` to `200M`.
 
 ## Setup
+
+### Laravel Herd
 
 ```bash
 # Clone the repository
@@ -73,24 +65,71 @@ cd animethemes-server
 # Create the database
 mysql -h localhost -u root -p -e "CREATE DATABASE IF NOT EXISTS ``animethemes`` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
-# Install dependencies, migrate the database, run seeders and import dumps
+# Install dependencies, import dumps, migrate the database and run seeders
 composer setup
+
+# Generate an application key
+php artisan key:generate
+
+# Run the following in the project directory:
+herd link admin.animethemes.test
+herd link animethemes.test
+herd link api.animethemes.test
+herd link graphql.animethemes.test
 ```
 
-### Web Server
+### Docker
 
-#### Laravel Herd
+```bash
+# Clone the repository
+git clone git@github.com:AnimeThemes/animethemes-server.git
+cd animethemes-server
 
-```sh
-# Run the following in the project directory:
-herd link animethemes.test
+cp .env.example-sail .env
+
+# Install Composer dependencies using a throwaway container
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php82-composer:latest \
+    composer install --ignore-platform-reqs
+
+# Start sail
+./vendor/bin/sail up -d
+
+# Generate an application key
+./vendor/bin/sail artisan key:generate
+
+# Import dumps, migrate the database and run seeders
+./vendor/bin/sail artisan db:sync --drop
+```
+
+You can optionally configure a shell alias following the [official Sail guide](https://laravel.com/docs/13.x/sail#configuring-a-shell-alias).
+The following instruction assume you have configured a shell alias. If not you need to replace `sail` with `./vendor/bin/sail`.
+
+Open the following file and paste the contents there:
+
+For Windows/WSL: `C:\Windows\System32\drivers\etc\hosts`
+For Linux: `/etc/hosts`
+
+```
+127.0.0.1 admin.animethemes.test
+127.0.0.1 animethemes.test
+127.0.0.1 api.animethemes.test
+127.0.0.1 graphql.animethemes.test
+```
+
+Restart the container:
+
+```bash
+sail restart
+sail artisan optimize
 ```
 
 ### Running
 
-After installation, restart the web server to apply the configuration.
-
-If all went well, AnimeThemes should be live at `http://animethemes.test` (or whatever set the server name is set to).
+If all went well, AnimeThemes should be live at `http://animethemes.test`.
 
 ## Extra Configuration
 
@@ -105,6 +144,8 @@ For example, if we want to enable video streams, we need to set the `App\Feature
 ```sh
 # Open the terminal of tinker
 php artisan tinker
+# or through Docker
+sail artisan tinker
 
 # Create the user
 $user = User::factory()->create(['name' => 'User Name', 'email' => 'example@example.com', 'password' => 'password', 'email_verified_at' => now()]);
@@ -116,17 +157,16 @@ $user->assignRole('Admin');
 
 ### Search
 
-If we want to enable scout, we need to configure a search engine (either Elasticsearch or Typesense).
+You can skip this if you are using Docker.
 
-Change the `SCOUT_DRIVER` variable in `.env` to either "elastic" or "typesense". Add additional configuration like host and port.
+If we want to enable scout, we need to configure a search engine.
 
-Migrate and import models into our indices using:
+Change the `SCOUT_DRIVER` variable in `.env` to "typesense". Add additional configuration like host and port.
+
+Import models into our indices using:
 
 ```sh
-# Elasticsearch: run the elastic migrations
-php artisan elastic:migrate
-
-# Elasticsearch and Typesense: Import Models with a seeder
+# Import Models with a seeder
 php artisan scout:import-all
 ```
 
