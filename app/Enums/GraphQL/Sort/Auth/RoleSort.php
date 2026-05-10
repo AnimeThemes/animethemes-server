@@ -30,8 +30,8 @@ enum RoleSort implements EnumSort
         return match ($this) {
             self::ID => new FieldSortCriteria($this->name, Role::ATTRIBUTE_ID),
             self::ID_DESC => new FieldSortCriteria($this->name, Role::ATTRIBUTE_ID, SortDirection::DESC),
-            self::NAME => new FieldSortCriteria($this->name, Role::ATTRIBUTE_NAME, isStringField: true),
-            self::NAME_DESC => new FieldSortCriteria($this->name, Role::ATTRIBUTE_NAME, SortDirection::DESC, isStringField: true),
+            self::NAME => new FieldSortCriteria($this->name, Role::ATTRIBUTE_NAME),
+            self::NAME_DESC => new FieldSortCriteria($this->name, Role::ATTRIBUTE_NAME, SortDirection::DESC),
             self::PRIORITY => new FieldSortCriteria($this->name, Role::ATTRIBUTE_PRIORITY),
             self::PRIORITY_DESC => new FieldSortCriteria($this->name, Role::ATTRIBUTE_PRIORITY, SortDirection::DESC),
             self::CREATED_AT => new FieldSortCriteria($this->name, Role::ATTRIBUTE_CREATED_AT),

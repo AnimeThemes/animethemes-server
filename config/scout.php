@@ -246,6 +246,7 @@ return [
                         [
                             'name' => 'name',
                             'type' => 'string',
+                            'sort' => true,
                         ],
                         [
                             'name' => 'season',
@@ -311,6 +312,12 @@ return [
                             'type' => 'object',
                             'optional' => true,
                         ],
+                        [
+                            'name' => 'song.title',
+                            'type' => 'string',
+                            'optional' => true,
+                            'sort' => true,
+                        ],
                     ],
                 ],
                 'search-parameters' => [
@@ -368,6 +375,7 @@ return [
                         [
                             'name' => 'name',
                             'type' => 'string',
+                            'sort' => true,
                         ],
                         [
                             'name' => 'synonyms',
@@ -476,6 +484,7 @@ return [
                         [
                             'name' => 'name',
                             'type' => 'string',
+                            'sort' => true,
                         ],
                         [
                             'name' => 'created_at',
@@ -503,7 +512,6 @@ return [
                         [
                             'name' => 'text',
                             'type' => 'string',
-                            'sort' => true,
                         ],
                     ],
                 ],
@@ -548,6 +556,7 @@ return [
                         [
                             'name' => 'filename',
                             'type' => 'string',
+                            'sort' => true,
                         ],
                         [
                             'name' => 'tags',

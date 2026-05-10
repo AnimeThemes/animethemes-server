@@ -159,17 +159,15 @@ $user->assignRole('Admin');
 
 ### Search
 
-You can skip this if you are using Docker.
-
-If we want to enable scout, we need to configure a search engine.
-
 Change the `SCOUT_DRIVER` variable in `.env` to "typesense". Add additional configuration like host and port.
 
 Import models into our indices using:
 
 ```sh
-# Import Models with a seeder
+# Import Models using a custom artisan command
 php artisan scout:import-all
+# or through Docker
+sail artisan scout:import-all
 ```
 
 ### Local Storage

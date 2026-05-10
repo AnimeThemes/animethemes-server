@@ -40,10 +40,10 @@ enum AnimeThemeSort implements EnumSort
             self::CREATED_AT_DESC => new FieldSortCriteria($this->name, AnimeTheme::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
             self::UPDATED_AT => new FieldSortCriteria($this->name, AnimeTheme::ATTRIBUTE_UPDATED_AT),
             self::UPDATED_AT_DESC => new FieldSortCriteria($this->name, AnimeTheme::ATTRIBUTE_UPDATED_AT, SortDirection::DESC),
-            self::SONG_TITLE => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE, AnimeTheme::RELATION_SONG, isStringField: true),
-            self::SONG_TITLE_DESC => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE, AnimeTheme::RELATION_SONG, SortDirection::DESC, isStringField: true),
-            self::SONG_TITLE_NATIVE => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE_NATIVE, AnimeTheme::RELATION_SONG, isStringField: true),
-            self::SONG_TITLE_NATIVE_DESC => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE_NATIVE, AnimeTheme::RELATION_SONG, SortDirection::DESC, isStringField: true),
+            self::SONG_TITLE => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE, AnimeTheme::RELATION_SONG),
+            self::SONG_TITLE_DESC => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE, AnimeTheme::RELATION_SONG, SortDirection::DESC),
+            self::SONG_TITLE_NATIVE => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE_NATIVE, AnimeTheme::RELATION_SONG),
+            self::SONG_TITLE_NATIVE_DESC => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE_NATIVE, AnimeTheme::RELATION_SONG, SortDirection::DESC),
             self::RANDOM => new RandomSortCriteria($this->name, ''),
         };
     }

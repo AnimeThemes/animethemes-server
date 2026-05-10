@@ -19,7 +19,6 @@ abstract class SortCriteria implements Stringable
         protected string $enumName,
         protected string $column,
         protected SortDirection $direction = SortDirection::ASC,
-        protected bool $isStringField = false,
         protected QualifyColumn $qualifyColumn = QualifyColumn::YES,
     ) {}
 
@@ -31,11 +30,6 @@ abstract class SortCriteria implements Stringable
     public function getDirection(): SortDirection
     {
         return $this->direction;
-    }
-
-    public function isStringField(): bool
-    {
-        return $this->isStringField;
     }
 
     public function setAggregateRelation(string $relation, AggregateFunction $function): static

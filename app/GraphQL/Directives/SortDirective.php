@@ -7,10 +7,12 @@ namespace App\GraphQL\Directives;
 use App\Contracts\GraphQL\EnumSort;
 use App\Enums\Http\Api\Field\AggregateFunction;
 use App\GraphQL\Sort\FieldSortCriteria;
+use App\GraphQL\Sort\RelationSortCriteria;
 use GraphQL\Error\Error;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\Str;
 use Laravel\Scout\Builder as ScoutBuilder;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
 use Nuwave\Lighthouse\Scout\ScoutBuilderDirective;
@@ -63,8 +65,11 @@ GRAPHQL;
         foreach ($value as $sort) {
             $criteria = $sort->getSortCriteria();
 
+            throw_if(Str::startsWith($criteria->__toString(), 'ID'), Error::class, 'Sorting by this value is not supported when using the \'search\' parameter.');
+
             match (true) {
                 $criteria instanceof FieldSortCriteria => $builder->orderBy($criteria->getColumn(), $criteria->getDirection()->value),
+                $criteria instanceof RelationSortCriteria => $builder->orderBy($criteria->getRelation().'.'.$criteria->getColumn(), $criteria->getDirection()->value),
                 default => throw new Error('Sorting by this value is not supported when using the \'search\' parameter.'),
             };
         }

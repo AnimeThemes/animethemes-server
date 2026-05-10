@@ -28,8 +28,8 @@ enum PermissionSort implements EnumSort
         return match ($this) {
             self::ID => new FieldSortCriteria($this->name, Permission::ATTRIBUTE_ID),
             self::ID_DESC => new FieldSortCriteria($this->name, Permission::ATTRIBUTE_ID, SortDirection::DESC),
-            self::NAME => new FieldSortCriteria($this->name, Permission::ATTRIBUTE_NAME, isStringField: true),
-            self::NAME_DESC => new FieldSortCriteria($this->name, Permission::ATTRIBUTE_NAME, SortDirection::DESC, isStringField: true),
+            self::NAME => new FieldSortCriteria($this->name, Permission::ATTRIBUTE_NAME),
+            self::NAME_DESC => new FieldSortCriteria($this->name, Permission::ATTRIBUTE_NAME, SortDirection::DESC),
             self::CREATED_AT => new FieldSortCriteria($this->name, Permission::ATTRIBUTE_CREATED_AT),
             self::CREATED_AT_DESC => new FieldSortCriteria($this->name, Permission::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
             self::UPDATED_AT => new FieldSortCriteria($this->name, Permission::ATTRIBUTE_UPDATED_AT),

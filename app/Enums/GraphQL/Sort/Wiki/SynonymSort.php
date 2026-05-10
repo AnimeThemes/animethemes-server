@@ -28,8 +28,8 @@ enum SynonymSort implements EnumSort
         return match ($this) {
             self::ID => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_ID),
             self::ID_DESC => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_ID, SortDirection::DESC),
-            self::TEXT => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_TEXT, isStringField: true),
-            self::TEXT_DESC => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_TEXT, SortDirection::DESC, isStringField: true),
+            self::TEXT => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_TEXT),
+            self::TEXT_DESC => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_TEXT, SortDirection::DESC),
             self::CREATED_AT => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_CREATED_AT),
             self::CREATED_AT_DESC => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
             self::UPDATED_AT => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_UPDATED_AT),
