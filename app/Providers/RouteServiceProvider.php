@@ -33,16 +33,17 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             $user = $request->user();
             $ip = $request->ip();
+            $isLocal = in_array($ip, Config::array('app.local_ips'), true);
             $forwardedIp = $request->header('x-forwarded-ip');
 
             // (If request is from client and no forwarded ip) or (the user logged in has permission to bypass API rate limiting)
             /** @phpstan-ignore-next-line */
-            if (($ip === '127.0.0.1' && ! $forwardedIp) || ($user instanceof User && $user->can(SpecialPermission::BYPASS_API_RATE_LIMITER->value))) {
+            if (($isLocal && ! $forwardedIp) || ($user instanceof User && $user->can(SpecialPermission::BYPASS_API_RATE_LIMITER->value))) {
                 return Limit::none();
             }
 
             // Check if request is from client to prevent users from using forwarded ip
-            if ($ip === '127.0.0.1' && $forwardedIp) {
+            if ($isLocal && $forwardedIp) {
                 $ip = $forwardedIp;
             }
 
@@ -52,16 +53,17 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('graphql', function (Request $request) {
             $user = $request->user();
             $ip = $request->ip();
+            $isLocal = in_array($ip, Config::array('app.local_ips'), true);
             $forwardedIp = $request->header('x-forwarded-ip');
 
             // (If request is from client and no forwarded ip) or (the user logged in has permission to bypass GraphQL rate limiting)
             /** @phpstan-ignore-next-line */
-            if (($ip === '127.0.0.1' && ! $forwardedIp) || ($user instanceof User && $user->can(SpecialPermission::BYPASS_GRAPHQL_RATE_LIMITER->value))) {
+            if (($isLocal && ! $forwardedIp) || ($user instanceof User && $user->can(SpecialPermission::BYPASS_GRAPHQL_RATE_LIMITER->value))) {
                 return Limit::none();
             }
 
             // Check if request is from client to prevent users from using forwarded ip
-            if ($ip === '127.0.0.1' && $forwardedIp) {
+            if ($isLocal && $forwardedIp) {
                 $ip = $forwardedIp;
             }
 

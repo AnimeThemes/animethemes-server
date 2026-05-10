@@ -29,6 +29,6 @@ class MaxCount
      */
     private function isLocal(Request $request): bool
     {
-        return $request->ip() === '127.0.0.1';
+        return in_array($request->ip(), Config::array('app.local_ips'), true);
     }
 }
