@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
-use App\Enums\Models\Wiki\AnimeMediaFormat;
+use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
@@ -283,11 +283,11 @@ test('updated at filter', function (): void {
 });
 
 test('anime by media format', function (): void {
-    $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+    $mediaFormatFilter = Arr::random(AnimeFormat::cases());
 
     $parameters = [
         FilterParser::param() => [
-            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            'media_format' => $mediaFormatFilter->localize(),
         ],
         IncludeParser::param() => AnimeSeries::RELATION_ANIME,
     ];

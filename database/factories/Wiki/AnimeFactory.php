@@ -47,7 +47,6 @@ class AnimeFactory extends Factory
             Anime::ATTRIBUTE_SYNOPSIS => fake()->text(),
             Anime::ATTRIBUTE_YEAR => fake()->numberBetween(1960, intval(date('Y')) + 1),
             Anime::ATTRIBUTE_FORMAT => $format->value,
-            Anime::ATTRIBUTE_MEDIA_FORMAT => $format->value,
         ];
     }
 

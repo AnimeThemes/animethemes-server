@@ -6,7 +6,6 @@ namespace App\Actions\Storage\Admin\Dump;
 
 use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
@@ -46,19 +45,16 @@ class DumpContentAction extends DumpAction
             Anime::TABLE,
             AnimeSeries::TABLE,
             AnimeStudio::TABLE,
-            AnimeSynonym::TABLE,
             AnimeTheme::TABLE,
             AnimeThemeEntry::TABLE,
             AnimeThemeEntryVideo::TABLE,
             Artist::TABLE,
             ArtistMember::TABLE,
-            'artist_song',
             Audio::TABLE,
             ExternalResource::TABLE,
             Group::TABLE,
             Image::TABLE,
             Imageable::TABLE,
-            'memberships',
             Performance::TABLE,
             Resourceable::TABLE,
             Series::TABLE,

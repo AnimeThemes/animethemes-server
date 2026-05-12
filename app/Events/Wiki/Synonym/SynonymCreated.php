@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Synonym;
 
-use App\Contracts\Events\UpdateAnimeSynonymsEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Series;
@@ -19,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 /**
  * @extends WikiCreatedEvent<Synonym>
  */
-class SynonymCreated extends WikiCreatedEvent implements UpdateAnimeSynonymsEvent, UpdateRelatedIndicesEvent
+class SynonymCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 {
     protected function getDiscordMessageDescription(): string
     {
@@ -47,17 +45,6 @@ class SynonymCreated extends WikiCreatedEvent implements UpdateAnimeSynonymsEven
                     $entry->videos->each(fn (Video $video) => $video->searchable());
                 });
             });
-        }
-    }
-
-    public function updateAnimeSynonyms(): void
-    {
-        if ($this->getModel()->synonymable instanceof Anime) {
-            AnimeSynonym::query()->create([
-                AnimeSynonym::ATTRIBUTE_ANIME => $this->getModel()->synonymable_id,
-                AnimeSynonym::ATTRIBUTE_TEXT => $this->getModel()->text,
-                AnimeSynonym::ATTRIBUTE_TYPE => $this->getModel()->type->value,
-            ]);
         }
     }
 }

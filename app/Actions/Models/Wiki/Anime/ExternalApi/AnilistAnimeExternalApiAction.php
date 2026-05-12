@@ -8,9 +8,9 @@ use App\Actions\Models\Wiki\ExternalApiAction;
 use App\Contracts\Actions\Models\Wiki\BackfillImages;
 use App\Contracts\Actions\Models\Wiki\BackfillResources;
 use App\Contracts\Actions\Models\Wiki\BackfillSynonyms;
-use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Enums\Models\Wiki\SynonymType;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -145,9 +145,9 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
     public function getSynonymsMapping(): array
     {
         return [
-            AnimeSynonymType::ENGLISH->value => 'data.Media.title.english',
-            AnimeSynonymType::NATIVE->value => 'data.Media.title.native',
-            AnimeSynonymType::OTHER->value => 'data.Media.title.romaji',
+            SynonymType::ENGLISH->value => 'data.Media.title.english',
+            SynonymType::NATIVE->value => 'data.Media.title.native',
+            SynonymType::OTHER->value => 'data.Media.title.romaji',
         ];
     }
 }

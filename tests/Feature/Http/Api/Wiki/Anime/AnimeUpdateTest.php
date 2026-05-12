@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Enums\Auth\CrudPermission;
-use App\Enums\Models\Wiki\AnimeMediaFormat;
+use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
@@ -16,11 +16,11 @@ test('protected', function (): void {
     $anime = Anime::factory()->createOne();
 
     $season = Arr::random(AnimeSeason::cases());
-    $mediaFormat = Arr::random(AnimeMediaFormat::cases());
+    $mediaFormat = Arr::random(AnimeFormat::cases());
 
     $parameters = array_merge(
         Anime::factory()->raw(),
-        [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
+        [Anime::ATTRIBUTE_SEASON => $season->localize(), 'media_format' => $mediaFormat->localize()],
     );
 
     $response = put(route('api.anime.update', ['anime' => $anime] + $parameters));
@@ -32,11 +32,11 @@ test('forbidden', function (): void {
     $anime = Anime::factory()->createOne();
 
     $season = Arr::random(AnimeSeason::cases());
-    $mediaFormat = Arr::random(AnimeMediaFormat::cases());
+    $mediaFormat = Arr::random(AnimeFormat::cases());
 
     $parameters = array_merge(
         Anime::factory()->raw(),
-        [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
+        [Anime::ATTRIBUTE_SEASON => $season->localize(), 'media_format' => $mediaFormat->localize()],
     );
 
     $user = User::factory()->createOne();
@@ -52,11 +52,11 @@ test('trashed', function (): void {
     $anime = Anime::factory()->trashed()->createOne();
 
     $season = Arr::random(AnimeSeason::cases());
-    $mediaFormat = Arr::random(AnimeMediaFormat::cases());
+    $mediaFormat = Arr::random(AnimeFormat::cases());
 
     $parameters = array_merge(
         Anime::factory()->raw(),
-        [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
+        [Anime::ATTRIBUTE_SEASON => $season->localize(), 'media_format' => $mediaFormat->localize()],
     );
 
     $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Anime::class))->createOne();
@@ -72,11 +72,11 @@ test('update', function (): void {
     $anime = Anime::factory()->createOne();
 
     $season = Arr::random(AnimeSeason::cases());
-    $mediaFormat = Arr::random(AnimeMediaFormat::cases());
+    $mediaFormat = Arr::random(AnimeFormat::cases());
 
     $parameters = array_merge(
         Anime::factory()->raw(),
-        [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
+        [Anime::ATTRIBUTE_SEASON => $season->localize(), 'media_format' => $mediaFormat->localize()],
     );
 
     $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Anime::class))->createOne();

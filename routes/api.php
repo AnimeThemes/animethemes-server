@@ -25,7 +25,6 @@ use App\Http\Controllers\Api\Pivot\Wiki\AnimeStudioController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeThemeEntryVideoController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistMemberController;
 use App\Http\Controllers\Api\SearchController;
-use App\Http\Controllers\Api\Wiki\Anime\AnimeSynonymController;
 use App\Http\Controllers\Api\Wiki\Anime\Theme\EntryController;
 use App\Http\Controllers\Api\Wiki\Anime\ThemeController;
 use App\Http\Controllers\Api\Wiki\Anime\YearController;
@@ -263,7 +262,6 @@ apiResource('synonym', SynonymController::class);
 apiResource('video', VideoController::class);
 
 // Anime Routes
-apiResource('animesynonym', AnimeSynonymController::class);
 apiResource('animetheme', ThemeController::class);
 Route::get('animeyear', [YearController::class, 'index'])->name('animeyear.index');
 Route::get('animeyear/{year}', [YearController::class, 'show'])->name('animeyear.show');

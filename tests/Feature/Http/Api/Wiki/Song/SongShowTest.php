@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Enums\Models\Wiki\AnimeMediaFormat;
+use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\Field\Field;
@@ -202,11 +202,11 @@ test('themes by type', function (): void {
 });
 
 test('anime by media format', function (): void {
-    $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+    $mediaFormatFilter = Arr::random(AnimeFormat::cases());
 
     $parameters = [
         FilterParser::param() => [
-            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            'media_format' => $mediaFormatFilter->localize(),
         ],
         IncludeParser::param() => Song::RELATION_ANIME,
     ];

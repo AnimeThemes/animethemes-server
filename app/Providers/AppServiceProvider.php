@@ -17,7 +17,6 @@ use App\Models\User\Submission\SubmissionSong;
 use App\Models\User\Submission\SubmissionStudio;
 use App\Models\User\Submission\SubmissionSynonym;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
@@ -112,7 +111,6 @@ class AppServiceProvider extends ServiceProvider
         Relation::morphMap([
             'page' => Page::class,
             'anime' => Anime::class,
-            'animesynonym' => AnimeSynonym::class,
             'animetheme' => AnimeTheme::class,
             'animethemeentry' => AnimeThemeEntry::class,
             'artist' => Artist::class,

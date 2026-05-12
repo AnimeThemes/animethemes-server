@@ -7,7 +7,6 @@ namespace App\Console\Commands\Models;
 use App\Console\Commands\BaseCommand;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
@@ -48,7 +47,6 @@ class ImportModelsCommand extends BaseCommand
         if ($this->option('flush')) {
             $this->scoutFlush(Playlist::class);
             $this->scoutFlush(Anime::class);
-            $this->scoutFlush(AnimeSynonym::class);
             $this->scoutFlush(AnimeTheme::class);
             $this->scoutFlush(AnimeThemeEntry::class);
             $this->scoutFlush(Artist::class);
@@ -61,7 +59,6 @@ class ImportModelsCommand extends BaseCommand
 
         $this->scoutImport(Playlist::class);
         $this->scoutImport(Anime::class);
-        $this->scoutImport(AnimeSynonym::class);
         $this->scoutImport(AnimeTheme::class);
         $this->scoutImport(AnimeThemeEntry::class);
         $this->scoutImport(Artist::class);

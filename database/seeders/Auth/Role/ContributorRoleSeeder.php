@@ -17,7 +17,6 @@ use App\Models\User\Like;
 use App\Models\User\Notification;
 use App\Models\User\WatchHistory;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
@@ -60,7 +59,6 @@ class ContributorRoleSeeder extends RoleSeeder
 
         // Wiki Resources
         $this->configureResource($role, Anime::class, [CrudPermission::VIEW]);
-        $this->configureResource($role, AnimeSynonym::class, [CrudPermission::VIEW]);
         $this->configureResource($role, AnimeTheme::class, [CrudPermission::VIEW]);
         $this->configureResource($role, AnimeThemeEntry::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Artist::class, [CrudPermission::VIEW]);

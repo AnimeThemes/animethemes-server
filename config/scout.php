@@ -5,7 +5,6 @@ declare(strict_types=1);
 use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
@@ -500,23 +499,6 @@ return [
                 ],
                 'search-parameters' => [
                     'query_by' => 'name',
-                ],
-            ],
-            AnimeSynonym::class => [
-                'collection-schema' => [
-                    'fields' => [
-                        [
-                            'name' => 'id',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'text',
-                            'type' => 'string',
-                        ],
-                    ],
-                ],
-                'search-parameters' => [
-                    'query_by' => 'text',
                 ],
             ],
             Synonym::class => [

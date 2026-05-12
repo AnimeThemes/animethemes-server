@@ -17,7 +17,7 @@ class AnimeMediaFormatField extends EnumField implements CreatableField, Updatab
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, Anime::ATTRIBUTE_MEDIA_FORMAT, AnimeFormat::class, Anime::ATTRIBUTE_FORMAT);
+        parent::__construct($schema, 'media_format', AnimeFormat::class, Anime::ATTRIBUTE_FORMAT);
     }
 
     public function getCreationRules(Request $request): array

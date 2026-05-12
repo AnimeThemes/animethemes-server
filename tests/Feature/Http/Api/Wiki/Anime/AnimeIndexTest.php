@@ -7,7 +7,7 @@ use App\Constants\ModelConstants;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
-use App\Enums\Models\Wiki\AnimeMediaFormat;
+use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -43,6 +43,7 @@ use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
@@ -201,11 +202,11 @@ test('season filter', function (): void {
 });
 
 test('media format filter', function (): void {
-    $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+    $mediaFormatFilter = Arr::random(AnimeFormat::cases());
 
     $parameters = [
         FilterParser::param() => [
-            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            'media_format' => $mediaFormatFilter->localize(),
         ],
     ];
 
@@ -480,7 +481,7 @@ test('synonyms by type', function (): void {
         ->create();
 
     $anime = Anime::with([
-        Anime::RELATION_ANIMESYNONYMS => function (HasMany $query) use ($typeFilter): void {
+        Anime::RELATION_ANIMESYNONYMS => function (MorphMany $query) use ($typeFilter): void {
             $query->where(Synonym::ATTRIBUTE_TYPE, $typeFilter->value);
         },
     ])
