@@ -43,6 +43,7 @@ use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
@@ -480,7 +481,7 @@ test('synonyms by type', function (): void {
         ->create();
 
     $anime = Anime::with([
-        Anime::RELATION_ANIMESYNONYMS => function (HasMany $query) use ($typeFilter): void {
+        Anime::RELATION_ANIMESYNONYMS => function (MorphMany $query) use ($typeFilter): void {
             $query->where(Synonym::ATTRIBUTE_TYPE, $typeFilter->value);
         },
     ])
