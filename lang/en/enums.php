@@ -9,7 +9,6 @@ use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\User\SubmissionStatus;
 use App\Enums\Models\Wiki\AnimeFormat;
-use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -31,14 +30,6 @@ return [
         AnimeFormat::MOVIE->name => 'Movie',
         AnimeFormat::SPECIAL->name => 'Special',
         AnimeFormat::ONA->name => 'ONA',
-    ],
-    AnimeMediaFormat::class => [
-        AnimeMediaFormat::TV->name => 'TV',
-        AnimeMediaFormat::TV_SHORT->name => 'TV Short',
-        AnimeMediaFormat::OVA->name => 'OVA',
-        AnimeMediaFormat::MOVIE->name => 'Movie',
-        AnimeMediaFormat::SPECIAL->name => 'Special',
-        AnimeMediaFormat::ONA->name => 'ONA',
     ],
     AnimeSeason::class => [
         AnimeSeason::WINTER->name => 'Winter',

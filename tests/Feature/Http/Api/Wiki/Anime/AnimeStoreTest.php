@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Enums\Auth\CrudPermission;
-use App\Enums\Models\Wiki\AnimeMediaFormat;
+use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
@@ -50,11 +50,11 @@ test('required fields', function (): void {
 
 test('create', function (): void {
     $season = Arr::random(AnimeSeason::cases());
-    $mediaFormat = Arr::random(AnimeMediaFormat::cases());
+    $mediaFormat = Arr::random(AnimeFormat::cases());
 
     $parameters = array_merge(
         Anime::factory()->raw(),
-        [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
+        [Anime::ATTRIBUTE_SEASON => $season->localize(), 'media_format' => $mediaFormat->localize()],
     );
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Anime::class))->createOne();

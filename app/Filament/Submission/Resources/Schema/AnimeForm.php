@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Submission\Resources\Schema;
 
-use App\Enums\Models\Wiki\AnimeMediaFormat;
+use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\TextInput;
@@ -59,7 +59,7 @@ class AnimeForm
                 Select::make(SubmissionAnime::ATTRIBUTE_FORMAT)
                     ->label(__('filament.fields.anime.format.name'))
                     ->helperText(__('filament.fields.anime.format.help'))
-                    ->options(AnimeMediaFormat::class)
+                    ->options(AnimeFormat::class)
                     ->required(),
 
                 MarkdownEditor::make(SubmissionAnime::ATTRIBUTE_SYNOPSIS)

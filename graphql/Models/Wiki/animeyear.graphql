@@ -21,8 +21,6 @@ type AnimeYearSeasons {
     "The animes of the season year filtered"
     anime(
         name_like: String @like(key: "name")
-        mediaFormat: AnimeMediaFormat @eq(key: "media_format") @deprecated(reason: "Use 'format' instead")
-        mediaFormat_in: [AnimeMediaFormat!] @in(key: "media_format") @deprecated(reason: "Use 'format_in' instead")
         format: AnimeFormat @eq(key: "format")
         format_in: [AnimeFormat!] @in(key: "format")
         season: AnimeSeason @eq
@@ -48,8 +46,6 @@ type AnimeYearSeason {
     "The animes of the season year filtered"
     anime(
         name_like: String @like(key: "name")
-        mediaFormat: AnimeMediaFormat @eq(key: "media_format") @deprecated(reason: "Use 'format' instead")
-        mediaFormat_in: [AnimeMediaFormat!] @in(key: "media_format") @deprecated(reason: "Use 'format_in' instead")
         format: AnimeFormat @eq(key: "format")
         format_in: [AnimeFormat!] @in(key: "format")
         season: AnimeSeason @eq
