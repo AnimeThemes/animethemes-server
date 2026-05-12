@@ -12,7 +12,6 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Scope\ScopeParser;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
@@ -28,7 +27,6 @@ use App\Scout\Elasticsearch\Api\Parser\PagingParser;
 use App\Scout\Elasticsearch\Api\Parser\SortParser;
 use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use App\Scout\Elasticsearch\Api\Query\List\PlaylistQuery;
-use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\SynonymQuery as AnimeSynonymQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\Theme\EntryQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\ThemeQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\AnimeQuery;
@@ -215,7 +213,6 @@ class Elasticsearch extends Search
         return match ($model) {
             Playlist::class => new PlaylistQuery(),
             AnimeThemeEntry::class => new EntryQuery(),
-            AnimeSynonym::class => new AnimeSynonymQuery(),
             AnimeTheme::class => new ThemeQuery(),
             Anime::class => new AnimeQuery(),
             Artist::class => new ArtistQuery(),

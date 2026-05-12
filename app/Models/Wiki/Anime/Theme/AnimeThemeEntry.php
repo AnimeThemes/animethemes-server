@@ -91,7 +91,7 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
     final public const string RELATION_RESOURCES = 'resources';
     final public const string RELATION_SONG = 'animetheme.song';
     final public const string RELATION_SONG_SHALLOW = 'song';
-    final public const string RELATION_SYNONYMS = 'animetheme.anime.animesynonyms';
+    final public const string RELATION_SYNONYMS = 'animetheme.anime.synonyms';
     final public const string RELATION_THEME = 'animetheme';
     final public const string RELATION_THEME_GROUP = 'animetheme.group';
     final public const string RELATION_TRACKS = 'tracks';

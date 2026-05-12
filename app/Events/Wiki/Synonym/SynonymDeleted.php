@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Synonym;
 
-use App\Contracts\Events\UpdateAnimeSynonymsEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Filament\Resources\Wiki\SynonymResource as SynonymFilament;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Series;
@@ -20,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 /**
  * @extends WikiDeletedEvent<Synonym>
  */
-class SynonymDeleted extends WikiDeletedEvent implements UpdateAnimeSynonymsEvent, UpdateRelatedIndicesEvent
+class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 {
     protected function getDiscordMessageDescription(): string
     {
@@ -58,16 +56,6 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateAnimeSynonymsEven
                     $entry->videos->each(fn (Video $video) => $video->searchable());
                 });
             });
-        }
-    }
-
-    public function updateAnimeSynonyms(): void
-    {
-        if ($this->getModel()->synonymable instanceof Anime) {
-            AnimeSynonym::query()
-                ->where(AnimeSynonym::ATTRIBUTE_ANIME, $this->getModel()->synonymable_id)
-                ->where(AnimeSynonym::ATTRIBUTE_TEXT, $this->getModel()->text)
-                ->{$this->getModel()->isForceDeleting() ? 'forceDelete' : 'delete'}();
         }
     }
 }

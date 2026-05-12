@@ -26,7 +26,6 @@ use App\Models\User\Notification;
 use App\Models\User\Submission;
 use App\Models\User\WatchHistory;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
@@ -82,7 +81,6 @@ class PermissionSeeder extends Seeder
 
         // Wiki Resources
         $this->registerResource(Anime::class, $extendedCrudPermissions);
-        $this->registerResource(AnimeSynonym::class, $extendedCrudPermissions);
         $this->registerResource(AnimeTheme::class, $extendedCrudPermissions);
         $this->registerResource(AnimeThemeEntry::class, $extendedCrudPermissions);
         $this->registerResource(Artist::class, $extendedCrudPermissions);

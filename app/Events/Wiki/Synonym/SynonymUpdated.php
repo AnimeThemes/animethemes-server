@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Synonym;
 
-use App\Contracts\Events\UpdateAnimeSynonymsEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Series;
@@ -19,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 /**
  * @extends WikiUpdatedEvent<Synonym>
  */
-class SynonymUpdated extends WikiUpdatedEvent implements UpdateAnimeSynonymsEvent, UpdateRelatedIndicesEvent
+class SynonymUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 {
     public function __construct(Synonym $synonym)
     {
@@ -53,19 +51,6 @@ class SynonymUpdated extends WikiUpdatedEvent implements UpdateAnimeSynonymsEven
                     $entry->videos->each(fn (Video $video) => $video->searchable());
                 });
             });
-        }
-    }
-
-    public function updateAnimeSynonyms(): void
-    {
-        if ($this->getModel()->synonymable instanceof Anime) {
-            AnimeSynonym::query()
-                ->where(AnimeSynonym::ATTRIBUTE_ANIME, $this->getModel()->getOriginal(Synonym::ATTRIBUTE_SYNONYMABLE_ID))
-                ->where(AnimeSynonym::ATTRIBUTE_TEXT, $this->getModel()->getOriginal(Synonym::ATTRIBUTE_TEXT))
-                ->update([
-                    AnimeSynonym::ATTRIBUTE_TEXT => $this->getModel()->text,
-                    AnimeSynonym::ATTRIBUTE_TYPE => $this->getModel()->type->value,
-                ]);
         }
     }
 }

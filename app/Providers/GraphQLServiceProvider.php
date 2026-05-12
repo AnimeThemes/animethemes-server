@@ -55,7 +55,6 @@ use App\Enums\Models\User\NotificationType;
 use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\SynonymType;
@@ -134,7 +133,6 @@ class GraphQLServiceProvider extends ServiceProvider
         $typeRegistry->register(new PhpEnumType(AnimeMediaFormat::class));
         $typeRegistry->register(new PhpEnumType(AnimeFormat::class));
         $typeRegistry->register(new PhpEnumType(AnimeSeason::class));
-        $typeRegistry->register(new PhpEnumType(AnimeSynonymType::class));
         $typeRegistry->register(new PhpEnumType(ImageFacet::class));
         $typeRegistry->register(new PhpEnumType(ResourceSite::class));
         $typeRegistry->register(new PhpEnumType(SynonymType::class));

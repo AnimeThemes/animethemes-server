@@ -122,6 +122,14 @@ class Synonym extends BaseModel implements Auditable, SoftDeletable
     /**
      * @return MorphTo<Model, $this>
      */
+    public function anime(): MorphTo
+    {
+        return $this->synonymable();
+    }
+
+    /**
+     * @return MorphTo<Model, $this>
+     */
     public function synonymable(): MorphTo
     {
         return $this->morphTo();

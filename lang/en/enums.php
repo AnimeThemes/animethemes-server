@@ -11,7 +11,6 @@ use App\Enums\Models\User\SubmissionStatus;
 use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
@@ -46,12 +45,6 @@ return [
         AnimeSeason::SPRING->name => 'Spring',
         AnimeSeason::SUMMER->name => 'Summer',
         AnimeSeason::FALL->name => 'Fall',
-    ],
-    AnimeSynonymType::class => [
-        AnimeSynonymType::OTHER->name => 'Other',
-        AnimeSynonymType::NATIVE->name => 'Native',
-        AnimeSynonymType::ENGLISH->name => 'English',
-        AnimeSynonymType::SHORT->name => 'Short',
     ],
     ExternalEntryStatus::class => [
         ExternalEntryStatus::WATCHING->name => 'Watching',

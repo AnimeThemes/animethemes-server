@@ -22,7 +22,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesJsonResource;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioJsonResource;
 use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Observers\Wiki\AnimeObserver;
 use App\Pivots\Morph\Imageable;
@@ -197,12 +196,12 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     }
 
     /**
-     * @return HasMany<AnimeSynonym, $this>
+     * @return MorphMany<Synonym, $this>
      */
     #[Deprecated('Use synonyms() instead.')]
-    public function animesynonyms(): HasMany
+    public function animesynonyms(): MorphMany
     {
-        return $this->hasMany(AnimeSynonym::class, AnimeSynonym::ATTRIBUTE_ANIME);
+        return $this->synonyms();
     }
 
     /**
