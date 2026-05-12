@@ -197,10 +197,10 @@ class BackfillAudioAction extends BackfillAction
         $orderByNameQuery = $sortRelation->getRelationExistenceQuery($sortRelation->getQuery(), $builder, [Anime::ATTRIBUTE_NAME]);
         $orderBySeasonQuery = $sortRelation->getRelationExistenceQuery($sortRelation->getQuery(), $builder, [Anime::ATTRIBUTE_SEASON]);
         $orderByYearQuery = $sortRelation->getRelationExistenceQuery($sortRelation->getQuery(), $builder, [Anime::ATTRIBUTE_YEAR]);
-        $orderByMediaFormatQuery = $sortRelation->getRelationExistenceQuery($sortRelation->getQuery(), $builder, [Anime::ATTRIBUTE_FORMAT]);
+        $orderByformatQuery = $sortRelation->getRelationExistenceQuery($sortRelation->getQuery(), $builder, [Anime::ATTRIBUTE_FORMAT]);
 
         return $builder->whereHas(AnimeTheme::RELATION_VIDEOS, fn (Builder $relationBuilder) => $relationBuilder->whereKey($this->getModel()))
-            ->orderBy($orderByMediaFormatQuery->toBase())
+            ->orderBy($orderByformatQuery->toBase())
             ->orderBy($orderByYearQuery->toBase())
             ->orderBy($orderBySeasonQuery->toBase())
             ->orderBy($orderByNameQuery->toBase())
