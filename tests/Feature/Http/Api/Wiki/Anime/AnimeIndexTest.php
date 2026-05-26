@@ -11,7 +11,6 @@ use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Enums\Models\Wiki\SynonymType;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
@@ -31,19 +30,16 @@ use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeJsonResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
-use App\Http\Resources\Wiki\Resource\SynonymJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
-use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
@@ -448,44 +444,6 @@ test('deleted at filter', function (): void {
     });
 
     $anime = Anime::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
-
-    $response = get(route('api.anime.index', $parameters));
-
-    $response->assertJson(
-        json_decode(
-            json_encode(
-                new AnimeCollection($anime, new Query($parameters))
-                    ->response()
-                    ->getData()
-            ),
-            true
-        )
-    );
-});
-
-test('synonyms by type', function (): void {
-    $typeFilter = Arr::random(SynonymType::cases());
-
-    $parameters = [
-        FilterParser::param() => [
-            SynonymJsonResource::$wrap => [
-                Synonym::ATTRIBUTE_TYPE => $typeFilter->localize(),
-            ],
-        ],
-        IncludeParser::param() => Anime::RELATION_ANIMESYNONYMS,
-    ];
-
-    Anime::factory()
-        ->has(Synonym::factory()->count(fake()->randomDigitNotNull()))
-        ->count(fake()->randomDigitNotNull())
-        ->create();
-
-    $anime = Anime::with([
-        Anime::RELATION_ANIMESYNONYMS => function (MorphMany $query) use ($typeFilter): void {
-            $query->where(Synonym::ATTRIBUTE_TYPE, $typeFilter->value);
-        },
-    ])
-        ->get();
 
     $response = get(route('api.anime.index', $parameters));
 

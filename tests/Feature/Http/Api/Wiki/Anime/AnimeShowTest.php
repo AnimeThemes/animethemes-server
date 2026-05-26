@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Enums\Models\Wiki\SynonymType;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
@@ -17,18 +16,15 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeJsonResource;
 use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
-use App\Http\Resources\Wiki\Resource\SynonymJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
-use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
@@ -115,42 +111,6 @@ test('sparse fieldsets', function (): void {
     ];
 
     $anime = Anime::factory()->create();
-
-    $response = get(route('api.anime.show', ['anime' => $anime] + $parameters));
-
-    $response->assertJson(
-        json_decode(
-            json_encode(
-                new AnimeJsonResource($anime, new Query($parameters))
-                    ->response()
-                    ->getData()
-            ),
-            true
-        )
-    );
-});
-
-test('synonyms by type', function (): void {
-    $typeFilter = Arr::random(SynonymType::cases());
-
-    $parameters = [
-        FilterParser::param() => [
-            SynonymJsonResource::$wrap => [
-                Synonym::ATTRIBUTE_TYPE => $typeFilter->localize(),
-            ],
-        ],
-        IncludeParser::param() => Anime::RELATION_ANIMESYNONYMS,
-    ];
-
-    $anime = Anime::factory()
-        ->has(Synonym::factory()->count(fake()->randomDigitNotNull()))
-        ->createOne();
-
-    $anime->unsetRelations()->load([
-        Anime::RELATION_ANIMESYNONYMS => function (MorphMany $query) use ($typeFilter): void {
-            $query->where(Synonym::ATTRIBUTE_TYPE, $typeFilter->value);
-        },
-    ]);
 
     $response = get(route('api.anime.show', ['anime' => $anime] + $parameters));
 

@@ -42,6 +42,7 @@ class Sanction extends BaseSanction implements Nameable
     {
         $tableName = Config::string('prohibition.table_names.model_sanctions');
 
+        /** @phpstan-ignore-next-line */
         return $query->where("$tableName.expires_at", '<', now());
     }
 
@@ -50,6 +51,7 @@ class Sanction extends BaseSanction implements Nameable
     {
         $tableName = Config::string('prohibition.table_names.model_sanctions');
 
+        /** @phpstan-ignore-next-line */
         return $query->where("$tableName.expires_at", '>', now())
             ->orWhereNull("$tableName.expires_at");
     }

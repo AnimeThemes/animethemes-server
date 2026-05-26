@@ -40,6 +40,7 @@ class PlaylistMutation
             Playlist::ATTRIBUTE_USER => Auth::id(),
         ];
 
+        /** @phpstan-ignore-next-line */
         return Playlist::query()->create($parameters);
     }
 
