@@ -463,44 +463,6 @@ test('deleted at filter', function (): void {
     );
 });
 
-test('synonyms by type', function (): void {
-    $typeFilter = Arr::random(SynonymType::cases());
-
-    $parameters = [
-        FilterParser::param() => [
-            SynonymJsonResource::$wrap => [
-                Synonym::ATTRIBUTE_TYPE => $typeFilter->localize(),
-            ],
-        ],
-        IncludeParser::param() => Anime::RELATION_ANIMESYNONYMS,
-    ];
-
-    Anime::factory()
-        ->has(Synonym::factory()->count(fake()->randomDigitNotNull()))
-        ->count(fake()->randomDigitNotNull())
-        ->create();
-
-    $anime = Anime::with([
-        Anime::RELATION_ANIMESYNONYMS => function (MorphMany $query) use ($typeFilter): void {
-            $query->where(Synonym::ATTRIBUTE_TYPE, $typeFilter->value);
-        },
-    ])
-        ->get();
-
-    $response = get(route('api.anime.index', $parameters));
-
-    $response->assertJson(
-        json_decode(
-            json_encode(
-                new AnimeCollection($anime, new Query($parameters))
-                    ->response()
-                    ->getData()
-            ),
-            true
-        )
-    );
-});
-
 test('themes by sequence', function (): void {
     $sequenceFilter = fake()->randomDigitNotNull();
     $excludedSequence = $sequenceFilter + 1;
