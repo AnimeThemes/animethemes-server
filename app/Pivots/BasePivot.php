@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Pivots;
 
+use Illuminate\Database\Eloquent\Attributes\DateFormat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
@@ -14,6 +15,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
+#[DateFormat('Y-m-d\TH:i:s.u')]
 abstract class BasePivot extends Pivot
 {
     use HasFactory;
@@ -28,9 +30,4 @@ abstract class BasePivot extends Pivot
      * @var bool
      */
     public $incrementing = true;
-
-    /**
-     * The storage format of the model's date columns.
-     */
-    protected $dateFormat = 'Y-m-d\TH:i:s.u';
 }
