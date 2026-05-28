@@ -61,7 +61,9 @@ class UploadVideoAction extends UploadAction
 
             $this->uploadScript($video);
 
-            $this->addToPlaylist($video);
+            if ($this->entry instanceof AnimeThemeEntry) {
+                $this->addToPlaylist($video);
+            }
 
             DB::commit();
 
@@ -165,7 +167,7 @@ class UploadVideoAction extends UploadAction
             }
 
             new StoreTrackAction()->store($playlist, PlaylistTrack::query(), [
-                PlaylistTrack::ATTRIBUTE_ENTRY => $video->animethemeentries->first()->getKey(),
+                PlaylistTrack::ATTRIBUTE_ENTRY => $this->entry->getKey(),
                 PlaylistTrack::ATTRIBUTE_VIDEO => $video->getKey(),
             ]);
         }
