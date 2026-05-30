@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http;
 
 use App\Http\Middleware\Api\SetAcceptJsonHeader;
-use App\Http\Middleware\Api\SetServingJsonApi;
 use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Middleware\Auth\RedirectIfAuthenticated;
 use App\Http\Middleware\GraphQL\RequiresContentType;
@@ -90,7 +89,6 @@ class Kernel extends HttpKernel
             'throttle:api',
             SubstituteBindings::class,
             LogRequest::class,
-            SetServingJsonApi::class,
         ],
 
         'graphql' => [
