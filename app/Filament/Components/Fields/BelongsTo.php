@@ -77,6 +77,7 @@ class BelongsTo extends Select
                             ->search()
                             ->items()
                     )
+                        ->merge($modelClass::query()->whereKey($this->escapeReservedChars($search))->get())
                         ->mapWithKeys(fn (Model $model): array => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
                         ->toArray()
                 );

@@ -33,11 +33,14 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
                 continue;
             }
 
+            $query = $this->escapeReservedChars($query);
+
             $resourceResults = collect(
-                Search::getSearch($modelClass, new Criteria($this->escapeReservedChars($query)))
+                Search::getSearch($modelClass, new Criteria($query))
                     ->search(fn (Builder $builder) => $builder->with($resource::getEloquentQuery()->getEagerLoads()))
                     ->items()
             )
+                ->merge($modelClass::query()->whereKey($query)->get())
                 ->map(function (Model $record) use ($resource): ?GlobalSearchResult {
                     $url = $resource::getUrl('view', ['record' => $record]);
 

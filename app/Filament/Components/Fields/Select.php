@@ -42,6 +42,7 @@ class Select extends ComponentsSelect
                             })
                             ->items()
                     )
+                        ->merge($modelClass::query()->whereKey($this->escapeReservedChars($search))->get())
                         ->mapWithKeys(fn (Model $model): array => [$model->getKey() => BelongsTo::getSearchLabelWithBlade($model)])
                         ->toArray()
                 );

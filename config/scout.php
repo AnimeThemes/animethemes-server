@@ -274,6 +274,7 @@ return [
                 ],
                 'search-parameters' => [
                     'query_by' => 'name,synonyms',
+                    'query_by_weights' => '8,5',
                 ],
             ],
             AnimeTheme::class => [

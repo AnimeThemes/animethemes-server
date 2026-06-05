@@ -26,7 +26,6 @@ use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationM
 use App\Filament\Resources\Wiki\Anime\ThemeResource;
 use App\Filament\Resources\Wiki\AnimeResource;
 use App\Filament\Resources\Wiki\SongResource;
-use App\Filament\Submission\Resources\Anime\Pages\CreateAnimeSubmission;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Song;
@@ -167,10 +166,6 @@ class EntryResource extends BaseResource
                     ->rule(new AnimeThemeEntryResourceLinkFormatRule(ResourceSite::YOUTUBE))
                     ->uri()
                     ->saveRelationshipsUsing(function (AnimeThemeEntry $record, AttachResourceAction $action, ?Uri $state, $livewire): void {
-                        if ($livewire instanceof CreateAnimeSubmission) {
-                            return;
-                        }
-
                         $action->handle($record, [ResourceSite::YOUTUBE->name => $state], [ResourceSite::YOUTUBE]);
                     }),
             ])
