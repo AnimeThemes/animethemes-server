@@ -84,6 +84,7 @@ class SearchQuery
                 $page,
             );
 
-        return collect($searchBuilder->items());
+        return collect($searchBuilder->items())
+            ->when(is_numeric($term), fn (Collection $collection) => $collection->merge($modelClass::query()->whereKey($term)->get()));
     }
 }

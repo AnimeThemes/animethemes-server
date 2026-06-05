@@ -871,14 +871,6 @@ return [
         'prohibition' => [
             'name' => 'Name',
         ],
-        'submission' => [
-            'finished_at' => 'Finished At',
-            'locked' => 'Locked',
-            'moderator' => 'Moderator',
-            'moderator_notes' => 'Moderator Notes',
-            'notes' => 'Notes',
-            'status' => 'Status',
-        ],
         'synonym' => [
             'text' => [
                 'help' => 'For alternative titles, licensed titles, common abbreviations and/or shortenings.',
@@ -1039,7 +1031,6 @@ return [
             'playlist_tracks' => 'Playlist Tracks',
             'playlists' => 'Playlists',
             'prohibitions' => 'Prohibitions',
-            'submissions' => 'Submissions',
             'roles' => 'Roles',
             'sanctions' => 'Sanctions',
             'series' => 'Series',
@@ -1076,7 +1067,6 @@ return [
             'playlist' => 'Playlist',
             'prohibition' => 'Prohibition',
             'sanction' => 'Sanction',
-            'submission' => 'Submission',
             'role' => 'Role',
             'series' => 'Series',
             'song' => 'Song',

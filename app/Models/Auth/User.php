@@ -49,13 +49,13 @@ use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
+ * @property Collection<int, Submission> $assignedSubmissions
  * @property Carbon $created_at
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property Collection<int, ExternalProfile> $externalprofiles
  * @property int $id
  * @property Collection<int, Like> $likes
- * @property Collection<int, Submission> $managedSubmissions
  * @property string $name
  * @property string $password
  * @property Collection<int, Playlist> $playlists
@@ -100,9 +100,9 @@ class User extends Authenticatable implements Auditable, FilamentUser, HasAvatar
     final public const string ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES = 'two_factor_recovery_codes';
     final public const string ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
 
+    final public const string RELATION_ASSIGNED_SUBMISSIONS = 'assignedSubmissions';
     final public const string RELATION_EXTERNAL_PROFILES = 'externalprofiles';
     final public const string RELATION_LIKES = 'likes';
-    final public const string RELATION_MANAGED_SUBMISSIONS = 'managedSubmissions';
     final public const string RELATION_NOTIFICATIONS = 'notifications';
     final public const string RELATION_PERMISSIONS = 'permissions';
     final public const string RELATION_PROHIBITIONS = 'prohibitions';
@@ -170,10 +170,6 @@ class User extends Authenticatable implements Auditable, FilamentUser, HasAvatar
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        if ($panel->getId() === 'submission') {
-            return $this->hasAnyPermission(SpecialPermission::MAKE_SUBMISSION->value);
-        }
-
         if ($this->hasVerifiedEmail() && $this->hasAnyPermission(SpecialPermission::VIEW_FILAMENT->value)) {
             return true;
         }
@@ -223,7 +219,7 @@ class User extends Authenticatable implements Auditable, FilamentUser, HasAvatar
     /**
      * Get the submissions that the admin managed.
      */
-    public function managedSubmissions(): HasMany
+    public function assignedSubmissions(): HasMany
     {
         return $this->hasMany(Submission::class, Submission::ATTRIBUTE_ASSIGNEE);
     }

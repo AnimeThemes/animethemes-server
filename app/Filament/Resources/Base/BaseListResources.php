@@ -37,11 +37,15 @@ abstract class BaseListResources extends ListRecords
         $model = new $modelClass;
 
         if (filled($search = $this->getTableSearch())) {
-            $keys = Search::getSearch($modelClass, new Criteria($this->escapeReservedChars($search)))
-                ->search()
-                ->getCollection()
-                ->map(fn (Model $model) => $model->getKey())
-                ->toArray();
+            $search = $this->escapeReservedChars($search);
+
+            $keys = is_numeric($search)
+                ? [$search]
+                : Search::getSearch($modelClass, new Criteria($search))
+                    ->search()
+                    ->getCollection()
+                    ->map(fn (Model $model) => $model->getKey())
+                    ->toArray();
 
             $query
                 ->whereIn($model->getKeyName(), $keys)
