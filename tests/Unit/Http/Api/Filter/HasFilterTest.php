@@ -11,9 +11,6 @@ use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-
-use function Pest\Laravel\get;
-
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
 uses(WithFaker::class);

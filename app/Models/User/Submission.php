@@ -8,7 +8,6 @@ use App\Enums\Models\User\SubmissionStatus;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\User\Submission\SubmissionComparison;
-use App\Models\Wiki\Anime;
 use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\Table;

@@ -11,6 +11,7 @@ use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Field\AggregateFunction;
 use App\Enums\Http\Api\QualifyColumn;
 use App\Http\Api\Criteria\Field\Criteria;
+use App\Http\Api\Criteria\Sort\Criteria as SortCriteria;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
@@ -74,7 +75,7 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
         // Select aggregate if sorting on the aggregate value
         $sort = $this->getSort();
 
-        return array_any($query->getSortCriteria(), fn ($sortCriterion): bool => $sortCriterion->shouldSort($sort, $scope));
+        return array_any($query->getSortCriteria(), fn (SortCriteria $sortCriterion): bool => $sortCriterion->shouldSort($sort, $scope));
     }
 
     /**

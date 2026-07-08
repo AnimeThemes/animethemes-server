@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Bus;
 use Laravel\Pennant\Feature;
 use NotificationChannels\Discord\DiscordMessage;
 
-use function Pest\Laravel\get;
-
 test('discord notifications not allowed', function (): void {
     Feature::deactivate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Bus::fake(SendDiscordNotificationJob::class);

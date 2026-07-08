@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
-use function Pest\Laravel\get;
-
 uses(WithFaker::class);
 
 test('default size', function (): void {

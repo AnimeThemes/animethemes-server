@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Notification;
 use Laravel\Pennant\Feature;
 use NotificationChannels\Discord\DiscordMessage;
 
-use function Pest\Laravel\get;
-
 test('send discord notification job sends notification', function (): void {
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Notification::fake();

@@ -14,7 +14,6 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Wiki\Video\Resource\ScriptJsonResource;
 use App\Models\Wiki\Video\VideoScript;
-use Illuminate\Database\Eloquent\Model;
 
 class ScriptSchema extends EloquentSchema
 {
