@@ -17,7 +17,7 @@ type Artist @model(class: "App\\Models\\Wiki\\Artist") {
     information: String
 
     "The URL for the artist page on the website"
-    siteUrl: String @field(resolver: "App\\GraphQL\\Types\\ArtistType@resolveSiteUrlAttribute")
+    siteUrl: String! @field(resolver: "App\\GraphQL\\Types\\ArtistType@resolveSiteUrlAttribute")
 
     "The date that the resource was created"
     createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")

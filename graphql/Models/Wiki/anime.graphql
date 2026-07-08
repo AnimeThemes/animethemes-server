@@ -32,7 +32,7 @@ type Anime @model(class: "App\\Models\\Wiki\\Anime") {
     year: Int
 
     "The URL for the anime page on the website"
-    siteUrl: String @field(resolver: "App\\GraphQL\\Types\\AnimeType@resolveSiteUrlAttribute")
+    siteUrl: String! @field(resolver: "App\\GraphQL\\Types\\AnimeType@resolveSiteUrlAttribute")
 
     "The date that the resource was created"
     createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")

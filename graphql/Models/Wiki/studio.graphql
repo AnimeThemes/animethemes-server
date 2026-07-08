@@ -14,7 +14,7 @@ type Studio @model(class: "App\\Models\\Wiki\\Studio") {
     slug: String!
 
     "The URL for the studio page on the website"
-    siteUrl: String @field(resolver: "App\\GraphQL\\Types\\StudioType@resolveSiteUrlAttribute")
+    siteUrl: String! @field(resolver: "App\\GraphQL\\Types\\StudioType@resolveSiteUrlAttribute")
 
     "The date that the resource was created"
     createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")

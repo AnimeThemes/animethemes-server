@@ -14,7 +14,7 @@ type Series @model(class: "App\\Models\\Wiki\\Series") {
     slug: String!
 
     "The URL for the series page on the website"
-    siteUrl: String @field(resolver: "App\\GraphQL\\Types\\SeriesType@resolveSiteUrlAttribute")
+    siteUrl: String! @field(resolver: "App\\GraphQL\\Types\\SeriesType@resolveSiteUrlAttribute")
 
     "The date that the resource was created"
     createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
