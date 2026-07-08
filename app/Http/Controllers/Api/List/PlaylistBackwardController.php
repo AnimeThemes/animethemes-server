@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api\List;
 use App\Actions\Http\Api\IndexAction;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\Playlist\ForwardBackwardSchema;
-use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\List\Playlist\ForwardBackwardIndexRequest;
 use App\Http\Resources\List\Playlist\Collection\TrackCollection;
