@@ -28,6 +28,9 @@ type Playlist @model(class: "App\\Models\\List\\Playlist") {
     "The number of likes recorded for the resource"
     likesCount: Int! @aggregateCustom(column: "value", function: SUM, relation: "likeAggregate")
 
+    "The URL for the playlist page on the website"
+    siteUrl: String! @field(resolver: "App\\GraphQL\\Types\\PlaylistType@resolveSiteUrlAttribute")
+
     "The date that the resource was created"
     createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
 
