@@ -568,6 +568,18 @@ return [
             ],
         ],
         'anime' => [
+            'end_date' => [
+                'help' => 'The date in which the Anime finished airing.',
+                'name' => 'End Date',
+            ],
+            'format' => [
+                'help' => 'The Format of the Anime. By default, we will use the Type Field on the MAL page.',
+                'name' => 'Format',
+            ],
+            'mod_notes' => [
+                'help' => 'Any additional information not included in other fields that may be useful for moderators.',
+                'name' => 'Moderator Notes',
+            ],
             'name' => [
                 'help' => 'The display title of the Anime. By default, we will use the same title as MAL. Ex: "Bakemonogatari", "Code Geass: Hangyaku no Lelouch", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',
                 'name' => 'Name',
@@ -580,6 +592,10 @@ return [
                 'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "monogatari", "code_geass", "danmachi".',
                 'name' => 'Slug',
             ],
+            'start_date' => [
+                'help' => 'The date in which the Anime premiered.',
+                'name' => 'Start Date',
+            ],
             'synopsis' => [
                 'help' => 'The brief description of the Anime.',
                 'name' => 'Synopsis',
@@ -587,10 +603,6 @@ return [
             'year' => [
                 'help' => 'The Year in which the Anime premiered. By default, we will use the Premiered Field on the MAL page.',
                 'name' => 'Year',
-            ],
-            'format' => [
-                'help' => 'The Format of the Anime. By default, we will use the Type Field on the MAL page.',
-                'name' => 'Format',
             ],
         ],
         'artist' => [
@@ -676,11 +688,14 @@ return [
         'base' => [
             'attached_at' => 'Attached At',
             'created_at' => 'Created At',
+            'day' => 'Day',
             'deleted_at' => 'Deleted At',
             'file_properties' => 'File Properties',
             'id' => 'ID',
+            'month' => 'Month',
             'timestamps' => 'Timestamps',
             'updated_at' => 'Updated At',
+            'year' => 'Year',
         ],
         'dump' => [
             'path' => 'Path',

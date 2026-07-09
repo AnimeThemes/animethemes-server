@@ -36,7 +36,7 @@ class Typesense extends Search
     ): Collection|Paginator {
         $model = $schema->model();
 
-        /** @var ScoutBuilder $builder */
+        /** @var \Laravel\Scout\Builder $builder */
         /** @phpstan-ignore-next-line */
         $builder = $model::search($this->criteria->getTerm());
         $scope = ScopeParser::parse($schema->type());

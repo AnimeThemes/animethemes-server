@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Console;
 
 use App\Console\Commands\Models\SyncLikeAggregatesCommand;
+use App\Console\Commands\Models\UpdateAnimeDateCommand;
 use App\Console\Commands\Repositories\Storage\Admin\DumpReconcileCommand;
 use App\Console\Commands\Storage\Admin\AdminDumpCommand;
 use App\Console\Commands\Storage\Admin\AuthDumpCommand;
@@ -143,6 +144,12 @@ class Kernel extends ConsoleKernel
             ->runInBackground()
             ->storeOutput()
             ->daily();
+
+        $schedule->command(UpdateAnimeDateCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->dailyAt('23:30');
 
         $schedule->command(UpdateDisposableDomainsCommand::class)
             ->withoutOverlapping()
