@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
+use App\Casts\AsFuzzyDate;
 use App\Concerns\Models\SoftDeletes;
 use App\Concerns\Models\Submitable;
 use App\Contracts\Models\HasImages;
@@ -22,17 +23,21 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioJsonResource;
 use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\Anime\AnimeTheme;
+use App\Observers\Wiki\AnimeObserver;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
 use App\Scout\Elasticsearch\Models\Wiki\AnimeElasticModel;
 use App\Scout\Typesense\Models\Wiki\AnimeTypesenseModel;
+use App\ValueObjects\FuzzyDate;
 use Database\Factories\Wiki\AnimeFactory;
 use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -47,14 +52,17 @@ use RuntimeException;
 /**
  * @property int $anime_id
  * @property Collection<int, AnimeTheme> $animethemes
+ * @property FuzzyDate|null $end_date
  * @property Collection<int, ExternalEntry> $externalentries
  * @property AnimeFormat|null $format
  * @property Collection<int, Image> $images
+ * @property string|null $mod_notes
  * @property string $name
  * @property Collection<int, ExternalResource> $resources
  * @property AnimeSeason|null $season
  * @property Collection<int, Series> $series
  * @property string $slug
+ * @property FuzzyDate|null $start_date
  * @property Collection<int, Studio> $studios
  * @property Collection<int, Synonym> $synonyms
  * @property string|null $synopsis
@@ -62,6 +70,7 @@ use RuntimeException;
  *
  * @method static AnimeFactory factory(...$parameters)
  */
+#[ObservedBy(AnimeObserver::class)]
 #[Table(Anime::TABLE, Anime::ATTRIBUTE_ID)]
 class Anime extends BaseModel implements Auditable, HasImages, HasResources, HasSynonyms, SoftDeletable
 {
@@ -74,10 +83,13 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     final public const string TABLE = 'anime';
 
     final public const string ATTRIBUTE_ID = 'anime_id';
+    final public const string ATTRIBUTE_END_DATE = 'end_date';
     final public const string ATTRIBUTE_FORMAT = 'format';
+    final public const string ATTRIBUTE_MOD_NOTES = 'mod_notes';
     final public const string ATTRIBUTE_NAME = 'name';
     final public const string ATTRIBUTE_SEASON = 'season';
     final public const string ATTRIBUTE_SLUG = 'slug';
+    final public const string ATTRIBUTE_START_DATE = 'start_date';
     final public const string ATTRIBUTE_SYNOPSIS = 'synopsis';
     final public const string ATTRIBUTE_YEAR = 'year';
 
@@ -121,13 +133,15 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
      * @var list<string>
      */
     protected $fillable = [
+        Anime::ATTRIBUTE_END_DATE,
         Anime::ATTRIBUTE_FORMAT,
+        Anime::ATTRIBUTE_MOD_NOTES,
         Anime::ATTRIBUTE_NAME,
         Anime::ATTRIBUTE_SEASON,
         Anime::ATTRIBUTE_SLUG,
+        Anime::ATTRIBUTE_START_DATE,
         Anime::ATTRIBUTE_SYNOPSIS,
         Anime::ATTRIBUTE_YEAR,
-        'media_format',
     ];
 
     /**
@@ -138,13 +152,23 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     protected function casts(): array
     {
         return [
+            Anime::ATTRIBUTE_END_DATE => AsFuzzyDate::class,
             Anime::ATTRIBUTE_FORMAT => AnimeFormat::class,
+            Anime::ATTRIBUTE_MOD_NOTES => 'string',
             Anime::ATTRIBUTE_NAME => 'string',
             Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
             Anime::ATTRIBUTE_SLUG => 'string',
+            Anime::ATTRIBUTE_START_DATE => AsFuzzyDate::class,
             Anime::ATTRIBUTE_SYNOPSIS => 'string',
             Anime::ATTRIBUTE_YEAR => 'int',
         ];
+    }
+
+    protected function year(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $this->start_date->year ?? $value,
+        );
     }
 
     /**

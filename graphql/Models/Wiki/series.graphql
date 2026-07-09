@@ -28,9 +28,12 @@ type Series @model(class: "App\\Models\\Wiki\\Series") {
         format_in: [AnimeFormat!] @in(key: "format")
         season: AnimeSeason @eq
         season_in: [AnimeSeason!] @in(key: "season")
-        year: Int @eq
-        year_lesser: Int @where(operator: "<", key: "year")
-        year_greater: Int @where(operator: ">", key: "year")
+        year: Int @eq @deprecated(reason: "Use the `startDate` filter instead.")
+        year_lesser: Int @where(operator: "<", key: "year") @deprecated(reason: "Use the `startDate_lesser` filter instead.")
+        year_greater: Int @where(operator: ">", key: "year") @deprecated(reason: "Use the `startDate_greater` filter instead.")
+        startDate: FuzzyDateInt @eq(key: "start_date")
+        startDate_lesser: FuzzyDateInt @where(operator: "<", key: "start_date")
+        startDate_greater: FuzzyDateInt @where(operator: ">", key: "start_date")
         where: _ @whereConditions(columnsEnum: AnimeFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [AnimeSort!] @sort
     ): [Anime!]! @belongsToManyCustom(type: CONNECTION, edgeType: "SeriesAnimeEdge")

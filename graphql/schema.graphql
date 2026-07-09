@@ -22,9 +22,30 @@ dealing with really large numbers to be on the safe side.
 """
 scalar Mixed @scalar(class: "MLL\\GraphQLScalars\\MixedScalar")
 
+"""
+A partial date encoded as an integer in YYYYMMDD format.
+
+Unknown parts are represented with 00:
+- 20260709 = July 9, 2026
+- 20260700 = July 2026
+- 20260000 = 2026
+
+Null means the date is unknown.
+"""
+scalar FuzzyDateInt @scalar(class: "App\\GraphQL\\Scalars\\FuzzyDateInt")
+
 "Represents a response containing a message."
 type MessageResponse {
     message: String!
+}
+
+"""
+A fuzzy date in YYYYMMDD format.
+"""
+type FuzzyDate {
+    year: Int
+    month: Int
+    day: Int
 }
 
 type Mutation @guard {

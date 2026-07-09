@@ -20,19 +20,28 @@ class AnimeYearsQuery
     /** @param  array{}  $args */
     public function __invoke(null $_, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Collection
     {
-        $year = Arr::get($args, 'year');
+        $years = Arr::wrap(Arr::get($args, 'year'));
 
         $fieldSelection = $resolveInfo->getFieldSelection(1);
 
-        Validator::make(['year' => $year], ['year' => new AnimeYearRule($fieldSelection)])
+        Validator::make(['year' => $years], ['year' => new AnimeYearRule($fieldSelection)])
             ->validate();
 
         return Anime::query()
-            ->distinct([Anime::ATTRIBUTE_YEAR, Anime::ATTRIBUTE_SEASON])
-            ->orderBy(Anime::ATTRIBUTE_YEAR)
-            ->when($year !== null, fn (Builder $query) => $query->whereIn(Anime::ATTRIBUTE_YEAR, $year))
-            ->get([Anime::ATTRIBUTE_YEAR, Anime::ATTRIBUTE_SEASON])
-            ->groupBy(Anime::ATTRIBUTE_YEAR)
+            ->whereNotNull(Anime::ATTRIBUTE_START_DATE)
+            ->whereNotNull(Anime::ATTRIBUTE_SEASON)
+            ->when($years !== null, function (Builder $query) use ($years): void {
+                $query->where(function (Builder $query) use ($years): void {
+                    foreach ($years as $singleYear) {
+                        $query->orWhereBetween(Anime::ATTRIBUTE_START_DATE, [
+                            "{$singleYear}0000",
+                            "{$singleYear}1231",
+                        ]);
+                    }
+                });
+            })
+            ->get([Anime::ATTRIBUTE_START_DATE, Anime::ATTRIBUTE_SEASON])
+            ->groupBy(fn (Anime $anime): ?int => $anime->start_date?->year)
             ->map(fn (Collection $items, int $year): array => [
                 'year' => $year,
 
@@ -40,19 +49,20 @@ class AnimeYearsQuery
                     ->map(fn (Anime $anime): array => [
                         'season' => $anime->season,
                         'seasonLocalized' => $anime->season->localize(),
-                        'year' => $year, // Needed to query animes on the 'seasons' field.
+                        'year' => $year,
                     ])
-                    ->unique(Anime::ATTRIBUTE_SEASON)
+                    ->unique('season')
                     ->values()
                     ->toArray(),
-            ])->values();
+            ])
+            ->values();
     }
 
     /** @param  array{}  $args */
     public function resolveSeasonField(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?array
     {
         $season = Arr::get($args, 'season');
-        $year = Arr::get($root, 'year');
+        $year = Arr::integer($root, 'year');
 
         $seasons = collect(Arr::get($root, 'seasons'));
 
@@ -71,7 +81,7 @@ class AnimeYearsQuery
     public function resolveAnimeField(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Paginator
     {
         $season = Arr::get($root, 'season');
-        $year = Arr::get($root, 'year');
+        $year = Arr::integer($root, 'year');
 
         $builder = Anime::query()
             // season filter applies only on the 'season' field.
