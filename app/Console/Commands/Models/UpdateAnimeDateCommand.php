@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Models;
 
+use App\Actions\ActionResult;
 use App\Actions\Models\Wiki\Anime\AnimeDateAction;
 use App\Console\Commands\BaseCommand;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -24,6 +25,8 @@ class UpdateAnimeDateCommand extends BaseCommand
 {
     public function handle(): int
     {
+        $failed = false;
+
         Anime::query()
             ->where(function (Builder $query): void {
                 $query
@@ -36,25 +39,27 @@ class UpdateAnimeDateCommand extends BaseCommand
                 Anime::RELATION_RESOURCES => fn (Relation $query) => $query->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value),
             ])
             ->orderBy(Anime::ATTRIBUTE_ID)
-            ->chunk(20, function (Collection $anime) {
+            ->chunk(20, function (Collection $anime) use (&$failed) {
                 $ids = $anime->pluck(Anime::ATTRIBUTE_ID)->values()->implode(', ');
 
                 $this->info('Anime IDs: '.$ids);
 
                 $action = new AnimeDateAction();
 
-                $result = $action->handle($anime);
+                $result = Anime::withoutEvents(fn () => Anime::withoutTimestamps(fn (): ActionResult => $action->handle($anime)));
 
                 if ($result->hasFailed()) {
                     $this->error('Action failed: '.$result->getMessage());
 
-                    return 1;
+                    $failed = true;
+
+                    return false;
                 }
 
                 Sleep::sleep(5);
             });
 
-        return 0;
+        return $failed ? 1 : 0;
     }
 
     protected function validator(): Validator
