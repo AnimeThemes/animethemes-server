@@ -89,7 +89,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
     /**
      * Save the artists to the action.
      */
-    public static function saveArtists(Song|int|null $song = null, ?array $performances = []): void
+    public static function saveArtists(Song|int|null $song = null, array $performances = []): void
     {
         if (is_null($song) || blank($performances)) {
             return;

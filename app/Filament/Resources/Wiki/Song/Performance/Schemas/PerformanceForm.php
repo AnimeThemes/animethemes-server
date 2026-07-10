@@ -58,17 +58,19 @@ class PerformanceForm
                 ->live(true)
                 ->key('song.performances')
                 ->collapsible()
-                ->defaultItems(0)
+                ->defaultItems(1)
                 ->columns(3)
                 ->columnSpanFull()
                 ->reorderableWithButtons()
-                ->formatStateUsing(function ($livewire, Get $get): array {
+                ->formatStateUsing(function ($livewire, Get $get, array $state): array {
                     /** @var Song|null $song */
                     $song = $livewire instanceof PerformanceSongRelationManager
                         ? $livewire->getOwnerRecord()
                         : Song::query()->find($get(Performance::ATTRIBUTE_SONG));
 
-                    return PerformanceSongRelationManager::formatArtists($song);
+                    $artists = PerformanceSongRelationManager::formatArtists($song);
+
+                    return blank($artists) ? $state : $artists;
                 })
                 ->schema([
                     BelongsTo::make(Artist::ATTRIBUTE_ID)
@@ -110,7 +112,7 @@ class PerformanceForm
                                 ->helperText(__('filament.fields.performance.member_alias.help')),
                         ]),
                 ])
-                ->saveRelationshipsUsing(fn (Get $get, ?array $state) => PerformanceSongRelationManager::saveArtists(intval($get(Performance::ATTRIBUTE_SONG)), $state)),
+                ->saveRelationshipsUsing(fn (Get $get, ?array $state) => PerformanceSongRelationManager::saveArtists($get(Performance::ATTRIBUTE_SONG), $state)),
         ];
     }
 }
