@@ -152,7 +152,7 @@ class AnimeResource extends BaseResource
                         'xl' => 3,
                     ])
                     ->statePath('end_date')
-                    ->formatStateUsing(fn (?Anime $record) => $record->end_date?->toArray())
+                    ->formatStateUsing(fn (?Anime $record) => $record?->end_date?->toArray())
                     ->schema([
                         TextInput::make('year')
                             ->label(__('filament.fields.base.year'))
@@ -255,7 +255,7 @@ class AnimeResource extends BaseResource
                             ])
                             ->columnSpanFull()
                             ->statePath('start_date')
-                            ->formatStateUsing(fn (?Anime $record) => $record?->start_date?->toArray())
+                            ->formatStateUsing(fn (Anime $record) => $record->start_date?->toArray())
                             ->schema([
                                 TextEntry::make('year')
                                     ->label(__('filament.fields.base.year')),
@@ -274,7 +274,7 @@ class AnimeResource extends BaseResource
                             ])
                             ->columnSpanFull()
                             ->statePath('end_date')
-                            ->formatStateUsing(fn (?Anime $record) => $record->end_date?->toArray())
+                            ->formatStateUsing(fn (Anime $record) => $record->end_date?->toArray())
                             ->schema([
                                 TextEntry::make('year')
                                     ->label(__('filament.fields.base.year')),
