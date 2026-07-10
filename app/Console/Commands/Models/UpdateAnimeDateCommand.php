@@ -38,11 +38,8 @@ class UpdateAnimeDateCommand extends BaseCommand
             ->with([
                 Anime::RELATION_RESOURCES => fn (Relation $query) => $query->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value),
             ])
-            ->orderBy(Anime::ATTRIBUTE_ID)
-            ->chunk(20, function (Collection $anime) use (&$failed) {
-                $ids = $anime->pluck(Anime::ATTRIBUTE_ID)->values()->implode(', ');
-
-                $this->info('Anime IDs: '.$ids);
+            ->chunkById(20, function (Collection $anime) use (&$failed) {
+                $this->info('Anime IDs: '.$anime->pluck(Anime::ATTRIBUTE_ID)->values()->implode(', '));
 
                 $action = new AnimeDateAction();
 
