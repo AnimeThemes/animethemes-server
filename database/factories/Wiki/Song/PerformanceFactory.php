@@ -33,4 +33,21 @@ class PerformanceFactory extends Factory
             Performance::ATTRIBUTE_SONG => Song::factory(),
         ];
     }
+
+    public function potentialMember(): self
+    {
+        $hasMember = fake()->boolean();
+
+        return $this->state(fn (): array => [
+            Performance::ATTRIBUTE_MEMBER => $hasMember
+                ? Artist::factory()
+                : null,
+            Performance::ATTRIBUTE_MEMBER_ALIAS => $hasMember && fake()->boolean()
+                ? fake()->text()
+                : null,
+            Performance::ATTRIBUTE_MEMBER_AS => $hasMember && fake()->boolean()
+                ? fake()->text()
+                : null,
+        ]);
+    }
 }
