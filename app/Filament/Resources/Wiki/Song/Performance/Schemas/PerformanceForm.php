@@ -62,7 +62,7 @@ class PerformanceForm
                 ->columns(3)
                 ->columnSpanFull()
                 ->reorderableWithButtons()
-                ->formatStateUsing(function ($livewire, Get $get, array $state): array {
+                ->formatStateUsing(function ($livewire, Get $get, ?array $state): array {
                     /** @var Song|null $song */
                     $song = $livewire instanceof PerformanceSongRelationManager
                         ? $livewire->getOwnerRecord()
@@ -70,7 +70,7 @@ class PerformanceForm
 
                     $artists = PerformanceSongRelationManager::formatArtists($song);
 
-                    return blank($artists) ? $state : $artists;
+                    return blank($artists) ? ($state ?? []) : $artists;
                 })
                 ->schema([
                     BelongsTo::make(Artist::ATTRIBUTE_ID)
