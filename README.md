@@ -18,11 +18,7 @@ This project is powered by [**Laravel**](https://laravel.com/), a PHP framework 
 # Installation
 
 - [Prerequisites](#prerequisites)
-- [Pre Setup](#pre-setup)
-  - [PHP](#php)
 - [Setup](#setup)
-  - [Laravel Herd](#laravel-herd)
-  - [Docker](#docker)
   - [Running](#running)
 - [Extra Configuration](#extra-configuration)
   - [Feature Flags](#feature-flags)
@@ -34,52 +30,11 @@ This project is powered by [**Laravel**](https://laravel.com/), a PHP framework 
 
 ## Prerequisites
 
-* [Laravel Herd](https://herd.laravel.com/) or [Docker](https://www.docker.com/)
-* MySQL 8+ or Docker
-* [composer](https://getcomposer.org/download/) or Docker
+* [Docker](https://www.docker.com/)
 
 Docker will setup PHP, MySQL and Typesense for you. If you are on Windows, use the [WSL](https://learn.microsoft.com/windows/wsl/install) terminal.
 
-Laravel Herd will setup PHP 8.5 for you. You should download and setup MySQL and Typesense manually.
-
-## Pre Setup
-
-### PHP
-
-You can skip this if you are using Docker.
-
-In order to accept video uploads, we should ensure that php will accept requests of adequate sizes.
-
-Set `post_max_size` to `200M`.
-
-Set `upload_max_filesize` to `200M`.
-
 ## Setup
-
-### Laravel Herd
-
-```bash
-# Clone the repository
-git clone git@github.com:AnimeThemes/animethemes-server.git
-cd animethemes-server
-
-# Create the database
-mysql -h localhost -u root -p -e "CREATE DATABASE IF NOT EXISTS ``animethemes`` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-
-# Install dependencies, import dumps, migrate the database and run seeders
-composer setup
-
-# Generate an application key
-php artisan key:generate
-
-# Run the following in the project directory:
-herd link admin.animethemes.test
-herd link animethemes.test
-herd link api.animethemes.test
-herd link graphql.animethemes.test
-```
-
-### Docker
 
 ```bash
 # Clone the repository
@@ -102,7 +57,7 @@ docker run --rm \
 # Generate an application key
 ./vendor/bin/sail artisan key:generate
 
-# Import dumps, migrate the database and run seeders
+# Migrate the database, create fake data and run seeders
 ./vendor/bin/sail artisan db:sync --drop
 ```
 
@@ -145,8 +100,6 @@ For example, if we want to enable video streams, we need to set the `App\Feature
 
 ```sh
 # Open the terminal of tinker
-php artisan tinker
-# or through Docker
 sail artisan tinker
 
 # Create the user
@@ -159,20 +112,15 @@ $user->assignRole('Admin');
 
 ### Search
 
-Change the `SCOUT_DRIVER` variable in `.env` to "typesense". Add additional configuration like host and port.
-
 Import models into our indices using:
 
 ```sh
-# Import Models using a custom artisan command
-php artisan scout:import-all
-# or through Docker
 sail artisan scout:import-all
 ```
 
 ### Local Storage
 
-We are not required to set up s3 buckets in order to interact with media. We have the option to configure local filesystems that we can stream audio/video from and download scripts/dumps from.
+We are not required to set up s3 buckets in order to interact with media. We have the option to configure local filesystems that we can stream audio/video from and download scripts from.
 
 Configure local filesystem disks in `.env`
 
@@ -210,7 +158,7 @@ VIDEO_DISK_ROOT="E:\\animethemes-videos\\"
 Create symbolic links to target storage directories.
 
 ```php
-php artisan storage:link
+sail artisan storage:link
 ```
 
 # Contributing

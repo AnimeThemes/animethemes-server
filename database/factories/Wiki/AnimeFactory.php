@@ -15,6 +15,7 @@ use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
+use App\ValueObjects\FuzzyDate;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -40,12 +41,26 @@ class AnimeFactory extends Factory
         $season = Arr::random(AnimeSeason::cases());
         $format = Arr::random(AnimeFormat::cases());
 
+        $startFuzzyDate = new FuzzyDate(
+            fake()->numberBetween(1960, intval(date('Y')) + 1),
+            fake()->numberBetween(1, 12),
+            fake()->numberBetween(1, 31)
+        );
+
+        $endFuzzyDate = new FuzzyDate(
+            fake()->numberBetween(1960, intval(date('Y')) + 1),
+            fake()->numberBetween(1, 12),
+            fake()->numberBetween(1, 31)
+        );
+
         return [
             Anime::ATTRIBUTE_NAME => $name,
             Anime::ATTRIBUTE_SEASON => $season->value,
             Anime::ATTRIBUTE_SLUG => Str::slug($name, '_'),
             Anime::ATTRIBUTE_SYNOPSIS => fake()->text(),
-            Anime::ATTRIBUTE_YEAR => fake()->numberBetween(1960, intval(date('Y')) + 1),
+            Anime::ATTRIBUTE_YEAR => $startFuzzyDate->year,
+            Anime::ATTRIBUTE_START_DATE => $startFuzzyDate->toString(),
+            Anime::ATTRIBUTE_END_DATE => $endFuzzyDate->toString(),
             Anime::ATTRIBUTE_FORMAT => $format->value,
         ];
     }

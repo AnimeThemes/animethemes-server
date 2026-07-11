@@ -9,17 +9,18 @@ use App\Console\Commands\BaseCommand;
 use Database\Seeders\Admin\Feature\FeatureSeeder;
 use Database\Seeders\Auth\Permission\PermissionSeeder;
 use Database\Seeders\Auth\Role\RoleSeeder;
+use Database\Seeders\FactoryDataSeeder;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
 #[Signature(
     'db:sync
-    {--drop : Determine whether the existing database should be re-created}'
+    {--drop : Determine whether the existing database should be re-created}
+    {--skip-factory : Skip the fake data creation}'
 )]
 #[Description('Sync the local database with the latest dumps')]
 class DatabaseSyncCommand extends BaseCommand
@@ -55,12 +56,13 @@ class DatabaseSyncCommand extends BaseCommand
 
         DB::statement("USE `{$database}`");
 
-        $this->info('Importing content dump');
-        $content = Http::get('https://dump.animethemes.moe/latest/content')->body();
-        DB::unprepared($content);
-
         $this->info('Migrating database');
         $this->call('migrate');
+
+        if (! $this->option('skip-factory')) {
+            $this->info('Adding factory data');
+            $this->call('db:seed', ['class' => FactoryDataSeeder::class]);
+        }
 
         $this->info('Seeding permissions');
         $this->call('db:seed', ['class' => PermissionSeeder::class]);
