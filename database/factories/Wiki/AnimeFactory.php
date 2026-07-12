@@ -59,8 +59,8 @@ class AnimeFactory extends Factory
             Anime::ATTRIBUTE_SLUG => Str::slug($name, '_'),
             Anime::ATTRIBUTE_SYNOPSIS => fake()->text(),
             Anime::ATTRIBUTE_YEAR => $startFuzzyDate->year,
-            Anime::ATTRIBUTE_START_DATE => $startFuzzyDate->toString(),
-            Anime::ATTRIBUTE_END_DATE => $endFuzzyDate->toString(),
+            Anime::ATTRIBUTE_START_DATE => $startFuzzyDate->__toString(),
+            Anime::ATTRIBUTE_END_DATE => $endFuzzyDate->__toString(),
             Anime::ATTRIBUTE_FORMAT => $format->value,
         ];
     }

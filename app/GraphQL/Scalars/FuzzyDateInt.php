@@ -46,6 +46,6 @@ class FuzzyDateInt extends ScalarType
 
     private function normalize(mixed $value): int
     {
-        return (int) FuzzyDate::fromString(str_pad((string) $value, 8, '0', STR_PAD_RIGHT))->toString();
+        return (int) FuzzyDate::fromString(str_pad((string) $value, 8, '0', STR_PAD_RIGHT))->__toString();
     }
 }
