@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\ValueObjects;
 
+use Illuminate\Contracts\Support\Arrayable;
 use InvalidArgumentException;
+use Stringable;
 
-class FuzzyDate
+class FuzzyDate implements Arrayable, Stringable
 {
     public function __construct(
         public ?int $year = null,
@@ -31,7 +33,7 @@ class FuzzyDate
         );
     }
 
-    public function toString(): string
+    public function __toString(): string
     {
         return str_pad((string) ($this->year ?? 0), 4, '0', STR_PAD_LEFT)
             .str_pad((string) ($this->month ?? 0), 2, '0', STR_PAD_LEFT)

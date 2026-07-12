@@ -24,11 +24,11 @@ class AsFuzzyDate implements CastsAttributes
         }
 
         if ($value instanceof FuzzyDate) {
-            return $value->toString();
+            return $value->__toString();
         }
 
         if (is_string($value)) {
-            return FuzzyDate::fromString($value)?->toString();
+            return FuzzyDate::fromString($value)?->__toString();
         }
 
         if (is_array($value)) {
@@ -36,7 +36,7 @@ class AsFuzzyDate implements CastsAttributes
                 (int) Arr::get($value, 'year') ?: null,
                 (int) Arr::get($value, 'month') ?: null,
                 (int) Arr::get($value, 'day') ?: null,
-            )->toString();
+            )->__toString();
         }
 
         throw new InvalidArgumentException('Invalid FuzzyDate value.');
