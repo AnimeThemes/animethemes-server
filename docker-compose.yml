@@ -1,7 +1,7 @@
 services:
     laravel.test:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.5
+            context: ./docker/8.5
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP:-1000}'
@@ -72,20 +72,6 @@ services:
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
         networks:
             - sail
-    elasticsearch:
-        image: 'elasticsearch:9.4.0'
-        profiles:
-            - elastic
-        ports:
-            - '9200:9200'
-            - '9300:9300'
-        environment:
-            discovery.type: single-node
-            xpack.security.enabled: 'false'
-        volumes:
-            - 'sail-elasticsearch:/usr/share/elasticsearch/data'
-        networks:
-            - sail
     typesense:
         image: 'typesense/typesense:27.1'
         ports:
@@ -126,8 +112,6 @@ volumes:
     sail-mysql:
         driver: local
     sail-redis:
-        driver: local
-    sail-elasticsearch:
         driver: local
     sail-typesense:
         driver: local

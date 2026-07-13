@@ -182,36 +182,51 @@ return [
     */
 
     'defaults' => [
-        'supervisor-1' => [
+        'default-worker' => [
             'connection' => 'redis',
-            'queue' => ['default'],
+            'queue' => ['default', 'discord'],
             'balance' => 'auto',
-            'maxProcesses' => 1,
+            'autoScalingStrategy' => 'time',
+            'minProcesses' => 1,
+            'maxProcesses' => 10,
+            'balanceMaxShift' => 1,
+            'balanceCooldown' => 3,
             'memory' => 128,
+            'tries' => 3,
+            'timeout' => 120,
+            'sleep' => 3,
+            'maxTime' => 3600,
+        ],
+
+        'image-worker' => [
+            'connection' => 'redis',
+            'queue' => ['optimize-image'],
+            'balance' => 'simple',
+            'processes' => 1,
+            'memory' => 256,
             'tries' => 1,
-            'nice' => 0,
+            'timeout' => 300,
+            'sleep' => 3,
+            'maxTime' => 3600,
         ],
     ],
 
     'environments' => [
         'production' => [
-            'supervisor-1' => [
-                'maxProcesses' => 10,
-                'balanceMaxShift' => 1,
-                'balanceCooldown' => 3,
-            ],
+            'default-worker' => [],
+            'image-worker' => [],
         ],
+
         'staging' => [
-            'supervisor-1' => [
-                'maxProcesses' => 10,
-                'balanceMaxShift' => 1,
-                'balanceCooldown' => 3,
-            ],
+            'default-worker' => [],
         ],
+
         'local' => [
-            'supervisor-1' => [
+            'default-worker' => [
                 'maxProcesses' => 3,
             ],
+
+            'image-worker' => [],
         ],
     ],
 
