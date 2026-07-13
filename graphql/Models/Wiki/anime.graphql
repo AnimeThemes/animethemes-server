@@ -135,8 +135,8 @@ extend type Query {
         season_in: [AnimeSeason!] @in(key: "season")
         slug: String @eq
         year: Int @eq
-        year_lesser: Int
-        year_greater: Int
+        year_lesser: Int @where(operator: "<", key: "year")
+        year_greater: Int @where(operator: ">", key: "year")
         startDate: FuzzyDateInt @eq(key: "start_date")
         startDate_lesser: FuzzyDateInt @where(operator: "<", key: "start_date")
         startDate_greater: FuzzyDateInt @where(operator: ">", key: "start_date")
