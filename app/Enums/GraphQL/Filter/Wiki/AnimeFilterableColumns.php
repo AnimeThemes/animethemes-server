@@ -14,7 +14,6 @@ use App\GraphQL\Filter\IntFilter;
 use App\GraphQL\Filter\StringFilter;
 use App\GraphQL\Filter\TimestampFilter;
 use App\Models\Wiki\Anime;
-use GraphQL\Type\Definition\Deprecated;
 
 enum AnimeFilterableColumns implements EnumFilterableColumns
 {
@@ -25,7 +24,6 @@ enum AnimeFilterableColumns implements EnumFilterableColumns
     case START_DATE;
     case END_DATE;
     case SYNOPSIS;
-    #[Deprecated('Use the `START_DATE` filter instead.')]
     case YEAR;
     case CREATED_AT;
     case UPDATED_AT;

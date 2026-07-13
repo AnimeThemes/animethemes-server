@@ -111,6 +111,15 @@ class AnimeResource extends BaseResource
                     ->searchable()
                     ->allowHtml(),
 
+                TextInput::make(Anime::ATTRIBUTE_YEAR)
+                    ->label(__('filament.fields.anime.year.name'))
+                    ->helperText(__('filament.fields.anime.year.help'))
+                    ->required()
+                    ->integer()
+                    ->default(intval(date('Y')))
+                    ->minValue(1960)
+                    ->maxValue(intval(date('Y')) + 4),
+
                 Select::make(Anime::ATTRIBUTE_FORMAT)
                     ->label(__('filament.fields.anime.format.name'))
                     ->helperText(__('filament.fields.anime.format.help'))
@@ -122,14 +131,13 @@ class AnimeResource extends BaseResource
                     ->columns([
                         'xl' => 3,
                     ])
+                    ->columnSpanFull()
                     ->statePath('start_date')
                     ->formatStateUsing(fn (?Anime $record) => $record?->start_date?->toArray())
                     ->schema([
                         TextInput::make('year')
                             ->label(__('filament.fields.base.year'))
-                            ->required()
                             ->integer()
-                            ->default(intval(date('Y')))
                             ->minValue(1960)
                             ->maxValue(intval(date('Y')) + 4),
 
@@ -151,6 +159,7 @@ class AnimeResource extends BaseResource
                     ->columns([
                         'xl' => 3,
                     ])
+                    ->columnSpanFull()
                     ->statePath('end_date')
                     ->formatStateUsing(fn (?Anime $record) => $record?->end_date?->toArray())
                     ->schema([
@@ -207,8 +216,8 @@ class AnimeResource extends BaseResource
                     ->limit(20)
                     ->tooltip(fn (string $state): string => $state),
 
-                TextColumn::make('year')
-                    ->label(__('filament.fields.base.year')),
+                TextColumn::make(Anime::ATTRIBUTE_YEAR)
+                    ->label(__('filament.fields.anime.year.name')),
 
                 TextColumn::make(Anime::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
@@ -243,6 +252,9 @@ class AnimeResource extends BaseResource
                             ->label(__('filament.fields.anime.season.name'))
                             ->formatStateUsing(fn (AnimeSeason $state): string => $state->localizeStyled())
                             ->html(),
+
+                        TextEntry::make(Anime::ATTRIBUTE_YEAR)
+                            ->label(__('filament.fields.anime.year.name')),
 
                         TextEntry::make(Anime::ATTRIBUTE_FORMAT)
                             ->label(__('filament.fields.anime.format.name'))
