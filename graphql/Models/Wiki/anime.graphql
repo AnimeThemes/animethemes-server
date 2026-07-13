@@ -28,8 +28,8 @@ type Anime @model(class: "App\\Models\\Wiki\\Anime") {
     "The brief summary of the anime"
     synopsis: String
 
-    "The premiere year of the anime"
-    year: Int @deprecated(reason: "Use the `startDate.year` field instead.")
+    "The premiere season year of the anime. It may differ from startDate.year."
+    year: Int
 
     "The premiere date of the anime, with a fuzzy date representation"
     startDate: FuzzyDate @rename(attribute: "start_date")
@@ -134,9 +134,9 @@ extend type Query {
         season: AnimeSeason @eq
         season_in: [AnimeSeason!] @in(key: "season")
         slug: String @eq
-        year: Int @eq @deprecated(reason: "Use the `startDate` filter instead.")
-        year_lesser: Int @where(operator: "<", key: "year") @deprecated(reason: "Use the `startDate_lesser` filter instead.")
-        year_greater: Int @where(operator: ">", key: "year") @deprecated(reason: "Use the `startDate_greater` filter instead.")
+        year: Int @eq
+        year_lesser: Int @where(operator: "<", key: "year")
+        year_greater: Int @where(operator: ">", key: "year")
         startDate: FuzzyDateInt @eq(key: "start_date")
         startDate_lesser: FuzzyDateInt @where(operator: "<", key: "start_date")
         startDate_greater: FuzzyDateInt @where(operator: ">", key: "start_date")

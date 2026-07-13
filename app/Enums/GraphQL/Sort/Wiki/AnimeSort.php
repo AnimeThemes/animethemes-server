@@ -10,7 +10,6 @@ use App\GraphQL\Sort\FieldSortCriteria;
 use App\GraphQL\Sort\RandomSortCriteria;
 use App\GraphQL\Sort\SortCriteria;
 use App\Models\Wiki\Anime;
-use GraphQL\Type\Definition\Deprecated;
 
 enum AnimeSort implements EnumSort
 {
@@ -22,9 +21,7 @@ enum AnimeSort implements EnumSort
     case START_DATE_DESC;
     case END_DATE;
     case END_DATE_DESC;
-    #[Deprecated('Use the `START_DATE` sort instead.')]
     case YEAR;
-    #[Deprecated('Use the `START_DATE_DESC` sort instead.')]
     case YEAR_DESC;
     case CREATED_AT;
     case CREATED_AT_DESC;

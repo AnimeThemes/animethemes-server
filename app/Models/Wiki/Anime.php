@@ -23,7 +23,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioJsonResource;
 use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\Anime\AnimeTheme;
-use App\Observers\Wiki\AnimeObserver;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeSeries;
@@ -34,10 +33,8 @@ use App\ValueObjects\FuzzyDate;
 use Database\Factories\Wiki\AnimeFactory;
 use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -70,7 +67,6 @@ use RuntimeException;
  *
  * @method static AnimeFactory factory(...$parameters)
  */
-#[ObservedBy(AnimeObserver::class)]
 #[Table(Anime::TABLE, Anime::ATTRIBUTE_ID)]
 class Anime extends BaseModel implements Auditable, HasImages, HasResources, HasSynonyms, SoftDeletable
 {
@@ -162,13 +158,6 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
             Anime::ATTRIBUTE_SYNOPSIS => 'string',
             Anime::ATTRIBUTE_YEAR => 'int',
         ];
-    }
-
-    protected function year(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $this->start_date->year ?? $value,
-        );
     }
 
     /**

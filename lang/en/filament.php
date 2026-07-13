@@ -573,7 +573,7 @@ return [
                 'name' => 'End Date',
             ],
             'format' => [
-                'help' => 'The Format of the Anime. By default, we will use the Type Field on the MAL page.',
+                'help' => 'The Format of the Anime.',
                 'name' => 'Format',
             ],
             'mod_notes' => [
@@ -581,11 +581,11 @@ return [
                 'name' => 'Moderator Notes',
             ],
             'name' => [
-                'help' => 'The display title of the Anime. By default, we will use the same title as MAL. Ex: "Bakemonogatari", "Code Geass: Hangyaku no Lelouch", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',
+                'help' => 'The display title of the Anime. Ex: "Bakemonogatari", "Code Geass: Hangyaku no Lelouch", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',
                 'name' => 'Name',
             ],
             'season' => [
-                'help' => 'The Season in which the Anime premiered. By default, we will use the Premiered Field on the MAL page.',
+                'help' => 'The Season in which the Anime is considered.',
                 'name' => 'Season',
             ],
             'slug' => [
@@ -601,7 +601,7 @@ return [
                 'name' => 'Synopsis',
             ],
             'year' => [
-                'help' => 'The Year in which the Anime premiered. By default, we will use the Premiered Field on the MAL page.',
+                'help' => 'The Season Year in which the Anime is considered.',
                 'name' => 'Year',
             ],
         ],
@@ -639,7 +639,7 @@ return [
                 ],
             ],
             'name' => [
-                'help' => 'The display title of the Artist. By default, we will use the same title as MAL, but we will prefer "[Given Name] [Family name]". Ex: "Aimer", "Yui Horie", "Fear, and Loathing in Las Vegas".',
+                'help' => 'The display title of the Artist. We will prefer "[Given Name] [Family name]". Ex: "Aimer", "Yui Horie", "Fear, and Loathing in Las Vegas".',
                 'name' => 'Name',
             ],
             'slug' => [
