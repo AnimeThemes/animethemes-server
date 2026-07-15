@@ -20,7 +20,5 @@ enum SpecialPermission: string
 
     case VIEW_FILAMENT = 'view filament';
 
-    case VIEW_HORIZON = 'view horizon';
-
     case VIEW_PULSE = 'view pulse';
 }

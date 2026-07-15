@@ -39,7 +39,6 @@
         "laravel-notification-channels/discord": "^1.8",
         "laravel/fortify": "^1.37.2",
         "laravel/framework": "^13.19.0",
-        "laravel/horizon": "^5.47.2",
         "laravel/pennant": "^1.24.0",
         "laravel/pulse": "^1.7.4",
         "laravel/sanctum": "^4.3.2",
