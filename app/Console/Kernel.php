@@ -24,7 +24,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Queue\Console\MonitorCommand as MonitorQueueCommand;
 use Illuminate\Queue\Console\PruneBatchesCommand;
 use Illuminate\Queue\Console\PruneFailedJobsCommand;
-use Laravel\Horizon\Console\SnapshotCommand;
 use Laravel\Sanctum\Console\Commands\PruneExpired;
 use Propaganistas\LaravelDisposableEmail\Console\UpdateDisposableDomainsCommand;
 
@@ -132,12 +131,6 @@ class Kernel extends ConsoleKernel
             ->runInBackground()
             ->storeOutput()
             ->hourly();
-
-        $schedule->command(SnapshotCommand::class)
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->everyFiveMinutes();
 
         $schedule->command(SyncLikeAggregatesCommand::class)
             ->withoutOverlapping()
