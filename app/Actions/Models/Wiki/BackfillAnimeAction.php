@@ -8,7 +8,6 @@ use App\Actions\ActionResult;
 use App\Actions\Models\BackfillWikiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\AnilistAnimeExternalApiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\AniZipAnimeExternalApiAction;
-use App\Actions\Models\Wiki\Anime\ExternalApi\JikanAnimeExternalApiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\LivechartAnimeExternalApiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\MalAnimeExternalApiAction;
 use App\Concerns\Models\CanCreateStudio;
@@ -100,7 +99,6 @@ class BackfillAnimeAction extends BackfillWikiAction
             new AniZipAnimeExternalApiAction(),
             new LivechartAnimeExternalApiAction(),
             new AnilistAnimeExternalApiAction(),
-            new JikanAnimeExternalApiAction(),
             new MalAnimeExternalApiAction(),
         ];
     }
@@ -117,11 +115,11 @@ class BackfillAnimeAction extends BackfillWikiAction
         }
 
         foreach ($studios as $studio) {
-            $id = Arr::get($studio, 'id');
-            $name = Arr::get($studio, 'name');
+            $id = Arr::integer($studio, 'id');
+            $name = Arr::string($studio, 'name');
 
-            if (blank($name) || blank($id)) {
-                Log::info("Skipping empty studio of name '$name' and id '$id''");
+            if (blank($name)) {
+                Log::info("Skipping empty studio of id '$id''");
                 continue;
             }
 
