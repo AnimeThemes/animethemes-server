@@ -9,7 +9,6 @@ use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\GraphQL\Filter\EnumFilter;
 use App\GraphQL\Filter\Filter;
-use App\GraphQL\Filter\FuzzyDateFilter;
 use App\GraphQL\Filter\IntFilter;
 use App\GraphQL\Filter\StringFilter;
 use App\GraphQL\Filter\TimestampFilter;
@@ -21,8 +20,6 @@ enum AnimeFilterableColumns implements EnumFilterableColumns
     case NAME;
     case FORMAT;
     case SEASON;
-    case START_DATE;
-    case END_DATE;
     case SYNOPSIS;
     case YEAR;
     case CREATED_AT;
@@ -35,8 +32,6 @@ enum AnimeFilterableColumns implements EnumFilterableColumns
             self::NAME => new StringFilter($this->name, Anime::ATTRIBUTE_NAME),
             self::FORMAT => new EnumFilter($this->name, AnimeFormat::class, Anime::ATTRIBUTE_FORMAT),
             self::SEASON => new EnumFilter($this->name, AnimeSeason::class, Anime::ATTRIBUTE_SEASON),
-            self::START_DATE => new FuzzyDateFilter($this->name, Anime::ATTRIBUTE_START_DATE),
-            self::END_DATE => new FuzzyDateFilter($this->name, Anime::ATTRIBUTE_END_DATE),
             self::YEAR => new IntFilter($this->name, Anime::ATTRIBUTE_YEAR),
             self::SYNOPSIS => new StringFilter($this->name, Anime::ATTRIBUTE_SYNOPSIS),
             self::CREATED_AT => new TimestampFilter($this->name, Anime::ATTRIBUTE_CREATED_AT),

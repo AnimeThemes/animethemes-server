@@ -28,14 +28,8 @@ type Anime @model(class: "App\\Models\\Wiki\\Anime") {
     "The brief summary of the anime"
     synopsis: String
 
-    "The premiere season year of the anime. It may differ from startDate.year."
+    "The premiere season year of the anime."
     year: Int
-
-    "The premiere date of the anime, with a fuzzy date representation"
-    startDate: FuzzyDate @rename(attribute: "start_date")
-
-    "The end date of the anime, with a fuzzy date representation"
-    endDate: FuzzyDate @rename(attribute: "end_date")
 
     "The URL for the anime page on the website"
     siteUrl: String! @field(resolver: "App\\GraphQL\\Types\\AnimeType@resolveSiteUrlAttribute")
@@ -137,12 +131,6 @@ extend type Query {
         year: Int @eq
         year_lesser: Int @where(operator: "<", key: "year")
         year_greater: Int @where(operator: ">", key: "year")
-        startDate: FuzzyDateInt @eq(key: "start_date")
-        startDate_lesser: FuzzyDateInt @where(operator: "<", key: "start_date")
-        startDate_greater: FuzzyDateInt @where(operator: ">", key: "start_date")
-        endDate: FuzzyDateInt @eq(key: "end_date")
-        endDate_lesser: FuzzyDateInt @where(operator: "<", key: "end_date")
-        endDate_greater: FuzzyDateInt @where(operator: ">", key: "end_date")
         where: _ @whereConditions(columnsEnum: AnimeFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [AnimeSort!] @sort
     ): [Anime!]! @paginate
