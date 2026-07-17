@@ -31,9 +31,6 @@ type Series @model(class: "App\\Models\\Wiki\\Series") {
         year: Int @eq
         year_lesser: Int @where(operator: "<", key: "year")
         year_greater: Int @where(operator: ">", key: "year")
-        startDate: FuzzyDateInt @eq(key: "start_date")
-        startDate_lesser: FuzzyDateInt @where(operator: "<", key: "start_date")
-        startDate_greater: FuzzyDateInt @where(operator: ">", key: "start_date")
         where: _ @whereConditions(columnsEnum: AnimeFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [AnimeSort!] @sort
     ): [Anime!]! @belongsToManyCustom(type: CONNECTION, edgeType: "SeriesAnimeEdge")

@@ -17,10 +17,6 @@ enum AnimeSort implements EnumSort
     case ID_DESC;
     case NAME;
     case NAME_DESC;
-    case START_DATE;
-    case START_DATE_DESC;
-    case END_DATE;
-    case END_DATE_DESC;
     case YEAR;
     case YEAR_DESC;
     case CREATED_AT;
@@ -38,10 +34,6 @@ enum AnimeSort implements EnumSort
             self::NAME_DESC => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_NAME, SortDirection::DESC),
             self::YEAR => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_YEAR),
             self::YEAR_DESC => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_YEAR, SortDirection::DESC),
-            self::START_DATE => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_START_DATE),
-            self::START_DATE_DESC => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_START_DATE, SortDirection::DESC),
-            self::END_DATE => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_END_DATE),
-            self::END_DATE_DESC => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_END_DATE, SortDirection::DESC),
             self::CREATED_AT => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_CREATED_AT),
             self::CREATED_AT_DESC => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
             self::UPDATED_AT => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_UPDATED_AT),
