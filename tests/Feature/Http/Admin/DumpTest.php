@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Constants\Config\DumpConstants;
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Features\AllowDumpDownloading;
 use App\Models\Admin\Dump;
@@ -12,8 +13,8 @@ use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Pennant\Feature;
-use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
 uses(WithFaker::class);
@@ -28,19 +29,7 @@ test('dump downloading not allowed forbidden', function (): void {
     $response->assertForbidden();
 });
 
-test('dump downloading forbidden for private dumps', function (): void {
-    Feature::activate(AllowDumpDownloading::class);
-
-    $dump = Dump::factory()
-        ->private()
-        ->createOne();
-
-    $response = get(route('dump.show', ['dump' => $dump]));
-
-    $response->assertForbidden();
-});
-
-test('video streaming permitted for bypass', function (): void {
+test('dump downloading permitted for bypass', function (): void {
     Feature::activate(AllowDumpDownloading::class, fake()->boolean());
 
     $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
@@ -52,9 +41,15 @@ test('video streaming permitted for bypass', function (): void {
         Dump::ATTRIBUTE_PATH => $fsFile,
     ]);
 
-    $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
+    $user = User::factory()
+        ->withAdmin()
+        ->withPermissions(
+            CrudPermission::VIEW->format(Dump::class),
+            SpecialPermission::BYPASS_FEATURE_FLAGS->value
+        )
+        ->createOne();
 
-    Sanctum::actingAs($user);
+    actingAs($user);
 
     $response = get(route('dump.show', ['dump' => $dump]));
 
@@ -72,6 +67,12 @@ test('downloaded through response', function (): void {
     $dump = Dump::factory()->createOne([
         Dump::ATTRIBUTE_PATH => $fsFile,
     ]);
+
+    $user = User::factory()
+        ->withAdmin()
+        ->createOne();
+
+    actingAs($user);
 
     $response = get(route('dump.show', ['dump' => $dump]));
 

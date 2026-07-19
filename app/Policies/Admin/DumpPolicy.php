@@ -9,7 +9,6 @@ use App\Enums\Auth\Role;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use App\Policies\BasePolicy;
-use Filament\Facades\Filament;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,19 +19,8 @@ class DumpPolicy extends BasePolicy
      */
     public function view(?User $user, Model $dump): Response
     {
-        if (Filament::isServing()) {
-            return $user?->can(CrudPermission::VIEW->format(static::getModel()))
-                ? Response::allow()
-                : Response::deny();
-        }
-
-        if ($user?->hasRole(Role::ADMIN->value)) {
-            return Response::allow();
-        }
-
-        /** @phpstan-ignore-next-line */
-        return parent::view($user, $dump) && $dump->public
+        return $user?->hasRole(Role::ADMIN->value) && $user->can(CrudPermission::VIEW->format(static::getModel()))
             ? Response::allow()
-            : Response::deny();
+            : Response::denyAsNotFound();
     }
 }

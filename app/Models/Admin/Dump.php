@@ -10,19 +10,15 @@ use App\Events\Admin\Dump\DumpUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Admin\DumpFactory;
 use Illuminate\Database\Eloquent\Attributes\Appends;
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property int $dump_id
  * @property string $path
- * @property bool $public
  *
  * @method static DumpFactory factory(...$parameters)
- * @method static Builder public()
  */
 #[Appends([Dump::ATTRIBUTE_LINK])]
 #[Table(Dump::TABLE, Dump::ATTRIBUTE_ID)]
@@ -34,7 +30,6 @@ class Dump extends BaseModel
 
     final public const string ATTRIBUTE_ID = 'dump_id';
     final public const string ATTRIBUTE_PATH = 'path';
-    final public const string ATTRIBUTE_PUBLIC = 'public';
     final public const string ATTRIBUTE_LINK = 'link';
 
     /**
@@ -57,7 +52,6 @@ class Dump extends BaseModel
      */
     protected $fillable = [
         Dump::ATTRIBUTE_PATH,
-        Dump::ATTRIBUTE_PUBLIC,
     ];
 
     /**
@@ -69,7 +63,6 @@ class Dump extends BaseModel
     {
         return [
             Dump::ATTRIBUTE_PATH => 'string',
-            Dump::ATTRIBUTE_PUBLIC => 'bool',
         ];
     }
 
@@ -95,14 +88,5 @@ class Dump extends BaseModel
     public function getSubtitle(): string
     {
         return $this->getName();
-    }
-
-    /**
-     * Scope a query to only include public dumps.
-     */
-    #[Scope]
-    protected function public(Builder $query): void
-    {
-        $query->where(Dump::ATTRIBUTE_PUBLIC, true);
     }
 }
