@@ -14,18 +14,13 @@ use App\Events\Wiki\Synonym\SynonymDeleted;
 use App\Events\Wiki\Synonym\SynonymRestored;
 use App\Events\Wiki\Synonym\SynonymUpdated;
 use App\Models\BaseModel;
-use App\Scout\Elasticsearch\Models\Wiki\SynonymElasticModel;
-use App\Scout\Typesense\Models\Wiki\SynonymTypesenseModel;
 use Database\Factories\Wiki\SynonymFactory;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Support\Facades\Config;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
-use RuntimeException;
 
 /**
  * @property int $synonym_id
@@ -42,7 +37,6 @@ class Synonym extends BaseModel implements Auditable, SoftDeletable
 {
     use HasAudits;
     use HasFactory;
-    use Searchable;
     use SoftDeletes;
 
     final public const string TABLE = 'synonyms';
@@ -94,19 +88,6 @@ class Synonym extends BaseModel implements Auditable, SoftDeletable
             Synonym::ATTRIBUTE_TEXT => 'string',
             Synonym::ATTRIBUTE_TYPE => SynonymType::class,
         ];
-    }
-
-    /**
-     * Get the indexable data array for the model.
-     */
-    public function toSearchableArray(): array
-    {
-        return match ($driver = Config::get('scout.driver')) {
-            'collection',
-            'elastic' => SynonymElasticModel::toSearchableArray($this),
-            'typesense' => SynonymTypesenseModel::toSearchableArray($this),
-            default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
-        };
     }
 
     public function getName(): string

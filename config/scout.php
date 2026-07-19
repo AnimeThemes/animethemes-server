@@ -11,7 +11,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
-use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 
 return [
@@ -500,27 +499,6 @@ return [
                 ],
                 'search-parameters' => [
                     'query_by' => 'name',
-                ],
-            ],
-            Synonym::class => [
-                'collection-schema' => [
-                    'fields' => [
-                        [
-                            'name' => 'id',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'text',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'type',
-                            'type' => 'int32',
-                        ],
-                    ],
-                ],
-                'search-parameters' => [
-                    'query_by' => 'text',
                 ],
             ],
             Video::class => [

@@ -26,7 +26,6 @@ class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent
 
         $anime->synonyms->each(function (Synonym $synonym): void {
             Synonym::withoutEvents(function () use ($synonym): void {
-                $synonym->unsearchable();
                 $synonym->delete();
             });
         });

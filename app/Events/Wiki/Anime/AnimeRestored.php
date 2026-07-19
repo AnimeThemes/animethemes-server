@@ -25,7 +25,6 @@ class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
         $anime->synonyms()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Synonym $synonym): void {
             Synonym::withoutEvents(function () use ($synonym): void {
                 $synonym->restore();
-                $synonym->searchable();
             });
         });
 
