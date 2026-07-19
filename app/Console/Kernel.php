@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console;
 
-use App\Console\Commands\Models\SyncLikeAggregatesCommand;
+use App\Console\Commands\Models\SyncEntryLikesCountCommand;
+use App\Console\Commands\Models\SyncEntryTracksCountCommand;
 use App\Console\Commands\Models\UpdateAnimeDateCommand;
 use App\Console\Commands\Repositories\Storage\Admin\DumpReconcileCommand;
 use App\Console\Commands\Storage\Admin\AdminDumpCommand;
@@ -132,11 +133,17 @@ class Kernel extends ConsoleKernel
             ->storeOutput()
             ->hourly();
 
-        $schedule->command(SyncLikeAggregatesCommand::class)
+        $schedule->command(SyncEntryLikesCountCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
-            ->daily();
+            ->dailyAt('23:55');
+
+        $schedule->command(SyncEntryTracksCountCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->dailyAt('23:56');
 
         $schedule->command(UpdateAnimeDateCommand::class)
             ->withoutOverlapping()

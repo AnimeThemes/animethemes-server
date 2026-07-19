@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable('like_aggregates')) {
-            Schema::create('like_aggregates', function (Blueprint $table) {
-                $table->morphs('likeable');
-                $table->integer('value')->default(0);
-                $table->primary(['likeable_id', 'likeable_type']);
+        if (! Schema::hasColumns('anime_theme_entries', ['likes_count', 'tracks_count'])) {
+            Schema::table('anime_theme_entries', function (Blueprint $table) {
+                $table->integer('likes_count')->default(0);
+                $table->integer('tracks_count')->default(0);
             });
         }
     }

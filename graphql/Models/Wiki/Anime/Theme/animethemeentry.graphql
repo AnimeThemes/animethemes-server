@@ -23,10 +23,10 @@ type AnimeThemeEntry @model(class: "App\\Models\\Wiki\\Anime\\Theme\\AnimeThemeE
     version: Int!
 
     "The number of likes recorded for the resource"
-    likesCount: Int! @aggregateCustom(column: "value", function: SUM, relation: "likeAggregate")
+    likesCount: Int! @rename(attribute: "likes_count")
 
     "The number of tracks belonging to the resource"
-    tracksCount: Int! @count(relation: "tracks")
+    tracksCount: Int! @rename(attribute: "tracks_count")
 
     "The date that the resource was created"
     createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")

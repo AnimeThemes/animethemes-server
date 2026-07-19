@@ -19,8 +19,6 @@ enum PlaylistSort implements EnumSort
     case ID_DESC;
     case NAME;
     case NAME_DESC;
-    case LIKES_COUNT;
-    case LIKES_COUNT_DESC;
     case TRACKS_COUNT;
     case TRACKS_COUNT_DESC;
     case CREATED_AT;
@@ -36,8 +34,6 @@ enum PlaylistSort implements EnumSort
             self::ID_DESC => new FieldSortCriteria($this->name, Playlist::ATTRIBUTE_ID, SortDirection::DESC),
             self::NAME => new FieldSortCriteria($this->name, Playlist::ATTRIBUTE_NAME),
             self::NAME_DESC => new FieldSortCriteria($this->name, Playlist::ATTRIBUTE_NAME, SortDirection::DESC),
-            self::LIKES_COUNT => new FieldSortCriteria($this->name, 'like_aggregate_sum_value', qualifyColumn: QualifyColumn::NO),
-            self::LIKES_COUNT_DESC => new FieldSortCriteria($this->name, 'like_aggregate_sum_value', SortDirection::DESC, QualifyColumn::NO),
             self::TRACKS_COUNT => new FieldSortCriteria($this->name, 'tracks_count', qualifyColumn: QualifyColumn::NO)->setAggregateRelation(Playlist::RELATION_TRACKS, AggregateFunction::COUNT),
             self::TRACKS_COUNT_DESC => new FieldSortCriteria($this->name, 'tracks_count', SortDirection::DESC, QualifyColumn::NO)->setAggregateRelation(Playlist::RELATION_TRACKS, AggregateFunction::COUNT),
             self::CREATED_AT => new FieldSortCriteria($this->name, Playlist::ATTRIBUTE_CREATED_AT),

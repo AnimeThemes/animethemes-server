@@ -16,12 +16,13 @@ readonly class AnimeYearRule implements ValidationRule
     /**
      * Restrict 'animes' field to a unique year.
      *
+     * @param  int[]  $value
      * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (
-            ($value === null || count($value) > 1)
+            (count($value) === 0 || count($value) > 1)
             && (Arr::get($this->fieldSelection, 'season.anime') || Arr::get($this->fieldSelection, 'seasons.anime'))
         ) {
             $fail(__('validation.graphql.anime_year_query'));

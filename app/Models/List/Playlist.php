@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\List;
 
-use App\Concerns\Models\Aggregate\AggregatesLike;
 use App\Concerns\Models\InteractsWithLikes;
-use App\Contracts\Models\HasAggregateLikes;
 use App\Contracts\Models\HasHashids;
 use App\Contracts\Models\HasImages;
 use App\Contracts\Models\Likeable;
@@ -49,9 +47,8 @@ use RuntimeException;
  * @method static PlaylistFactory factory(...$parameters)
  */
 #[Table(Playlist::TABLE, Playlist::ATTRIBUTE_ID)]
-class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasImages, Likeable
+class Playlist extends BaseModel implements HasHashids, HasImages, Likeable
 {
-    use AggregatesLike;
     use HasFactory;
     use InteractsWithLikes;
     use Searchable;

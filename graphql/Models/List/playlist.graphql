@@ -25,9 +25,6 @@ type Playlist @model(class: "App\\Models\\List\\Playlist") {
     "The existence of tracks belonging to the resource"
     tracksExists: Boolean! @aggregateCustom(column: "*", function: EXISTS, relation: "tracks")
 
-    "The number of likes recorded for the resource"
-    likesCount: Int! @aggregateCustom(column: "value", function: SUM, relation: "likeAggregate")
-
     "The URL for the playlist page on the website"
     siteUrl: String! @field(resolver: "App\\GraphQL\\Types\\PlaylistType@resolveSiteUrlAttribute")
 

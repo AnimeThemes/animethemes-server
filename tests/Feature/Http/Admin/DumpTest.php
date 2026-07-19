@@ -70,6 +70,9 @@ test('downloaded through response', function (): void {
 
     $user = User::factory()
         ->withAdmin()
+        ->withPermissions(
+            CrudPermission::VIEW->format(Dump::class)
+        )
         ->createOne();
 
     actingAs($user);
