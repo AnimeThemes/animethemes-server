@@ -27,17 +27,6 @@ class DumpFactory extends Factory
     {
         return [
             Dump::ATTRIBUTE_PATH => Str::random(),
-            Dump::ATTRIBUTE_PUBLIC => true,
         ];
-    }
-
-    /**
-     * Create a private dump.
-     */
-    public function private(): static
-    {
-        return $this->state([
-            Dump::ATTRIBUTE_PUBLIC => false,
-        ]);
     }
 }

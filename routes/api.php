@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\Admin\AnnouncementController;
 use App\Http\Controllers\Api\Admin\CurrentFeaturedThemeController;
-use App\Http\Controllers\Api\Admin\DumpController;
 use App\Http\Controllers\Api\Admin\FeatureController;
 use App\Http\Controllers\Api\Admin\FeaturedThemeController;
 use App\Http\Controllers\Api\Auth\User\Me\List\MyExternalProfileController;
@@ -198,7 +197,6 @@ if (! function_exists('apiPivotResourceUri')) {
 
 // Admin Routes
 Route::apiResource('announcement', AnnouncementController::class);
-Route::apiResource('dump', DumpController::class);
 Route::apiResource('featuredtheme', FeaturedThemeController::class);
 Route::get('current/featuredtheme', [CurrentFeaturedThemeController::class, 'show'])
     ->name('featuredtheme.current.show');

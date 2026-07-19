@@ -72,7 +72,6 @@ abstract class DumpAction
 
         Dump::query()->create([
             Dump::ATTRIBUTE_PATH => $path,
-            Dump::ATTRIBUTE_PUBLIC => $this->isPublic(),
         ]);
 
         return new ActionResult(
@@ -136,9 +135,9 @@ abstract class DumpAction
 
         $hostConfig = $connection->getConfig('host');
         $socketConfig = $connection->getConfig('unix_socket');
-        if ($socketConfig !== null) {
+        if (filled($socketConfig)) {
             $dumper->setSocket(strval($socketConfig));
-        } elseif ($hostConfig !== null) {
+        } elseif (filled($hostConfig)) {
             $dumper->setHost(collect($hostConfig)->first());
         }
 
@@ -218,7 +217,7 @@ abstract class DumpAction
         $dumper->setPassword(strval($connection->getConfig('password')));
 
         $host = $connection->getConfig('host');
-        if ($host !== null) {
+        if (filled($host)) {
             $dumper->setHost(collect($host)->first());
         }
 
@@ -254,14 +253,6 @@ abstract class DumpAction
     protected function option(string $key): mixed
     {
         return Arr::get($this->options, $key);
-    }
-
-    /**
-     * Determine wheter the dump should be public.
-     */
-    protected function isPublic(): bool
-    {
-        return false;
     }
 
     /**

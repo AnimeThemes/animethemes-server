@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Enums\GraphQL\Filter\Admin\AnnouncementFilterableColumns;
-use App\Enums\GraphQL\Filter\Admin\DumpFilterableColumns;
 use App\Enums\GraphQL\Filter\Document\PageFilterableColumns;
 use App\Enums\GraphQL\Filter\List\ExternalProfileFilterableColumns;
 use App\Enums\GraphQL\Filter\List\Playlist\PlaylistTrackFilterableColumns;
@@ -25,7 +24,6 @@ use App\Enums\GraphQL\Filter\Wiki\SynonymFilterableColumns;
 use App\Enums\GraphQL\Filter\Wiki\ThemeGroupFilterableColumns;
 use App\Enums\GraphQL\Filter\Wiki\VideoFilterableColumns;
 use App\Enums\GraphQL\Sort\Admin\AnnouncementSort;
-use App\Enums\GraphQL\Sort\Admin\DumpSort;
 use App\Enums\GraphQL\Sort\Auth\PermissionSort;
 use App\Enums\GraphQL\Sort\Auth\RoleSort;
 use App\Enums\GraphQL\Sort\Document\PageSort;
@@ -77,7 +75,6 @@ class GraphQLServiceProvider extends ServiceProvider
 
         // Filter Enums.
         $typeRegistry->register(new PhpEnumType(AnnouncementFilterableColumns::class));
-        $typeRegistry->register(new PhpEnumType(DumpFilterableColumns::class));
         $typeRegistry->register(new PhpEnumType(PageFilterableColumns::class));
         $typeRegistry->register(new PhpEnumType(ExternalProfileFilterableColumns::class));
         $typeRegistry->register(new PhpEnumType(PlaylistFilterableColumns::class));
@@ -99,7 +96,6 @@ class GraphQLServiceProvider extends ServiceProvider
 
         // Sort Enums.
         $typeRegistry->register(new PhpEnumType(AnnouncementSort::class));
-        $typeRegistry->register(new PhpEnumType(DumpSort::class));
         $typeRegistry->register(new PhpEnumType(PermissionSort::class));
         $typeRegistry->register(new PhpEnumType(RoleSort::class));
         $typeRegistry->register(new PhpEnumType(PageSort::class));

@@ -81,12 +81,4 @@ class DumpContentAction extends DumpAction
             ->append('.sql')
             ->__toString();
     }
-
-    /**
-     * Determine wheter the dump should be public.
-     */
-    protected function isPublic(): bool
-    {
-        return true;
-    }
 }
