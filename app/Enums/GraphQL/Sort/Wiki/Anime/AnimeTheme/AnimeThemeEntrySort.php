@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Enums\GraphQL\Sort\Wiki\Anime\AnimeTheme;
 
 use App\Contracts\GraphQL\EnumSort;
-use App\Enums\GraphQL\QualifyColumn;
 use App\Enums\GraphQL\SortDirection;
-use App\Enums\Http\Api\Field\AggregateFunction;
 use App\GraphQL\Sort\FieldSortCriteria;
 use App\GraphQL\Sort\RandomSortCriteria;
 use App\GraphQL\Sort\SortCriteria;
@@ -40,10 +38,10 @@ enum AnimeThemeEntrySort implements EnumSort
             self::EPISODES_DESC => new FieldSortCriteria($this->name, AnimeThemeEntry::ATTRIBUTE_EPISODES, SortDirection::DESC),
             self::VERSION => new FieldSortCriteria($this->name, AnimeThemeEntry::ATTRIBUTE_VERSION),
             self::VERSION_DESC => new FieldSortCriteria($this->name, AnimeThemeEntry::ATTRIBUTE_VERSION, SortDirection::DESC),
-            self::LIKES_COUNT => new FieldSortCriteria($this->name, 'like_aggregate_sum_value', qualifyColumn: QualifyColumn::NO),
-            self::LIKES_COUNT_DESC => new FieldSortCriteria($this->name, 'like_aggregate_sum_value', SortDirection::DESC, QualifyColumn::NO),
-            self::TRACKS_COUNT => new FieldSortCriteria($this->name, 'tracks_count', qualifyColumn: QualifyColumn::NO)->setAggregateRelation(AnimeThemeEntry::RELATION_TRACKS, AggregateFunction::COUNT),
-            self::TRACKS_COUNT_DESC => new FieldSortCriteria($this->name, 'tracks_count', SortDirection::DESC, QualifyColumn::NO)->setAggregateRelation(AnimeThemeEntry::RELATION_TRACKS, AggregateFunction::COUNT),
+            self::LIKES_COUNT => new FieldSortCriteria($this->name, AnimeThemeEntry::ATTRIBUTE_LIKES_COUNT),
+            self::LIKES_COUNT_DESC => new FieldSortCriteria($this->name, AnimeThemeEntry::ATTRIBUTE_LIKES_COUNT, SortDirection::DESC),
+            self::TRACKS_COUNT => new FieldSortCriteria($this->name, AnimeThemeEntry::ATTRIBUTE_TRACKS_COUNT),
+            self::TRACKS_COUNT_DESC => new FieldSortCriteria($this->name, AnimeThemeEntry::ATTRIBUTE_TRACKS_COUNT, SortDirection::DESC),
             self::CREATED_AT => new FieldSortCriteria($this->name, AnimeThemeEntry::ATTRIBUTE_CREATED_AT),
             self::CREATED_AT_DESC => new FieldSortCriteria($this->name, AnimeThemeEntry::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
             self::UPDATED_AT => new FieldSortCriteria($this->name, AnimeThemeEntry::ATTRIBUTE_UPDATED_AT),

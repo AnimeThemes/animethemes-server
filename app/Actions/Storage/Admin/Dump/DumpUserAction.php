@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Storage\Admin\Dump;
 
 use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
-use App\Models\Aggregate\LikeAggregate;
 use App\Models\User\Like;
 use App\Models\User\Notification;
 use App\Models\User\Submission;
@@ -26,7 +25,6 @@ class DumpUserAction extends DumpAction
     {
         return [
             Like::TABLE,
-            LikeAggregate::TABLE,
             Notification::TABLE,
             Submission::TABLE,
         ];

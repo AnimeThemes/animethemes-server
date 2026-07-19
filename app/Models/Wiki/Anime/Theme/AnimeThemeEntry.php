@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki\Anime\Theme;
 
-use App\Concerns\Models\Aggregate\AggregatesLike;
 use App\Concerns\Models\InteractsWithLikes;
 use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Http\Api\InteractsWithSchema;
-use App\Contracts\Models\HasAggregateLikes;
 use App\Contracts\Models\HasResources;
 use App\Contracts\Models\Likeable;
 use App\Contracts\Models\SoftDeletable;
@@ -55,20 +53,21 @@ use Znck\Eloquent\Traits\BelongsToThrough as ZnckBelongsToThrough;
  * @property AnimeTheme $animetheme
  * @property int $entry_id
  * @property string|null $episodes
+ * @property int $likes_count
  * @property string|null $notes
  * @property bool $nsfw
  * @property Collection<int, ExternalResource> $resources
  * @property bool $spoiler
  * @property int $theme_id
+ * @property int $tracks_count
  * @property int $version
  * @property Collection<int, Video> $videos
  *
  * @method static AnimeThemeEntryFactory factory(...$parameters)
  */
 #[Table(AnimeThemeEntry::TABLE, AnimeThemeEntry::ATTRIBUTE_ID)]
-class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes, HasResources, InteractsWithSchema, Likeable, SoftDeletable
+class AnimeThemeEntry extends BaseModel implements Auditable, HasResources, InteractsWithSchema, Likeable, SoftDeletable
 {
-    use AggregatesLike;
     use HasAudits;
     use HasFactory;
     use InteractsWithLikes;
@@ -80,10 +79,12 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
 
     final public const string ATTRIBUTE_EPISODES = 'episodes';
     final public const string ATTRIBUTE_ID = 'entry_id';
+    final public const string ATTRIBUTE_LIKES_COUNT = 'likes_count';
     final public const string ATTRIBUTE_NOTES = 'notes';
     final public const string ATTRIBUTE_NSFW = 'nsfw';
     final public const string ATTRIBUTE_SPOILER = 'spoiler';
     final public const string ATTRIBUTE_THEME = 'theme_id';
+    final public const string ATTRIBUTE_TRACKS_COUNT = 'tracks_count';
     final public const string ATTRIBUTE_VERSION = 'version';
 
     final public const string RELATION_ANIME = 'animetheme.anime';
@@ -119,10 +120,12 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
      */
     protected $fillable = [
         AnimeThemeEntry::ATTRIBUTE_EPISODES,
+        AnimeThemeEntry::ATTRIBUTE_LIKES_COUNT,
         AnimeThemeEntry::ATTRIBUTE_NOTES,
         AnimeThemeEntry::ATTRIBUTE_NSFW,
         AnimeThemeEntry::ATTRIBUTE_SPOILER,
         AnimeThemeEntry::ATTRIBUTE_THEME,
+        AnimeThemeEntry::ATTRIBUTE_TRACKS_COUNT,
         AnimeThemeEntry::ATTRIBUTE_VERSION,
     ];
 
@@ -135,10 +138,12 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
     {
         return [
             AnimeThemeEntry::ATTRIBUTE_EPISODES => 'string',
+            AnimeThemeEntry::ATTRIBUTE_LIKES_COUNT => 'int',
             AnimeThemeEntry::ATTRIBUTE_NOTES => 'string',
             AnimeThemeEntry::ATTRIBUTE_NSFW => 'boolean',
             AnimeThemeEntry::ATTRIBUTE_SPOILER => 'boolean',
             AnimeThemeEntry::ATTRIBUTE_THEME => 'int',
+            AnimeThemeEntry::ATTRIBUTE_TRACKS_COUNT => 'int',
             AnimeThemeEntry::ATTRIBUTE_VERSION => 'int',
         ];
     }
