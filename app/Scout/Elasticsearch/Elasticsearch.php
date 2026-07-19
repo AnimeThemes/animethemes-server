@@ -18,7 +18,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
-use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 use App\Scout\Criteria as SearchCriteria;
 use App\Scout\Elasticsearch\Api\Criteria\Filter\Criteria;
@@ -34,7 +33,6 @@ use App\Scout\Elasticsearch\Api\Query\Wiki\ArtistQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\SeriesQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\SongQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\StudioQuery;
-use App\Scout\Elasticsearch\Api\Query\Wiki\SynonymQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\VideoQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Search;
@@ -219,7 +217,6 @@ class Elasticsearch extends Search
             Series::class => new SeriesQuery(),
             Song::class => new SongQuery(),
             Studio::class => new StudioQuery(),
-            Synonym::class => new SynonymQuery(),
             Video::class => new VideoQuery(),
             default => throw new RuntimeException("No ElasticQuery defined for model: {$model}"),
         };

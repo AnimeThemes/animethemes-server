@@ -9,6 +9,7 @@ use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
+use App\Http\Api\Schema\Wiki\SynonymSchema;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
 use App\Models\Wiki\Anime;

@@ -9,6 +9,7 @@ use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Artist;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
@@ -51,6 +52,10 @@ class SynonymUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEve
                     $entry->videos->each(fn (Video $video) => $video->searchable());
                 });
             });
+        }
+
+        if ($synonym->synonymable instanceof Artist) {
+            $synonym->synonymable->searchable();
         }
     }
 }
