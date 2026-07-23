@@ -10,6 +10,16 @@ use Illuminate\Support\Str;
 
 class SeriesType
 {
+    /**
+     * @return array<string, string>
+     */
+    public function resolveTitleAttribute(Series $series): array
+    {
+        return [
+            'romaji' => $series->title,
+        ];
+    }
+
     public function resolveSiteUrlAttribute(Series $series): string
     {
         return Str::of(Config::get('app.url'))

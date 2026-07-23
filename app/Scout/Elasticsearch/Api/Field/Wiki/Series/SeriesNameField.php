@@ -12,6 +12,6 @@ class SeriesNameField extends StringField
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, Series::ATTRIBUTE_NAME);
+        parent::__construct($schema, Series::ATTRIBUTE_TITLE);
     }
 }

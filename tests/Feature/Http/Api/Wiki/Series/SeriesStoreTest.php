@@ -37,7 +37,7 @@ test('required fields', function (): void {
     $response = post(route('api.series.store'));
 
     $response->assertJsonValidationErrors([
-        Series::ATTRIBUTE_NAME,
+        Series::ATTRIBUTE_TITLE,
         Series::ATTRIBUTE_SLUG,
     ]);
 });

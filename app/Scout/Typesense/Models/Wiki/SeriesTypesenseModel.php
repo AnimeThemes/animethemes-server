@@ -16,7 +16,7 @@ class SeriesTypesenseModel
     {
         return [
             'id' => (string) $series->getKey(),
-            'name' => $series->name,
+            'title' => $series->title,
             'created_at' => $series->created_at?->timestamp,
             'updated_at' => $series->updated_at?->timestamp,
             'anime' => $series->anime->map(

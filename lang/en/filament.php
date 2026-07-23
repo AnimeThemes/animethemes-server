@@ -61,9 +61,9 @@ return [
                         ],
                         'name' => 'Backfill Studios',
                     ],
-                    'synonyms' => [
-                        'help' => 'Use the Anilist Resource to map Anime Synonyms',
-                        'name' => 'Backfill Synonyms',
+                    'titles' => [
+                        'help' => 'Use the Anilist Resource to map Anime Titles',
+                        'name' => 'Backfill Alternative Titles',
                     ],
                 ],
                 'message' => [
@@ -569,7 +569,7 @@ return [
         ],
         'anime' => [
             'end_date' => [
-                'help' => 'The date in which the Anime finished airing.',
+                'help' => 'The date in which the Anime finished airing. Automatically backfilled with 3rd party APIs.',
                 'name' => 'End Date',
             ],
             'format' => [
@@ -580,10 +580,6 @@ return [
                 'help' => 'Any additional information not included in other fields that may be useful for moderators.',
                 'name' => 'Moderator Notes',
             ],
-            'name' => [
-                'help' => 'The display title of the Anime. Ex: "Bakemonogatari", "Code Geass: Hangyaku no Lelouch", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',
-                'name' => 'Name',
-            ],
             'season' => [
                 'help' => 'The Season in which the Anime is considered.',
                 'name' => 'Season',
@@ -593,12 +589,24 @@ return [
                 'name' => 'Slug',
             ],
             'start_date' => [
-                'help' => 'The date in which the Anime premiered.',
+                'help' => 'The date in which the Anime premiered. Automatically backfilled with 3rd party APIs.',
                 'name' => 'Start Date',
             ],
             'synopsis' => [
                 'help' => 'The brief description of the Anime.',
                 'name' => 'Synopsis',
+            ],
+            'title' => [
+                'help' => 'The display title of the Anime. Ex: "Bakemonogatari", "Code Geass: Hangyaku no Lelouch", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',
+                'name' => 'Title',
+            ],
+            'title_english' => [
+                'help' => 'The official licensed english title of the Anime. Automatically backfilled with 3rd party APIs.',
+                'name' => 'Title English',
+            ],
+            'title_native' => [
+                'help' => 'The original title of the Anime. Automatically backfilled with 3rd party APIs.',
+                'name' => 'Title Native',
             ],
             'year' => [
                 'help' => 'The Season Year in which the Anime is considered.',
@@ -641,6 +649,10 @@ return [
             'name' => [
                 'help' => 'The display title of the Artist. We will prefer "[Given Name] [Family name]". Ex: "Aimer", "Yui Horie", "Fear, and Loathing in Las Vegas".',
                 'name' => 'Name',
+            ],
+            'name_native' => [
+                'help' => 'The native title of the Artist.',
+                'name' => 'Name Native',
             ],
             'slug' => [
                 'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "aimer", "yui_horie", "falilv".',
@@ -887,12 +899,12 @@ return [
         ],
         'synonym' => [
             'text' => [
-                'help' => 'For alternative titles, licensed titles, common abbreviations and/or shortenings.',
+                'help' => 'For alternative titles, common abbreviations and/or shortenings.',
                 'name' => 'Text',
             ],
-            'type' => [
-                'help' => 'The title type.',
-                'name' => 'Type',
+            'language' => [
+                'help' => 'The language of the alternative title. It may also be used as "Short [LANGUAGE]". Keep it consistent.',
+                'name' => 'Language',
             ],
         ],
         'resourceable' => [
@@ -920,13 +932,13 @@ return [
             'name' => 'Name',
         ],
         'series' => [
-            'name' => [
-                'help' => 'The display title of the Series. Ex: "Monogatari", "Code Geass", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',
-                'name' => 'Name',
-            ],
             'slug' => [
                 'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "monogatari", "code_geass", "danmachi".',
                 'name' => 'Slug',
+            ],
+            'title' => [
+                'help' => 'The display title of the Series. Ex: "Monogatari", "Code Geass", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',
+                'name' => 'Title',
             ],
         ],
         'song' => [

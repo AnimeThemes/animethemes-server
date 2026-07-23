@@ -8,7 +8,6 @@ use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Models\HasSynonyms;
 use App\Contracts\Models\Nameable;
 use App\Contracts\Models\SoftDeletable;
-use App\Enums\Models\Wiki\SynonymType;
 use App\Events\Wiki\Synonym\SynonymCreated;
 use App\Events\Wiki\Synonym\SynonymDeleted;
 use App\Events\Wiki\Synonym\SynonymRestored;
@@ -23,12 +22,12 @@ use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
+ * @property string|null $language
  * @property int $synonym_id
  * @property Model&Nameable&HasSynonyms $synonymable
  * @property string $synonymable_type
  * @property int $synonymable_id
  * @property string $text
- * @property SynonymType $type
  *
  * @method static SynonymFactory factory(...$parameters)
  */
@@ -42,10 +41,10 @@ class Synonym extends BaseModel implements Auditable, SoftDeletable
     final public const string TABLE = 'synonyms';
 
     final public const string ATTRIBUTE_ID = 'synonym_id';
+    final public const string ATTRIBUTE_LANGUAGE = 'language';
     final public const string ATTRIBUTE_SYNONYMABLE_TYPE = 'synonymable_type';
     final public const string ATTRIBUTE_SYNONYMABLE_ID = 'synonymable_id';
     final public const string ATTRIBUTE_TEXT = 'text';
-    final public const string ATTRIBUTE_TYPE = 'type';
 
     final public const string RELATION_SYNONYMABLE = 'synonymable';
 
@@ -55,10 +54,10 @@ class Synonym extends BaseModel implements Auditable, SoftDeletable
      * @var list<string>
      */
     protected $fillable = [
+        Synonym::ATTRIBUTE_LANGUAGE,
         Synonym::ATTRIBUTE_SYNONYMABLE_TYPE,
         Synonym::ATTRIBUTE_SYNONYMABLE_ID,
         Synonym::ATTRIBUTE_TEXT,
-        Synonym::ATTRIBUTE_TYPE,
     ];
 
     /**
@@ -83,10 +82,10 @@ class Synonym extends BaseModel implements Auditable, SoftDeletable
     protected function casts(): array
     {
         return [
+            Synonym::ATTRIBUTE_LANGUAGE => 'string',
             Synonym::ATTRIBUTE_SYNONYMABLE_TYPE => 'string',
             Synonym::ATTRIBUTE_SYNONYMABLE_ID => 'int',
             Synonym::ATTRIBUTE_TEXT => 'string',
-            Synonym::ATTRIBUTE_TYPE => SynonymType::class,
         ];
     }
 

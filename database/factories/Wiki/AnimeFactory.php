@@ -37,7 +37,7 @@ class AnimeFactory extends Factory
      */
     public function definition(): array
     {
-        $name = fake()->words(3, true);
+        $title = fake()->words(3, true);
         $season = Arr::random(AnimeSeason::cases());
         $format = Arr::random(AnimeFormat::cases());
 
@@ -54,9 +54,11 @@ class AnimeFactory extends Factory
         );
 
         return [
-            Anime::ATTRIBUTE_NAME => $name,
+            Anime::ATTRIBUTE_TITLE => $title,
+            Anime::ATTRIBUTE_TITLE_ENGLISH => fake()->words(3, true),
+            Anime::ATTRIBUTE_TITLE_NATIVE => fake()->words(3, true),
             Anime::ATTRIBUTE_SEASON => $season->value,
-            Anime::ATTRIBUTE_SLUG => Str::slug($name, '_'),
+            Anime::ATTRIBUTE_SLUG => Str::slug($title, '_'),
             Anime::ATTRIBUTE_SYNOPSIS => fake()->text(),
             Anime::ATTRIBUTE_YEAR => $startFuzzyDate->year,
             Anime::ATTRIBUTE_START_DATE => $startFuzzyDate->__toString(),

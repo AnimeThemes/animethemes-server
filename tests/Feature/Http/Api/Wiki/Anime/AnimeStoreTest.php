@@ -40,7 +40,7 @@ test('required fields', function (): void {
     $response = post(route('api.anime.store'));
 
     $response->assertJsonValidationErrors([
-        Anime::ATTRIBUTE_NAME,
+        Anime::ATTRIBUTE_TITLE,
         Anime::ATTRIBUTE_SEASON,
         'format',
         Anime::ATTRIBUTE_SLUG,

@@ -6,7 +6,6 @@ namespace App\Events\Wiki\Song\Performance;
 
 use App\Contracts\Events\CreateSynonymEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
-use App\Enums\Models\Wiki\SynonymType;
 use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Performance;
@@ -58,8 +57,6 @@ class PerformanceCreated extends WikiCreatedEvent implements CreateSynonymEvent,
         if ($performance->artist instanceof Artist && filled($performance->alias)) {
             $performance->artist->synonyms()->firstOrCreate([
                 Synonym::ATTRIBUTE_TEXT => $performance->alias,
-            ], [
-                Synonym::ATTRIBUTE_TYPE => SynonymType::OTHER->value,
             ]);
         }
     }

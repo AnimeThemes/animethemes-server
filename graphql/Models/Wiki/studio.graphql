@@ -23,7 +23,8 @@ type Studio @model(class: "App\\Models\\Wiki\\Studio") {
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 
     anime(
-        name_like: String @like(key: "name")
+        name_like: String @like(key: "title") @deprecated(reason: "Use the 'title_like' argument instead")
+        title_like: String @like(key: "title")
         format: AnimeFormat @eq
         format_in: [AnimeFormat!] @in(key: "format")
         season: AnimeSeason @eq

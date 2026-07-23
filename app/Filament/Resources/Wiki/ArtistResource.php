@@ -26,6 +26,7 @@ use App\Models\Wiki\Artist;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -81,14 +82,27 @@ class ArtistResource extends BaseResource
     {
         return $schema
             ->components([
-                TextInput::make(Artist::ATTRIBUTE_NAME)
+                Fieldset::make(Artist::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.artist.name.name'))
-                    ->helperText(__('filament.fields.artist.name.help'))
-                    ->required()
-                    ->maxLength(192)
-                    ->afterStateUpdatedJs(<<<'JS'
-                        $set('slug', slug($state ?? ''));
-                    JS),
+                    ->columns([
+                        'xl' => 1,
+                    ])
+                    ->columnSpanFull()
+                    ->schema([
+                        TextInput::make(Artist::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.artist.name.name'))
+                            ->helperText(__('filament.fields.artist.name.help'))
+                            ->required()
+                            ->maxLength(192)
+                            ->afterStateUpdatedJs(<<<'JS'
+                                $set('slug', slug($state ?? ''));
+                            JS),
+
+                        TextInput::make(Artist::ATTRIBUTE_NAME_NATIVE)
+                            ->label(__('filament.fields.artist.name_native.name'))
+                            ->helperText(__('filament.fields.artist.name_native.help'))
+                            ->maxLength(192),
+                    ]),
 
                 Slug::make(Artist::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name'))
@@ -115,6 +129,10 @@ class ArtistResource extends BaseResource
                     ->label(__('filament.fields.artist.name.name'))
                     ->copyableWithMessage(),
 
+                TextColumn::make(Artist::ATTRIBUTE_NAME_NATIVE)
+                    ->label(__('filament.fields.artist.name_native.name'))
+                    ->copyableWithMessage(),
+
                 TextColumn::make(Artist::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name')),
             ])
@@ -132,6 +150,10 @@ class ArtistResource extends BaseResource
 
                         TextEntry::make(Artist::ATTRIBUTE_NAME)
                             ->label(__('filament.fields.artist.name.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(Artist::ATTRIBUTE_NAME_NATIVE)
+                            ->label(__('filament.fields.artist.name_native.name'))
                             ->copyableWithMessage(),
 
                         TextEntry::make(Artist::ATTRIBUTE_SLUG)
@@ -160,6 +182,9 @@ class ArtistResource extends BaseResource
                 ->constraints([
                     TextConstraint::make(Artist::ATTRIBUTE_NAME)
                         ->label(__('filament.fields.artist.name.name')),
+
+                    TextConstraint::make(Artist::ATTRIBUTE_NAME_NATIVE)
+                        ->label(__('filament.fields.artist.name_native.name')),
 
                     TextConstraint::make(Artist::ATTRIBUTE_SLUG)
                         ->label(__('filament.fields.artist.slug.name')),

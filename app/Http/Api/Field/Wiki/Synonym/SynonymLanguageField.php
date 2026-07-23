@@ -6,25 +6,25 @@ namespace App\Http\Api\Field\Wiki\Synonym;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
-use App\Enums\Models\Wiki\SynonymType;
-use App\Http\Api\Field\EnumField;
+use App\Http\Api\Field\StringField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Synonym;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Enum;
 
-class SynonymTypeField extends EnumField implements CreatableField, UpdatableField
+class SynonymLanguageField extends StringField implements CreatableField, UpdatableField
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, Synonym::ATTRIBUTE_TYPE, SynonymType::class);
+        parent::__construct($schema, Synonym::ATTRIBUTE_LANGUAGE);
     }
 
     public function getCreationRules(Request $request): array
     {
         return [
+            'sometimes',
             'required',
-            new Enum(SynonymType::class),
+            'string',
+            'max:192',
         ];
     }
 
@@ -33,7 +33,8 @@ class SynonymTypeField extends EnumField implements CreatableField, UpdatableFie
         return [
             'sometimes',
             'required',
-            new Enum(SynonymType::class),
+            'string',
+            'max:192',
         ];
     }
 }

@@ -29,7 +29,7 @@ test('default', function (): void {
             Anime::ATTRIBUTE_SEASON => AnimeSeason::WINTER->value,
         ]);
 
-    $winterResources = new AnimeCollection($winterAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query());
+    $winterResources = new AnimeCollection($winterAnime->sortBy(Anime::ATTRIBUTE_TITLE)->values(), new Query());
 
     $springAnime = Anime::factory()
         ->count(fake()->numberBetween(1, 3))
@@ -38,7 +38,7 @@ test('default', function (): void {
             Anime::ATTRIBUTE_SEASON => AnimeSeason::SPRING->value,
         ]);
 
-    $springResources = new AnimeCollection($springAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query());
+    $springResources = new AnimeCollection($springAnime->sortBy(Anime::ATTRIBUTE_TITLE)->values(), new Query());
 
     $summerAnime = Anime::factory()
         ->count(fake()->numberBetween(1, 3))
@@ -47,7 +47,7 @@ test('default', function (): void {
             Anime::ATTRIBUTE_SEASON => AnimeSeason::SUMMER->value,
         ]);
 
-    $summerResources = new AnimeCollection($summerAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query());
+    $summerResources = new AnimeCollection($summerAnime->sortBy(Anime::ATTRIBUTE_TITLE)->values(), new Query());
 
     $fallAnime = Anime::factory()
         ->count(fake()->numberBetween(1, 3))
@@ -56,7 +56,7 @@ test('default', function (): void {
             Anime::ATTRIBUTE_SEASON => AnimeSeason::FALL->value,
         ]);
 
-    $fallResources = new AnimeCollection($fallAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query());
+    $fallResources = new AnimeCollection($fallAnime->sortBy(Anime::ATTRIBUTE_TITLE)->values(), new Query());
 
     $response = get(route('api.animeyear.show', [Anime::ATTRIBUTE_YEAR => $year]));
 
@@ -91,7 +91,7 @@ test('allowed include paths', function (): void {
             Anime::ATTRIBUTE_SEASON => AnimeSeason::WINTER->value,
         ]);
 
-    $winterResources = new AnimeCollection($winterAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query($parameters));
+    $winterResources = new AnimeCollection($winterAnime->sortBy(Anime::ATTRIBUTE_TITLE)->values(), new Query($parameters));
 
     $springAnime = Anime::factory()
         ->count(fake()->numberBetween(1, 3))
@@ -101,7 +101,7 @@ test('allowed include paths', function (): void {
             Anime::ATTRIBUTE_SEASON => AnimeSeason::SPRING->value,
         ]);
 
-    $springResources = new AnimeCollection($springAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query($parameters));
+    $springResources = new AnimeCollection($springAnime->sortBy(Anime::ATTRIBUTE_TITLE)->values(), new Query($parameters));
 
     $summerAnime = Anime::factory()
         ->count(fake()->numberBetween(1, 3))
@@ -111,7 +111,7 @@ test('allowed include paths', function (): void {
             Anime::ATTRIBUTE_SEASON => AnimeSeason::SUMMER->value,
         ]);
 
-    $summerResources = new AnimeCollection($summerAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query($parameters));
+    $summerResources = new AnimeCollection($summerAnime->sortBy(Anime::ATTRIBUTE_TITLE)->values(), new Query($parameters));
 
     $fallAnime = Anime::factory()
         ->count(fake()->numberBetween(1, 3))
@@ -121,7 +121,7 @@ test('allowed include paths', function (): void {
             Anime::ATTRIBUTE_SEASON => AnimeSeason::FALL->value,
         ]);
 
-    $fallResources = new AnimeCollection($fallAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query($parameters));
+    $fallResources = new AnimeCollection($fallAnime->sortBy(Anime::ATTRIBUTE_TITLE)->values(), new Query($parameters));
 
     $response = get(route('api.animeyear.show', [Anime::ATTRIBUTE_YEAR => $year] + $parameters));
 
@@ -155,7 +155,7 @@ test('sparse fieldsets', function (): void {
             Anime::ATTRIBUTE_SEASON => AnimeSeason::WINTER->value,
         ]);
 
-    $winterResources = new AnimeCollection($winterAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query($parameters));
+    $winterResources = new AnimeCollection($winterAnime->sortBy(Anime::ATTRIBUTE_TITLE)->values(), new Query($parameters));
 
     $springAnime = Anime::factory()
         ->count(fake()->numberBetween(1, 3))
@@ -164,7 +164,7 @@ test('sparse fieldsets', function (): void {
             Anime::ATTRIBUTE_SEASON => AnimeSeason::SPRING->value,
         ]);
 
-    $springResources = new AnimeCollection($springAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query($parameters));
+    $springResources = new AnimeCollection($springAnime->sortBy(Anime::ATTRIBUTE_TITLE)->values(), new Query($parameters));
 
     $summerAnime = Anime::factory()
         ->count(fake()->numberBetween(1, 3))
@@ -173,7 +173,7 @@ test('sparse fieldsets', function (): void {
             Anime::ATTRIBUTE_SEASON => AnimeSeason::SUMMER->value,
         ]);
 
-    $summerResources = new AnimeCollection($summerAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query($parameters));
+    $summerResources = new AnimeCollection($summerAnime->sortBy(Anime::ATTRIBUTE_TITLE)->values(), new Query($parameters));
 
     $fallAnime = Anime::factory()
         ->count(fake()->numberBetween(1, 3))
@@ -182,7 +182,7 @@ test('sparse fieldsets', function (): void {
             Anime::ATTRIBUTE_SEASON => AnimeSeason::FALL->value,
         ]);
 
-    $fallResources = new AnimeCollection($fallAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query($parameters));
+    $fallResources = new AnimeCollection($fallAnime->sortBy(Anime::ATTRIBUTE_TITLE)->values(), new Query($parameters));
 
     $response = get(route('api.animeyear.show', [Anime::ATTRIBUTE_YEAR => $year] + $parameters));
 

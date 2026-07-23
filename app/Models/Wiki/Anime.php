@@ -54,7 +54,6 @@ use RuntimeException;
  * @property AnimeFormat|null $format
  * @property Collection<int, Image> $images
  * @property string|null $mod_notes
- * @property string $name
  * @property Collection<int, ExternalResource> $resources
  * @property AnimeSeason|null $season
  * @property Collection<int, Series> $series
@@ -63,6 +62,9 @@ use RuntimeException;
  * @property Collection<int, Studio> $studios
  * @property Collection<int, Synonym> $synonyms
  * @property string|null $synopsis
+ * @property string $title
+ * @property string|null $title_english
+ * @property string|null $title_native
  * @property int|null $year
  *
  * @method static AnimeFactory factory(...$parameters)
@@ -82,7 +84,9 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     final public const string ATTRIBUTE_END_DATE = 'end_date';
     final public const string ATTRIBUTE_FORMAT = 'format';
     final public const string ATTRIBUTE_MOD_NOTES = 'mod_notes';
-    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_TITLE = 'title';
+    final public const string ATTRIBUTE_TITLE_ENGLISH = 'title_english';
+    final public const string ATTRIBUTE_TITLE_NATIVE = 'title_native';
     final public const string ATTRIBUTE_SEASON = 'season';
     final public const string ATTRIBUTE_SLUG = 'slug';
     final public const string ATTRIBUTE_START_DATE = 'start_date';
@@ -132,11 +136,13 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
         Anime::ATTRIBUTE_END_DATE,
         Anime::ATTRIBUTE_FORMAT,
         Anime::ATTRIBUTE_MOD_NOTES,
-        Anime::ATTRIBUTE_NAME,
         Anime::ATTRIBUTE_SEASON,
         Anime::ATTRIBUTE_SLUG,
         Anime::ATTRIBUTE_START_DATE,
         Anime::ATTRIBUTE_SYNOPSIS,
+        Anime::ATTRIBUTE_TITLE,
+        Anime::ATTRIBUTE_TITLE_ENGLISH,
+        Anime::ATTRIBUTE_TITLE_NATIVE,
         Anime::ATTRIBUTE_YEAR,
     ];
 
@@ -151,11 +157,13 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
             Anime::ATTRIBUTE_END_DATE => AsFuzzyDate::class,
             Anime::ATTRIBUTE_FORMAT => AnimeFormat::class,
             Anime::ATTRIBUTE_MOD_NOTES => 'string',
-            Anime::ATTRIBUTE_NAME => 'string',
             Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
             Anime::ATTRIBUTE_SLUG => 'string',
             Anime::ATTRIBUTE_START_DATE => AsFuzzyDate::class,
             Anime::ATTRIBUTE_SYNOPSIS => 'string',
+            Anime::ATTRIBUTE_TITLE => 'string',
+            Anime::ATTRIBUTE_TITLE_ENGLISH => 'string',
+            Anime::ATTRIBUTE_TITLE_NATIVE => 'string',
             Anime::ATTRIBUTE_YEAR => 'int',
         ];
     }
@@ -193,12 +201,12 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
 
     public function getName(): string
     {
-        return $this->name;
+        return $this->title;
     }
 
     public function getSubtitle(): string
     {
-        return $this->slug;
+        return $this->title_english;
     }
 
     /**

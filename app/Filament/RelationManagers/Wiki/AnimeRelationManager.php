@@ -23,7 +23,7 @@ abstract class AnimeRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->recordTitleAttribute(Anime::ATTRIBUTE_NAME)
+                ->recordTitleAttribute(Anime::ATTRIBUTE_TITLE)
         );
     }
 }

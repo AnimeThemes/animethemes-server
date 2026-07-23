@@ -176,7 +176,7 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasResources, Inte
     {
         $theme = $this->animetheme;
 
-        return Str::of($this->anime->name)
+        return Str::of($this->anime->title)
             ->append(' ')
             ->append($theme->type->localize())
             ->when($theme->type !== ThemeType::IN, fn (Stringable $str) => $str->append(strval($theme->sequence ?? 1)))

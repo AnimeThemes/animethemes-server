@@ -22,7 +22,7 @@ final class CreateAnimeIndex implements MigrationInterface
 
             $mapping->long('anime_id');
             $mapping->date('created_at');
-            $mapping->text('name', [
+            $mapping->text('title', [
                 'analyzer' => 'name_search',
                 'fields' => [
                     'keyword' => [

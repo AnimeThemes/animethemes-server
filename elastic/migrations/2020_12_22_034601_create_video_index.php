@@ -62,7 +62,7 @@ final class CreateVideoIndex implements MigrationInterface
                                     'created_at' => [
                                         'type' => 'date',
                                     ],
-                                    'name' => [
+                                    'title' => [
                                         'type' => 'text',
                                         'copy_to' => ['anime_slug'],
                                         'analyzer' => 'name_search',

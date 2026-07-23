@@ -46,7 +46,7 @@ class YearController extends Controller implements InteractsWithSchema
             Anime::query()
                 ->where(Anime::ATTRIBUTE_YEAR, $year)
                 ->with($allowedIncludePaths->all())
-                ->orderBy(Anime::ATTRIBUTE_NAME)
+                ->orderBy(Anime::ATTRIBUTE_TITLE)
                 ->get(),
             $query
         );

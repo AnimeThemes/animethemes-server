@@ -8,7 +8,10 @@ type Anime @model(class: "App\\Models\\Wiki\\Anime") {
     id: Int! @rename(attribute: "anime_id")
 
     "The primary title of the anime"
-    name: String!
+    name: String! @deprecated(reason: "Use the title.romaji field instead")
+
+    "The primary title of the anime"
+    title: AnimeTitle! @field(resolver: "App\\GraphQL\\Types\\AnimeType@resolveTitleAttribute")
 
     "The format of the anime"
     format: AnimeFormat
@@ -41,7 +44,7 @@ type Anime @model(class: "App\\Models\\Wiki\\Anime") {
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 
     synonyms(
-        type: SynonymType @eq
+        language: String @eq
         where: _ @whereConditions(columnsEnum: SynonymFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [SynonymSort!] @sort
     ): [Synonym!]! @morphMany
@@ -84,6 +87,15 @@ type Anime @model(class: "App\\Models\\Wiki\\Anime") {
     ): [Studio!]! @belongsToManyCustom(type: CONNECTION, edgeType: "AnimeStudioEdge")
 }
 
+type AnimeTitle {
+    "The romaji title of the anime"
+    romaji: String!
+    "The licensed title of the anime"
+    english: String
+    "The original title of the anime"
+    native: String
+}
+
 type AnimeSeriesEdge @model(class: "App\\Pivots\\Wiki\\AnimeSeries") {
     "The Series node."
     node: Series!
@@ -121,8 +133,10 @@ extend type Query {
     animePagination(
         id: Int @eq(key: "anime_id")
         search: String @search
-        name: String @eq
-        name_like: String @like(key: "name")
+        name: String @eq(key: "title") @deprecated(reason: "Use the 'title' argument instead")
+        name_like: String @like(key: "title") @deprecated(reason: "Use the 'title_like' argument instead")
+        title: String @eq
+        title_like: String @like(key: "title")
         format: AnimeFormat @eq
         format_in: [AnimeFormat!] @in(key: "format")
         season: AnimeSeason @eq

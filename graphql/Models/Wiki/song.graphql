@@ -7,11 +7,8 @@ type Song @model(class: "App\\Models\\Wiki\\Song") {
     "The primary key of the resource"
     id: Int! @rename(attribute: "song_id")
 
-    "The name of the composition"
-    title: String
-
-    "The native name of the composition"
-    titleNative: String @rename(attribute: "title_native")
+    "The title of the composition"
+    title: SongTitle! @field(resolver: "App\\GraphQL\\Types\\SongType@resolveTitleAttribute")
 
     "The date that the resource was created"
     createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
@@ -46,6 +43,13 @@ type Song @model(class: "App\\Models\\Wiki\\Song") {
         where: _ @whereConditions(columnsEnum: ExternalResourceFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [ExternalResourceSort!] @sort
     ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
+}
+
+type SongTitle {
+    "The romaji title of the composition"
+    romaji: String
+    "The native title of the composition"
+    native: String
 }
 
 extend type Query {

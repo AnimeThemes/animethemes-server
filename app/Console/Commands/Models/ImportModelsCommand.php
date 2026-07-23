@@ -13,7 +13,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
-use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
@@ -53,7 +52,6 @@ class ImportModelsCommand extends BaseCommand
             $this->scoutFlush(Series::class);
             $this->scoutFlush(Song::class);
             $this->scoutFlush(Studio::class);
-            $this->scoutFlush(Synonym::class);
             $this->scoutFlush(Video::class);
         }
 
@@ -65,7 +63,6 @@ class ImportModelsCommand extends BaseCommand
         $this->scoutImport(Series::class);
         $this->scoutImport(Song::class);
         $this->scoutImport(Studio::class);
-        $this->scoutImport(Synonym::class);
         $this->scoutImport(Video::class);
 
         return 1;

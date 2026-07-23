@@ -15,7 +15,7 @@ class AnimeNameField extends StringField implements CreatableField, UpdatableFie
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, Anime::ATTRIBUTE_NAME);
+        parent::__construct($schema, 'name', Anime::ATTRIBUTE_TITLE);
     }
 
     public function getCreationRules(Request $request): array

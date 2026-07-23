@@ -12,19 +12,16 @@ use App\Actions\Models\Wiki\Anime\ExternalApi\LivechartAnimeExternalApiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\MalAnimeExternalApiAction;
 use App\Concerns\Models\CanCreateStudio;
 use App\Concerns\Models\HasLabel;
+use App\Contracts\Actions\Models\Wiki\BackfillAlternativeTitles;
 use App\Contracts\Actions\Models\Wiki\BackfillImages;
 use App\Contracts\Actions\Models\Wiki\BackfillResources;
 use App\Contracts\Actions\Models\Wiki\BackfillStudios;
-use App\Contracts\Actions\Models\Wiki\BackfillSynonyms;
 use App\Enums\Actions\ActionStatus;
-use App\Enums\Models\Wiki\SynonymType;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Synonym;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class BackfillAnimeAction extends BackfillWikiAction
 {
@@ -32,7 +29,7 @@ class BackfillAnimeAction extends BackfillWikiAction
     use HasLabel;
 
     final public const string STUDIOS = 'studios';
-    final public const string SYNONYMS = 'synonyms';
+    final public const string TITLES = 'titles';
 
     public function __construct(protected Anime $anime, protected array $toBackfill)
     {
@@ -49,7 +46,7 @@ class BackfillAnimeAction extends BackfillWikiAction
                     count($this->toBackfill[self::RESOURCES]) === 0
                     && count($this->toBackfill[self::IMAGES]) === 0
                     && ! $this->toBackfill[self::STUDIOS]
-                    && ! $this->toBackfill[self::SYNONYMS]
+                    && ! $this->toBackfill[self::TITLES]
                 ) {
                     // Don't make other requests if everything is backfilled
                     Log::info("Backfill action finished for Anime {$this->getModel()->getName()}");
@@ -71,8 +68,8 @@ class BackfillAnimeAction extends BackfillWikiAction
                     $this->forStudios($response);
                 }
 
-                if ($response instanceof BackfillSynonyms) {
-                    $this->forSynonyms($response);
+                if ($response instanceof BackfillAlternativeTitles) {
+                    $this->forAlternativeTitles($response);
                 }
 
                 DB::commit();
@@ -139,26 +136,15 @@ class BackfillAnimeAction extends BackfillWikiAction
     /**
      * Create the synonyms given the response.
      */
-    protected function forSynonyms(ExternalApiAction&BackfillSynonyms $api): void
+    protected function forAlternativeTitles(ExternalApiAction&BackfillAlternativeTitles $api): void
     {
-        if (! $this->toBackfill[self::SYNONYMS]) {
+        if (! $this->toBackfill[self::TITLES]) {
             return;
         }
 
-        $synonyms = $api->getSynonyms()
-            ->reject(
-                fn (string $text, int $type): bool => $type === SynonymType::OTHER->value && Str::is($text, $this->getModel()->getName(), true)
-            )
-            ->all();
+        $this->getModel()->update($api->getAlternativeTitlesMapping());
 
-        foreach ($synonyms as $type => $text) {
-            $this->getModel()->synonyms()->create([
-                Synonym::ATTRIBUTE_TEXT => $text,
-                Synonym::ATTRIBUTE_TYPE => $type,
-            ]);
-
-            $this->toBackfill[self::SYNONYMS] = false;
-        }
+        $this->toBackfill[self::TITLES] = false;
     }
 
     protected function getModel(): Anime
