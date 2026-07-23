@@ -23,7 +23,7 @@ class PruneDumpAction extends PruneAction
 
     protected function shouldBePruned(string $path, Carbon $lastModified): bool
     {
-        if (Str::contains($path, ['content', 'wiki'])) {
+        if (Str::contains($path, 'content')) {
             return true;
         }
 
