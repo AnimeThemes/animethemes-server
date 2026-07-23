@@ -34,7 +34,7 @@ class DumpContentAction extends DumpAction
 {
     use ReconcilesDumpRepositories;
 
-    final public const string FILENAME_PREFIX = 'animethemes-db-dump-wiki-';
+    final public const string FILENAME_PREFIX = 'animethemes-db-dump-content-';
 
     /**
      * The list of tables to include in the dump.
@@ -69,7 +69,7 @@ class DumpContentAction extends DumpAction
     /**
      * The temporary path for the database dump.
      * Note: The dumper library does not support writing to disk, so we have to write to the local filesystem first.
-     * Pattern: "animethemes-db-dump-wiki-{milliseconds from epoch}.sql".
+     * Pattern: "animethemes-db-dump-content-{milliseconds from epoch}.sql".
      */
     protected function getDumpFile(): string
     {

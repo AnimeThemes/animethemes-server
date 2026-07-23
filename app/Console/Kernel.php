@@ -43,41 +43,41 @@ class Kernel extends ConsoleKernel
             ->storeOutput()
             ->everyFifteenMinutes();
 
+        $schedule->command(AdminDumpCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->mondays();
+
+        $schedule->command(AuthDumpCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->mondays();
+
         $schedule->command(ContentDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
             ->daily();
 
-        $schedule->command(AdminDumpCommand::class)
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY);
-
-        $schedule->command(AuthDumpCommand::class)
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY);
-
         $schedule->command(DocumentDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY);
+            ->mondays();
 
         $schedule->command(ListDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY);
+            ->mondays();
 
         $schedule->command(UserDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY);
+            ->mondays();
 
         $schedule->command(DumpReconcileCommand::class)
             ->withoutOverlapping()
