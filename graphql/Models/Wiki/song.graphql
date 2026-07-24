@@ -56,7 +56,7 @@ extend type Query {
     "Returns a listing of song resources given fields."
     songPagination(
         id: Int @eq(key: "song_id")
-        title: String @eq
+        titleRomaji: String @eq(key: "title")
         titleNative: String @eq(key: "title_native")
         where: _ @whereConditions(columnsEnum: SongFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [SongSort!] @sort

@@ -20,7 +20,8 @@ type AnimeYearSeasons {
 
     "The animes of the season year filtered"
     anime(
-        name_like: String @like(key: "name")
+        name_like: String @like(key: "title") @deprecated(reason: "Use titleRomaji_like argument instead")
+        titleRomaji_like: String @like(key: "title")
         format: AnimeFormat @eq(key: "format")
         format_in: [AnimeFormat!] @in(key: "format")
         season: AnimeSeason @eq
@@ -45,7 +46,8 @@ type AnimeYearSeason {
 
     "The animes of the season year filtered"
     anime(
-        name_like: String @like(key: "name")
+        name_like: String @like(key: "title") @deprecated(reason: "Use titleRomaji_like argument instead")
+        titleRomaji_like: String @like(key: "title")
         format: AnimeFormat @eq(key: "format")
         format_in: [AnimeFormat!] @in(key: "format")
         season: AnimeSeason @eq

@@ -84,13 +84,13 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     final public const string ATTRIBUTE_END_DATE = 'end_date';
     final public const string ATTRIBUTE_FORMAT = 'format';
     final public const string ATTRIBUTE_MOD_NOTES = 'mod_notes';
-    final public const string ATTRIBUTE_TITLE = 'title';
-    final public const string ATTRIBUTE_TITLE_ENGLISH = 'title_english';
-    final public const string ATTRIBUTE_TITLE_NATIVE = 'title_native';
     final public const string ATTRIBUTE_SEASON = 'season';
     final public const string ATTRIBUTE_SLUG = 'slug';
     final public const string ATTRIBUTE_START_DATE = 'start_date';
     final public const string ATTRIBUTE_SYNOPSIS = 'synopsis';
+    final public const string ATTRIBUTE_TITLE = 'title';
+    final public const string ATTRIBUTE_TITLE_ENGLISH = 'title_english';
+    final public const string ATTRIBUTE_TITLE_NATIVE = 'title_native';
     final public const string ATTRIBUTE_YEAR = 'year';
 
     final public const string RELATION_ARTISTS = 'animethemes.song.artists';
