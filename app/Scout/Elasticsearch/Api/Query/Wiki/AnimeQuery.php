@@ -22,7 +22,7 @@ class AnimeQuery extends ElasticQuery
                         [
                             // The more sub-queries match the better the score will be.
                             'bool' => [
-                                'should' => $this->createTextQuery('name', $criteria->getTerm()),
+                                'should' => $this->createTextQuery('title', $criteria->getTerm()),
                             ],
                         ],
                         [

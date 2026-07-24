@@ -23,8 +23,8 @@ enum AnimeThemeSort implements EnumSort
     case CREATED_AT_DESC;
     case UPDATED_AT;
     case UPDATED_AT_DESC;
-    case SONG_TITLE;
-    case SONG_TITLE_DESC;
+    case SONG_TITLE_ROMAJI;
+    case SONG_TITLE_ROMAJI_DESC;
     case SONG_TITLE_NATIVE;
     case SONG_TITLE_NATIVE_DESC;
     case RANDOM;
@@ -40,8 +40,8 @@ enum AnimeThemeSort implements EnumSort
             self::CREATED_AT_DESC => new FieldSortCriteria($this->name, AnimeTheme::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
             self::UPDATED_AT => new FieldSortCriteria($this->name, AnimeTheme::ATTRIBUTE_UPDATED_AT),
             self::UPDATED_AT_DESC => new FieldSortCriteria($this->name, AnimeTheme::ATTRIBUTE_UPDATED_AT, SortDirection::DESC),
-            self::SONG_TITLE => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE, AnimeTheme::RELATION_SONG),
-            self::SONG_TITLE_DESC => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE, AnimeTheme::RELATION_SONG, SortDirection::DESC),
+            self::SONG_TITLE_ROMAJI => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE, AnimeTheme::RELATION_SONG),
+            self::SONG_TITLE_ROMAJI_DESC => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE, AnimeTheme::RELATION_SONG, SortDirection::DESC),
             self::SONG_TITLE_NATIVE => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE_NATIVE, AnimeTheme::RELATION_SONG),
             self::SONG_TITLE_NATIVE_DESC => new RelationSortCriteria($this->name, Song::ATTRIBUTE_TITLE_NATIVE, AnimeTheme::RELATION_SONG, SortDirection::DESC),
             self::RANDOM => new RandomSortCriteria($this->name, ''),

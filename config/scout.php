@@ -242,9 +242,19 @@ return [
                             'optional' => true,
                         ],
                         [
-                            'name' => 'name',
+                            'name' => 'title',
                             'type' => 'string',
                             'sort' => true,
+                        ],
+                        [
+                            'name' => 'title_english',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'title_native',
+                            'type' => 'string',
+                            'optional' => true,
                         ],
                         [
                             'name' => 'season',
@@ -254,6 +264,7 @@ return [
                         [
                             'name' => 'year',
                             'type' => 'int32',
+                            'optional' => true,
                         ],
                         [
                             'name' => 'created_at',
@@ -272,8 +283,8 @@ return [
                     ],
                 ],
                 'search-parameters' => [
-                    'query_by' => 'name,synonyms',
-                    'query_by_weights' => '8,5',
+                    'query_by' => 'title,title_english,title_native,synonyms',
+                    'query_by_weights' => '8,6,6,5',
                 ],
             ],
             AnimeTheme::class => [
@@ -323,11 +334,13 @@ return [
                     'query_by' => implode(',', [
                         'song.title',
                         'song.title_native',
-                        'anime.name',
+                        'anime.title',
+                        'anime.title_english',
+                        'anime.title_native',
                         'anime.synonyms',
                         'type_sequence',
                     ]),
-                    'query_by_weights' => '10,8,6,5,5',
+                    'query_by_weights' => '10,8,6,5,5,4,4',
                 ],
             ],
             AnimeThemeEntry::class => [
@@ -356,11 +369,13 @@ return [
                     'query_by' => implode(',', [
                         'animetheme.song.title',
                         'animetheme.song.title_native',
-                        'animetheme.anime.name',
+                        'animetheme.anime.title',
+                        'animetheme.anime.title_english',
+                        'animetheme.anime.title_native',
                         'animetheme.anime.synonyms',
                         'type_sequence_version',
                     ]),
-                    'query_by_weights' => '10,8,6,5,5',
+                    'query_by_weights' => '10,8,6,5,5,4,4',
                 ],
             ],
             Artist::class => [
@@ -375,6 +390,11 @@ return [
                             'name' => 'name',
                             'type' => 'string',
                             'sort' => true,
+                        ],
+                        [
+                            'name' => 'name_native',
+                            'type' => 'string',
+                            'optional' => true,
                         ],
                         [
                             'name' => 'synonyms',
@@ -398,11 +418,12 @@ return [
                 'search-parameters' => [
                     'query_by' => implode(',', [
                         'name',
+                        'name_native',
                         'synonyms',
                         'as',
                         'search_text',
                     ]),
-                    'query_by_weights' => '10,8,3,1',
+                    'query_by_weights' => '10,8,6,3,1',
                     'text_match_type' => 'sum_score',
                 ],
             ],
@@ -415,7 +436,7 @@ return [
                             'type' => 'string',
                         ],
                         [
-                            'name' => 'name',
+                            'name' => 'title',
                             'type' => 'string',
                             'sort' => true,
                         ],
@@ -437,10 +458,12 @@ return [
                 ],
                 'search-parameters' => [
                     'query_by' => implode(',', [
-                        'name',
+                        'title',
+                        'anime.title_english',
+                        'anime.title_native',
                         'anime.synonyms',
                     ]),
-                    'query_by_weights' => '10,8',
+                    'query_by_weights' => '10,8,8,6',
                 ],
             ],
             Song::class => [
@@ -536,11 +559,13 @@ return [
                         'tags',
                         'entries.animetheme.song.title',
                         'entries.animetheme.song.title_native',
-                        'entries.animetheme.anime.name',
+                        'entries.animetheme.anime.title',
+                        'entries.animetheme.anime.title_english',
+                        'entries.animetheme.anime.title_native',
                         'entries.animetheme.anime.synonyms',
                         'entries.type_sequence_version',
                     ]),
-                    'query_by_weights' => '10,8,6,7,5,5,5',
+                    'query_by_weights' => '10,8,6,7,5,5,5,4,4',
                 ],
             ],
         ],

@@ -54,7 +54,6 @@ use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Enums\Models\Wiki\SynonymType;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
@@ -129,7 +128,6 @@ class GraphQLServiceProvider extends ServiceProvider
         $typeRegistry->register(new PhpEnumType(AnimeSeason::class));
         $typeRegistry->register(new PhpEnumType(ImageFacet::class));
         $typeRegistry->register(new PhpEnumType(ResourceSite::class));
-        $typeRegistry->register(new PhpEnumType(SynonymType::class));
         $typeRegistry->register(new PhpEnumType(ThemeType::class));
         $typeRegistry->register(new PhpEnumType(VideoOverlap::class));
         $typeRegistry->register(new PhpEnumType(VideoSource::class));

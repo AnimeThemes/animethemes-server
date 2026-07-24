@@ -20,10 +20,12 @@ class SubmissionAnime extends Anime
      */
     protected $fillable = [
         Anime::ATTRIBUTE_FORMAT,
-        Anime::ATTRIBUTE_NAME,
         Anime::ATTRIBUTE_SEASON,
         Anime::ATTRIBUTE_SLUG,
         Anime::ATTRIBUTE_SYNOPSIS,
+        Anime::ATTRIBUTE_TITLE,
+        Anime::ATTRIBUTE_TITLE_ENGLISH,
+        Anime::ATTRIBUTE_TITLE_NATIVE,
         Anime::ATTRIBUTE_YEAR,
     ];
 }

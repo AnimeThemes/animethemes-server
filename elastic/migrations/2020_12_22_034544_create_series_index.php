@@ -21,7 +21,7 @@ final class CreateSeriesIndex implements MigrationInterface
             $this->configureTextAnalyzers($settings);
 
             $mapping->date('created_at');
-            $mapping->text('name', [
+            $mapping->text('title', [
                 'analyzer' => 'name_search',
                 'fields' => [
                     'keyword' => [
@@ -46,7 +46,7 @@ final class CreateSeriesIndex implements MigrationInterface
                     'created_at' => [
                         'type' => 'date',
                     ],
-                    'name' => [
+                    'title' => [
                         'type' => 'text',
                         'copy_to' => ['anime_slug'],
                         'analyzer' => 'name_search',

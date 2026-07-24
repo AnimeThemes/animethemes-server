@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki\Anime\ExternalApi;
 
 use App\Actions\Models\Wiki\ExternalApiAction;
+use App\Contracts\Actions\Models\Wiki\BackfillAlternativeTitles;
 use App\Contracts\Actions\Models\Wiki\BackfillImages;
 use App\Contracts\Actions\Models\Wiki\BackfillResources;
-use App\Contracts\Actions\Models\Wiki\BackfillSynonyms;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Enums\Models\Wiki\SynonymType;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -19,7 +18,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class AnilistAnimeExternalApiAction extends ExternalApiAction implements BackfillImages, BackfillResources, BackfillSynonyms
+class AnilistAnimeExternalApiAction extends ExternalApiAction implements BackfillAlternativeTitles, BackfillImages, BackfillResources
 {
     public function getSite(): ResourceSite
     {
@@ -41,7 +40,6 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
                 Media (id: $id, type: ANIME) {
                     id
                     title {
-                        romaji
                         english
                         native
                     }
@@ -109,6 +107,8 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
 
     /**
      * Get the available sites to backfill.
+     *
+     * @return string[]
      */
     public function getResourcesMapping(): array
     {
@@ -140,14 +140,13 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
     /**
      * Get the mapping for the synonyms.
      *
-     * @return string[]
+     * @return array<string, string>
      */
-    public function getSynonymsMapping(): array
+    public function getAlternativeTitlesMapping(): array
     {
         return [
-            SynonymType::ENGLISH->value => 'data.Media.title.english',
-            SynonymType::NATIVE->value => 'data.Media.title.native',
-            SynonymType::OTHER->value => 'data.Media.title.romaji',
+            Anime::ATTRIBUTE_TITLE_ENGLISH => 'data.Media.title.english',
+            Anime::ATTRIBUTE_TITLE_NATIVE => 'data.Media.title.native',
         ];
     }
 }

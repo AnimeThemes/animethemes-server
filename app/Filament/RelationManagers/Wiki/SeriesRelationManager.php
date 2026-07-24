@@ -23,7 +23,7 @@ abstract class SeriesRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->recordTitleAttribute(Series::ATTRIBUTE_NAME)
+                ->recordTitleAttribute(Series::ATTRIBUTE_TITLE)
         );
     }
 }

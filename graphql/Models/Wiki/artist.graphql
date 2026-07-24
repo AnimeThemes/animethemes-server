@@ -8,7 +8,7 @@ type Artist @model(class: "App\\Models\\Wiki\\Artist") {
     id: Int! @rename(attribute: "artist_id")
 
     "The primary title of the artist"
-    name: String!
+    name: ArtistName! @field(resolver: "App\\GraphQL\\Types\\ArtistType@resolveNameAttribute")
 
     "The URL slug & route key of the resource"
     slug: String!
@@ -26,7 +26,6 @@ type Artist @model(class: "App\\Models\\Wiki\\Artist") {
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 
     synonyms(
-        type: SynonymType @eq
         where: _ @whereConditions(columnsEnum: SynonymFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [SynonymSort!] @sort
     ): [Synonym!]! @morphMany
@@ -82,6 +81,13 @@ type Artist @model(class: "App\\Models\\Wiki\\Artist") {
         where: _ @whereConditions(columnsEnum: ArtistFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [ArtistMemberSort!] @sort
     ): [Artist!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ArtistMemberEdge")
+}
+
+type ArtistName {
+    "The stylized name of the artist"
+    main: String!
+    "The native name of the artist"
+    native: String
 }
 
 type ArtistMemberEdge @model(class: "App\\Pivots\\Wiki\\ArtistMember") {

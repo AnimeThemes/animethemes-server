@@ -12,6 +12,6 @@ class AnimeNameField extends StringField
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, Anime::ATTRIBUTE_NAME);
+        parent::__construct($schema, Anime::ATTRIBUTE_TITLE);
     }
 }

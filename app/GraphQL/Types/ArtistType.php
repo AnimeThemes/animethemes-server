@@ -10,6 +10,17 @@ use Illuminate\Support\Str;
 
 class ArtistType
 {
+    /**
+     * @return array<string, string>
+     */
+    public function resolveNameAttribute(Artist $artist): array
+    {
+        return [
+            'main' => $artist->name,
+            'native' => $artist->name_native,
+        ];
+    }
+
     public function resolveSiteUrlAttribute(Artist $artist): string
     {
         return Str::of(Config::get('app.url'))

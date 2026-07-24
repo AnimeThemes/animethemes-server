@@ -15,7 +15,7 @@ class SeriesNameField extends StringField implements CreatableField, UpdatableFi
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, Series::ATTRIBUTE_NAME);
+        parent::__construct($schema, 'name', Series::ATTRIBUTE_TITLE);
     }
 
     public function getCreationRules(Request $request): array

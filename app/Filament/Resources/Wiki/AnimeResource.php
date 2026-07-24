@@ -71,7 +71,7 @@ class AnimeResource extends BaseResource
 
     public static function getRecordTitleAttribute(): string
     {
-        return Anime::ATTRIBUTE_NAME;
+        return Anime::ATTRIBUTE_TITLE;
     }
 
     public static function canGloballySearch(): bool
@@ -88,14 +88,32 @@ class AnimeResource extends BaseResource
     {
         return $schema
             ->components([
-                TextInput::make(Anime::ATTRIBUTE_NAME)
-                    ->label(__('filament.fields.anime.name.name'))
-                    ->helperText(__('filament.fields.anime.name.help'))
-                    ->required()
-                    ->maxLength(255)
-                    ->afterStateUpdatedJs(<<<'JS'
-                        $set('slug', slug($state ?? ''));
-                    JS),
+                Fieldset::make(Anime::ATTRIBUTE_TITLE)
+                    ->label(__('filament.fields.anime.title.name'))
+                    ->columns([
+                        'xl' => 1,
+                    ])
+                    ->columnSpanFull()
+                    ->schema([
+                        TextInput::make(Anime::ATTRIBUTE_TITLE)
+                            ->label(__('filament.fields.anime.title.name'))
+                            ->helperText(__('filament.fields.anime.title.help'))
+                            ->required()
+                            ->maxLength(255)
+                            ->afterStateUpdatedJs(<<<'JS'
+                                $set('slug', slug($state ?? ''));
+                            JS),
+
+                        TextInput::make(Anime::ATTRIBUTE_TITLE_ENGLISH)
+                            ->label(__('filament.fields.anime.title_english.name'))
+                            ->helperText(__('filament.fields.anime.title_english.help'))
+                            ->maxLength(255),
+
+                        TextInput::make(Anime::ATTRIBUTE_TITLE_NATIVE)
+                            ->label(__('filament.fields.anime.title_native.name'))
+                            ->helperText(__('filament.fields.anime.title_native.help'))
+                            ->maxLength(255),
+                    ]),
 
                 Slug::make(Anime::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime.slug.name'))
@@ -205,15 +223,10 @@ class AnimeResource extends BaseResource
                 TextColumn::make(Anime::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
 
-                TextColumn::make(Anime::ATTRIBUTE_NAME)
-                    ->label(__('filament.fields.anime.name.name'))
+                TextColumn::make(Anime::ATTRIBUTE_TITLE)
+                    ->label(__('filament.fields.anime.title.name'))
                     ->copyableWithMessage()
-                    ->limit(50)
-                    ->tooltip(fn (string $state): string => $state),
-
-                TextColumn::make(Anime::ATTRIBUTE_SLUG)
-                    ->label(__('filament.fields.anime.slug.name'))
-                    ->limit(20)
+                    ->limit(75)
                     ->tooltip(fn (string $state): string => $state),
 
                 TextColumn::make(Anime::ATTRIBUTE_YEAR)
@@ -240,8 +253,16 @@ class AnimeResource extends BaseResource
                         TextEntry::make(Anime::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
-                        TextEntry::make(Anime::ATTRIBUTE_NAME)
-                            ->label(__('filament.fields.anime.name.name'))
+                        TextEntry::make(Anime::ATTRIBUTE_TITLE)
+                            ->label(__('filament.fields.anime.title.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(Anime::ATTRIBUTE_TITLE_ENGLISH)
+                            ->label(__('filament.fields.anime.title_english.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(Anime::ATTRIBUTE_TITLE_NATIVE)
+                            ->label(__('filament.fields.anime.title_native.name'))
                             ->copyableWithMessage(),
 
                         TextEntry::make(Anime::ATTRIBUTE_SLUG)
@@ -321,8 +342,14 @@ class AnimeResource extends BaseResource
         return [
             QueryBuilder::make()
                 ->constraints([
-                    TextConstraint::make(Anime::ATTRIBUTE_NAME)
-                        ->label(__('filament.fields.anime.name.name')),
+                    TextConstraint::make(Anime::ATTRIBUTE_TITLE)
+                        ->label(__('filament.fields.anime.title.name')),
+
+                    TextConstraint::make(Anime::ATTRIBUTE_TITLE_ENGLISH)
+                        ->label(__('filament.fields.anime.title_english.name')),
+
+                    TextConstraint::make(Anime::ATTRIBUTE_TITLE_NATIVE)
+                        ->label(__('filament.fields.anime.title_native.name')),
 
                     TextConstraint::make(Anime::ATTRIBUTE_SLUG)
                         ->label(__('filament.fields.anime.slug.name')),

@@ -13,11 +13,16 @@ use App\GraphQL\Filter\IntFilter;
 use App\GraphQL\Filter\StringFilter;
 use App\GraphQL\Filter\TimestampFilter;
 use App\Models\Wiki\Anime;
+use GraphQL\Type\Definition\Deprecated;
 
 enum AnimeFilterableColumns implements EnumFilterableColumns
 {
     case ID;
+    #[Deprecated('Use TITLE_ROMAJI instead')]
     case NAME;
+    case TITLE_ROMAJI;
+    case TITLE_ENGLISH;
+    case TITLE_NATIVE;
     case FORMAT;
     case SEASON;
     case SYNOPSIS;
@@ -29,7 +34,9 @@ enum AnimeFilterableColumns implements EnumFilterableColumns
     {
         return match ($this) {
             self::ID => new IntFilter($this->name, Anime::ATTRIBUTE_ID),
-            self::NAME => new StringFilter($this->name, Anime::ATTRIBUTE_NAME),
+            self::NAME, self::TITLE_ROMAJI => new StringFilter($this->name, Anime::ATTRIBUTE_TITLE),
+            self::TITLE_ENGLISH => new StringFilter($this->name, Anime::ATTRIBUTE_TITLE_ENGLISH),
+            self::TITLE_NATIVE => new StringFilter($this->name, Anime::ATTRIBUTE_TITLE_NATIVE),
             self::FORMAT => new EnumFilter($this->name, AnimeFormat::class, Anime::ATTRIBUTE_FORMAT),
             self::SEASON => new EnumFilter($this->name, AnimeSeason::class, Anime::ATTRIBUTE_SEASON),
             self::YEAR => new IntFilter($this->name, Anime::ATTRIBUTE_YEAR),

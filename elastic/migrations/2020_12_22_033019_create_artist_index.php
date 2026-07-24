@@ -30,6 +30,14 @@ final class CreateArtistIndex implements MigrationInterface
                     ],
                 ],
             ]);
+            $mapping->text('name_native', [
+                'analyzer' => 'name_search',
+                'fields' => [
+                    'keyword' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->text('slug', [
                 'fields' => [
                     'keyword' => [

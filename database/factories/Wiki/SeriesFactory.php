@@ -26,7 +26,7 @@ class SeriesFactory extends Factory
     public function definition(): array
     {
         return [
-            Series::ATTRIBUTE_NAME => fake()->words(3, true),
+            Series::ATTRIBUTE_TITLE => fake()->words(3, true),
             Series::ATTRIBUTE_SLUG => Str::slug(fake()->text(191), '_'),
         ];
     }

@@ -20,7 +20,7 @@ class SeriesQuery extends ElasticQuery
                     'queries' => [
                         [
                             'bool' => [
-                                'should' => $this->createTextQuery('name', $criteria->getTerm()),
+                                'should' => $this->createTextQuery('title', $criteria->getTerm()),
                             ],
                         ],
                         [

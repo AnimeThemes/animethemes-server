@@ -65,16 +65,16 @@ class SeriesResource extends BaseResource
 
     public static function getRecordTitleAttribute(): string
     {
-        return Series::ATTRIBUTE_NAME;
+        return Series::ATTRIBUTE_TITLE;
     }
 
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
-                TextInput::make(Series::ATTRIBUTE_NAME)
-                    ->label(__('filament.fields.series.name.name'))
-                    ->helperText(__('filament.fields.series.name.help'))
+                TextInput::make(Series::ATTRIBUTE_TITLE)
+                    ->label(__('filament.fields.series.title.name'))
+                    ->helperText(__('filament.fields.series.title.help'))
                     ->required()
                     ->maxLength(192)
                     ->afterStateUpdatedJs(<<<'JS'
@@ -95,8 +95,8 @@ class SeriesResource extends BaseResource
                 TextColumn::make(Series::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
 
-                TextColumn::make(Series::ATTRIBUTE_NAME)
-                    ->label(__('filament.fields.series.name.name'))
+                TextColumn::make(Series::ATTRIBUTE_TITLE)
+                    ->label(__('filament.fields.series.title.name'))
                     ->copyableWithMessage(),
 
                 TextColumn::make(Series::ATTRIBUTE_SLUG)
@@ -114,8 +114,8 @@ class SeriesResource extends BaseResource
                         TextEntry::make(Series::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
-                        TextEntry::make(Series::ATTRIBUTE_NAME)
-                            ->label(__('filament.fields.series.name.name'))
+                        TextEntry::make(Series::ATTRIBUTE_TITLE)
+                            ->label(__('filament.fields.series.title.name'))
                             ->copyableWithMessage(),
 
                         TextEntry::make(Series::ATTRIBUTE_SLUG)
@@ -135,8 +135,8 @@ class SeriesResource extends BaseResource
         return [
             QueryBuilder::make()
                 ->constraints([
-                    TextConstraint::make(Series::ATTRIBUTE_NAME)
-                        ->label(__('filament.fields.series.name.name')),
+                    TextConstraint::make(Series::ATTRIBUTE_TITLE)
+                        ->label(__('filament.fields.series.title.name')),
 
                     TextConstraint::make(Series::ATTRIBUTE_SLUG)
                         ->label(__('filament.fields.series.slug.name')),

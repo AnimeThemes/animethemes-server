@@ -30,9 +30,9 @@ use RuntimeException;
 
 /**
  * @property Collection<int, Anime> $anime
- * @property string $name
  * @property int $series_id
  * @property string $slug
+ * @property string $title
  *
  * @method static SeriesFactory factory(...$parameters)
  */
@@ -48,8 +48,8 @@ class Series extends BaseModel implements Auditable, SoftDeletable
     final public const string TABLE = 'series';
 
     final public const string ATTRIBUTE_ID = 'series_id';
-    final public const string ATTRIBUTE_NAME = 'name';
     final public const string ATTRIBUTE_SLUG = 'slug';
+    final public const string ATTRIBUTE_TITLE = 'title';
 
     final public const string RELATION_ANIME = 'anime';
     final public const string RELATION_ANIME_SYNONYMS = 'anime.synonyms';
@@ -74,8 +74,8 @@ class Series extends BaseModel implements Auditable, SoftDeletable
      * @var list<string>
      */
     protected $fillable = [
-        Series::ATTRIBUTE_NAME,
         Series::ATTRIBUTE_SLUG,
+        Series::ATTRIBUTE_TITLE,
     ];
 
     /**
@@ -86,8 +86,8 @@ class Series extends BaseModel implements Auditable, SoftDeletable
     protected function casts(): array
     {
         return [
-            Series::ATTRIBUTE_NAME => 'string',
             Series::ATTRIBUTE_SLUG => 'string',
+            Series::ATTRIBUTE_TITLE => 'string',
         ];
     }
 
@@ -124,7 +124,7 @@ class Series extends BaseModel implements Auditable, SoftDeletable
 
     public function getName(): string
     {
-        return $this->name;
+        return $this->title;
     }
 
     public function getSubtitle(): string

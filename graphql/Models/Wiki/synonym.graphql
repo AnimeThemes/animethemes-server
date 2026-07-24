@@ -10,11 +10,8 @@ type Synonym @model(class: "App\\Models\\Wiki\\Synonym") {
     "The alternate title or common abbreviations"
     text: String!
 
-    "The type of the synonym"
-    type: SynonymType!
-
-    "The formatted string value of the type field"
-    typeLocalized: String! @localized
+    "The language of the synonym. It may be used for short synonyms"
+    language: String
 
     "The date that the resource was created"
     createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")

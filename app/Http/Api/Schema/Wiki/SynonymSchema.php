@@ -7,10 +7,10 @@ namespace App\Http\Api\Schema\Wiki;
 use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Field\Wiki\Synonym\SynonymLanguageField;
 use App\Http\Api\Field\Wiki\Synonym\SynonymSynonymableIdField;
 use App\Http\Api\Field\Wiki\Synonym\SynonymSynonymableTypeField;
 use App\Http\Api\Field\Wiki\Synonym\SynonymTextField;
-use App\Http\Api\Field\Wiki\Synonym\SynonymTypeField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Wiki\Resource\SynonymJsonResource;
@@ -41,7 +41,7 @@ class SynonymSchema extends EloquentSchema implements SearchableSchema
             [
                 new IdField($this, Synonym::ATTRIBUTE_ID),
                 new SynonymTextField($this),
-                new SynonymTypeField($this),
+                new SynonymLanguageField($this),
                 new SynonymSynonymableTypeField($this),
                 new SynonymSynonymableIdField($this),
             ],

@@ -6,12 +6,9 @@ namespace App\Actions\Models\Wiki;
 
 use App\Contracts\Actions\Models\Wiki\BackfillImages;
 use App\Contracts\Actions\Models\Wiki\BackfillResources;
-use App\Contracts\Actions\Models\Wiki\BackfillSynonyms;
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Enums\Models\Wiki\SynonymType;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 
 abstract class ExternalApiAction
 {
@@ -62,33 +59,5 @@ abstract class ExternalApiAction
         }
 
         return $images;
-    }
-
-    /**
-     * Get the mapped synonyms.
-     *
-     * @return Collection<int, string>
-     */
-    public function getSynonyms(): Collection
-    {
-        $synonyms = collect();
-
-        if ($this instanceof BackfillSynonyms && $this->response) {
-            foreach ($this->getSynonymsMapping() as $type => $key) {
-                $synonyms->put($type, Arr::get($this->response, $key));
-            }
-        }
-
-        return $synonyms
-            ->filter(fn (?string $text): bool => filled($text))
-            ->reject(function (string $text, int $type) use ($synonyms) {
-                if ($type !== SynonymType::OTHER->value) {
-                    return false;
-                }
-
-                return $synonyms
-                    ->except([SynonymType::OTHER->value])
-                    ->containsStrict($text);
-            });
     }
 }

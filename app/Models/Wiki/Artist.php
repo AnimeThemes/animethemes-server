@@ -47,6 +47,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property string|null $information
  * @property Collection<int, Artist> $members
  * @property string $name
+ * @property string|null $name_native
  * @property Collection<int, Performance> $performances
  * @property Collection<int, ExternalResource> $resources
  * @property string $slug
@@ -69,6 +70,7 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
 
     final public const string ATTRIBUTE_ID = 'artist_id';
     final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_NAME_NATIVE = 'name_native';
     final public const string ATTRIBUTE_SLUG = 'slug';
     final public const string ATTRIBUTE_INFORMATION = 'information';
 
@@ -108,6 +110,7 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
      */
     protected $fillable = [
         Artist::ATTRIBUTE_NAME,
+        Artist::ATTRIBUTE_NAME_NATIVE,
         Artist::ATTRIBUTE_SLUG,
         Artist::ATTRIBUTE_INFORMATION,
     ];
@@ -122,6 +125,7 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
         return [
             Artist::ATTRIBUTE_INFORMATION => 'string',
             Artist::ATTRIBUTE_NAME => 'string',
+            Artist::ATTRIBUTE_NAME_NATIVE => 'string',
             Artist::ATTRIBUTE_SLUG => 'string',
         ];
     }
@@ -168,7 +172,9 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
 
     public function getSubtitle(): string
     {
-        return $this->slug;
+        $displayName = $this->name_native ?? $this->slug;
+
+        return "({$this->getKey()}) {$displayName}";
     }
 
     #[Deprecated]

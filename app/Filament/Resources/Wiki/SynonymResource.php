@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Enums\Filament\NavigationGroup;
-use App\Enums\Models\Wiki\SynonymType;
 use App\Filament\Components\Columns\TextColumn;
-use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
@@ -17,7 +15,6 @@ use App\Filament\Resources\Wiki\Synonym\Pages\ListSynonyms;
 use App\Filament\Resources\Wiki\Synonym\Pages\ViewSynonym;
 use App\Models\Wiki\Synonym;
 use Filament\Facades\Filament;
-use Filament\QueryBuilder\Constraints\SelectConstraint;
 use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
@@ -80,11 +77,11 @@ class SynonymResource extends BaseResource
     {
         return $schema
             ->components([
-                Select::make(Synonym::ATTRIBUTE_TYPE)
-                    ->label(__('filament.fields.synonym.type.name'))
-                    ->helperText(__('filament.fields.synonym.type.help'))
-                    ->options(SynonymType::class)
-                    ->required(),
+                TextInput::make(Synonym::ATTRIBUTE_LANGUAGE)
+                    ->label(__('filament.fields.synonym.language.name'))
+                    ->helperText(__('filament.fields.synonym.language.help'))
+                    ->required()
+                    ->maxLength(255),
 
                 TextInput::make(Synonym::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.synonym.text.name'))
@@ -113,9 +110,8 @@ class SynonymResource extends BaseResource
                         return Filament::getModelResource($synonymable)::getUrl('view', ['record' => $synonymable]);
                     }),
 
-                TextColumn::make(Synonym::ATTRIBUTE_TYPE)
-                    ->label(__('filament.fields.synonym.type.name'))
-                    ->formatStateUsing(fn (SynonymType $state): ?string => $state->localize()),
+                TextColumn::make(Synonym::ATTRIBUTE_LANGUAGE)
+                    ->label(__('filament.fields.synonym.language.name')),
 
                 TextColumn::make(Synonym::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.synonym.text.name'))
@@ -144,9 +140,8 @@ class SynonymResource extends BaseResource
                                 return Filament::getModelResource($synonymable)::getUrl('view', ['record' => $synonymable]);
                             }),
 
-                        TextEntry::make(Synonym::ATTRIBUTE_TYPE)
-                            ->label(__('filament.fields.synonym.type.name'))
-                            ->formatStateUsing(fn (SynonymType $state): ?string => $state->localize()),
+                        TextEntry::make(Synonym::ATTRIBUTE_LANGUAGE)
+                            ->label(__('filament.fields.synonym.language.name')),
 
                         TextEntry::make(Synonym::ATTRIBUTE_TEXT)
                             ->label(__('filament.fields.synonym.text.name'))
@@ -170,10 +165,8 @@ class SynonymResource extends BaseResource
                     TextConstraint::make(Synonym::ATTRIBUTE_TEXT)
                         ->label(__('filament.fields.synonym.text.name')),
 
-                    SelectConstraint::make(Synonym::ATTRIBUTE_TYPE)
-                        ->label(__('filament.fields.synonym.type.name'))
-                        ->options(SynonymType::class)
-                        ->multiple(),
+                    TextConstraint::make(Synonym::ATTRIBUTE_LANGUAGE)
+                        ->label(__('filament.fields.synonym.language.name')),
 
                     ...parent::getConstraints(),
                 ]),

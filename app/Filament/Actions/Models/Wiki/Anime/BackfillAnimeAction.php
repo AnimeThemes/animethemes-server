@@ -26,7 +26,7 @@ class BackfillAnimeAction extends BaseAction
     final public const string RESOURCES = BackfillAnime::RESOURCES;
     final public const string IMAGES = BackfillAnime::IMAGES;
     final public const string STUDIOS = BackfillAnime::STUDIOS;
-    final public const string SYNONYMS = BackfillAnime::SYNONYMS;
+    final public const string TITLES = BackfillAnime::TITLES;
 
     final public const string BACKFILL_ANIDB_RESOURCE = 'backfill_anidb_resource';
     final public const string BACKFILL_ANILIST_RESOURCE = 'backfill_anilist_resource';
@@ -39,7 +39,7 @@ class BackfillAnimeAction extends BaseAction
     final public const string BACKFILL_MAL_RESOURCE = 'backfill_mal_resource';
     final public const string BACKFILL_SMALL_COVER = 'backfill_small_cover';
     final public const string BACKFILL_STUDIOS = 'backfill_studios';
-    final public const string BACKFILL_SYNONYMS = 'backfill_synonyms';
+    final public const string BACKFILL_TITLES = 'backfill_titles';
 
     public static function getDefaultName(): ?string
     {
@@ -168,12 +168,12 @@ class BackfillAnimeAction extends BaseAction
                             ->default(fn () => $anime->studios->isEmpty()),
                     ]),
 
-                Section::make(__('filament.actions.anime.backfill.fields.synonyms.name'))
+                Section::make(__('filament.actions.anime.backfill.fields.titles.name'))
                     ->schema([
-                        Checkbox::make(self::BACKFILL_SYNONYMS)
-                            ->label(__('filament.actions.anime.backfill.fields.synonyms.name'))
-                            ->helperText(__('filament.actions.anime.backfill.fields.synonyms.help'))
-                            ->default(fn () => $anime->synonyms->isEmpty()),
+                        Checkbox::make(self::BACKFILL_TITLES)
+                            ->label(__('filament.actions.anime.backfill.fields.titles.name'))
+                            ->helperText(__('filament.actions.anime.backfill.fields.titles.help'))
+                            ->default(fn (): bool => blank($anime->title_english) || blank($anime->title_native)),
                     ]),
             ]);
     }
@@ -203,7 +203,7 @@ class BackfillAnimeAction extends BaseAction
         }
 
         $toBackfill[self::STUDIOS] = Arr::get($components, self::BACKFILL_STUDIOS);
-        $toBackfill[self::SYNONYMS] = Arr::get($components, self::BACKFILL_SYNONYMS);
+        $toBackfill[self::TITLES] = Arr::get($components, self::BACKFILL_TITLES);
 
         return $toBackfill;
     }
