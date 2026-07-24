@@ -142,7 +142,7 @@ class BackfillAnimeAction extends BackfillWikiAction
             return;
         }
 
-        $this->getModel()->update($api->getAlternativeTitlesMapping());
+        $this->getModel()->update($api->getAlternativeTitles());
 
         $this->toBackfill[self::TITLES] = false;
     }
