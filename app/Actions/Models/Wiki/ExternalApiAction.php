@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\Wiki;
 
+use App\Contracts\Actions\Models\Wiki\BackfillAlternativeTitles;
 use App\Contracts\Actions\Models\Wiki\BackfillImages;
 use App\Contracts\Actions\Models\Wiki\BackfillResources;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -59,5 +60,23 @@ abstract class ExternalApiAction
         }
 
         return $images;
+    }
+
+    /**
+     * Get the mapped titles.
+     *
+     * @return array<string, string|null>
+     */
+    public function getAlternativeTitles(): array
+    {
+        $titles = [];
+
+        if ($this instanceof BackfillAlternativeTitles && $this->response) {
+            foreach ($this->getAlternativeTitlesMapping() as $field => $key) {
+                $titles[$field] = Arr::get($this->response, $key);
+            }
+        }
+
+        return $titles;
     }
 }
