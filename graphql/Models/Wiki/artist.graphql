@@ -69,15 +69,15 @@ type Artist @model(class: "App\\Models\\Wiki\\Artist") {
     ): [Performance!]! @hasManyCustom(type: SIMPLE)
 
     members(
-        name: String @eq
-        name_like: String @like(key: "name")
+        nameMain: String @eq(key: "name")
+        nameMain_like: String @like(key: "name")
         where: _ @whereConditions(columnsEnum: ArtistFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [ArtistMemberSort!] @sort
     ): [Artist!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ArtistMemberEdge")
 
     groups(
-        name: String @eq
-        name_like: String @like(key: "name")
+        nameMain: String @eq(key: "name")
+        nameMain_like: String @like(key: "name")
         where: _ @whereConditions(columnsEnum: ArtistFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [ArtistMemberSort!] @sort
     ): [Artist!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ArtistMemberEdge")
@@ -120,8 +120,8 @@ extend type Query {
     "Returns a listing of artist resources given fields."
     artistPagination(
         id: Int @eq(key: "artist_id")
-        name: String @eq
-        name_like: String @like(key: "name")
+        nameMain: String @eq(key: "name")
+        nameMain_like: String @like(key: "name")
         search: String @search
         slug: String @eq
         where: _ @whereConditions(columnsEnum: ArtistFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")

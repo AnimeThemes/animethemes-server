@@ -133,10 +133,10 @@ extend type Query {
     animePagination(
         id: Int @eq(key: "anime_id")
         search: String @search
-        name: String @eq(key: "title") @deprecated(reason: "Use the 'title' argument instead")
-        name_like: String @like(key: "title") @deprecated(reason: "Use the 'title_like' argument instead")
-        title: String @eq
-        title_like: String @like(key: "title")
+        name: String @eq(key: "title") @deprecated(reason: "Use the 'title_romaji' argument instead")
+        name_like: String @like(key: "title") @deprecated(reason: "Use the 'titleRomaji_like' argument instead")
+        titleRomaji: String @eq(key: "title")
+        titleRomaji_like: String @like(key: "title")
         format: AnimeFormat @eq
         format_in: [AnimeFormat!] @in(key: "format")
         season: AnimeSeason @eq

@@ -26,8 +26,8 @@ type Series @model(class: "App\\Models\\Wiki\\Series") {
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 
     anime(
-        name_like: String @like(key: "title") @deprecated(reason: "Use the 'title_like' argument instead")
-        title_like: String @like(key: "title")
+        name_like: String @like(key: "title") @deprecated(reason: "Use the 'titleRomaji_like' argument instead")
+        titleRomaji_like: String @like(key: "title")
         format: AnimeFormat @eq
         format_in: [AnimeFormat!] @in(key: "format")
         season: AnimeSeason @eq
@@ -64,10 +64,10 @@ extend type Query {
     seriesPagination(
         id: Int @eq(key: "series_id")
         search: String @search
-        name: String @eq(key: "title") @deprecated(reason: "Use the 'title' argument instead")
-        name_like: String @like(key: "title") @deprecated(reason: "Use the 'title_like' argument instead")
-        title: String @eq
-        title_like: String @like(key: "title")
+        name: String @eq(key: "title") @deprecated(reason: "Use the 'titleRomaji' argument instead")
+        name_like: String @like(key: "title") @deprecated(reason: "Use the 'titleRomaji_like' argument instead")
+        titleRomaji: String @eq(key: "title")
+        titleRomaji_like: String @like(key: "title")
         slug: String @eq
         where: _ @whereConditions(columnsEnum: SeriesFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [SeriesSort!] @sort
