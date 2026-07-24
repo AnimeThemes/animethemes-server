@@ -75,7 +75,8 @@ type Anime @model(class: "App\\Models\\Wiki\\Anime") {
     ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
 
     series(
-        name_like: String @like(key: "name")
+        name_like: String @like(key: "title") @deprecated(reason: "Use titleRomaji_like argument instead")
+        titleRomaji_like: String @like(key: "title")
         where: _ @whereConditions(columnsEnum: SeriesFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [SeriesSort!] @sort
     ): [Series!]! @belongsToManyCustom(type: CONNECTION, edgeType: "AnimeSeriesEdge")
