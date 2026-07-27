@@ -47,12 +47,14 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
+            ->weekly()
             ->mondays();
 
         $schedule->command(AuthDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
+            ->weekly()
             ->mondays();
 
         $schedule->command(ContentDumpCommand::class)
@@ -65,18 +67,21 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
+            ->weekly()
             ->mondays();
 
         $schedule->command(ListDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
+            ->weekly()
             ->mondays();
 
         $schedule->command(UserDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
+            ->weekly()
             ->mondays();
 
         $schedule->command(DumpReconcileCommand::class)
