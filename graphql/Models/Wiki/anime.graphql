@@ -8,9 +8,6 @@ type Anime @model(class: "App\\Models\\Wiki\\Anime") {
     id: Int! @rename(attribute: "anime_id")
 
     "The primary title of the anime"
-    name: String! @deprecated(reason: "Use the title.romaji field instead")
-
-    "The primary title of the anime"
     title: AnimeTitle! @field(resolver: "App\\GraphQL\\Types\\AnimeType@resolveTitleAttribute")
 
     "The format of the anime"
@@ -75,7 +72,6 @@ type Anime @model(class: "App\\Models\\Wiki\\Anime") {
     ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
 
     series(
-        name_like: String @like(key: "title") @deprecated(reason: "Use titleRomaji_like argument instead")
         titleRomaji_like: String @like(key: "title")
         where: _ @whereConditions(columnsEnum: SeriesFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [SeriesSort!] @sort
@@ -134,8 +130,6 @@ extend type Query {
     animePagination(
         id: Int @eq(key: "anime_id")
         search: String @search
-        name: String @eq(key: "title") @deprecated(reason: "Use the 'title_romaji' argument instead")
-        name_like: String @like(key: "title") @deprecated(reason: "Use the 'titleRomaji_like' argument instead")
         titleRomaji: String @eq(key: "title")
         titleRomaji_like: String @like(key: "title")
         format: AnimeFormat @eq
