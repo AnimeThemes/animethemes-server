@@ -27,7 +27,6 @@ class DumpAdminAction extends DumpAction
     {
         return [
             'action_events', // Nova events
-            'action_logs',
             Activity::TABLE,
             Announcement::TABLE,
             Dump::TABLE,
