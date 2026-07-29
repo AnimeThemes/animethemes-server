@@ -10,16 +10,11 @@ use App\GraphQL\Sort\FieldSortCriteria;
 use App\GraphQL\Sort\RandomSortCriteria;
 use App\GraphQL\Sort\SortCriteria;
 use App\Models\Wiki\Anime;
-use GraphQL\Type\Definition\Deprecated;
 
 enum AnimeSort implements EnumSort
 {
     case ID;
     case ID_DESC;
-    #[Deprecated("Use 'TITLE' instead")]
-    case NAME;
-    #[Deprecated("Use 'TITLE_DESC' instead")]
-    case NAME_DESC;
     case TITLE_ROMAJI;
     case TITLE_ROMAJI_DESC;
     case TITLE_ENGLISH;
@@ -39,8 +34,8 @@ enum AnimeSort implements EnumSort
         return match ($this) {
             self::ID => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_ID),
             self::ID_DESC => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_ID, SortDirection::DESC),
-            self::NAME, self::TITLE_ROMAJI => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_TITLE),
-            self::NAME_DESC, self::TITLE_ROMAJI_DESC => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_TITLE, SortDirection::DESC),
+            self::TITLE_ROMAJI => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_TITLE),
+            self::TITLE_ROMAJI_DESC => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_TITLE, SortDirection::DESC),
             self::TITLE_ENGLISH => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_TITLE_ENGLISH),
             self::TITLE_ENGLISH_DESC => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_TITLE_ENGLISH, SortDirection::DESC),
             self::TITLE_NATIVE => new FieldSortCriteria($this->name, Anime::ATTRIBUTE_TITLE_NATIVE),

@@ -10,16 +10,11 @@ use App\GraphQL\Sort\FieldSortCriteria;
 use App\GraphQL\Sort\RandomSortCriteria;
 use App\GraphQL\Sort\SortCriteria;
 use App\Models\Wiki\Series;
-use GraphQL\Type\Definition\Deprecated;
 
 enum SeriesSort implements EnumSort
 {
     case ID;
     case ID_DESC;
-    #[Deprecated("Use 'TITLE_ROMAJI' instead")]
-    case NAME;
-    #[Deprecated("Use 'TITLE_ROMAJI_DESC' instead")]
-    case NAME_DESC;
     case TITLE_ROMAJI;
     case TITLE_ROMAJI_DESC;
     case CREATED_AT;
@@ -33,8 +28,8 @@ enum SeriesSort implements EnumSort
         return match ($this) {
             self::ID => new FieldSortCriteria($this->name, Series::ATTRIBUTE_ID),
             self::ID_DESC => new FieldSortCriteria($this->name, Series::ATTRIBUTE_ID, SortDirection::DESC),
-            self::NAME, self::TITLE_ROMAJI => new FieldSortCriteria($this->name, Series::ATTRIBUTE_TITLE),
-            self::NAME_DESC, self::TITLE_ROMAJI_DESC => new FieldSortCriteria($this->name, Series::ATTRIBUTE_TITLE, SortDirection::DESC),
+            self::TITLE_ROMAJI => new FieldSortCriteria($this->name, Series::ATTRIBUTE_TITLE),
+            self::TITLE_ROMAJI_DESC => new FieldSortCriteria($this->name, Series::ATTRIBUTE_TITLE, SortDirection::DESC),
             self::CREATED_AT => new FieldSortCriteria($this->name, Series::ATTRIBUTE_CREATED_AT),
             self::CREATED_AT_DESC => new FieldSortCriteria($this->name, Series::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
             self::UPDATED_AT => new FieldSortCriteria($this->name, Series::ATTRIBUTE_UPDATED_AT),
