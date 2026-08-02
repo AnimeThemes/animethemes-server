@@ -47,7 +47,8 @@ test('only sees owned playlists', function (): void {
     $playlists = Playlist::factory()
         ->for($user)
         ->count($playlistCount)
-        ->create();
+        ->create()
+        ->sort(fn (Playlist $a, Playlist $b) => $b->created_at <=> $a->created_at);
 
     Sanctum::actingAs($user);
 
