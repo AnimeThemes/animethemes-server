@@ -27,7 +27,7 @@ class MyPlaylistController extends BaseController
     {
         $query = new Query($request->validated());
 
-        $builder = $user->playlists()->getQuery();
+        $builder = $user->playlists()->getQuery()->latest();
 
         $playlists = $action->index($builder, $query, $request->schema());
 
