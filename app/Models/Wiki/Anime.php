@@ -206,7 +206,7 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
 
     public function getSubtitle(): string
     {
-        return $this->title_english;
+        return $this->title_english ?? $this->slug;
     }
 
     /**

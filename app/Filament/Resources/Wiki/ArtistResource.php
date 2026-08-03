@@ -7,7 +7,6 @@ namespace App\Filament\Resources\Wiki;
 use App\Enums\Filament\NavigationGroup;
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
 use App\Filament\Components\Columns\TextColumn;
-use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
@@ -104,10 +103,12 @@ class ArtistResource extends BaseResource
                             ->maxLength(192),
                     ]),
 
-                Slug::make(Artist::ATTRIBUTE_SLUG)
+                TextInput::make(Artist::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name'))
                     ->helperText(__('filament.fields.artist.slug.help'))
-                    ->unique(Artist::TABLE, Artist::ATTRIBUTE_SLUG, fn (?Artist $record): ?Artist => $record),
+                    ->required()
+                    ->maxLength(192)
+                    ->alphaDash(),
 
                 MarkdownEditor::make(Artist::ATTRIBUTE_INFORMATION)
                     ->label(__('filament.fields.artist.information.name'))
