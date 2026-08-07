@@ -4,35 +4,7 @@ type AnimeYear {
     year: Int!
 
     "Object that references the season year queried"
-    season(season: AnimeSeason!): AnimeYearSeason @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveSeasonField")
-
-    "The available seasons of the year"
-    seasons: [AnimeYearSeasons!]
-}
-
-"The anime year season type."
-type AnimeYearSeasons {
-    "The season of the anime year"
-    season: AnimeSeason!
-
-    "The formatted string value of the season field"
-    seasonLocalized: String!
-
-    "The animes of the season year filtered"
-    anime(
-        titleRomaji_like: String @like(key: "title")
-        format: AnimeFormat @eq(key: "format")
-        format_in: [AnimeFormat!] @in(key: "format")
-        season: AnimeSeason @eq
-        season_in: [AnimeSeason!] @in(key: "season")
-        year: Int @eq
-        year_lesser: Int @where(operator: "<", key: "year")
-        year_greater: Int @where(operator: ">", key: "year")
-        where: _ @whereConditions(columnsEnum: AnimeFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
-        sort: [AnimeSort!] @sort
-        first: Int
-        page: Int = 1
-    ): AnimePaginator @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
+    season(season: AnimeSeason): [AnimeYearSeason!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveSeasonField")
 }
 
 "The anime year season type."
@@ -56,7 +28,7 @@ type AnimeYearSeason {
         sort: [AnimeSort!] @sort
         first: Int
         page: Int = 1
-    ): AnimePaginator @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
+    ): AnimePaginator! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
 }
 
 extend type Query {

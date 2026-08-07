@@ -14,15 +14,7 @@ test('fails query season anime field without year', function (): void {
         query($season: AnimeSeason!) {
             animeyears {
                 year
-                season(season: $season) {
-                    season
-                    anime {
-                        data {
-                            id
-                        }
-                    }
-                }
-                seasons {
+                season {
                     season
                     anime {
                         data {
@@ -33,9 +25,6 @@ test('fails query season anime field without year', function (): void {
             }
         }
         ',
-        [
-            'season' => $animes->random()->getAttribute(Anime::ATTRIBUTE_SEASON)->name,
-        ],
     );
 
     $response->assertOk();
@@ -53,9 +42,6 @@ test('query season & seasons field', function (): void {
             animeyears {
                 year
                 season(season: $season) {
-                    season
-                }
-                seasons {
                     season
                 }
             }
@@ -99,14 +85,6 @@ test('query season anime field with year', function (): void {
                         }
                     }
                 }
-                seasons {
-                    season
-                    anime {
-                        data {
-                            id
-                        }
-                    }
-                }
             }
         }
         ',
@@ -127,12 +105,6 @@ test('query season anime field with year', function (): void {
                         'data' => [['id']],
                     ],
                 ],
-                'seasons' => [[
-                    'season',
-                    'anime' => [
-                        'data' => [['id']],
-                    ],
-                ]],
             ]],
         ],
     ]);
