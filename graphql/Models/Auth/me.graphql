@@ -10,10 +10,10 @@ type Me @model(class: "App\\Models\\Auth\\User") {
     email: String!
 
     "The date the user verified their email"
-    emailVerifiedAt(format: String! = "Y-m-d H:i:s"): String! @timestamp(attribute: "email_verified_at")
+    emailVerifiedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "email_verified_at")
 
     "The date the user confirmed their two-factor authentication"
-    twoFactorConfirmedAt(format: String! = "Y-m-d H:i:s"): String! @timestamp(attribute: "two_factor_confirmed_at")
+    twoFactorConfirmedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "two_factor_confirmed_at")
 
     "The date that the resource was created"
     createdAt(format: String! = "Y-m-d H:i:s"): String! @timestamp(attribute: "created_at")

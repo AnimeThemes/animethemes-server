@@ -28,20 +28,13 @@ class AnimeYearsQuery
             ->validate();
 
         return Anime::query()
-            ->whereNotNull(Anime::ATTRIBUTE_START_DATE)
+            ->whereNotNull(Anime::ATTRIBUTE_YEAR)
             ->whereNotNull(Anime::ATTRIBUTE_SEASON)
-            ->when($years !== null, function (Builder $query) use ($years): void {
-                $query->where(function (Builder $query) use ($years): void {
-                    foreach ($years as $singleYear) {
-                        $query->orWhereBetween(Anime::ATTRIBUTE_START_DATE, [
-                            "{$singleYear}0000",
-                            "{$singleYear}1231",
-                        ]);
-                    }
-                });
-            })
-            ->get([Anime::ATTRIBUTE_START_DATE, Anime::ATTRIBUTE_SEASON])
-            ->groupBy(fn (Anime $anime): ?int => $anime->start_date?->year)
+            ->when(filled($years), fn (Builder $query) => $query->whereIn(Anime::ATTRIBUTE_YEAR, $years))
+            ->orderBy(Anime::ATTRIBUTE_YEAR)
+            ->orderBy(Anime::ATTRIBUTE_SEASON)
+            ->get([Anime::ATTRIBUTE_YEAR, Anime::ATTRIBUTE_SEASON])
+            ->groupBy(fn (Anime $anime): int => $anime->year)
             ->map(fn (Collection $items, int $year): array => [
                 'year' => $year,
 
@@ -62,19 +55,10 @@ class AnimeYearsQuery
     public function resolveSeasonField(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?array
     {
         $season = Arr::get($args, 'season');
-        $year = Arr::integer($root, 'year');
 
-        $seasons = collect(Arr::get($root, 'seasons'));
-
-        if ($seasons->doesntContain(fn ($item): bool => $item['season'] === $season)) {
-            return null;
-        }
-
-        return [
-            'season' => $season,
-            'seasonLocalized' => $season->localize(),
-            'year' => $year, // Needed to query animes on the 'season' field.
-        ];
+        return collect(Arr::array($root, 'seasons'))
+            ->when($season, fn (Collection $collection) => $collection->filter(fn ($item): bool => $item['season'] === $season))
+            ->toArray();
     }
 
     /** @param  array{}  $args */
