@@ -10,7 +10,7 @@ type Role @model(class: "App\\Models\\Auth\\Role") {
     color: String
 
     "Is the role assigned on account verification?"
-    default: String!
+    default: Boolean!
 
     "The weight assigned to the resource, where higher values correspond to higher priority"
     priority: Int!
