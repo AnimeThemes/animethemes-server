@@ -135,16 +135,10 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
 
     public function getSubtitle(): string
     {
-        $subtitle = Str::of("($this->hashid) ");
-        $user = $this->playlist->user;
-
-        if ($user) {
-            $subtitle = $subtitle
-                ->append($user->getName())
-                ->append(' - ');
-        }
-
-        return $subtitle->append($this->playlist->getName())->__toString();
+        return Str::of("($this->hashid) ")
+            ->append($this->playlist->user->getName())
+            ->append(' - ')
+            ->append($this->playlist->getName())->__toString();
     }
 
     public function buildSortQuery(): Builder

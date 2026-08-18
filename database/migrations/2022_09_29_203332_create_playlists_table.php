@@ -27,7 +27,7 @@ return new class extends Migration
                 $table->string('name');
                 $table->integer('visibility');
 
-                $table->unsignedBigInteger('user_id')->nullable();
+                $table->unsignedBigInteger('user_id');
                 $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
 
                 $table->text('description')->nullable();

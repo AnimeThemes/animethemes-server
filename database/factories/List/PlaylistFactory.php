@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\List;
 
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -36,6 +37,7 @@ class PlaylistFactory extends Factory
             Playlist::ATTRIBUTE_NAME => fake()->words(3, true),
             Playlist::ATTRIBUTE_DESCRIPTION => fake()->words(10, true),
             Playlist::ATTRIBUTE_VISIBILITY => $visibility->value,
+            Playlist::ATTRIBUTE_USER => User::factory(),
         ];
     }
 
