@@ -40,8 +40,8 @@ use RuntimeException;
  * @property int $playlist_id
  * @property Collection<int, PlaylistTrack> $tracks
  * @property string $name
- * @property User|null $user
- * @property int|null $user_id
+ * @property User $user
+ * @property int $user_id
  * @property PlaylistVisibility $visibility
  *
  * @method static PlaylistFactory factory(...$parameters)
@@ -140,7 +140,7 @@ class Playlist extends BaseModel implements HasHashids, HasImages, Likeable
 
     public function getSubtitle(): string
     {
-        return $this->user === null ? $this->getName() : $this->user->getName();
+        return $this->user->getName();
     }
 
     /**
