@@ -16,7 +16,8 @@ return new class extends Migration
         if (! Schema::hasTable('video_scripts')) {
             Schema::create('video_scripts', function (Blueprint $table) {
                 $table->id('script_id');
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->softDeletes(precision: 6);
                 $table->string('path');
 

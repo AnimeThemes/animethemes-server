@@ -15,7 +15,8 @@ return new class extends Migration
     {
         if (! Schema::hasTable('external_profiles')) {
             Schema::create('external_profiles', function (Blueprint $table) {
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->id('profile_id');
                 $table->string('name');
                 $table->integer('site');

@@ -22,7 +22,8 @@ return new class extends Migration
                 $table->morphs('imageable');
                 $table->integer('depth')->default(1);
 
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
 
                 $table->unique([
                     'image_id',

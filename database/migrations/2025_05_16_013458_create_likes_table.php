@@ -20,7 +20,8 @@ return new class extends Migration
                 $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
 
                 $table->morphs('likeable');
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
 
                 $table->index(['user_id', 'likeable_type', 'likeable_id']);
             });

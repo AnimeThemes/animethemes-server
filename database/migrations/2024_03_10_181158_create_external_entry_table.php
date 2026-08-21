@@ -15,7 +15,8 @@ return new class extends Migration
     {
         if (! Schema::hasTable('external_entries')) {
             Schema::create('external_entries', function (Blueprint $table) {
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->id('entry_id');
                 $table->float('score')->nullable();
                 $table->integer('status');

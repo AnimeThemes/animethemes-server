@@ -16,7 +16,8 @@ return new class extends Migration
         if (! Schema::hasTable('anime_theme_entry_video')) {
             Schema::create('anime_theme_entry_video', function (Blueprint $table) {
                 $table->id();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->unsignedBigInteger('entry_id');
                 $table->foreign('entry_id')->references('entry_id')->on('anime_theme_entries')->cascadeOnDelete();
                 $table->unsignedBigInteger('video_id');

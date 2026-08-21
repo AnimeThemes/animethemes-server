@@ -16,7 +16,8 @@ return new class extends Migration
         if (! Schema::hasTable('announcements')) {
             Schema::create('announcements', function (Blueprint $table) {
                 $table->id('announcement_id');
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->text('content');
             });
         }

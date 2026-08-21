@@ -17,7 +17,7 @@ test('current featured theme', function (): void {
 
     $response = $this->graphQL('
         query {
-            currentfeaturedtheme {
+            currentFeaturedTheme {
                 id
             }
         }
@@ -26,7 +26,7 @@ test('current featured theme', function (): void {
     $response->assertOk();
     $response->assertJson([
         'data' => [
-            'currentfeaturedtheme' => [
+            'currentFeaturedTheme' => [
                 'id' => $featuredTheme->getKey(),
             ],
         ],

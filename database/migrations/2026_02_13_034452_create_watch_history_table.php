@@ -26,7 +26,8 @@ return new class extends Migration
                 $table->unsignedBigInteger('video_id');
                 $table->foreign('video_id')->references('video_id')->on('videos')->cascadeOnDelete();
 
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
             });
         }
     }
