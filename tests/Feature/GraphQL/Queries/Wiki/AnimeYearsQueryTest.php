@@ -11,7 +11,7 @@ test('fails query season anime field without year', function (): void {
 
     $response = $this->graphQL(
         '
-        query($season: AnimeSeason!) {
+        query($season: AnimeSeason) {
             animeyears {
                 year
                 season {
@@ -38,7 +38,7 @@ test('query season & seasons field', function (): void {
 
     $response = $this->graphQL(
         '
-        query($season: AnimeSeason!) {
+        query($season: AnimeSeason) {
             animeyears {
                 year
                 season(season: $season) {
@@ -74,7 +74,7 @@ test('query season anime field with year', function (): void {
 
     $response = $this->graphQL(
         '
-        query($season: AnimeSeason!, $year: [Int!]) {
+        query($season: AnimeSeason, $year: [Int!]) {
             animeyears(year: $year) {
                 year
                 season(season: $season) {

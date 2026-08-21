@@ -36,7 +36,8 @@ return new class extends Migration
                 $table->boolean('locked')->default(false);
 
                 $table->timestamp('finished_at', 6)->nullable();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
 
                 $table->index('status');
             });
@@ -59,7 +60,8 @@ return new class extends Migration
         if (! Schema::hasTable('submission_anime')) {
             Schema::create('submission_anime', function (Blueprint $table) {
                 $table->id();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->string('slug');
                 $table->string('name');
                 $table->integer('year')->nullable();
@@ -72,7 +74,8 @@ return new class extends Migration
         if (! Schema::hasTable('submission_synonyms')) {
             Schema::create('submission_synonyms', function (Blueprint $table) {
                 $table->id();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->morphs('synonymable');
                 $table->string('text');
                 $table->integer('type');
@@ -82,7 +85,8 @@ return new class extends Migration
         if (! Schema::hasTable('submission_songs')) {
             Schema::create('submission_songs', function (Blueprint $table) {
                 $table->id();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->string('title')->nullable();
                 $table->string('title_native')->nullable();
             });
@@ -91,7 +95,8 @@ return new class extends Migration
         if (! Schema::hasTable('submission_artists')) {
             Schema::create('submission_artists', function (Blueprint $table) {
                 $table->id();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->string('slug');
                 $table->string('name');
                 $table->text('information')->nullable();
@@ -101,7 +106,8 @@ return new class extends Migration
         if (! Schema::hasTable('submission_artist_member')) {
             Schema::create('submission_artist_member', function (Blueprint $table) {
                 $table->id();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->string('as')->nullable();
                 $table->string('alias')->nullable();
                 $table->string('notes')->nullable();
@@ -112,7 +118,8 @@ return new class extends Migration
         if (! Schema::hasTable('submission_performances')) {
             Schema::create('submission_performances', function (Blueprint $table) {
                 $table->id();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->unsignedBigInteger('song_id');
                 $table->foreign('song_id')->references('id')->on('submission_songs')->cascadeOnDelete();
 
@@ -133,7 +140,8 @@ return new class extends Migration
         if (! Schema::hasTable('submission_anime_themes')) {
             Schema::create('submission_anime_themes', function (Blueprint $table) {
                 $table->id();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->integer('type');
                 $table->integer('sequence')->nullable();
                 $table->string('slug');
@@ -152,7 +160,8 @@ return new class extends Migration
         if (! Schema::hasTable('submission_anime_theme_entries')) {
             Schema::create('submission_anime_theme_entries', function (Blueprint $table) {
                 $table->id();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->integer('version');
                 $table->string('episodes')->nullable();
                 $table->boolean('nsfw')->default(false);
@@ -167,7 +176,8 @@ return new class extends Migration
         if (! Schema::hasTable('submission_resources')) {
             Schema::create('submission_resources', function (Blueprint $table) {
                 $table->id();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->integer('site');
                 $table->string('link');
                 $table->integer('external_id')->nullable();
@@ -177,7 +187,8 @@ return new class extends Migration
         if (! Schema::hasTable('submission_series')) {
             Schema::create('submission_series', function (Blueprint $table) {
                 $table->id();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->string('slug');
                 $table->string('name');
             });
@@ -186,7 +197,8 @@ return new class extends Migration
         if (! Schema::hasTable('submission_studios')) {
             Schema::create('submission_studios', function (Blueprint $table) {
                 $table->id();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->string('slug');
                 $table->string('name');
             });

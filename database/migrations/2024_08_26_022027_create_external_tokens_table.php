@@ -22,7 +22,8 @@ return new class extends Migration
                 $table->unsignedBigInteger('profile_id')->nullable()->unique();
                 $table->foreign('profile_id')->references('profile_id')->on('external_profiles')->cascadeOnDelete();
 
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
             });
         }
     }

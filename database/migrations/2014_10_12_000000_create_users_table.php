@@ -34,7 +34,8 @@ return new class extends Migration
                 }
 
                 $table->rememberToken();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->softDeletes('deleted_at', 6);
 
                 $table->unique('name');

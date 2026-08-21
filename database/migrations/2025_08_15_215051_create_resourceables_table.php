@@ -22,7 +22,8 @@ return new class extends Migration
                 $table->morphs('resourceable');
                 $table->string('as')->nullable();
 
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
 
                 $table->unique([
                     'resource_id',

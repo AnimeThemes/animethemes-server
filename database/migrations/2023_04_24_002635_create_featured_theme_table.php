@@ -16,7 +16,8 @@ return new class extends Migration
         if (! Schema::hasTable('featured_themes')) {
             Schema::create('featured_themes', function (Blueprint $table) {
                 $table->id('featured_theme_id');
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->timestamp('start_at', 6);
                 $table->timestamp('end_at', 6);
 

@@ -16,7 +16,8 @@ return new class extends Migration
         if (! Schema::hasTable('resources')) {
             Schema::create('resources', function (Blueprint $table) {
                 $table->id('resource_id');
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->softDeletes(precision: 6);
                 $table->integer('site');
                 $table->string('link');

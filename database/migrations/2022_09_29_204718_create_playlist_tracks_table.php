@@ -18,7 +18,8 @@ return new class extends Migration
         if (! Schema::hasTable('playlist_tracks')) {
             Schema::create('playlist_tracks', function (Blueprint $table) {
                 $table->id('track_id');
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $hashIdColumn = $table->string('hashid')->nullable();
                 if (DB::connection() instanceof MySqlConnection) {
                     // Set collation to binary to be case-sensitive

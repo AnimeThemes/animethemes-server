@@ -21,7 +21,8 @@ return new class extends Migration
                 $table->unsignedBigInteger('role_id');
                 $table->foreign('role_id')->references('id')->on('roles')->cascadeOnDelete();
                 $table->integer('type');
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
             });
         }
     }

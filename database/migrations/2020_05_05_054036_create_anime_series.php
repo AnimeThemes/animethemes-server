@@ -16,7 +16,8 @@ return new class extends Migration
         if (! Schema::hasTable('anime_series')) {
             Schema::create('anime_series', function (Blueprint $table) {
                 $table->id();
-                $table->timestamps(6);
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->unsignedBigInteger('anime_id');
                 $table->foreign('anime_id')->references('anime_id')->on('anime')->cascadeOnDelete();
                 $table->unsignedBigInteger('series_id');
