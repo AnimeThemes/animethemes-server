@@ -31,8 +31,8 @@ return new class extends Migration
                 $table->string('member_alias')->nullable();
                 $table->string('member_as')->nullable();
                 $table->integer('relevance')->default(1);
-                $table->timestamp('created_at', 6)->nullable()->useCurrent();
-                $table->timestamp('updated_at', 6)->nullable()->useCurrent();
+                $table->timestamp('created_at', 6)->useCurrent();
+                $table->timestamp('updated_at', 6)->useCurrent();
                 $table->softDeletes('deleted_at', 6);
 
                 $table->unique(['song_id', 'artist_id', 'member_id', 'deleted_at'], 'unique_performance');
