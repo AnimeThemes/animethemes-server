@@ -25,6 +25,8 @@ return new class extends Migration
                 $table->integer('season')->nullable();
                 $table->integer('format')->nullable();
                 $table->text('synopsis')->nullable();
+
+                $table->index(['created_at', 'anime_id'], 'cursor_index');
             });
         }
     }

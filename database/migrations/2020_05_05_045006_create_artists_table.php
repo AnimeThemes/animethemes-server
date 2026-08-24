@@ -22,6 +22,8 @@ return new class extends Migration
                 $table->string('slug');
                 $table->string('name');
                 $table->text('information')->nullable();
+
+                $table->index(['created_at', 'artist_id'], 'cursor_index');
             });
         }
     }

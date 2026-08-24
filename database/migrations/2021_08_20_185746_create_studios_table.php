@@ -21,6 +21,8 @@ return new class extends Migration
                 $table->softDeletes(precision: 6);
                 $table->string('slug');
                 $table->string('name');
+
+                $table->index(['created_at', 'studio_id'], 'cursor_index');
             });
         }
     }
