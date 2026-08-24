@@ -217,11 +217,12 @@ return [
                         [
                             'name' => 'name',
                             'type' => 'string',
+                            'sort' => true,
                         ],
                         [
                             'name' => 'created_at',
                             'type' => 'int64',
-                            'optional' => true,
+                            'sort' => true,
                         ],
                     ],
                 ],
@@ -260,21 +261,18 @@ return [
                             'name' => 'season',
                             'type' => 'int32',
                             'optional' => true,
+                            'sort' => true,
                         ],
                         [
                             'name' => 'year',
                             'type' => 'int32',
                             'optional' => true,
+                            'sort' => true,
                         ],
                         [
                             'name' => 'created_at',
                             'type' => 'int64',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'updated_at',
-                            'type' => 'int64',
-                            'optional' => true,
+                            'sort' => true,
                         ],
                         [
                             'name' => 'synonyms',
@@ -298,7 +296,6 @@ return [
                         [
                             'name' => 'created_at',
                             'type' => 'int64',
-                            'optional' => true,
                         ],
                         [
                             'name' => 'type',
@@ -350,6 +347,10 @@ return [
                         [
                             'name' => 'id',
                             'type' => 'string',
+                        ],
+                        [
+                            'name' => 'created_at',
+                            'type' => 'int64',
                         ],
                         [
                             'name' => 'version',
@@ -407,7 +408,6 @@ return [
                         [
                             'name' => 'created_at',
                             'type' => 'int64',
-                            'optional' => true,
                         ],
                         [
                             'name' => 'search_text',
@@ -443,12 +443,7 @@ return [
                         [
                             'name' => 'created_at',
                             'type' => 'int64',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'updated_at',
-                            'type' => 'int64',
-                            'optional' => true,
+                            'sort' => true,
                         ],
                         [
                             'name' => 'anime',
@@ -472,7 +467,6 @@ return [
                         [
                             'name' => 'id',
                             'type' => 'string',
-                            'sort' => true,
                         ],
                         [
                             'name' => 'title',
@@ -487,7 +481,6 @@ return [
                         [
                             'name' => 'created_at',
                             'type' => 'int64',
-                            'optional' => true,
                         ],
                     ],
                 ],
@@ -511,12 +504,7 @@ return [
                         [
                             'name' => 'created_at',
                             'type' => 'int64',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'updated_at',
-                            'type' => 'int64',
-                            'optional' => true,
+                            'sort' => true,
                         ],
                     ],
                 ],
@@ -535,12 +523,10 @@ return [
                         [
                             'name' => 'created_at',
                             'type' => 'int64',
-                            'optional' => true,
                         ],
                         [
                             'name' => 'filename',
                             'type' => 'string',
-                            'sort' => true,
                         ],
                         [
                             'name' => 'tags',
@@ -549,7 +535,6 @@ return [
                         [
                             'name' => 'entries',
                             'type' => 'object[]',
-                            'optional' => true,
                         ],
                     ],
                 ],

@@ -17,7 +17,6 @@ class StudioTypesenseModel
             'id' => (string) $studio->getKey(),
             'name' => $studio->name,
             'created_at' => $studio->created_at?->timestamp,
-            'updated_at' => $studio->updated_at?->timestamp,
         ];
     }
 }

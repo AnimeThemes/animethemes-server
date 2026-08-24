@@ -28,7 +28,6 @@ class AnimeTypesenseModel
             'season' => $anime->season?->value,
             'year' => $anime->year,
             'created_at' => $anime->created_at?->timestamp,
-            'updated_at' => $anime->updated_at?->timestamp,
             'synonyms' => $anime->synonyms->map(fn (Synonym $synonym) => $synonym->text)->all(),
         ];
     }

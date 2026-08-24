@@ -21,7 +21,6 @@ class ArtistTypesenseModel
             // So TypeSense does not boost when alternative names are the same.
             'name_native' => $artist->name_native !== $artist->name ? $artist->name : null,
             'created_at' => $artist->created_at?->timestamp,
-            'updated_at' => $artist->updated_at?->timestamp,
             'synonyms' => $synonyms = $artist->synonyms->map(fn (Synonym $synonym) => $synonym->text)->all(),
             'as' => $as = $artist->performances->map(fn (Performance $performance) => $performance->as)
                 ->toBase()
