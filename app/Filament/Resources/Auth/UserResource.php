@@ -11,7 +11,6 @@ use App\Filament\Actions\Models\Auth\User\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\User\GiveSanctionAction;
 use App\Filament\Actions\Models\Auth\User\RevokePermissionAction;
 use App\Filament\Actions\Models\Auth\User\RevokeRoleAction;
-use App\Filament\Actions\Models\Auth\User\SendPasswordResetLinkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
@@ -176,8 +175,6 @@ class UserResource extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            SendPasswordResetLinkAction::make(),
-
             GiveRoleAction::make(),
 
             RevokeRoleAction::make(),

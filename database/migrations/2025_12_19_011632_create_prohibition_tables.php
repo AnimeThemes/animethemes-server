@@ -42,7 +42,7 @@ return new class extends Migration
         });
 
         Schema::create($tableNames['model_sanctions'], function (Blueprint $table) use ($tableNames): void {
-            $table->morphs('model');
+            $table->morphs('user');
 
             $table->unsignedBigInteger('sanction_id');
             $table->foreign('sanction_id')->references('id')->on($tableNames['sanction'])->cascadeOnDelete();
@@ -52,7 +52,7 @@ return new class extends Migration
             $table->text('reason')->nullable();
             $table->timestamps();
 
-            $table->primary(['model_type', 'model_id', 'sanction_id']);
+            $table->primary(['user_type', 'user_id', 'sanction_id']);
             $table->index('expires_at');
         });
 

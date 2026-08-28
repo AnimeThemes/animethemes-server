@@ -23,7 +23,7 @@ return [
         'prohibition' => 'prohibitions',
         'sanction' => 'sanctions',
         'sanction_prohibition' => 'sanction_prohibition',
-        'model_sanctions' => 'model_sanctions',
+        'model_sanctions' => 'user_sanctions',
         'model_prohibitions' => 'model_prohibitions',
     ],
 ];

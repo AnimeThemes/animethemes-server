@@ -7,6 +7,7 @@ namespace App\Models\Auth;
 use App\Contracts\Models\Nameable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Config;
 use Kyrch\Prohibition\Models\Sanction as BaseSanction;
 
@@ -54,5 +55,20 @@ class Sanction extends BaseSanction implements Nameable
         /** @phpstan-ignore-next-line */
         return $query->where("$tableName.expires_at", '>', now())
             ->orWhereNull("$tableName.expires_at");
+    }
+
+    /**
+     * @return MorphToMany<User, $this>
+     */
+    public function users(): MorphToMany
+    {
+        /** @var class-string<User> $user */
+        $user = Config::string('prohibition.models.user');
+
+        return $this->morphedByMany(
+            $user,
+            'user',
+            Config::string('prohibition.table_names.model_sanctions'),
+        );
     }
 }
