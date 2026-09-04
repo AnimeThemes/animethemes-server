@@ -16,6 +16,7 @@ use App\Models\Wiki\Performance;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
+use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
@@ -110,6 +111,7 @@ class AppServiceProvider extends ServiceProvider
             'series' => Series::class,
             'song' => Song::class,
             'studio' => Studio::class,
+            'synonym' => Synonym::class,
             'themegroup' => Group::class,
             'video' => Video::class,
             'videoscript' => VideoScript::class,
