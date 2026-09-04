@@ -29,7 +29,9 @@ class Dump extends BaseModel
     final public const string TABLE = 'dumps';
 
     final public const string ATTRIBUTE_ID = 'dump_id';
+
     final public const string ATTRIBUTE_PATH = 'path';
+
     final public const string ATTRIBUTE_LINK = 'link';
 
     /**

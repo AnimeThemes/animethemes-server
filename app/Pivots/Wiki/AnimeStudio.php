@@ -31,9 +31,11 @@ class AnimeStudio extends BasePivot implements Auditable
     final public const string TABLE = 'anime_studio';
 
     final public const string ATTRIBUTE_ANIME = 'anime_id';
+
     final public const string ATTRIBUTE_STUDIO = 'studio_id';
 
     final public const string RELATION_ANIME = 'anime';
+
     final public const string RELATION_STUDIO = 'studio';
 
     /**

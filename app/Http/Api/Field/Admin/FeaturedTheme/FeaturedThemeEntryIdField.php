@@ -11,8 +11,8 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\Admin\FeaturedTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Models\Wiki\Entry;
+use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -31,12 +31,12 @@ class FeaturedThemeEntryIdField extends Field implements CreatableField, Selecta
             'sometimes',
             'required',
             'integer',
-            Rule::exists(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID),
+            Rule::exists(Entry::class, Entry::ATTRIBUTE_ID),
             Rule::when(
                 filled($videoId),
                 [
-                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
-                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $this->resolveVideoId($request)),
+                    Rule::exists(EntryVideo::class, EntryVideo::ATTRIBUTE_ENTRY)
+                        ->where(EntryVideo::ATTRIBUTE_VIDEO, $this->resolveVideoId($request)),
                 ]
             ),
         ];
@@ -56,12 +56,12 @@ class FeaturedThemeEntryIdField extends Field implements CreatableField, Selecta
             'sometimes',
             'required',
             'integer',
-            Rule::exists(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID),
+            Rule::exists(Entry::class, Entry::ATTRIBUTE_ID),
             Rule::when(
                 filled($videoId),
                 [
-                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
-                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $this->resolveVideoId($request)),
+                    Rule::exists(EntryVideo::class, EntryVideo::ATTRIBUTE_ENTRY)
+                        ->where(EntryVideo::ATTRIBUTE_VIDEO, $this->resolveVideoId($request)),
                 ]
             ),
         ];
@@ -73,7 +73,7 @@ class FeaturedThemeEntryIdField extends Field implements CreatableField, Selecta
     private function resolveVideoId(Request $request): mixed
     {
         if ($request->has(FeaturedTheme::ATTRIBUTE_VIDEO)) {
-            return $request->get(FeaturedTheme::ATTRIBUTE_VIDEO);
+            return $request->input(FeaturedTheme::ATTRIBUTE_VIDEO);
         }
 
         /** @var FeaturedTheme|null $featuredTheme */

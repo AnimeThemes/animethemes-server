@@ -6,9 +6,9 @@ namespace App\Policies\Wiki;
 
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
+use App\Models\Wiki\Theme;
 use App\Policies\BasePolicy;
 use Illuminate\Auth\Access\Response;
 
@@ -16,7 +16,7 @@ class SongPolicy extends BasePolicy
 {
     public function addAnimeTheme(User $user): Response
     {
-        return $user->can(CrudPermission::UPDATE->format(AnimeTheme::class))
+        return $user->can(CrudPermission::UPDATE->format(Theme::class))
             ? Response::allow()
             : Response::deny();
     }

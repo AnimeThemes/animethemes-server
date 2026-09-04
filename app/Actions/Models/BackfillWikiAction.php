@@ -24,6 +24,7 @@ abstract class BackfillWikiAction
     use CanCreateExternalResource;
 
     final public const RESOURCES = 'resources';
+
     final public const IMAGES = 'images';
 
     public function __construct(protected BaseModel $model, protected array $toBackfill) {}

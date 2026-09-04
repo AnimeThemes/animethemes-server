@@ -1,0 +1,95 @@
+<?php
+
+declare(strict_types=1);
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Theme;
+use App\Models\Wiki\Video;
+use App\Pivots\Morph\Resourceable;
+use App\Pivots\Wiki\EntryVideo;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Foundation\Testing\WithFaker;
+use Znck\Eloquent\Relations\BelongsToThrough;
+
+uses(WithFaker::class);
+
+test('searchable as', function (): void {
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
+        ->createOne();
+
+    $this->assertIsString($entry->searchableAs());
+});
+
+test('to searchable array', function (): void {
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
+        ->createOne();
+
+    $this->assertIsArray($entry->toSearchableArray());
+});
+
+test('nameable', function (): void {
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
+        ->createOne();
+
+    $this->assertIsString($entry->getName());
+});
+
+test('has subtitle', function (): void {
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
+        ->createOne();
+
+    $this->assertIsString($entry->getSubtitle());
+});
+
+test('theme', function (): void {
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
+        ->createOne();
+
+    $this->assertInstanceOf(BelongsTo::class, $entry->animetheme());
+    $this->assertInstanceOf(Theme::class, $entry->animetheme()->first());
+});
+
+test('external resources', function (): void {
+    $resourcesCount = fake()->randomDigitNotNull();
+
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
+        ->has(ExternalResource::factory()->count($resourcesCount), Entry::RELATION_RESOURCES)
+        ->createOne();
+
+    $this->assertInstanceOf(MorphToMany::class, $entry->resources());
+    $this->assertEquals($resourcesCount, $entry->resources()->count());
+    $this->assertInstanceOf(ExternalResource::class, $entry->resources()->first());
+    $this->assertEquals(Resourceable::class, $entry->resources()->getPivotClass());
+});
+
+test('videos', function (): void {
+    $videoCount = fake()->randomDigitNotNull();
+
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
+        ->has(Video::factory()->count($videoCount))
+        ->createOne();
+
+    $this->assertInstanceOf(BelongsToMany::class, $entry->videos());
+    $this->assertEquals($videoCount, $entry->videos()->count());
+    $this->assertInstanceOf(Video::class, $entry->videos()->first());
+    $this->assertEquals(EntryVideo::class, $entry->videos()->getPivotClass());
+});
+
+test('anime', function (): void {
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
+        ->createOne();
+
+    $this->assertInstanceOf(BelongsToThrough::class, $entry->anime());
+    $this->assertInstanceOf(Anime::class, $entry->anime()->first());
+});

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Song\RelationManagers;
 
 use App\Actions\Models\Wiki\Song\ManageSongPerformances;
-use App\Filament\RelationManagers\Wiki\Song\PerformanceRelationManager;
-use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
+use App\Filament\RelationManagers\Wiki\PerformanceRelationManager;
+use App\Filament\Resources\Wiki\Performance\Schemas\PerformanceForm;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\Performance;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Performance;
 use Filament\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;

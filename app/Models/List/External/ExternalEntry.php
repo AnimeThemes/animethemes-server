@@ -33,14 +33,21 @@ class ExternalEntry extends BaseModel
     final public const string TABLE = 'external_entries';
 
     final public const string ATTRIBUTE_ID = 'entry_id';
+
     final public const string ATTRIBUTE_ANIME = 'anime_id';
+
     final public const string ATTRIBUTE_PROFILE = 'profile_id';
+
     final public const string ATTRIBUTE_IS_FAVORITE = 'is_favorite';
+
     final public const string ATTRIBUTE_SCORE = 'score';
+
     final public const string ATTRIBUTE_STATUS = 'status';
 
     final public const string RELATION_ANIME = 'anime';
+
     final public const string RELATION_PROFILE = 'externalprofile';
+
     final public const string RELATION_USER = 'externalprofile.user';
 
     /**

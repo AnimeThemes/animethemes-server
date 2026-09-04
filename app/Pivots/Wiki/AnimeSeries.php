@@ -31,9 +31,11 @@ class AnimeSeries extends BasePivot implements Auditable
     final public const string TABLE = 'anime_series';
 
     final public const string ATTRIBUTE_ANIME = 'anime_id';
+
     final public const string ATTRIBUTE_SERIES = 'series_id';
 
     final public const string RELATION_ANIME = 'anime';
+
     final public const string RELATION_SERIES = 'series';
 
     /**

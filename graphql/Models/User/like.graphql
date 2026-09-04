@@ -1,8 +1,0 @@
-"Represents a like of a user."
-type Like {
-    user: User! @belongsTo
-    likeable: LikeableUnion! @morphTo
-}
-
-"Represents the resources that can be liked"
-union LikeableUnion = AnimeThemeEntry | Playlist

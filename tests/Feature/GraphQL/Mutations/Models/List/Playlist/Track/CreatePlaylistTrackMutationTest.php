@@ -9,7 +9,7 @@ use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
@@ -50,7 +50,7 @@ test('forbidden', function (): void {
         [
             // Needed for the bind resolver.
             'playlist' => Playlist::factory()->createOne()->hashid,
-            'entryId' => AnimeThemeEntry::factory()->createOne()->getKey(),
+            'entryId' => Entry::factory()->createOne()->getKey(),
             'videoId' => Video::factory()->createOne()->getKey(),
         ],
     );
@@ -75,7 +75,7 @@ test('forbidden if feature flag is disabled', function (): void {
         [
             // Needed for the bind resolver.
             'playlist' => Playlist::factory()->createOne()->hashid,
-            'entryId' => AnimeThemeEntry::factory()->createOne()->getKey(),
+            'entryId' => Entry::factory()->createOne()->getKey(),
             'videoId' => Video::factory()->createOne()->getKey(),
         ],
     );
@@ -95,7 +95,7 @@ it('fails if no entry video link', function (): void {
 
     actingAs($user);
 
-    $entry = AnimeThemeEntry::factory()->createOne();
+    $entry = Entry::factory()->createOne();
     $video = Video::factory()->createOne();
 
     $playlist = Playlist::factory()
@@ -126,7 +126,7 @@ it('creates', function (): void {
 
     actingAs($user);
 
-    $entry = AnimeThemeEntry::factory()->createOne();
+    $entry = Entry::factory()->createOne();
     $video = Video::factory()->createOne();
 
     $entry->videos()->attach($video);

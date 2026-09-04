@@ -10,8 +10,8 @@ use App\Events\Pivot\Morph\Resourceable\ResourceableCreated;
 use App\Events\Pivot\Morph\Resourceable\ResourceableDeleted;
 use App\Events\Pivot\Morph\Resourceable\ResourceableUpdated;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
@@ -42,11 +42,15 @@ class Resourceable extends BaseMorphPivot implements Auditable
     final public const string TABLE = 'resourceables';
 
     final public const string ATTRIBUTE_AS = 'as';
+
     final public const string ATTRIBUTE_RESOURCE = 'resource_id';
+
     final public const string ATTRIBUTE_RESOURCEABLE_TYPE = 'resourceable_type';
+
     final public const string ATTRIBUTE_RESOURCEABLE_ID = 'resourceable_id';
 
     final public const string RELATION_RESOURCE = 'resource';
+
     final public const string RELATION_RESOURCEABLE = 'resourceable';
 
     /**
@@ -56,7 +60,7 @@ class Resourceable extends BaseMorphPivot implements Auditable
      */
     public static $resourceables = [
         Anime::class,
-        AnimeThemeEntry::class,
+        Entry::class,
         Artist::class,
         Song::class,
         Studio::class,

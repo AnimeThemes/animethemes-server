@@ -58,16 +58,25 @@ class ExternalProfile extends BaseModel
     final public const string TABLE = 'external_profiles';
 
     final public const string ATTRIBUTE_ID = 'profile_id';
+
     final public const string ATTRIBUTE_EXTERNAL_USER_ID = 'external_user_id';
+
     final public const string ATTRIBUTE_NAME = 'name';
+
     final public const string ATTRIBUTE_SITE = 'site';
+
     final public const string ATTRIBUTE_VISIBILITY = 'visibility';
+
     final public const string ATTRIBUTE_USER = 'user_id';
+
     final public const string ATTRIBUTE_SYNCED_AT = 'synced_at';
 
     final public const string RELATION_ANIMES = 'externalentries.anime';
+
     final public const string RELATION_EXTERNAL_ENTRIES = 'externalentries';
+
     final public const string RELATION_EXTERNAL_TOKEN = 'externaltoken';
+
     final public const string RELATION_USER = 'user';
 
     /**

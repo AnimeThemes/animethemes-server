@@ -10,7 +10,7 @@ use App\Events\Admin\FeaturedTheme\FeaturedThemeDeleted;
 use App\Events\Admin\FeaturedTheme\FeaturedThemeUpdated;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
 use Database\Factories\Admin\FeaturedThemeFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -26,7 +26,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Carbon $end_at
- * @property AnimeThemeEntry|null $animethemeentry
+ * @property Entry|null $animethemeentry
  * @property int $entry_id
  * @property int $feature_id
  * @property Carbon $start_at
@@ -46,20 +46,33 @@ class FeaturedTheme extends BaseModel implements Auditable
     final public const string TABLE = 'featured_themes';
 
     final public const string ATTRIBUTE_END_AT = 'end_at';
+
     final public const string ATTRIBUTE_ENTRY = 'entry_id';
+
     final public const string ATTRIBUTE_ID = 'featured_theme_id';
+
     final public const string ATTRIBUTE_START_AT = 'start_at';
+
     final public const string ATTRIBUTE_USER = 'user_id';
+
     final public const string ATTRIBUTE_VIDEO = 'video_id';
 
     final public const string RELATION_ANIME = 'animethemeentry.animetheme.anime';
+
     final public const string RELATION_ARTISTS = 'animethemeentry.animetheme.song.artists';
+
     final public const string RELATION_ENTRY = 'animethemeentry';
+
     final public const string RELATION_GROUP = 'animethemeentry.animetheme.group';
+
     final public const string RELATION_IMAGES = 'animethemeentry.animetheme.anime.images';
+
     final public const string RELATION_SONG = 'animethemeentry.animetheme.song';
+
     final public const string RELATION_THEME = 'animethemeentry.animetheme';
+
     final public const string RELATION_USER = 'user';
+
     final public const string RELATION_VIDEO = 'video';
 
     /**
@@ -137,11 +150,11 @@ class FeaturedTheme extends BaseModel implements Auditable
     }
 
     /**
-     * @return BelongsTo<AnimeThemeEntry, $this>
+     * @return BelongsTo<Entry, $this>
      */
     public function animethemeentry(): BelongsTo
     {
-        return $this->belongsTo(AnimeThemeEntry::class, FeaturedTheme::ATTRIBUTE_ENTRY);
+        return $this->belongsTo(Entry::class, FeaturedTheme::ATTRIBUTE_ENTRY);
     }
 
     /**

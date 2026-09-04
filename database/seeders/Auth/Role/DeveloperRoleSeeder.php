@@ -13,22 +13,20 @@ use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\User\Like;
 use App\Models\User\Notification;
-use App\Models\User\WatchHistory;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Audio;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Performance;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Synonym;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 
@@ -53,14 +51,12 @@ class DeveloperRoleSeeder extends RoleSeeder
         $this->configureResource($role, PlaylistTrack::class, CrudPermission::cases());
 
         // User Resources
-        $this->configureResource($role, Like::class, CrudPermission::cases());
         $this->configureResource($role, Notification::class, CrudPermission::cases());
-        $this->configureResource($role, WatchHistory::class, CrudPermission::cases());
 
         // Wiki Resources
         $this->configureResource($role, Anime::class, [CrudPermission::VIEW]);
-        $this->configureResource($role, AnimeTheme::class, [CrudPermission::VIEW]);
-        $this->configureResource($role, AnimeThemeEntry::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Theme::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Entry::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Artist::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Audio::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Group::class, [CrudPermission::VIEW]);

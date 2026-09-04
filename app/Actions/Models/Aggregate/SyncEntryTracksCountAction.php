@@ -7,7 +7,7 @@ namespace App\Actions\Models\Aggregate;
 use App\Actions\ActionResult;
 use App\Enums\Actions\ActionStatus;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +18,7 @@ class SyncEntryTracksCountAction
      */
     public function handle(): ActionResult
     {
-        $entryModel = new AnimeThemeEntry();
+        $entryModel = new Entry();
 
         try {
             $tracksCount = PlaylistTrack::query()
@@ -26,7 +26,7 @@ class SyncEntryTracksCountAction
                 ->selectRaw('COUNT(*) AS total')
                 ->groupBy(PlaylistTrack::ATTRIBUTE_ENTRY);
 
-            AnimeThemeEntry::query()
+            Entry::query()
                 ->leftJoinSub(
                     $tracksCount,
                     'track_counts',

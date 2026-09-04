@@ -24,21 +24,35 @@ use Illuminate\Support\Facades\Gate;
 class BackfillAnimeAction extends BaseAction
 {
     final public const string RESOURCES = BackfillAnime::RESOURCES;
+
     final public const string IMAGES = BackfillAnime::IMAGES;
+
     final public const string STUDIOS = BackfillAnime::STUDIOS;
+
     final public const string TITLES = BackfillAnime::TITLES;
 
     final public const string BACKFILL_ANIDB_RESOURCE = 'backfill_anidb_resource';
+
     final public const string BACKFILL_ANILIST_RESOURCE = 'backfill_anilist_resource';
+
     final public const string BACKFILL_ANIME_PLANET_RESOURCE = 'backfill_anime_planet_resource';
+
     final public const string BACKFILL_ANN_RESOURCE = 'backfill_ann_resource';
+
     final public const string BACKFILL_KITSU_RESOURCE = 'backfill_kitsu_resource';
+
     final public const string BACKFILL_LIVECHART_RESOURCE = 'backfill_livechart_resource';
+
     final public const string BACKFILL_OFFICIAL_RESOURCES = 'backfill_official_resources';
+
     final public const string BACKFILL_LARGE_COVER = 'backfill_large_cover';
+
     final public const string BACKFILL_MAL_RESOURCE = 'backfill_mal_resource';
+
     final public const string BACKFILL_SMALL_COVER = 'backfill_small_cover';
+
     final public const string BACKFILL_STUDIOS = 'backfill_studios';
+
     final public const string BACKFILL_TITLES = 'backfill_titles';
 
     public static function getDefaultName(): ?string

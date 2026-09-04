@@ -46,11 +46,17 @@ class Audio extends BaseModel implements Auditable, SoftDeletable, Streamable
     final public const string TABLE = 'audios';
 
     final public const string ATTRIBUTE_BASENAME = 'basename';
+
     final public const string ATTRIBUTE_FILENAME = 'filename';
+
     final public const string ATTRIBUTE_ID = 'audio_id';
+
     final public const string ATTRIBUTE_LINK = 'link';
+
     final public const string ATTRIBUTE_MIMETYPE = 'mimetype';
+
     final public const string ATTRIBUTE_PATH = 'path';
+
     final public const string ATTRIBUTE_SIZE = 'size';
 
     final public const string RELATION_VIDEOS = 'videos';

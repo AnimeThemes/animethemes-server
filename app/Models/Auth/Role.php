@@ -27,16 +27,25 @@ class Role extends BaseRole implements Nameable
     final public const string TABLE = 'roles';
 
     final public const string ATTRIBUTE_COLOR = 'color';
+
     final public const string ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
+
     final public const string ATTRIBUTE_DEFAULT = 'default';
+
     final public const string ATTRIBUTE_GUARD_NAME = 'guard_name';
+
     final public const string ATTRIBUTE_ID = 'id';
+
     final public const string ATTRIBUTE_NAME = 'name';
+
     final public const string ATTRIBUTE_PRIORITY = 'priority';
+
     final public const string ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
 
     final public const string RELATION_PAGES = 'pages';
+
     final public const string RELATION_PERMISSIONS = 'permissions';
+
     final public const string RELATION_USERS = 'users';
 
     /**

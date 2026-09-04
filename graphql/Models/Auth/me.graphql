@@ -28,10 +28,6 @@ type Me @model(class: "App\\Models\\Auth\\User") {
         sort: [PlaylistSort!] @sort
     ): [Playlist!]! @hasManyCustom(type: SIMPLE)
 
-    watchHistory: [WatchHistory!]! @hasManyCustom(type: SIMPLE)
-
-    likes: [Like!]! @hasManyCustom(type: SIMPLE)
-
     permissions(
         default: Boolean @eq
         priority_lesser: Int @where(operator: "<", key: "priority")

@@ -11,7 +11,6 @@ use App\Http\Api\Field\Wiki\Group\GroupNameField;
 use App\Http\Api\Field\Wiki\Group\GroupSlugField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Resources\Wiki\Resource\GroupJsonResource;
 use App\Models\Wiki\Group;
 

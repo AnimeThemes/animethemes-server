@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Performance;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Performance;
+use App\Models\Wiki\Theme;
 use App\Pivots\Morph\Resourceable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -36,7 +36,7 @@ test('nameable', function (): void {
 
 test('has subtitle', function (): void {
     $song = Song::factory()
-        ->has(AnimeTheme::factory()->for(Anime::factory()))
+        ->has(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
     $this->assertIsString($song->getSubtitle());
@@ -46,12 +46,12 @@ test('themes', function (): void {
     $themeCount = fake()->randomDigitNotNull();
 
     $song = Song::factory()
-        ->has(AnimeTheme::factory()->for(Anime::factory())->count($themeCount))
+        ->has(Theme::factory()->for(Anime::factory())->count($themeCount))
         ->createOne();
 
     $this->assertInstanceOf(HasMany::class, $song->animethemes());
     $this->assertEquals($themeCount, $song->animethemes()->count());
-    $this->assertInstanceOf(AnimeTheme::class, $song->animethemes()->first());
+    $this->assertInstanceOf(Theme::class, $song->animethemes()->first());
 });
 
 test('artists', function (): void {

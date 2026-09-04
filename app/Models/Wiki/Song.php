@@ -13,8 +13,6 @@ use App\Events\Wiki\Song\SongForceDeleting;
 use App\Events\Wiki\Song\SongRestored;
 use App\Events\Wiki\Song\SongUpdated;
 use App\Models\BaseModel;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Song\Performance;
 use App\Pivots\Morph\Resourceable;
 use App\Scout\Elasticsearch\Models\Wiki\SongElasticModel;
 use App\Scout\Typesense\Models\Wiki\SongTypesenseModel;
@@ -33,7 +31,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 use RuntimeException;
 
 /**
- * @property Collection<int, AnimeTheme> $animethemes
+ * @property Collection<int, Theme> $animethemes
  * @property Collection<int, Artist> $artists
  * @property Collection<int, Performance> $performances
  * @property Collection<int, ExternalResource> $resources
@@ -54,17 +52,27 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
     final public const string TABLE = 'songs';
 
     final public const string ATTRIBUTE_ID = 'song_id';
+
     final public const string ATTRIBUTE_TITLE = 'title';
+
     final public const string ATTRIBUTE_TITLE_NATIVE = 'title_native';
 
     final public const string RELATION_ANIME = 'animethemes.anime';
+
     final public const string RELATION_ANIMETHEMES = 'animethemes';
+
     final public const string RELATION_ARTISTS = 'artists';
+
     final public const string RELATION_PERFORMANCES = 'performances';
+
     final public const string RELATION_PERFORMANCES_ARTIST = 'performances.artist';
+
     final public const string RELATION_PERFORMANCES_MEMBER = 'performances.member';
+
     final public const string RELATION_RESOURCES = 'resources';
+
     final public const string RELATION_THEME_GROUPS = 'animethemes.group';
+
     final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
     /**
@@ -137,11 +145,11 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
     }
 
     /**
-     * @return HasMany<AnimeTheme, $this>
+     * @return HasMany<Theme, $this>
      */
     public function animethemes(): HasMany
     {
-        return $this->hasMany(AnimeTheme::class, AnimeTheme::ATTRIBUTE_SONG);
+        return $this->hasMany(Theme::class, Theme::ATTRIBUTE_SONG);
     }
 
     #[Deprecated]

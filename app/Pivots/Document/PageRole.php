@@ -27,10 +27,13 @@ class PageRole extends BasePivot
     final public const string TABLE = 'page_roles';
 
     final public const string ATTRIBUTE_PAGE = 'page_id';
+
     final public const string ATTRIBUTE_ROLE = 'role_id';
+
     final public const string ATTRIBUTE_TYPE = 'type';
 
     final public const string RELATION_PAGE = 'page';
+
     final public const string RELATION_ROLE = 'role';
 
     /**

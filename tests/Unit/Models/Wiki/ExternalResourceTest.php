@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
@@ -52,12 +52,12 @@ test('anime theme entry', function (): void {
     $entryCount = fake()->randomDigitNotNull();
 
     $resource = ExternalResource::factory()
-        ->has(AnimeThemeEntry::factory()->forAnime()->count($entryCount))
+        ->has(Entry::factory()->forAnime()->count($entryCount))
         ->createOne();
 
     $this->assertInstanceOf(MorphToMany::class, $resource->animethemeentries());
     $this->assertEquals($entryCount, $resource->animethemeentries()->count());
-    $this->assertInstanceOf(AnimeThemeEntry::class, $resource->animethemeentries()->first());
+    $this->assertInstanceOf(Entry::class, $resource->animethemeentries()->first());
     $this->assertEquals(Resourceable::class, $resource->animethemeentries()->getPivotClass());
 });
 

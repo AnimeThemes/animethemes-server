@@ -5,12 +5,12 @@ declare(strict_types=1);
 use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Synonym;
+use App\Models\Wiki\Theme;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeSeries;
@@ -90,12 +90,12 @@ test('themes', function (): void {
     $themeCount = fake()->randomDigitNotNull();
 
     $anime = Anime::factory()
-        ->has(AnimeTheme::factory()->count($themeCount))
+        ->has(Theme::factory()->count($themeCount))
         ->createOne();
 
     $this->assertInstanceOf(HasMany::class, $anime->animethemes());
     $this->assertEquals($themeCount, $anime->animethemes()->count());
-    $this->assertInstanceOf(AnimeTheme::class, $anime->animethemes()->first());
+    $this->assertInstanceOf(Theme::class, $anime->animethemes()->first());
 });
 
 test('external resources', function (): void {

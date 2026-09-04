@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable('likes')) {
-            Schema::create('likes', function (Blueprint $table) {
-                $table->id('like_id');
+        if (! Schema::hasTable('favorites')) {
+            Schema::create('favorites', function (Blueprint $table) {
+                $table->id();
                 $table->unsignedBigInteger('user_id')->nullable();
                 $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
 
-                $table->morphs('likeable');
+                $table->morphs('favoriteable');
                 $table->timestamp('created_at', 6)->useCurrent();
-                $table->timestamp('updated_at', 6)->useCurrent();
 
-                $table->index(['user_id', 'likeable_type', 'likeable_id']);
+                $table->index(['user_id', 'favoriteable_type', 'favoriteable_id']);
             });
         }
     }

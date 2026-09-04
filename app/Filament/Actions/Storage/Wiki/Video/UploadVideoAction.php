@@ -17,10 +17,10 @@ use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Auth\UserResource;
-use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
+use App\Filament\Resources\Wiki\Entry\RelationManagers\VideoEntryRelationManager;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
 use App\Models\Auth\User;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
 use App\Rules\Wiki\Submission\Audio\AudioChannelLayoutStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelsStreamRule;
@@ -87,8 +87,8 @@ class UploadVideoAction extends UploadAction
                             ->schema([
                                 Section::make(__('filament.resources.singularLabel.video'))
                                     ->schema([
-                                        Hidden::make(AnimeThemeEntry::ATTRIBUTE_ID)
-                                            ->label(__('filament.resources.singularLabel.anime_theme_entry'))
+                                        Hidden::make(Entry::ATTRIBUTE_ID)
+                                            ->label(__('filament.resources.singularLabel.entry'))
                                             ->default(fn (BaseRelationManager|ListVideos $livewire) => $livewire instanceof VideoEntryRelationManager ? $livewire->getOwnerRecord()->getKey() : null),
 
                                         ...parent::getSchema($schema)->getComponents(),
@@ -184,8 +184,8 @@ class UploadVideoAction extends UploadAction
         /** @var UploadedFile $file */
         $file = Arr::get($data, 'file');
 
-        /** @var AnimeThemeEntry|null $entry */
-        $entry = AnimeThemeEntry::query()->find(Arr::get($data, AnimeThemeEntry::ATTRIBUTE_ID));
+        /** @var Entry|null $entry */
+        $entry = Entry::query()->find(Arr::get($data, Entry::ATTRIBUTE_ID));
 
         /** @var UploadedFile|null $script */
         $script = Arr::get($data, 'script');

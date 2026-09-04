@@ -5,17 +5,17 @@ declare(strict_types=1);
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
 test('protected', function (): void {
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
         ->create();
 
     $video = Video::factory()->createOne();
@@ -26,8 +26,8 @@ test('protected', function (): void {
 });
 
 test('forbidden', function (): void {
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
         ->create();
 
     $video = Video::factory()->createOne();
@@ -42,15 +42,15 @@ test('forbidden', function (): void {
 });
 
 test('create', function (): void {
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
         ->create();
 
     $video = Video::factory()->createOne();
 
     $user = User::factory()
         ->withPermissions(
-            CrudPermission::CREATE->format(AnimeThemeEntry::class),
+            CrudPermission::CREATE->format(Entry::class),
             CrudPermission::CREATE->format(Video::class)
         )
         ->createOne();
@@ -60,5 +60,5 @@ test('create', function (): void {
     $response = post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
 
     $response->assertCreated();
-    $this->assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
+    $this->assertDatabaseCount(EntryVideo::class, 1);
 });

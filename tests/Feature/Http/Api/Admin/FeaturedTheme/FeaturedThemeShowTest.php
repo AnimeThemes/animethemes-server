@@ -12,11 +12,11 @@ use App\Http\Resources\Admin\Resource\FeaturedThemeJsonResource;
 use App\Models\Admin\FeaturedTheme;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 
@@ -66,9 +66,9 @@ test('allowed include paths', function (): void {
 
     $featuredTheme = FeaturedTheme::factory()
         ->for(
-            AnimeThemeEntry::factory()
+            Entry::factory()
                 ->for(
-                    AnimeTheme::factory()
+                    Theme::factory()
                         ->for(Anime::factory()->has(Image::factory()->count(fake()->randomDigitNotNull())))
                         ->for(Song::factory()->has(Artist::factory()->count(fake()->randomDigitNotNull())))
                 )

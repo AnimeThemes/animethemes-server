@@ -27,15 +27,15 @@ class ExternalTokenCallbackRequest extends FormRequest
             'code' => [
                 'sometimes',
                 Rule::when(
-                    $this->get(ExternalProfile::ATTRIBUTE_SITE) === ExternalProfileSite::MAL->localize()
-                    || $this->get(ExternalProfile::ATTRIBUTE_SITE) === ExternalProfileSite::ANILIST->localize(),
+                    $this->input(ExternalProfile::ATTRIBUTE_SITE) === ExternalProfileSite::MAL->localize()
+                    || $this->input(ExternalProfile::ATTRIBUTE_SITE) === ExternalProfileSite::ANILIST->localize(),
                     ['required']
                 ),
                 'string',
             ],
             'state' => [
                 Rule::when(
-                    $this->get(ExternalProfile::ATTRIBUTE_SITE) === ExternalProfileSite::MAL->localize(),
+                    $this->input(ExternalProfile::ATTRIBUTE_SITE) === ExternalProfileSite::MAL->localize(),
                     ['required']
                 ),
                 'string',

@@ -12,7 +12,6 @@ use App\Events\Wiki\ExternalResource\ExternalResourceDeleted;
 use App\Events\Wiki\ExternalResource\ExternalResourceRestored;
 use App\Events\Wiki\ExternalResource\ExternalResourceUpdated;
 use App\Models\BaseModel;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Pivots\Morph\Resourceable;
 use Database\Factories\Wiki\ExternalResourceFactory;
 use Illuminate\Database\Eloquent\Attributes\Table;
@@ -46,14 +45,21 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     final public const string TABLE = 'resources';
 
     final public const string ATTRIBUTE_EXTERNAL_ID = 'external_id';
+
     final public const string ATTRIBUTE_ID = 'resource_id';
+
     final public const string ATTRIBUTE_LINK = 'link';
+
     final public const string ATTRIBUTE_SITE = 'site';
 
     final public const string RELATION_ANIME = 'anime';
+
     final public const string RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
+
     final public const string RELATION_ARTISTS = 'artists';
+
     final public const string RELATION_SONGS = 'songs';
+
     final public const string RELATION_STUDIOS = 'studios';
 
     /**
@@ -118,11 +124,11 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     }
 
     /**
-     * @return MorphToMany<AnimeThemeEntry, $this, Resourceable, 'entryresource'>
+     * @return MorphToMany<Entry, $this, Resourceable, 'entryresource'>
      */
     public function animethemeentries(): MorphToMany
     {
-        return $this->morphedByMany(AnimeThemeEntry::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
+        return $this->morphedByMany(Entry::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
             ->using(Resourceable::class)
             ->as('entryresource')
             ->withPivot([Resourceable::ATTRIBUTE_ID, Resourceable::ATTRIBUTE_AS])

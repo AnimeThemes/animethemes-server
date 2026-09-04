@@ -21,7 +21,9 @@ abstract class BasePivot extends Pivot
     use HasFactory;
 
     final public const ATTRIBUTE_ID = 'id';
+
     final public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
+
     final public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
 
     /**

@@ -85,7 +85,7 @@ type Video @model(class: "App\\Models\\Wiki\\Video") {
     ): [AnimeThemeEntry!]! @belongsToManyCustom(type: CONNECTION, edgeType: "VideoAnimeThemeEntryEdge")
 }
 
-type VideoAnimeThemeEntryEdge @model(class: "App\\Pivots\\Wiki\\AnimeThemeEntryVideo") {
+type VideoAnimeThemeEntryEdge @model(class: "App\\Pivots\\Wiki\\EntryVideo") {
     "The anime theme entry node."
     node: AnimeThemeEntry!
 

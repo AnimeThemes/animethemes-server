@@ -15,9 +15,11 @@ class Prohibition extends BaseProhibition implements Nameable
     final public const string TABLE = 'prohibitions';
 
     final public const string ATTRIBUTE_ID = 'id';
+
     final public const string ATTRIBUTE_NAME = 'name';
 
     final public const string RELATION_SANCTIONS = 'sanctions';
+
     final public const string RELATION_USERS = 'users';
 
     /**

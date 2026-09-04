@@ -15,7 +15,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -32,8 +32,8 @@ class TrackVideoIdField extends Field implements CreatableField, FilterableField
             'required',
             'integer',
             Rule::exists(Video::class, Video::ATTRIBUTE_ID),
-            Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
-                ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $this->resolveEntryId($request)),
+            Rule::exists(EntryVideo::class, EntryVideo::ATTRIBUTE_VIDEO)
+                ->where(EntryVideo::ATTRIBUTE_ENTRY, $this->resolveEntryId($request)),
         ];
     }
 
@@ -60,8 +60,8 @@ class TrackVideoIdField extends Field implements CreatableField, FilterableField
             Rule::when(
                 filled($entryId),
                 [
-                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
-                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $this->resolveEntryId($request)),
+                    Rule::exists(EntryVideo::class, EntryVideo::ATTRIBUTE_VIDEO)
+                        ->where(EntryVideo::ATTRIBUTE_ENTRY, $this->resolveEntryId($request)),
                 ]
             ),
         ];
@@ -73,7 +73,7 @@ class TrackVideoIdField extends Field implements CreatableField, FilterableField
     private function resolveEntryId(Request $request): mixed
     {
         if ($request->has(PlaylistTrack::ATTRIBUTE_ENTRY)) {
-            return $request->get(PlaylistTrack::ATTRIBUTE_ENTRY);
+            return $request->input(PlaylistTrack::ATTRIBUTE_ENTRY);
         }
 
         /** @var PlaylistTrack|null $track */

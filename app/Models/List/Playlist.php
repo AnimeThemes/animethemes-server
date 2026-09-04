@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\List;
 
-use App\Concerns\Models\InteractsWithLikes;
 use App\Contracts\Models\HasHashids;
 use App\Contracts\Models\HasImages;
-use App\Contracts\Models\Likeable;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Events\List\Playlist\PlaylistCreated;
 use App\Events\List\Playlist\PlaylistDeleted;
@@ -47,26 +45,35 @@ use RuntimeException;
  * @method static PlaylistFactory factory(...$parameters)
  */
 #[Table(Playlist::TABLE, Playlist::ATTRIBUTE_ID)]
-class Playlist extends BaseModel implements HasHashids, HasImages, Likeable
+class Playlist extends BaseModel implements HasHashids, HasImages
 {
     use HasFactory;
-    use InteractsWithLikes;
     use Searchable;
 
     final public const string TABLE = 'playlists';
 
     final public const string ATTRIBUTE_DESCRIPTION = 'description';
+
     final public const string ATTRIBUTE_FIRST = 'first_id';
+
     final public const string ATTRIBUTE_ID = 'playlist_id';
+
     final public const string ATTRIBUTE_LAST = 'last_id';
+
     final public const string ATTRIBUTE_NAME = 'name';
+
     final public const string ATTRIBUTE_USER = 'user_id';
+
     final public const string ATTRIBUTE_VISIBILITY = 'visibility';
 
     final public const string RELATION_FIRST = 'first';
+
     final public const string RELATION_IMAGES = 'images';
+
     final public const string RELATION_LAST = 'last';
+
     final public const string RELATION_TRACKS = 'tracks';
+
     final public const string RELATION_USER = 'user';
 
     /**

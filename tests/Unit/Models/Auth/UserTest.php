@@ -5,9 +5,7 @@ declare(strict_types=1);
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
-use App\Models\User\Like;
 use App\Models\User\Notification as UserNotification;
-use App\Models\User\WatchHistory;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -71,18 +69,6 @@ test('external profiles', function (): void {
     $this->assertInstanceOf(ExternalProfile::class, $user->externalprofiles()->first());
 });
 
-test('likes', function (): void {
-    $likeCount = fake()->randomDigitNotNull();
-
-    $user = User::factory()
-        ->has(Like::factory()->count($likeCount)->forEntry())
-        ->createOne();
-
-    $this->assertInstanceOf(HasMany::class, $user->likes());
-    $this->assertEquals($likeCount, $user->likes()->count());
-    $this->assertInstanceOf(Like::class, $user->likes()->first());
-});
-
 test('notifications', function (): void {
     $notificationCount = fake()->randomDigitNotNull();
 
@@ -93,16 +79,4 @@ test('notifications', function (): void {
     $this->assertInstanceOf(MorphMany::class, $user->notifications());
     $this->assertEquals($notificationCount, $user->notifications()->count());
     $this->assertInstanceOf(UserNotification::class, $user->notifications()->first());
-});
-
-test('watch history', function (): void {
-    $historyCount = fake()->randomDigitNotNull();
-
-    $user = User::factory()
-        ->has(WatchHistory::factory()->count($historyCount))
-        ->createOne();
-
-    $this->assertInstanceOf(HasMany::class, $user->watchHistory());
-    $this->assertEquals($historyCount, $user->watchHistory()->count());
-    $this->assertInstanceOf(WatchHistory::class, $user->watchHistory()->first());
 });

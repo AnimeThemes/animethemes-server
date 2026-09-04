@@ -16,11 +16,11 @@ use App\Filament\Resources\Admin\FeaturedTheme\Pages\ListFeaturedThemes;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\ViewFeaturedTheme;
 use App\Filament\Resources\Auth\UserResource;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Anime\Theme\EntryResource;
+use App\Filament\Resources\Wiki\EntryResource;
 use App\Filament\Resources\Wiki\VideoResource;
 use App\Models\Admin\FeaturedTheme;
 use App\Models\Wiki\Video;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Closure;
 use Filament\Forms\Components\DatePicker;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -108,8 +108,8 @@ class FeaturedThemeResource extends BaseResource
                             Rule::when(
                                 filled($get(FeaturedTheme::RELATION_ENTRY)) && filled($get(FeaturedTheme::RELATION_VIDEO)),
                                 [
-                                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
-                                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $get(FeaturedTheme::RELATION_VIDEO)),
+                                    Rule::exists(EntryVideo::class, EntryVideo::ATTRIBUTE_ENTRY)
+                                        ->where(EntryVideo::ATTRIBUTE_VIDEO, $get(FeaturedTheme::RELATION_VIDEO)),
                                 ]
                             )]),
                     ]),
@@ -123,8 +123,8 @@ class FeaturedThemeResource extends BaseResource
                             Rule::when(
                                 filled($get(FeaturedTheme::RELATION_ENTRY)) && filled($get(FeaturedTheme::RELATION_VIDEO)),
                                 [
-                                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
-                                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $get(FeaturedTheme::RELATION_ENTRY)),
+                                    Rule::exists(EntryVideo::class, EntryVideo::ATTRIBUTE_VIDEO)
+                                        ->where(EntryVideo::ATTRIBUTE_ENTRY, $get(FeaturedTheme::RELATION_ENTRY)),
                                 ]
                             )]),
                     ])

@@ -20,6 +20,7 @@ use Illuminate\Support\Carbon;
 abstract class BaseModel extends Model implements HasSubtitle, Nameable
 {
     final public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
+
     final public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
 
     /** @return MorphMany<Activity, $this> */

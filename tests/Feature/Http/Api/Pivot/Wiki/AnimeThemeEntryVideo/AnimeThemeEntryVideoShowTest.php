@@ -13,10 +13,10 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\AnimeThemeEntryVideoSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
@@ -26,8 +26,8 @@ use function Pest\Laravel\get;
 uses(WithFaker::class);
 
 test('not found', function (): void {
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
         ->create();
 
     $video = Video::factory()->createOne();
@@ -38,8 +38,8 @@ test('not found', function (): void {
 });
 
 test('default', function (): void {
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -72,8 +72,8 @@ test('allowed include paths', function (): void {
         IncludeParser::param() => $includedPaths->join(','),
     ];
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -106,8 +106,8 @@ test('sparse fieldsets', function (): void {
         ],
     ];
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -132,21 +132,21 @@ test('entry by nsfw', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
+            Entry::ATTRIBUTE_NSFW => $nsfwFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_ENTRY,
+        IncludeParser::param() => EntryVideo::RELATION_ENTRY,
     ];
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
     $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
-        AnimeThemeEntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($nsfwFilter): void {
-            $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter);
+        EntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($nsfwFilter): void {
+            $query->where(Entry::ATTRIBUTE_NSFW, $nsfwFilter);
         },
     ]);
 
@@ -167,21 +167,21 @@ test('entry by spoiler', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
+            Entry::ATTRIBUTE_SPOILER => $spoilerFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_ENTRY,
+        IncludeParser::param() => EntryVideo::RELATION_ENTRY,
     ];
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
     $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
-        AnimeThemeEntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($spoilerFilter): void {
-            $query->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter);
+        EntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($spoilerFilter): void {
+            $query->where(Entry::ATTRIBUTE_SPOILER, $spoilerFilter);
         },
     ]);
 
@@ -202,21 +202,21 @@ test('entry by version', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
+            Entry::ATTRIBUTE_VERSION => $versionFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_ENTRY,
+        IncludeParser::param() => EntryVideo::RELATION_ENTRY,
     ];
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
     $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
-        AnimeThemeEntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($versionFilter): void {
-            $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter);
+        EntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($versionFilter): void {
+            $query->where(Entry::ATTRIBUTE_VERSION, $versionFilter);
         },
     ]);
 
@@ -239,18 +239,18 @@ test('video by lyrics', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_LYRICS => $lyricsFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
     $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($lyricsFilter): void {
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($lyricsFilter): void {
             $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
         },
     ]);
@@ -274,18 +274,18 @@ test('video by nc', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_NC => $ncFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
     $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($ncFilter): void {
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($ncFilter): void {
             $query->where(Video::ATTRIBUTE_NC, $ncFilter);
         },
     ]);
@@ -309,18 +309,18 @@ test('video by overlap', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_OVERLAP => $overlapFilter->localize(),
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
     $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($overlapFilter): void {
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($overlapFilter): void {
             $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
         },
     ]);
@@ -344,18 +344,18 @@ test('video by resolution', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_RESOLUTION => $resolutionFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
     $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($resolutionFilter): void {
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($resolutionFilter): void {
             $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
         },
     ]);
@@ -379,18 +379,18 @@ test('video by source', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_SOURCE => $sourceFilter->localize(),
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
     $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($sourceFilter): void {
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($sourceFilter): void {
             $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
         },
     ]);
@@ -414,18 +414,18 @@ test('video by subbed', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_SUBBED => $subbedFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
     $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($subbedFilter): void {
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($subbedFilter): void {
             $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
         },
     ]);
@@ -449,18 +449,18 @@ test('video by uncen', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_UNCEN => $uncenFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
     $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($uncenFilter): void {
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($uncenFilter): void {
             $query->where(Video::ATTRIBUTE_UNCEN, $uncenFilter);
         },
     ]);

@@ -14,8 +14,8 @@ use App\Http\Api\Filter\IntFilter;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Models\Wiki\Entry;
+use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -31,9 +31,9 @@ class TrackEntryIdField extends Field implements CreatableField, FilterableField
         return [
             'required',
             'integer',
-            Rule::exists(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID),
-            Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
-                ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $this->resolveVideoId($request)),
+            Rule::exists(Entry::class, Entry::ATTRIBUTE_ID),
+            Rule::exists(EntryVideo::class, EntryVideo::ATTRIBUTE_ENTRY)
+                ->where(EntryVideo::ATTRIBUTE_VIDEO, $this->resolveVideoId($request)),
         ];
     }
 
@@ -56,12 +56,12 @@ class TrackEntryIdField extends Field implements CreatableField, FilterableField
             'sometimes',
             'required',
             'integer',
-            Rule::exists(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID),
+            Rule::exists(Entry::class, Entry::ATTRIBUTE_ID),
             Rule::when(
                 filled($videoId),
                 [
-                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
-                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $videoId),
+                    Rule::exists(EntryVideo::class, EntryVideo::ATTRIBUTE_ENTRY)
+                        ->where(EntryVideo::ATTRIBUTE_VIDEO, $videoId),
                 ]
             ),
         ];
@@ -73,7 +73,7 @@ class TrackEntryIdField extends Field implements CreatableField, FilterableField
     private function resolveVideoId(Request $request): mixed
     {
         if ($request->has(PlaylistTrack::ATTRIBUTE_VIDEO)) {
-            return $request->get(PlaylistTrack::ATTRIBUTE_VIDEO);
+            return $request->input(PlaylistTrack::ATTRIBUTE_VIDEO);
         }
 
         /** @var PlaylistTrack|null $track */

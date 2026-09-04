@@ -6,26 +6,26 @@ namespace App\Actions\Storage\Admin\Dump;
 
 use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Audio;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Performance;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Synonym;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use App\Pivots\Wiki\ArtistMember;
+use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -45,9 +45,9 @@ class DumpContentAction extends DumpAction
             Anime::TABLE,
             AnimeSeries::TABLE,
             AnimeStudio::TABLE,
-            AnimeTheme::TABLE,
-            AnimeThemeEntry::TABLE,
-            AnimeThemeEntryVideo::TABLE,
+            Theme::TABLE,
+            Entry::TABLE,
+            EntryVideo::TABLE,
             Artist::TABLE,
             ArtistMember::TABLE,
             Audio::TABLE,

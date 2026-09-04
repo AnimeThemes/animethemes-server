@@ -14,6 +14,7 @@ use InvalidArgumentException;
 class BelongsToEntry extends TextEntry
 {
     protected BaseResource $resource;
+
     protected bool $shouldUseModelName = false;
 
     /**

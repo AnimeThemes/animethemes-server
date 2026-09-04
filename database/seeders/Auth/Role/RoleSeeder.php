@@ -23,7 +23,6 @@ class RoleSeeder extends Seeder
         $this->call(ContributorRoleSeeder::class);
         $this->call(DeveloperRoleSeeder::class);
         $this->call(EncoderRoleSeeder::class);
-        $this->call(PanelViewerRoleSeeder::class);
         $this->call(PatronRoleSeeder::class);
         $this->call(VerifiedRoleSeeder::class);
     }

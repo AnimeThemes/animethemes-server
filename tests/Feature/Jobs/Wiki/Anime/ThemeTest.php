@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 use App\Constants\FeatureConstants;
-use App\Events\Wiki\Anime\Theme\ThemeCreated;
-use App\Events\Wiki\Anime\Theme\ThemeDeleted;
-use App\Events\Wiki\Anime\Theme\ThemeRestored;
-use App\Events\Wiki\Anime\Theme\ThemeUpdated;
+use App\Events\Wiki\Theme\ThemeCreated;
+use App\Events\Wiki\Theme\ThemeDeleted;
+use App\Events\Wiki\Theme\ThemeRestored;
+use App\Events\Wiki\Theme\ThemeUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Theme;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
@@ -21,13 +21,13 @@ test('theme created sends discord notification', function (): void {
     Bus::fake(SendDiscordNotificationJob::class);
     Event::fakeExcept(ThemeCreated::class);
 
-    AnimeTheme::factory()->for($anime)->createOne();
+    Theme::factory()->for($anime)->createOne();
 
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
 test('theme deleted sends discord notification', function (): void {
-    $theme = AnimeTheme::factory()
+    $theme = Theme::factory()
         ->for(Anime::factory())
         ->createOne();
 
@@ -41,7 +41,7 @@ test('theme deleted sends discord notification', function (): void {
 });
 
 test('theme restored sends discord notification', function (): void {
-    $theme = AnimeTheme::factory()
+    $theme = Theme::factory()
         ->for(Anime::factory())
         ->createOne();
 
@@ -55,11 +55,11 @@ test('theme restored sends discord notification', function (): void {
 });
 
 test('theme updated sends discord notification', function (): void {
-    $theme = AnimeTheme::factory()
+    $theme = Theme::factory()
         ->for(Anime::factory())
         ->createOne();
 
-    $changes = AnimeTheme::factory()
+    $changes = Theme::factory()
         ->for(Anime::factory())
         ->makeOne();
 

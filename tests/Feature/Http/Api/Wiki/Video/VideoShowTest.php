@@ -14,9 +14,9 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Wiki\Resource\VideoJsonResource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Audio;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -80,9 +80,9 @@ test('allowed include paths', function (): void {
         ->for(Audio::factory())
         ->has(VideoScript::factory(), Video::RELATION_SCRIPT)
         ->has(
-            AnimeThemeEntry::factory()
+            Entry::factory()
                 ->count(fake()->randomDigitNotNull())
-                ->for(AnimeTheme::factory()->for(Anime::factory()))
+                ->for(Theme::factory()->for(Anime::factory()))
         )
         ->createOne();
 
@@ -134,22 +134,22 @@ test('entries by nsfw', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
+            Entry::ATTRIBUTE_NSFW => $nsfwFilter,
         ],
         IncludeParser::param() => Video::RELATION_ANIMETHEMEENTRIES,
     ];
 
     $video = Video::factory()
         ->has(
-            AnimeThemeEntry::factory()
+            Entry::factory()
                 ->count(fake()->randomDigitNotNull())
-                ->for(AnimeTheme::factory()->for(Anime::factory()))
+                ->for(Theme::factory()->for(Anime::factory()))
         )
         ->createOne();
 
     $video->unsetRelations()->load([
         Video::RELATION_ANIMETHEMEENTRIES => function (BelongsToMany $query) use ($nsfwFilter): void {
-            $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter);
+            $query->where(Entry::ATTRIBUTE_NSFW, $nsfwFilter);
         },
     ]);
 
@@ -172,22 +172,22 @@ test('entries by spoiler', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
+            Entry::ATTRIBUTE_SPOILER => $spoilerFilter,
         ],
         IncludeParser::param() => Video::RELATION_ANIMETHEMEENTRIES,
     ];
 
     $video = Video::factory()
         ->has(
-            AnimeThemeEntry::factory()
+            Entry::factory()
                 ->count(fake()->randomDigitNotNull())
-                ->for(AnimeTheme::factory()->for(Anime::factory()))
+                ->for(Theme::factory()->for(Anime::factory()))
         )
         ->createOne();
 
     $video->unsetRelations()->load([
         Video::RELATION_ANIMETHEMEENTRIES => function (BelongsToMany $query) use ($spoilerFilter): void {
-            $query->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter);
+            $query->where(Entry::ATTRIBUTE_SPOILER, $spoilerFilter);
         },
     ]);
 
@@ -211,26 +211,26 @@ test('entries by version', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
+            Entry::ATTRIBUTE_VERSION => $versionFilter,
         ],
         IncludeParser::param() => Video::RELATION_ANIMETHEMEENTRIES,
     ];
 
     $video = Video::factory()
         ->has(
-            AnimeThemeEntry::factory()
+            Entry::factory()
                 ->count(fake()->randomDigitNotNull())
-                ->for(AnimeTheme::factory()->for(Anime::factory()))
+                ->for(Theme::factory()->for(Anime::factory()))
                 ->state(new Sequence(
-                    [AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter],
-                    [AnimeThemeEntry::ATTRIBUTE_VERSION => $excludedVersion],
+                    [Entry::ATTRIBUTE_VERSION => $versionFilter],
+                    [Entry::ATTRIBUTE_VERSION => $excludedVersion],
                 ))
         )
         ->createOne();
 
     $video->unsetRelations()->load([
         Video::RELATION_ANIMETHEMEENTRIES => function (BelongsToMany $query) use ($versionFilter): void {
-            $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter);
+            $query->where(Entry::ATTRIBUTE_VERSION, $versionFilter);
         },
     ]);
 
@@ -254,20 +254,20 @@ test('themes by sequence', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
+            Theme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
         ],
         IncludeParser::param() => Video::RELATION_ANIMETHEME,
     ];
 
     $video = Video::factory()
         ->has(
-            AnimeThemeEntry::factory()
+            Entry::factory()
                 ->count(fake()->randomDigitNotNull())
                 ->for(
-                    AnimeTheme::factory()
+                    Theme::factory()
                         ->for(Anime::factory())
                         ->state([
-                            AnimeTheme::ATTRIBUTE_SEQUENCE => fake()->boolean() ? $sequenceFilter : $excludedSequence,
+                            Theme::ATTRIBUTE_SEQUENCE => fake()->boolean() ? $sequenceFilter : $excludedSequence,
                         ])
                 )
         )
@@ -275,7 +275,7 @@ test('themes by sequence', function (): void {
 
     $video->unsetRelations()->load([
         Video::RELATION_ANIMETHEME => function (BelongsTo $query) use ($sequenceFilter): void {
-            $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
+            $query->where(Theme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
         },
     ]);
 
@@ -298,22 +298,22 @@ test('themes by type', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
+            Theme::ATTRIBUTE_TYPE => $typeFilter->localize(),
         ],
         IncludeParser::param() => Video::RELATION_ANIMETHEME,
     ];
 
     $video = Video::factory()
         ->has(
-            AnimeThemeEntry::factory()
+            Entry::factory()
                 ->count(fake()->randomDigitNotNull())
-                ->for(AnimeTheme::factory()->for(Anime::factory()))
+                ->for(Theme::factory()->for(Anime::factory()))
         )
         ->createOne();
 
     $video->unsetRelations()->load([
         Video::RELATION_ANIMETHEME => function (BelongsTo $query) use ($typeFilter): void {
-            $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
+            $query->where(Theme::ATTRIBUTE_TYPE, $typeFilter->value);
         },
     ]);
 
@@ -343,9 +343,9 @@ test('anime by media format', function (): void {
 
     $video = Video::factory()
         ->has(
-            AnimeThemeEntry::factory()
+            Entry::factory()
                 ->count(fake()->randomDigitNotNull())
-                ->for(AnimeTheme::factory()->for(Anime::factory()))
+                ->for(Theme::factory()->for(Anime::factory()))
         )
         ->createOne();
 
@@ -381,9 +381,9 @@ test('anime by season', function (): void {
 
     $video = Video::factory()
         ->has(
-            AnimeThemeEntry::factory()
+            Entry::factory()
                 ->count(fake()->randomDigitNotNull())
-                ->for(AnimeTheme::factory()->for(Anime::factory()))
+                ->for(Theme::factory()->for(Anime::factory()))
         )
         ->createOne();
 
@@ -420,10 +420,10 @@ test('anime by year', function (): void {
 
     $video = Video::factory()
         ->has(
-            AnimeThemeEntry::factory()
+            Entry::factory()
                 ->count(fake()->randomDigitNotNull())
                 ->for(
-                    AnimeTheme::factory()
+                    Theme::factory()
                         ->for(
                             Anime::factory()
                                 ->state([

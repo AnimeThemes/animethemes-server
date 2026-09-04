@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\SoftDeletes;
-use App\Concerns\Models\Submitable;
 use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Series\SeriesCreated;
 use App\Events\Wiki\Series\SeriesDeleted;
@@ -43,15 +42,17 @@ class Series extends BaseModel implements Auditable, SoftDeletable
     use HasFactory;
     use Searchable;
     use SoftDeletes;
-    use Submitable;
 
     final public const string TABLE = 'series';
 
     final public const string ATTRIBUTE_ID = 'series_id';
+
     final public const string ATTRIBUTE_SLUG = 'slug';
+
     final public const string ATTRIBUTE_TITLE = 'title';
 
     final public const string RELATION_ANIME = 'anime';
+
     final public const string RELATION_ANIME_SYNONYMS = 'anime.synonyms';
 
     /**

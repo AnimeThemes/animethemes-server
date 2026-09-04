@@ -6,10 +6,10 @@ namespace App\Events\Wiki\Anime;
 
 use App\Contracts\Events\CascadesDeletesEvent;
 use App\Events\BaseEvent;
-use App\Events\Wiki\Anime\Theme\ThemeDeleting;
+use App\Events\Wiki\Theme\ThemeDeleting;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Synonym;
+use App\Models\Wiki\Theme;
 use Illuminate\Support\Facades\Event;
 
 /**
@@ -30,8 +30,8 @@ class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent
             });
         });
 
-        $anime->animethemes->each(function (AnimeTheme $theme): void {
-            AnimeTheme::withoutEvents(function () use ($theme): void {
+        $anime->animethemes->each(function (Theme $theme): void {
+            Theme::withoutEvents(function () use ($theme): void {
                 Event::until(new ThemeDeleting($theme));
                 $theme->unsearchable();
                 $theme->delete();

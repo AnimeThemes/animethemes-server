@@ -7,9 +7,9 @@ namespace App\GraphQL\Validators\List\Playlist;
 use App\Contracts\Models\HasHashids;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Nuwave\Lighthouse\Validation\Validator;
@@ -35,12 +35,12 @@ class UpdatePlaylistTrackMutationValidator extends Validator
                 'sometimes',
                 'required',
                 'integer',
-                Rule::exists(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID),
+                Rule::exists(Entry::class, Entry::ATTRIBUTE_ID),
                 Rule::when(
                     filled($videoId),
                     [
-                        Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
-                            ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $videoId),
+                        Rule::exists(EntryVideo::class, EntryVideo::ATTRIBUTE_ENTRY)
+                            ->where(EntryVideo::ATTRIBUTE_VIDEO, $videoId),
                     ]
                 ),
             ],
@@ -52,8 +52,8 @@ class UpdatePlaylistTrackMutationValidator extends Validator
                 Rule::when(
                     filled($entryId),
                     [
-                        Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
-                            ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $entryId),
+                        Rule::exists(EntryVideo::class, EntryVideo::ATTRIBUTE_VIDEO)
+                            ->where(EntryVideo::ATTRIBUTE_ENTRY, $entryId),
                     ]
                 ),
             ],

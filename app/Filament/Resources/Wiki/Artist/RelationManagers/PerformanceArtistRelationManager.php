@@ -7,10 +7,10 @@ namespace App\Filament\Resources\Wiki\Artist\RelationManagers;
 use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\TextInput;
-use App\Filament\RelationManagers\Wiki\Song\PerformanceRelationManager;
+use App\Filament\RelationManagers\Wiki\PerformanceRelationManager;
 use App\Filament\Resources\Wiki\ArtistResource;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Song\Performance;
+use App\Models\Wiki\Performance;
 use Filament\Actions\Action;
 use Filament\Schemas\Components\Component;
 

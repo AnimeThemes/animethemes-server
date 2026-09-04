@@ -13,6 +13,7 @@ use Stringable;
 abstract class SortCriteria implements Stringable
 {
     public ?string $aggregateRelation = null;
+
     public ?AggregateFunction $function = null;
 
     public function __construct(

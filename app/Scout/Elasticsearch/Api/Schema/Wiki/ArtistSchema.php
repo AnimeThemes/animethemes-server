@@ -16,7 +16,6 @@ use App\Scout\Elasticsearch\Api\Field\Wiki\Artist\ArtistInformationField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Artist\ArtistNameField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Artist\ArtistSlugField;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
-use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
 class ArtistSchema extends Schema
 {

@@ -19,8 +19,11 @@ class BelongsTo extends Select
 {
     /** @var class-string<Model>|null */
     protected ?string $modelResource = null;
+
     protected string $relation;
+
     protected ?BaseResource $resource = null;
+
     protected bool $withSubtitle = true;
 
     /**

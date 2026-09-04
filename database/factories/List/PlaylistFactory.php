@@ -8,9 +8,9 @@ use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -54,8 +54,8 @@ class PlaylistFactory extends Factory
                     /** @var PlaylistTrack|null $last */
                     $last = Arr::last($tracks);
 
-                    $entryVideo = AnimeThemeEntryVideo::factory()
-                        ->for(AnimeThemeEntry::factory())
+                    $entryVideo = EntryVideo::factory()
+                        ->for(Entry::factory())
                         ->for(Video::factory())
                         ->createOne();
 

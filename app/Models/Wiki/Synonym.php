@@ -41,9 +41,13 @@ class Synonym extends BaseModel implements Auditable, SoftDeletable
     final public const string TABLE = 'synonyms';
 
     final public const string ATTRIBUTE_ID = 'synonym_id';
+
     final public const string ATTRIBUTE_LANGUAGE = 'language';
+
     final public const string ATTRIBUTE_SYNONYMABLE_TYPE = 'synonymable_type';
+
     final public const string ATTRIBUTE_SYNONYMABLE_ID = 'synonymable_id';
+
     final public const string ATTRIBUTE_TEXT = 'text';
 
     final public const string RELATION_SYNONYMABLE = 'synonymable';

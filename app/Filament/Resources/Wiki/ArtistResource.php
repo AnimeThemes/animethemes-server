@@ -13,7 +13,6 @@ use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\RelationManagers\Wiki\ImageRelationManager;
 use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
 use App\Filament\Resources\Wiki\Artist\Pages\ViewArtist;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupArtistRelationManager;
@@ -21,6 +20,7 @@ use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberArtistRelationMana
 use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberPerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\SynonymArtistRelationManager;
+use App\Filament\Resources\Wiki\Theme\Pages\ViewTheme;
 use App\Models\Wiki\Artist;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\QueryBuilder\Constraints\TextConstraint;

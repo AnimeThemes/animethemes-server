@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Group;
+use App\Models\Wiki\Theme;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
@@ -26,10 +26,10 @@ test('themes', function (): void {
     $themeCount = fake()->randomDigitNotNull();
 
     $group = Group::factory()
-        ->has(AnimeTheme::factory()->for(Anime::factory())->count($themeCount))
+        ->has(Theme::factory()->for(Anime::factory())->count($themeCount))
         ->createOne();
 
     $this->assertInstanceOf(HasMany::class, $group->animethemes());
     $this->assertEquals($themeCount, $group->animethemes()->count());
-    $this->assertInstanceOf(AnimeTheme::class, $group->animethemes()->first());
+    $this->assertInstanceOf(Theme::class, $group->animethemes()->first());
 });

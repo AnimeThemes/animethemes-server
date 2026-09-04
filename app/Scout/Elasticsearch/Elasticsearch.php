@@ -12,12 +12,12 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Scope\ScopeParser;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use App\Scout\Criteria as SearchCriteria;
 use App\Scout\Elasticsearch\Api\Criteria\Filter\Criteria;
@@ -210,8 +210,8 @@ class Elasticsearch extends Search
     {
         return match ($model) {
             Playlist::class => new PlaylistQuery(),
-            AnimeThemeEntry::class => new EntryQuery(),
-            AnimeTheme::class => new ThemeQuery(),
+            Entry::class => new EntryQuery(),
+            Theme::class => new ThemeQuery(),
             Anime::class => new AnimeQuery(),
             Artist::class => new ArtistQuery(),
             Series::class => new SeriesQuery(),

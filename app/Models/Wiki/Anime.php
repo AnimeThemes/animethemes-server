@@ -6,7 +6,6 @@ namespace App\Models\Wiki;
 
 use App\Casts\AsFuzzyDate;
 use App\Concerns\Models\SoftDeletes;
-use App\Concerns\Models\Submitable;
 use App\Contracts\Models\HasImages;
 use App\Contracts\Models\HasResources;
 use App\Contracts\Models\HasSynonyms;
@@ -22,7 +21,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesJsonResource;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioJsonResource;
 use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeSeries;
@@ -48,7 +46,7 @@ use RuntimeException;
 
 /**
  * @property int $anime_id
- * @property Collection<int, AnimeTheme> $animethemes
+ * @property Collection<int, Theme> $animethemes
  * @property FuzzyDate|null $end_date
  * @property Collection<int, ExternalEntry> $externalentries
  * @property AnimeFormat|null $format
@@ -76,40 +74,67 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     use HasFactory;
     use Searchable;
     use SoftDeletes;
-    use Submitable;
 
     final public const string TABLE = 'anime';
 
     final public const string ATTRIBUTE_ID = 'anime_id';
+
     final public const string ATTRIBUTE_END_DATE = 'end_date';
+
     final public const string ATTRIBUTE_FORMAT = 'format';
+
     final public const string ATTRIBUTE_MOD_NOTES = 'mod_notes';
+
     final public const string ATTRIBUTE_SEASON = 'season';
+
     final public const string ATTRIBUTE_SLUG = 'slug';
+
     final public const string ATTRIBUTE_START_DATE = 'start_date';
+
     final public const string ATTRIBUTE_SYNOPSIS = 'synopsis';
+
     final public const string ATTRIBUTE_TITLE = 'title';
+
     final public const string ATTRIBUTE_TITLE_ENGLISH = 'title_english';
+
     final public const string ATTRIBUTE_TITLE_NATIVE = 'title_native';
+
     final public const string ATTRIBUTE_YEAR = 'year';
 
     final public const string RELATION_ARTISTS = 'animethemes.song.artists';
+
     final public const string RELATION_AUDIO = 'animethemes.animethemeentries.videos.audio';
+
     final public const string RELATION_ENTRIES = 'animethemes.animethemeentries';
+
     final public const string RELATION_EXTERNAL_ENTRIES = 'externalentries';
+
     final public const string RELATION_EXTERNAL_PROFILE = 'externalentries.externalprofile';
+
     final public const string RELATION_GROUPS = 'animethemes.group';
+
     final public const string RELATION_IMAGES = 'images';
+
     final public const string RELATION_PERFORMANCES_ARTIST = 'animethemes.song.performances.artist';
+
     final public const string RELATION_PERFORMANCES_MEMBER = 'animethemes.song.performances.member';
+
     final public const string RELATION_RESOURCES = 'resources';
+
     final public const string RELATION_SCRIPTS = 'animethemes.animethemeentries.videos.videoscript';
+
     final public const string RELATION_SERIES = 'series';
+
     final public const string RELATION_SONG = 'animethemes.song';
+
     final public const string RELATION_STUDIOS = 'studios';
+
     final public const string RELATION_ANIMESYNONYMS = 'animesynonyms';
+
     final public const string RELATION_SYNONYMS = 'synonyms';
+
     final public const string RELATION_THEMES = 'animethemes';
+
     final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
     /**
@@ -241,11 +266,11 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     }
 
     /**
-     * @return HasMany<AnimeTheme, $this>
+     * @return HasMany<Theme, $this>
      */
     public function animethemes(): HasMany
     {
-        return $this->hasMany(AnimeTheme::class, AnimeTheme::ATTRIBUTE_ANIME);
+        return $this->hasMany(Theme::class, Theme::ATTRIBUTE_ANIME);
     }
 
     /**

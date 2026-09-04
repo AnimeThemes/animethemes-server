@@ -15,10 +15,10 @@ return new class extends Migration
     {
         if (! Schema::hasTable('watch_history')) {
             Schema::create('watch_history', function (Blueprint $table) {
-                $table->id('id');
+                $table->id();
 
                 $table->unsignedBigInteger('entry_id');
-                $table->foreign('entry_id')->references('entry_id')->on('anime_theme_entries')->cascadeOnDelete();
+                $table->foreign('entry_id')->references('entry_id')->on('entries')->cascadeOnDelete();
 
                 $table->unsignedBigInteger('user_id');
                 $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
@@ -27,7 +27,6 @@ return new class extends Migration
                 $table->foreign('video_id')->references('video_id')->on('videos')->cascadeOnDelete();
 
                 $table->timestamp('created_at', 6)->useCurrent();
-                $table->timestamp('updated_at', 6)->useCurrent();
             });
         }
     }

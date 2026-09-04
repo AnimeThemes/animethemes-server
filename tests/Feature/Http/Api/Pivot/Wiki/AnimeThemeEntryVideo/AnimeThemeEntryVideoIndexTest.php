@@ -19,14 +19,14 @@ use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\AnimeThemeEntryVideoSchema;
 use App\Http\Api\Sort\Sort;
-use App\Http\Resources\Pivot\Wiki\Collection\AnimeThemeEntryVideoCollection;
+use App\Http\Resources\Pivot\Wiki\Collection\EntryVideoCollection;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use App\Pivots\BasePivot;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
@@ -41,20 +41,20 @@ uses(WithFaker::class);
 
 test('default', function (): void {
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
-    $entryVideos = AnimeThemeEntryVideo::all();
+    $entryVideos = EntryVideo::all();
 
     $response = get(route('api.animethemeentryvideo.index'));
 
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query())
+                new EntryVideoCollection($entryVideos, new Query())
                     ->response()
                     ->getData()
             ),
@@ -65,8 +65,8 @@ test('default', function (): void {
 
 test('paginated', function (): void {
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
@@ -74,7 +74,7 @@ test('paginated', function (): void {
     $response = get(route('api.animethemeentryvideo.index'));
 
     $response->assertJsonStructure([
-        AnimeThemeEntryVideoCollection::$wrap,
+        EntryVideoCollection::$wrap,
         'links',
         'meta',
     ]);
@@ -94,20 +94,20 @@ test('allowed include paths', function (): void {
     ];
 
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
-    $entryVideos = AnimeThemeEntryVideo::with($includedPaths->all())->get();
+    $entryVideos = EntryVideo::with($includedPaths->all())->get();
 
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -130,20 +130,20 @@ test('sparse fieldsets', function (): void {
     ];
 
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
-    $entryVideos = AnimeThemeEntryVideo::all();
+    $entryVideos = EntryVideo::all();
 
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -168,20 +168,20 @@ test('sorts', function (): void {
     $query = new Query($parameters);
 
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
-    $entryVideos = $this->sort(AnimeThemeEntryVideo::query(), $query, $schema)->get();
+    $entryVideos = $this->sort(EntryVideo::query(), $query, $schema)->get();
 
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, $query)
+                new EntryVideoCollection($entryVideos, $query)
                     ->response()
                     ->getData()
             ),
@@ -205,8 +205,8 @@ test('created at filter', function (): void {
 
     Date::withTestNow($createdFilter, function (): void {
         Collection::times(fake()->randomDigitNotNull(), function (): void {
-            AnimeThemeEntryVideo::factory()
-                ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            EntryVideo::factory()
+                ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
                 ->for(Video::factory())
                 ->create();
         });
@@ -214,21 +214,21 @@ test('created at filter', function (): void {
 
     Date::withTestNow($excludedDate, function (): void {
         Collection::times(fake()->randomDigitNotNull(), function (): void {
-            AnimeThemeEntryVideo::factory()
-                ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            EntryVideo::factory()
+                ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
                 ->for(Video::factory())
                 ->create();
         });
     });
 
-    $entryVideos = AnimeThemeEntryVideo::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
+    $entryVideos = EntryVideo::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -252,8 +252,8 @@ test('updated at filter', function (): void {
 
     Date::withTestNow($updatedFilter, function (): void {
         Collection::times(fake()->randomDigitNotNull(), function (): void {
-            AnimeThemeEntryVideo::factory()
-                ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            EntryVideo::factory()
+                ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
                 ->for(Video::factory())
                 ->create();
         });
@@ -261,21 +261,21 @@ test('updated at filter', function (): void {
 
     Date::withTestNow($excludedDate, function (): void {
         Collection::times(fake()->randomDigitNotNull(), function (): void {
-            AnimeThemeEntryVideo::factory()
-                ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            EntryVideo::factory()
+                ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
                 ->for(Video::factory())
                 ->create();
         });
     });
 
-    $entryVideos = AnimeThemeEntryVideo::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
+    $entryVideos = EntryVideo::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -289,23 +289,23 @@ test('entries by nsfw', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
+            Entry::ATTRIBUTE_NSFW => $nsfwFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_ENTRY,
+        IncludeParser::param() => EntryVideo::RELATION_ENTRY,
     ];
 
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
-    $entryVideos = AnimeThemeEntryVideo::with([
-        AnimeThemeEntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($nsfwFilter): void {
-            $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter);
+    $entryVideos = EntryVideo::with([
+        EntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($nsfwFilter): void {
+            $query->where(Entry::ATTRIBUTE_NSFW, $nsfwFilter);
         },
     ])
         ->get();
@@ -313,7 +313,7 @@ test('entries by nsfw', function (): void {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -327,23 +327,23 @@ test('entries by spoiler', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
+            Entry::ATTRIBUTE_SPOILER => $spoilerFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_ENTRY,
+        IncludeParser::param() => EntryVideo::RELATION_ENTRY,
     ];
 
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
-    $entryVideos = AnimeThemeEntryVideo::with([
-        AnimeThemeEntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($spoilerFilter): void {
-            $query->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter);
+    $entryVideos = EntryVideo::with([
+        EntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($spoilerFilter): void {
+            $query->where(Entry::ATTRIBUTE_SPOILER, $spoilerFilter);
         },
     ])
         ->get();
@@ -351,7 +351,7 @@ test('entries by spoiler', function (): void {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -365,23 +365,23 @@ test('entries by version', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
+            Entry::ATTRIBUTE_VERSION => $versionFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_ENTRY,
+        IncludeParser::param() => EntryVideo::RELATION_ENTRY,
     ];
 
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
-    $entryVideos = AnimeThemeEntryVideo::with([
-        AnimeThemeEntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($versionFilter): void {
-            $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter);
+    $entryVideos = EntryVideo::with([
+        EntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($versionFilter): void {
+            $query->where(Entry::ATTRIBUTE_VERSION, $versionFilter);
         },
     ])
         ->get();
@@ -389,7 +389,7 @@ test('entries by version', function (): void {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -405,20 +405,20 @@ test('videos by lyrics', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_LYRICS => $lyricsFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
-    $entryVideos = AnimeThemeEntryVideo::with([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($lyricsFilter): void {
+    $entryVideos = EntryVideo::with([
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($lyricsFilter): void {
             $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
         },
     ])
@@ -427,7 +427,7 @@ test('videos by lyrics', function (): void {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -443,20 +443,20 @@ test('videos by nc', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_NC => $ncFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
-    $entryVideos = AnimeThemeEntryVideo::with([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($ncFilter): void {
+    $entryVideos = EntryVideo::with([
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($ncFilter): void {
             $query->where(Video::ATTRIBUTE_NC, $ncFilter);
         },
     ])
@@ -465,7 +465,7 @@ test('videos by nc', function (): void {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -481,20 +481,20 @@ test('videos by overlap', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_OVERLAP => $overlapFilter->localize(),
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
-    $entryVideos = AnimeThemeEntryVideo::with([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($overlapFilter): void {
+    $entryVideos = EntryVideo::with([
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($overlapFilter): void {
             $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
         },
     ])
@@ -503,7 +503,7 @@ test('videos by overlap', function (): void {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -519,20 +519,20 @@ test('videos by resolution', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_RESOLUTION => $resolutionFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
-    $entryVideos = AnimeThemeEntryVideo::with([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($resolutionFilter): void {
+    $entryVideos = EntryVideo::with([
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($resolutionFilter): void {
             $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
         },
     ])
@@ -541,7 +541,7 @@ test('videos by resolution', function (): void {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -557,20 +557,20 @@ test('videos by source', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_SOURCE => $sourceFilter->localize(),
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
-    $entryVideos = AnimeThemeEntryVideo::with([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($sourceFilter): void {
+    $entryVideos = EntryVideo::with([
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($sourceFilter): void {
             $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
         },
     ])
@@ -579,7 +579,7 @@ test('videos by source', function (): void {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -595,20 +595,20 @@ test('videos by subbed', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_SUBBED => $subbedFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
-    $entryVideos = AnimeThemeEntryVideo::with([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($subbedFilter): void {
+    $entryVideos = EntryVideo::with([
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($subbedFilter): void {
             $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
         },
     ])
@@ -617,7 +617,7 @@ test('videos by subbed', function (): void {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -633,20 +633,20 @@ test('videos by uncen', function (): void {
         FilterParser::param() => [
             Video::ATTRIBUTE_UNCEN => $uncenFilter,
         ],
-        IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
+        IncludeParser::param() => EntryVideo::RELATION_VIDEO,
     ];
 
     Collection::times(fake()->randomDigitNotNull(), function (): void {
-        AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        EntryVideo::factory()
+            ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
             ->for(Video::factory())
             ->create();
     });
 
     $response = get(route('api.animethemeentryvideo.index', $parameters));
 
-    $entryVideos = AnimeThemeEntryVideo::with([
-        AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($uncenFilter): void {
+    $entryVideos = EntryVideo::with([
+        EntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($uncenFilter): void {
             $query->where(Video::ATTRIBUTE_UNCEN, $uncenFilter);
         },
     ])
@@ -655,7 +655,7 @@ test('videos by uncen', function (): void {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
+                new EntryVideoCollection($entryVideos, new Query($parameters))
                     ->response()
                     ->getData()
             ),

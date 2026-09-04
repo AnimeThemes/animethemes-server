@@ -16,6 +16,7 @@ use Illuminate\Support\Arr;
 class DateFilter extends Filter
 {
     protected string $fromLabel = 'From';
+
     protected string $toLabel = 'To';
 
     public function labels(string $fromLabel, string $toLabel): static

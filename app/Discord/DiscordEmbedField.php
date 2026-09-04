@@ -15,9 +15,13 @@ use Stringable;
 class DiscordEmbedField implements Arrayable, JsonSerializable
 {
     final public const string DEFAULT_FIELD_VALUE = '-';
+
     final public const string DEFAULT_NULL_FIELD_VALUE = '*(null)*';
+
     final public const string ATTRIBUTE_NAME = 'name';
+
     final public const string ATTRIBUTE_VALUE = 'value';
+
     final public const string ATTRIBUTE_INLINE = 'inline';
 
     protected readonly string $formattedValue;

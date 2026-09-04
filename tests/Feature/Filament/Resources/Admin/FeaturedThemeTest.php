@@ -10,7 +10,7 @@ use App\Filament\Actions\Base\EditAction;
 use App\Filament\Resources\Admin\FeaturedThemeResource;
 use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
 use App\Models\Auth\User;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
 use Filament\Actions\Testing\TestAction;
 use Livewire\Livewire;
@@ -79,7 +79,7 @@ test('mount edit action', function (): void {
     actingAs($user);
 
     $record = FeaturedThemeModel::factory()
-        ->for(AnimeThemeEntry::factory()->forAnime())
+        ->for(Entry::factory()->forAnime())
         ->for(Video::factory())
         ->createOne();
 

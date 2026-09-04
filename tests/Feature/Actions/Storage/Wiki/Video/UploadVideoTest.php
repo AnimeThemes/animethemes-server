@@ -9,11 +9,11 @@ use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Arr;
@@ -144,8 +144,8 @@ test('attaches entry', function (): void {
         ])),
     ]);
 
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
     $action = new UploadVideoAction(file: $file, path: fake()->word(), entry: $entry);
@@ -154,7 +154,7 @@ test('attaches entry', function (): void {
 
     $action->then($result);
 
-    $this->assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
+    $this->assertDatabaseCount(EntryVideo::class, 1);
 });
 
 test('associates script', function (): void {

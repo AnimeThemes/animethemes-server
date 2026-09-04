@@ -1,0 +1,119 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Filament\Resources\Wiki\Performance\Schemas;
+
+use App\Filament\Actions\Models\Wiki\Performance\LoadMembersAction;
+use App\Filament\Components\Fields\BelongsTo;
+use App\Filament\Components\Fields\TextInput;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberPerformanceArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
+use App\Filament\Resources\Wiki\ArtistResource;
+use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
+use App\Filament\Resources\Wiki\SongResource;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Performance;
+use App\Models\Wiki\Song;
+use Filament\Forms\Components\Repeater;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
+
+class PerformanceForm
+{
+    final public const string REPEATER_PERFORMANCES = Song::RELATION_PERFORMANCES;
+
+    final public const string REPEATER_MEMBERS = 'members';
+
+    /**
+     * Configure the form schema.
+     */
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                BelongsTo::make(Performance::ATTRIBUTE_SONG)
+                    ->resource(SongResource::class)
+                    ->required()
+                    ->hiddenOn([PerformanceSongRelationManager::class])
+                    ->disabledOn('edit')
+                    ->columnSpanFull(),
+
+                ...static::performancesFields(),
+            ])
+            ->columns(2);
+    }
+
+    /**
+     * Get the performance fields to create a performance.
+     *
+     * @return \Filament\Schemas\Components\Component[]
+     */
+    public static function performancesFields(): array
+    {
+        return [
+            Repeater::make(self::REPEATER_PERFORMANCES)
+                ->label(__('filament.resources.label.artists'))
+                ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.artist')]))
+                ->hiddenOn([PerformanceArtistRelationManager::class, MemberPerformanceArtistRelationManager::class])
+                ->live(true)
+                ->key('song.performances')
+                ->collapsible()
+                ->defaultItems(1)
+                ->columns(3)
+                ->columnSpanFull()
+                ->reorderableWithButtons()
+                ->formatStateUsing(function ($livewire, Get $get, ?array $state): array {
+                    /** @var Song|null $song */
+                    $song = $livewire instanceof PerformanceSongRelationManager
+                        ? $livewire->getOwnerRecord()
+                        : Song::query()->find($get(Performance::ATTRIBUTE_SONG));
+
+                    $artists = PerformanceSongRelationManager::formatArtists($song);
+
+                    return blank($artists) ? ($state ?? []) : $artists;
+                })
+                ->schema([
+                    BelongsTo::make(Artist::ATTRIBUTE_ID)
+                        ->resource(ArtistResource::class)
+                        ->showCreateOption()
+                        ->required()
+                        ->hintAction(LoadMembersAction::make()),
+
+                    TextInput::make(Performance::ATTRIBUTE_AS)
+                        ->label(__('filament.fields.performance.as.name'))
+                        ->helperText(__('filament.fields.performance.as.help')),
+
+                    TextInput::make(Performance::ATTRIBUTE_ALIAS)
+                        ->label(__('filament.fields.performance.alias.name'))
+                        ->helperText(__('filament.fields.performance.alias.help')),
+
+                    Repeater::make(self::REPEATER_MEMBERS)
+                        ->label(__('filament.resources.label.members'))
+                        ->helperText(__('filament.fields.performance.members.help'))
+                        ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.member')]))
+                        ->collapsible()
+                        ->defaultItems(0)
+                        ->columns(3)
+                        ->columnSpanFull()
+                        ->reorderableWithButtons()
+                        ->schema([
+                            BelongsTo::make(Performance::ATTRIBUTE_MEMBER)
+                                ->resource(ArtistResource::class)
+                                ->showCreateOption()
+                                ->label(__('filament.fields.performance.member'))
+                                ->required(),
+
+                            TextInput::make(Performance::ATTRIBUTE_MEMBER_AS)
+                                ->label(__('filament.fields.performance.member_as.name'))
+                                ->helperText(__('filament.fields.performance.member_as.help')),
+
+                            TextInput::make(Performance::ATTRIBUTE_MEMBER_ALIAS)
+                                ->label(__('filament.fields.performance.member_alias.name'))
+                                ->helperText(__('filament.fields.performance.member_alias.help')),
+                        ]),
+                ])
+                ->saveRelationshipsUsing(fn (Get $get, ?array $state) => PerformanceSongRelationManager::saveArtists($get(Performance::ATTRIBUTE_SONG), $state)),
+        ];
+    }
+}

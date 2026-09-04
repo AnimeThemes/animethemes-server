@@ -8,7 +8,7 @@ use App\Actions\Storage\Base\UploadAction as BaseUploadAction;
 use App\Contracts\Storage\InteractsWithDisk;
 use App\Filament\Actions\Storage\StorageAction;
 use App\Filament\Components\Fields\TextInput;
-use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
+use App\Filament\Resources\Wiki\Entry\RelationManagers\VideoEntryRelationManager;
 use App\Filament\Resources\Wiki\Video\RelationManagers\ScriptVideoRelationManager;
 use App\Rules\Storage\StorageDirectoryExistsRule;
 use Filament\Forms\Components\FileUpload;

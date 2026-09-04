@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Storage\Admin\Dump;
 
 use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
-use App\Models\User\Like;
 use App\Models\User\Notification;
-use App\Models\User\Submission;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -24,9 +22,8 @@ class DumpUserAction extends DumpAction
     public static function allowedTables(): array
     {
         return [
-            Like::TABLE,
+            'favorites',
             Notification::TABLE,
-            Submission::TABLE,
         ];
     }
 

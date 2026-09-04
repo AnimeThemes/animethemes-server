@@ -528,7 +528,7 @@ return [
             'finished_at' => 'Finished At',
             'exception' => 'Exception',
         ],
-        'anime_theme_entry' => [
+        'entry' => [
             'episodes' => [
                 'help' => 'The range(s) of episodes that the theme entry is used. Can be left blank if used for all episodes or if there are not episodes as with movies. Ex: "1-", "1-11", "1-2, 10, 12".',
                 'name' => 'Episodes',
@@ -553,7 +553,7 @@ return [
                 'help' => 'An YouTube URL to attach to the entry.',
             ],
         ],
-        'anime_theme' => [
+        'theme' => [
             'sequence' => [
                 'help' => 'Numeric ordering of theme. If only one theme of this type exists for the show, this can be left blank.',
                 'name' => 'Sequence',
@@ -1027,20 +1027,19 @@ return [
             'from' => 'From',
             'to' => 'To',
         ],
-        'anime_theme' => [
+        'theme' => [
             'without_in' => 'Without Insert Songs',
         ],
     ],
     'resources' => [
         'label' => [
             'activities' => 'Activities',
-            'anime_theme_entries' => 'Anime Theme Entries',
-            'anime_themes' => 'Anime Themes',
             'anime' => 'Anime',
             'announcements' => 'Announcements',
             'artists' => 'Artists',
             'audios' => 'Audios',
             'dumps' => 'Dumps',
+            'entries' => 'Entries',
             'external_entries' => 'External Entries',
             'external_profiles' => 'External Profiles',
             'external_resources' => 'External Resources',
@@ -1063,19 +1062,19 @@ return [
             'songs' => 'Songs',
             'studios' => 'Studios',
             'synonyms' => 'Synonyms',
+            'themes' => 'Themes',
             'users' => 'Users',
             'video_scripts' => 'Video Scripts',
             'videos' => 'Videos',
         ],
         'singularLabel' => [
             'activity' => 'Activity',
-            'anime_theme_entry' => 'Anime Theme Entry',
-            'anime_theme' => 'Anime Theme',
             'anime' => 'Anime',
             'announcement' => 'Announcement',
             'artist' => 'Artist',
             'audio' => 'Audio',
             'dump' => 'Dump',
+            'entry' => 'Entry',
             'external_entry' => 'External Entry',
             'external_profile' => 'External Profile',
             'external_resource' => 'External Resource',
@@ -1098,6 +1097,7 @@ return [
             'song' => 'Song',
             'studio' => 'Studio',
             'synonym' => 'Synonym',
+            'theme' => 'Theme',
             'user' => 'User',
             'video_script' => 'Video Script',
             'video' => 'Video',
@@ -1119,13 +1119,6 @@ return [
             'studios' => [
                 'name' => 'Without Studios',
             ],
-            'theme' => [
-                'entry' => [
-                    'video' => [
-                        'name' => 'Without Videos',
-                    ],
-                ],
-            ],
         ],
         'artist' => [
             'performance' => [
@@ -1135,6 +1128,11 @@ return [
         'audio' => [
             'video' => [
                 'name' => 'Without Video',
+            ],
+        ],
+        'entry' => [
+            'video' => [
+                'name' => 'Without Videos',
             ],
         ],
         'external_resource' => [

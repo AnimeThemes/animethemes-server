@@ -13,7 +13,6 @@ use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Song\SongTitleField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Song\SongTitleNativeField;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
-use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
 class SongSchema extends Schema
 {

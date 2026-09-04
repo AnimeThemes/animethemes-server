@@ -9,12 +9,9 @@ use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\Middleware\RateLimited;
 use App\Notifications\DiscordNotification;
 use DateTime;
-use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\Attributes\Backoff;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Pennant\Feature;
@@ -22,10 +19,7 @@ use Laravel\Pennant\Feature;
 #[Backoff(60)]
 class SendDiscordNotificationJob implements ShouldQueue
 {
-    use Dispatchable;
-    use InteractsWithQueue;
     use Queueable;
-    use SerializesModels;
 
     public function __construct(protected readonly DiscordMessageEvent $event) {}
 

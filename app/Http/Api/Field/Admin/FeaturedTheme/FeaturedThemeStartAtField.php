@@ -57,7 +57,7 @@ class FeaturedThemeStartAtField extends DateField implements CreatableField, Upd
     private function resolveEndAt(Request $request): ?string
     {
         if ($request->has(FeaturedTheme::ATTRIBUTE_END_AT)) {
-            return $request->get(FeaturedTheme::ATTRIBUTE_END_AT);
+            return $request->input(FeaturedTheme::ATTRIBUTE_END_AT);
         }
 
         /** @var FeaturedTheme|null $featuredTheme */

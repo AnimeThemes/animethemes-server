@@ -19,9 +19,8 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video\VideoScript;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use App\Scout\Elasticsearch\Models\Wiki\VideoElasticModel;
 use App\Scout\Typesense\Models\Wiki\VideoTypesenseModel;
 use Database\Factories\Wiki\VideoFactory;
@@ -42,7 +41,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 use RuntimeException;
 
 /**
- * @property Collection<int, AnimeThemeEntry> $animethemeentries
+ * @property Collection<int, Entry> $animethemeentries
  * @property Audio|null $audio
  * @property int|null $audio_id
  * @property string $basename
@@ -82,31 +81,55 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
     final public const string TABLE = 'videos';
 
     final public const string ATTRIBUTE_AUDIO = 'audio_id';
+
     final public const string ATTRIBUTE_BASENAME = 'basename';
+
     final public const string ATTRIBUTE_FILENAME = 'filename';
+
     final public const string ATTRIBUTE_ID = 'video_id';
+
     final public const string ATTRIBUTE_LINK = 'link';
+
     final public const string ATTRIBUTE_LYRICS = 'lyrics';
+
     final public const string ATTRIBUTE_MIMETYPE = 'mimetype';
+
     final public const string ATTRIBUTE_NC = 'nc';
+
     final public const string ATTRIBUTE_OVERLAP = 'overlap';
+
     final public const string ATTRIBUTE_PATH = 'path';
+
     final public const string ATTRIBUTE_PRIORITY = 'priority';
+
     final public const string ATTRIBUTE_RESOLUTION = 'resolution';
+
     final public const string ATTRIBUTE_SIZE = 'size';
+
     final public const string ATTRIBUTE_SOURCE = 'source';
+
     final public const string ATTRIBUTE_SUBBED = 'subbed';
+
     final public const string ATTRIBUTE_TAGS = 'tags';
+
     final public const string ATTRIBUTE_UNCEN = 'uncen';
 
     final public const string RELATION_ANIME = 'animethemeentries.animetheme.anime';
+
     final public const string RELATION_ANIMESYNONYMS = 'animethemeentries.animetheme.anime.synonyms';
+
     final public const string RELATION_ANIMETHEME = 'animethemeentries.animetheme';
+
     final public const string RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
+
     final public const string RELATION_GROUP = 'animethemeentries.animetheme.group';
+
     final public const string RELATION_AUDIO = 'audio';
+
     final public const string RELATION_SCRIPT = 'videoscript';
+
     final public const string RELATION_SONG = 'animethemeentries.animetheme.song';
+
     final public const string RELATION_TRACKS = 'tracks';
 
     /**
@@ -301,14 +324,14 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
     }
 
     /**
-     * @return BelongsToMany<AnimeThemeEntry, $this, AnimeThemeEntryVideo>
+     * @return BelongsToMany<Entry, $this, EntryVideo>
      */
     public function animethemeentries(): BelongsToMany
     {
-        return $this->belongsToMany(AnimeThemeEntry::class, AnimeThemeEntryVideo::TABLE, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
-            ->using(AnimeThemeEntryVideo::class)
+        return $this->belongsToMany(Entry::class, EntryVideo::TABLE, EntryVideo::ATTRIBUTE_VIDEO, EntryVideo::ATTRIBUTE_ENTRY)
+            ->using(EntryVideo::class)
             ->as(AnimeThemeEntryVideoJsonResource::$wrap)
-            ->withPivot([AnimeThemeEntryVideo::ATTRIBUTE_ID])
+            ->withPivot([EntryVideo::ATTRIBUTE_ID])
             ->withTimestamps();
     }
 

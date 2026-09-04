@@ -53,16 +53,25 @@ class Page extends BaseModel implements Auditable, SoftDeletable
     final public const string TABLE = 'pages';
 
     final public const string ATTRIBUTE_BODY = 'body';
+
     final public const string ATTRIBUTE_ID = 'page_id';
+
     final public const string ATTRIBUTE_NAME = 'name';
+
     final public const string ATTRIBUTE_NEXT = 'next_id';
+
     final public const string ATTRIBUTE_PREVIOUS = 'previous_id';
+
     final public const string ATTRIBUTE_SLUG = 'slug';
 
     final public const string RELATION_EDITOR_ROLES = 'editorRoles';
+
     final public const string RELATION_NEXT = 'next';
+
     final public const string RELATION_PREVIOUS = 'previous';
+
     final public const string RELATION_ROLES = 'roles';
+
     final public const string RELATION_VIEWER_ROLES = 'viewerRoles';
 
     /**

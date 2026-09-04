@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scout\Elasticsearch\Models\Wiki;
 
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
 
 class VideoElasticModel
@@ -17,7 +17,7 @@ class VideoElasticModel
         return [
             ...$video->attributesToArray(),
             'entries' => $video->animethemeentries->map(
-                fn (AnimeThemeEntry $entry): array => $entry->toSearchableArray()
+                fn (Entry $entry): array => $entry->toSearchableArray()
             )->all(),
         ];
     }

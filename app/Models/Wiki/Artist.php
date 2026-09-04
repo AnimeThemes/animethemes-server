@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\SoftDeletes;
-use App\Concerns\Models\Submitable;
 use App\Contracts\Models\HasImages;
 use App\Contracts\Models\HasResources;
 use App\Contracts\Models\HasSynonyms;
@@ -17,7 +16,6 @@ use App\Events\Wiki\Artist\ArtistRestored;
 use App\Events\Wiki\Artist\ArtistUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberJsonResource;
 use App\Models\BaseModel;
-use App\Models\Wiki\Song\Performance;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistMember;
@@ -64,28 +62,43 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     use HasRelationships;
     use Searchable;
     use SoftDeletes;
-    use Submitable;
 
     final public const string TABLE = 'artists';
 
     final public const string ATTRIBUTE_ID = 'artist_id';
+
     final public const string ATTRIBUTE_NAME = 'name';
+
     final public const string ATTRIBUTE_NAME_NATIVE = 'name_native';
+
     final public const string ATTRIBUTE_SLUG = 'slug';
+
     final public const string ATTRIBUTE_INFORMATION = 'information';
 
     final public const string RELATION_ANIME = 'songs.animethemes.anime';
+
     final public const string RELATION_ANIMETHEMES = 'songs.animethemes';
+
     final public const string RELATION_GROUPS = 'groups';
+
     final public const string RELATION_IMAGES = 'images';
+
     final public const string RELATION_MEMBERS = 'members';
+
     final public const string RELATION_MEMBER_PERFORMANCES = 'memberPerformances';
+
     final public const string RELATION_MEMBER_PERFORMANCES_SONG = 'memberPerformances.song';
+
     final public const string RELATION_PERFORMANCES = 'performances';
+
     final public const string RELATION_PERFORMANCES_SONG = 'performances.song';
+
     final public const string RELATION_RESOURCES = 'resources';
+
     final public const string RELATION_SONGS = 'songs';
+
     final public const string RELATION_SYNONYMS = 'synonyms';
+
     final public const string RELATION_THEME_GROUPS = 'songs.animethemes.group';
 
     /**

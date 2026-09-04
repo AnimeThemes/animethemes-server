@@ -11,10 +11,10 @@ use App\Http\Api\Field\Pivot\Wiki\AnimeThemeEntryVideo\AnimeThemeEntryVideoEntry
 use App\Http\Api\Field\Pivot\Wiki\AnimeThemeEntryVideo\AnimeThemeEntryVideoVideoIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
+use App\Http\Api\Schema\Wiki\EntrySchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 
 class AnimeThemeEntryVideoSchema extends EloquentSchema
 {
@@ -29,8 +29,8 @@ class AnimeThemeEntryVideoSchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return $this->withIntermediatePaths([
-            new AllowedInclude(new EntrySchema(), AnimeThemeEntryVideo::RELATION_ENTRY),
-            new AllowedInclude(new VideoSchema(), AnimeThemeEntryVideo::RELATION_VIDEO),
+            new AllowedInclude(new EntrySchema(), EntryVideo::RELATION_ENTRY),
+            new AllowedInclude(new VideoSchema(), EntryVideo::RELATION_VIDEO),
         ]);
     }
 

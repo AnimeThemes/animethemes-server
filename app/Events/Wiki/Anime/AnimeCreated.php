@@ -7,8 +7,8 @@ namespace App\Events\Wiki\Anime;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 
 /**
@@ -20,9 +20,9 @@ class AnimeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
     {
         $anime = $this->getModel()->load(Anime::RELATION_VIDEOS);
 
-        $anime->animethemes->each(function (AnimeTheme $theme): void {
+        $anime->animethemes->each(function (Theme $theme): void {
             $theme->searchable();
-            $theme->animethemeentries->each(function (AnimeThemeEntry $entry): void {
+            $theme->animethemeentries->each(function (Entry $entry): void {
                 $entry->searchable();
                 $entry->videos->each(fn (Video $video) => $video->searchable());
             });

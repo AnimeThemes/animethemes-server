@@ -6,8 +6,8 @@ namespace App\GraphQL\Queries;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -20,13 +20,13 @@ class AnimeThemeShuffleQuery
      */
     public function __invoke(null $_, array $args): Collection
     {
-        $builder = AnimeTheme::query();
+        $builder = Theme::query();
 
         if (is_array($types = Arr::get($args, 'type'))) {
-            $builder->whereIn(AnimeTheme::ATTRIBUTE_TYPE, $types);
+            $builder->whereIn(Theme::ATTRIBUTE_TYPE, $types);
         }
 
-        $builder->whereHas(AnimeTheme::RELATION_ANIME, function (Builder $query) use ($args): void {
+        $builder->whereHas(Theme::RELATION_ANIME, function (Builder $query) use ($args): void {
             if (is_array($formats = Arr::get($args, 'format'))) {
                 $query->whereIn(Anime::ATTRIBUTE_FORMAT, $formats);
             }
@@ -40,10 +40,10 @@ class AnimeThemeShuffleQuery
             }
         });
 
-        $builder->whereHas(AnimeTheme::RELATION_VIDEOS);
+        $builder->whereHas(Theme::RELATION_VIDEOS);
 
         if (is_bool($spoiler = Arr::get($args, 'spoiler'))) {
-            $builder->whereRelation(AnimeTheme::RELATION_ENTRIES, AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoiler);
+            $builder->whereRelation(Theme::RELATION_ENTRIES, Entry::ATTRIBUTE_SPOILER, $spoiler);
         }
 
         $builder->inRandomOrder();

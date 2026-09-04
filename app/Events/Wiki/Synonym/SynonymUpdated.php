@@ -7,11 +7,11 @@ namespace App\Events\Wiki\Synonym;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Synonym;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -45,9 +45,9 @@ class SynonymUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEve
         if ($synonym->synonymable instanceof Anime) {
             $synonym->synonymable->searchable();
             $synonym->synonymable->series->each(fn (Series $series) => $series->searchable());
-            $synonym->synonymable->animethemes->each(function (AnimeTheme $theme): void {
+            $synonym->synonymable->animethemes->each(function (Theme $theme): void {
                 $theme->searchable();
-                $theme->animethemeentries->each(function (AnimeThemeEntry $entry): void {
+                $theme->animethemeentries->each(function (Entry $entry): void {
                     $entry->searchable();
                     $entry->videos->each(fn (Video $video) => $video->searchable());
                 });

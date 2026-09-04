@@ -7,12 +7,12 @@ namespace Database\Factories\Wiki;
 use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use App\ValueObjects\FuzzyDate;
@@ -74,11 +74,11 @@ class AnimeFactory extends Factory
     {
         return $this->afterCreating(
             function (Anime $anime): void {
-                AnimeTheme::factory()
+                Theme::factory()
                     ->for($anime)
                     ->for(Song::factory())
                     ->has(
-                        AnimeThemeEntry::factory()
+                        Entry::factory()
                             ->count(fake()->numberBetween(1, 3))
                             ->has(
                                 Video::factory()->count(fake()->numberBetween(1, 3))

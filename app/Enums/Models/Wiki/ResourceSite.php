@@ -7,13 +7,13 @@ namespace App\Enums\Models\Wiki;
 use App\Concerns\Enums\LocalizesName;
 use App\Contracts\Models\HasResources;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Rules\Wiki\Resource\AnimeResourceLinkFormatRule;
-use App\Rules\Wiki\Resource\AnimeThemeEntryResourceLinkFormatRule;
 use App\Rules\Wiki\Resource\ArtistResourceLinkFormatRule;
+use App\Rules\Wiki\Resource\EntryResourceLinkFormatRule;
 use App\Rules\Wiki\Resource\SongResourceLinkFormatRule;
 use App\Rules\Wiki\Resource\StudioResourceLinkFormatRule;
 use Filament\Support\Contracts\HasLabel;
@@ -184,7 +184,7 @@ enum ResourceSite: int implements HasLabel
     {
         return match (true) {
             $model instanceof Anime => new AnimeResourceLinkFormatRule($this),
-            $model instanceof AnimeThemeEntry => new AnimeThemeEntryResourceLinkFormatRule($this),
+            $model instanceof Entry => new EntryResourceLinkFormatRule($this),
             $model instanceof Artist => new ArtistResourceLinkFormatRule($this),
             $model instanceof Song => new SongResourceLinkFormatRule($this),
             $model instanceof Studio => new StudioResourceLinkFormatRule($this),
@@ -220,7 +220,7 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::WIKI,
                 ResourceSite::LIVECHART,
             ],
-            AnimeThemeEntry::class => [
+            Entry::class => [
                 ResourceSite::YOUTUBE,
             ],
             Artist::class => [
@@ -288,7 +288,7 @@ enum ResourceSite: int implements HasLabel
             };
         }
 
-        if ($modelClass === AnimeThemeEntry::class) {
+        if ($modelClass === Entry::class) {
             return match ($this) {
                 ResourceSite::YOUTUBE => "https://www.youtube.com/watch?v=$slug",
                 default => null,
@@ -369,7 +369,7 @@ enum ResourceSite: int implements HasLabel
             };
         }
 
-        if ($model instanceof AnimeThemeEntry) {
+        if ($model instanceof Entry) {
             return match ($this) {
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/(watch)\?v=([\w-]+)$/',
                 default => '/^$/',
@@ -446,7 +446,7 @@ enum ResourceSite: int implements HasLabel
             };
         }
 
-        if ($modelClass === AnimeThemeEntry::class) {
+        if ($modelClass === Entry::class) {
             return match ($this) {
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/watch\?v=[\w-]+$/',
                 default => '/$.^/',

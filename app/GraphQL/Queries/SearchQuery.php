@@ -6,11 +6,11 @@ namespace App\GraphQL\Queries;
 
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use App\Scout\Criteria;
 use App\Scout\Search;
@@ -42,7 +42,7 @@ class SearchQuery
         }
 
         if (Arr::get($fields, 'animethemes')) {
-            $result['animethemes'] = $this->search(AnimeTheme::class, $args);
+            $result['animethemes'] = $this->search(Theme::class, $args);
         }
 
         if (Arr::get($fields, 'playlists')) {

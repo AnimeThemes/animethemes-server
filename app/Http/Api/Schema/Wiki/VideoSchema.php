@@ -25,8 +25,6 @@ use App\Http\Api\Field\Wiki\Video\VideoUncenField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\List\Playlist\TrackSchema;
-use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
-use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Http\Resources\Wiki\Resource\VideoJsonResource;
 use App\Models\Wiki\Video;

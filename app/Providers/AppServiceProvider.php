@@ -5,37 +5,26 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\Document\Page;
-use App\Models\User\Submission\SubmissionAnime;
-use App\Models\User\Submission\SubmissionAnimeTheme;
-use App\Models\User\Submission\SubmissionAnimeThemeEntry;
-use App\Models\User\Submission\SubmissionArtist;
-use App\Models\User\Submission\SubmissionArtistMember;
-use App\Models\User\Submission\SubmissionExternalResource;
-use App\Models\User\Submission\SubmissionPerformance;
-use App\Models\User\Submission\SubmissionSeries;
-use App\Models\User\Submission\SubmissionSong;
-use App\Models\User\Submission\SubmissionStudio;
-use App\Models\User\Submission\SubmissionSynonym;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Audio;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Performance;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use App\Pivots\Wiki\ArtistMember;
+use App\Pivots\Wiki\EntryVideo;
 use Database\Seeders\Auth\Permission\PermissionSeeder;
 use Database\Seeders\Auth\Prohibition\ProhibitionSeeder;
 use Database\Seeders\Auth\Role\AdminSeeder;
@@ -111,8 +100,8 @@ class AppServiceProvider extends ServiceProvider
         Relation::morphMap([
             'page' => Page::class,
             'anime' => Anime::class,
-            'animetheme' => AnimeTheme::class,
-            'animethemeentry' => AnimeThemeEntry::class,
+            'theme' => Theme::class,
+            'entry' => Entry::class,
             'artist' => Artist::class,
             'audio' => Audio::class,
             'image' => Image::class,
@@ -130,21 +119,8 @@ class AppServiceProvider extends ServiceProvider
             'resourceable' => Resourceable::class,
             'animeseries' => AnimeSeries::class,
             'animestudio' => AnimeStudio::class,
-            'animethemeentryvideo' => AnimeThemeEntryVideo::class,
+            'entryvideo' => EntryVideo::class,
             'artistmember' => ArtistMember::class,
-
-            // Submission
-            'submission_anime' => SubmissionAnime::class,
-            'submission_anime_theme' => SubmissionAnimeTheme::class,
-            'submission_anime_theme_entry' => SubmissionAnimeThemeEntry::class,
-            'submission_artist' => SubmissionArtist::class,
-            'submission_artist_member' => SubmissionArtistMember::class,
-            'submission_performance' => SubmissionPerformance::class,
-            'submission_resource' => SubmissionExternalResource::class,
-            'submission_series' => SubmissionSeries::class,
-            'submission_song' => SubmissionSong::class,
-            'submission_studio' => SubmissionStudio::class,
-            'submission_synonym' => SubmissionSynonym::class,
         ]);
     }
 }

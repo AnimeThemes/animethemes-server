@@ -22,13 +22,19 @@ class Notification extends DatabaseNotification
     final public const string TABLE = 'notifications';
 
     final public const string ATTRIBUTE_ID = 'id';
+
     final public const string ATTRIBUTE_TYPE = 'type';
+
     final public const string ATTRIBUTE_NOTIFIABLE_TYPE = 'notifiable_type';
+
     final public const string ATTRIBUTE_NOTIFIABLE_ID = 'notifiable_id';
+
     final public const string ATTRIBUTE_DATA = 'data';
+
     final public const string ATTRIBUTE_READ_AT = 'read_at';
 
     final public const string RELATION_PROFILE = 'profile';
+
     final public const string RELATION_NOTIFIABLE = 'notifiable';
 
     /**

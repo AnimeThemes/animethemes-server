@@ -91,9 +91,7 @@ abstract class EloquentSchema extends Schema
                 if (isset($includesByPath[$currentPath])) {
                     $schema = $includesByPath[$currentPath]->schema();
                 } else {
-                    if (! isset($schemasCache[$currentPath])) {
-                        $schemasCache[$currentPath] = $this->resolve($currentPath);
-                    }
+                    $schemasCache[$currentPath] ??= $this->resolve($currentPath);
 
                     $schema = $schemasCache[$currentPath];
                 }

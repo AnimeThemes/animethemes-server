@@ -6,8 +6,8 @@ namespace App\Filament\Resources\Wiki\ExternalResource\RelationManagers;
 
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\TextInput;
-use App\Filament\RelationManagers\Wiki\Anime\Theme\EntryRelationManager;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Filament\RelationManagers\Wiki\EntryRelationManager;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Morph\Resourceable;
 use Filament\Schemas\Components\Component;
@@ -48,7 +48,7 @@ class EntryResourceRelationManager extends EntryRelationManager
     {
         return parent::table(
             $table
-                ->inverseRelationship(AnimeThemeEntry::RELATION_RESOURCES)
+                ->inverseRelationship(Entry::RELATION_RESOURCES)
         );
     }
 }

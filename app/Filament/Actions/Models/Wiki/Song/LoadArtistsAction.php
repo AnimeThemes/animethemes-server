@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Wiki\Song;
 
-use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
+use App\Filament\Resources\Wiki\Performance\Schemas\PerformanceForm;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Models\Wiki\Song;
 use Filament\Actions\Action;

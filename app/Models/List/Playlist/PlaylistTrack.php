@@ -12,7 +12,7 @@ use App\Events\List\Playlist\Track\TrackUpdated;
 use App\Http\Api\Schema\List\Playlist\TrackSchema;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
 use Database\Factories\List\Playlist\PlaylistTrackFactory;
 use Illuminate\Database\Eloquent\Attributes\Table;
@@ -26,7 +26,7 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 /**
  * @property int $entry_id
- * @property AnimeThemeEntry $animethemeentry
+ * @property Entry $animethemeentry
  * @property PlaylistTrack|null $next
  * @property int $next_id
  * @property int $playlist_id
@@ -50,21 +50,35 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     final public const string TABLE = 'playlist_tracks';
 
     final public const string ATTRIBUTE_ID = 'track_id';
+
     final public const string ATTRIBUTE_ENTRY = 'entry_id';
+
     final public const string ATTRIBUTE_NEXT = 'next_id';
+
     final public const string ATTRIBUTE_PLAYLIST = 'playlist_id';
+
     final public const string ATTRIBUTE_POSITION = 'position';
+
     final public const string ATTRIBUTE_PREVIOUS = 'previous_id';
+
     final public const string ATTRIBUTE_VIDEO = 'video_id';
 
     final public const string RELATION_ARTISTS = 'animethemeentry.animetheme.song.artists';
+
     final public const string RELATION_AUDIO = 'video.audio';
+
     final public const string RELATION_ENTRY = 'animethemeentry';
+
     final public const string RELATION_IMAGES = 'animethemeentry.animetheme.anime.images';
+
     final public const string RELATION_NEXT = 'next';
+
     final public const string RELATION_PLAYLIST = 'playlist';
+
     final public const string RELATION_PREVIOUS = 'previous';
+
     final public const string RELATION_THEME_GROUP = 'animethemeentry.animetheme.group';
+
     final public const string RELATION_VIDEO = 'video';
 
     /**
@@ -147,11 +161,11 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     }
 
     /**
-     * @return BelongsTo<AnimeThemeEntry, $this>
+     * @return BelongsTo<Entry, $this>
      */
     public function animethemeentry(): BelongsTo
     {
-        return $this->belongsTo(AnimeThemeEntry::class, PlaylistTrack::ATTRIBUTE_ENTRY);
+        return $this->belongsTo(Entry::class, PlaylistTrack::ATTRIBUTE_ENTRY);
     }
 
     /**

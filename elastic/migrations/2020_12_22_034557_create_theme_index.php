@@ -17,7 +17,7 @@ final class CreateThemeIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::createIfNotExists('anime_themes', function (Mapping $mapping, Settings $settings) {
+        Index::createIfNotExists('themes', function (Mapping $mapping, Settings $settings) {
             $this->configureTextAnalyzers($settings);
 
             $mapping->nested('anime', [
@@ -116,6 +116,6 @@ final class CreateThemeIndex implements MigrationInterface
      */
     public function down(): void
     {
-        Index::dropIfExists('anime_themes');
+        Index::dropIfExists('themes');
     }
 }

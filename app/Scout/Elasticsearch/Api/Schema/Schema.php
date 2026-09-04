@@ -85,9 +85,7 @@ abstract class Schema implements SchemaInterface
                     }
                 }
 
-                if ($schema === null) {
-                    $schema = $this->resolve($stringAppendPath);
-                }
+                $schema ??= $this->resolve($stringAppendPath);
 
                 $allowedIncludes->put($stringAppendPath, new AllowedInclude($schema, $stringAppendPath));
             }

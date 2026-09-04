@@ -16,7 +16,7 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
 use BackedEnum;
 use Exception;
@@ -34,7 +34,7 @@ class UploadVideoAction extends UploadAction
         UploadedFile $file,
         string $path,
         protected array $attributes = [],
-        protected ?AnimeThemeEntry $entry = null,
+        protected ?Entry $entry = null,
         protected readonly ?UploadedFile $script = null,
         protected ?User $encoder = null,
     ) {
@@ -61,7 +61,7 @@ class UploadVideoAction extends UploadAction
 
             $this->uploadScript($video);
 
-            if ($this->entry instanceof AnimeThemeEntry) {
+            if ($this->entry instanceof Entry) {
                 $this->addToPlaylist($video);
             }
 
@@ -125,7 +125,7 @@ class UploadVideoAction extends UploadAction
      */
     protected function attachEntry(Video $video): void
     {
-        if ($this->entry instanceof AnimeThemeEntry && $video->wasRecentlyCreated) {
+        if ($this->entry instanceof Entry && $video->wasRecentlyCreated) {
             $video->animethemeentries()->attach($this->entry);
         }
     }

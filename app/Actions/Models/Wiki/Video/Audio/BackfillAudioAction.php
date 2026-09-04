@@ -14,9 +14,9 @@ use App\Enums\Actions\Models\Wiki\Video\DeriveSourceVideo;
 use App\Enums\Actions\Models\Wiki\Video\OverwriteAudio;
 use App\Enums\Actions\Models\Wiki\Video\ReplaceRelatedAudio;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Audio;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -161,9 +161,7 @@ class BackfillAudioAction extends BackfillAction
             : $audio->path;
 
         // Second, attempt to set audio from path
-        if ($audio === null) {
-            $audio = Audio::query()->firstWhere(Audio::ATTRIBUTE_PATH, $audioPath);
-        }
+        $audio ??= Audio::query()->firstWhere(Audio::ATTRIBUTE_PATH, $audioPath);
 
         // Finally, extract audio from the source video
         if ($audio === null || $this->overwriteAudio() || $this->replaceRelatedAudio()) {
@@ -190,26 +188,26 @@ class BackfillAudioAction extends BackfillAction
      */
     protected function getAdjacentVideos(): Collection
     {
-        $builder = AnimeTheme::query();
+        $builder = Theme::query();
 
-        $sortRelation = $builder->getRelation(AnimeTheme::RELATION_ANIME);
+        $sortRelation = $builder->getRelation(Theme::RELATION_ANIME);
 
         $orderByNameQuery = $sortRelation->getRelationExistenceQuery($sortRelation->getQuery(), $builder, [Anime::ATTRIBUTE_TITLE]);
         $orderBySeasonQuery = $sortRelation->getRelationExistenceQuery($sortRelation->getQuery(), $builder, [Anime::ATTRIBUTE_SEASON]);
         $orderByYearQuery = $sortRelation->getRelationExistenceQuery($sortRelation->getQuery(), $builder, [Anime::ATTRIBUTE_START_DATE]);
 
-        return $builder->whereHas(AnimeTheme::RELATION_VIDEOS, fn (Builder $relationBuilder) => $relationBuilder->whereKey($this->getModel()))
+        return $builder->whereHas(Theme::RELATION_VIDEOS, fn (Builder $relationBuilder) => $relationBuilder->whereKey($this->getModel()))
             ->orderBy($orderByYearQuery->toBase())
             ->orderBy($orderBySeasonQuery->toBase())
             ->orderBy($orderByNameQuery->toBase())
             ->with([
-                AnimeTheme::RELATION_ANIME,
-                AnimeTheme::RELATION_AUDIO,
-                AnimeTheme::RELATION_ENTRIES => fn (Relation $relation) => $relation->getQuery()->orderBy(AnimeThemeEntry::ATTRIBUTE_VERSION),
+                Theme::RELATION_ANIME,
+                Theme::RELATION_AUDIO,
+                Theme::RELATION_ENTRIES => fn (Relation $relation) => $relation->getQuery()->orderBy(Entry::ATTRIBUTE_VERSION),
             ])
             ->get()
-            ->flatMap(fn (AnimeTheme $theme) => $theme->animethemeentries)
-            ->flatMap(fn (AnimeThemeEntry $entry) => $entry->videos);
+            ->flatMap(fn (Theme $theme) => $theme->animethemeentries)
+            ->flatMap(fn (Entry $entry) => $entry->videos);
     }
 
     /**

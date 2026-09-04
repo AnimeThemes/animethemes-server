@@ -11,7 +11,6 @@ use App\Events\Wiki\Group\GroupDeleted;
 use App\Events\Wiki\Group\GroupRestored;
 use App\Events\Wiki\Group\GroupUpdated;
 use App\Models\BaseModel;
-use App\Models\Wiki\Anime\AnimeTheme;
 use Database\Factories\Wiki\GroupFactory;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +20,7 @@ use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
- * @property Collection<int, AnimeTheme> $animethemes
+ * @property Collection<int, Theme> $animethemes
  * @property int $group_id
  * @property string $name
  * @property string $slug
@@ -38,11 +37,15 @@ class Group extends BaseModel implements Auditable, SoftDeletable
     final public const string TABLE = 'groups';
 
     final public const string ATTRIBUTE_ID = 'group_id';
+
     final public const string ATTRIBUTE_NAME = 'name';
+
     final public const string ATTRIBUTE_SLUG = 'slug';
 
     final public const string RELATION_ANIME = 'animethemes.anime';
+
     final public const string RELATION_THEMES = 'animethemes';
+
     final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
     /**
@@ -93,10 +96,10 @@ class Group extends BaseModel implements Auditable, SoftDeletable
     }
 
     /**
-     * @return HasMany<AnimeTheme, $this>
+     * @return HasMany<Theme, $this>
      */
     public function animethemes(): HasMany
     {
-        return $this->hasMany(AnimeTheme::class, AnimeTheme::ATTRIBUTE_GROUP);
+        return $this->hasMany(Theme::class, Theme::ATTRIBUTE_GROUP);
     }
 }

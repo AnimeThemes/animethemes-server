@@ -16,14 +16,21 @@ class Activity extends BaseActivity
     final public const string TABLE = 'activity_log';
 
     final public const string ATTRIBUTE_ID = 'id';
+
     final public const string ATTRIBUTE_EXCEPTION = 'exception';
+
     final public const string ATTRIBUTE_FINISHED_AT = 'finished_at';
+
     final public const string ATTRIBUTE_NAME = 'event';
+
     final public const string ATTRIBUTE_PROPERTIES = 'properties';
+
     final public const string ATTRIBUTE_RELATED_ID = 'related_id';
+
     final public const string ATTRIBUTE_STATUS = 'status';
 
     final public const string RELATION_RELATED = 'related';
+
     final public const string RELATION_USER = 'causer';
 
     /**

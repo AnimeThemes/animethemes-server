@@ -32,8 +32,11 @@ class Feature extends BaseModel
     final public const string TABLE = 'features';
 
     final public const string ATTRIBUTE_ID = 'feature_id';
+
     final public const string ATTRIBUTE_NAME = 'name';
+
     final public const string ATTRIBUTE_SCOPE = 'scope';
+
     final public const string ATTRIBUTE_VALUE = 'value';
 
     /**

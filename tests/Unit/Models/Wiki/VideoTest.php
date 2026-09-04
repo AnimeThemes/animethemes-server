@@ -10,12 +10,12 @@ use App\Events\Wiki\Video\VideoForceDeleting;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Audio;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -171,13 +171,13 @@ test('entries', function (): void {
     $entryCount = fake()->randomDigitNotNull();
 
     $video = Video::factory()
-        ->has(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory()))->count($entryCount))
+        ->has(Entry::factory()->for(Theme::factory()->for(Anime::factory()))->count($entryCount))
         ->createOne();
 
     $this->assertInstanceOf(BelongsToMany::class, $video->animethemeentries());
     $this->assertEquals($entryCount, $video->animethemeentries()->count());
-    $this->assertInstanceOf(AnimeThemeEntry::class, $video->animethemeentries()->first());
-    $this->assertEquals(AnimeThemeEntryVideo::class, $video->animethemeentries()->getPivotClass());
+    $this->assertInstanceOf(Entry::class, $video->animethemeentries()->first());
+    $this->assertEquals(EntryVideo::class, $video->animethemeentries()->getPivotClass());
 });
 
 test('audio', function (): void {

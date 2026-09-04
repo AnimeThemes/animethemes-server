@@ -44,8 +44,11 @@ class VideoScript extends BaseModel implements Auditable, InteractsWithSchema, S
     final public const string TABLE = 'video_scripts';
 
     final public const string ATTRIBUTE_ID = 'script_id';
+
     final public const string ATTRIBUTE_LINK = 'link';
+
     final public const string ATTRIBUTE_PATH = 'path';
+
     final public const string ATTRIBUTE_VIDEO = 'video_id';
 
     final public const string RELATION_VIDEO = 'video';

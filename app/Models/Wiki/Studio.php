@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\SoftDeletes;
-use App\Concerns\Models\Submitable;
 use App\Contracts\Models\HasImages;
 use App\Contracts\Models\HasResources;
 use App\Contracts\Models\SoftDeletable;
@@ -48,16 +47,19 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
     use HasFactory;
     use Searchable;
     use SoftDeletes;
-    use Submitable;
 
     final public const string TABLE = 'studios';
 
     final public const string ATTRIBUTE_ID = 'studio_id';
+
     final public const string ATTRIBUTE_NAME = 'name';
+
     final public const string ATTRIBUTE_SLUG = 'slug';
 
     final public const string RELATION_ANIME = 'anime';
+
     final public const string RELATION_IMAGES = 'images';
+
     final public const string RELATION_RESOURCES = 'resources';
 
     /**

@@ -30,7 +30,7 @@ return new class extends Migration
                 $table->foreign('playlist_id')->references('playlist_id')->on('playlists')->cascadeOnDelete();
 
                 $table->unsignedBigInteger('entry_id')->nullable();
-                $table->foreign('entry_id')->references('entry_id')->on('anime_theme_entries')->nullOnDelete();
+                $table->foreign('entry_id')->references('entry_id')->on('entries')->nullOnDelete();
 
                 $table->unsignedBigInteger('video_id')->nullable();
                 $table->foreign('video_id')->references('video_id')->on('videos')->nullOnDelete();

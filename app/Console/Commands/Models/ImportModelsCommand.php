@@ -7,12 +7,12 @@ namespace App\Console\Commands\Models;
 use App\Console\Commands\BaseCommand;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
@@ -46,8 +46,8 @@ class ImportModelsCommand extends BaseCommand
         if ($this->option('flush')) {
             $this->scoutFlush(Playlist::class);
             $this->scoutFlush(Anime::class);
-            $this->scoutFlush(AnimeTheme::class);
-            $this->scoutFlush(AnimeThemeEntry::class);
+            $this->scoutFlush(Theme::class);
+            $this->scoutFlush(Entry::class);
             $this->scoutFlush(Artist::class);
             $this->scoutFlush(Series::class);
             $this->scoutFlush(Song::class);
@@ -57,8 +57,8 @@ class ImportModelsCommand extends BaseCommand
 
         $this->scoutImport(Playlist::class);
         $this->scoutImport(Anime::class);
-        $this->scoutImport(AnimeTheme::class);
-        $this->scoutImport(AnimeThemeEntry::class);
+        $this->scoutImport(Theme::class);
+        $this->scoutImport(Entry::class);
         $this->scoutImport(Artist::class);
         $this->scoutImport(Series::class);
         $this->scoutImport(Song::class);

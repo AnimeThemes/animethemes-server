@@ -64,7 +64,7 @@
         "vinkla/hashids": "^14.0"
     },
     "require-dev": {
-        "driftingly/rector-laravel": "^2.6.1",
+        "driftingly/rector-laravel": "^2.6.2",
         "fruitcake/laravel-debugbar": "^4.4.2",
         "laravel/pint": "^1.30.5",
         "laravel/sail": "^1.67.0",
@@ -73,7 +73,7 @@
         "pestphp/pest": "^4.7.8",
         "pestphp/pest-plugin-laravel": "^4.1",
         "predis/predis": "^2.4.1",
-        "rector/rector": "^2.6.4"
+        "rector/rector": "^2.6.6"
     },
     "config": {
         "optimize-autoloader": true,

@@ -19,11 +19,11 @@ use App\Filament\Resources\List\Playlist\RelationManagers\TrackPlaylistRelationM
 use App\Filament\Resources\List\Playlist\Track\Pages\ListTracks;
 use App\Filament\Resources\List\Playlist\Track\Pages\ViewTrack;
 use App\Filament\Resources\List\PlaylistResource;
-use App\Filament\Resources\Wiki\Anime\Theme\EntryResource;
+use App\Filament\Resources\Wiki\EntryResource;
 use App\Filament\Resources\Wiki\VideoResource;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Closure;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
@@ -104,8 +104,8 @@ class TrackResource extends BaseResource
                             Rule::when(
                                 filled($get(PlaylistTrack::RELATION_ENTRY)) && filled($get(PlaylistTrack::RELATION_VIDEO)),
                                 [
-                                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
-                                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $get(PlaylistTrack::RELATION_VIDEO)),
+                                    Rule::exists(EntryVideo::class, EntryVideo::ATTRIBUTE_ENTRY)
+                                        ->where(EntryVideo::ATTRIBUTE_VIDEO, $get(PlaylistTrack::RELATION_VIDEO)),
                                 ]
                             ),
                         ]),
@@ -119,8 +119,8 @@ class TrackResource extends BaseResource
                             Rule::when(
                                 filled($get(PlaylistTrack::RELATION_ENTRY)) && filled($get(PlaylistTrack::RELATION_VIDEO)),
                                 [
-                                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
-                                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $get(PlaylistTrack::RELATION_ENTRY)),
+                                    Rule::exists(EntryVideo::class, EntryVideo::ATTRIBUTE_VIDEO)
+                                        ->where(EntryVideo::ATTRIBUTE_ENTRY, $get(PlaylistTrack::RELATION_ENTRY)),
                                 ]
                             ),
                         ]),

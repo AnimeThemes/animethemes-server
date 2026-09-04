@@ -3,16 +3,16 @@
 declare(strict_types=1);
 
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 test('video', function (): void {
-    $animeThemeEntryVideo = AnimeThemeEntryVideo::factory()
+    $animeThemeEntryVideo = EntryVideo::factory()
         ->for(Video::factory())
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->createOne();
 
     $this->assertInstanceOf(BelongsTo::class, $animeThemeEntryVideo->video());
@@ -20,11 +20,11 @@ test('video', function (): void {
 });
 
 test('entry', function (): void {
-    $animeThemeEntryVideo = AnimeThemeEntryVideo::factory()
+    $animeThemeEntryVideo = EntryVideo::factory()
         ->for(Video::factory())
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->createOne();
 
     $this->assertInstanceOf(BelongsTo::class, $animeThemeEntryVideo->animethemeentry());
-    $this->assertInstanceOf(AnimeThemeEntry::class, $animeThemeEntryVideo->animethemeentry()->first());
+    $this->assertInstanceOf(Entry::class, $animeThemeEntryVideo->animethemeentry()->first());
 });

@@ -5,8 +5,8 @@ declare(strict_types=1);
 use App\Models\Admin\FeaturedTheme;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -19,7 +19,7 @@ test('nameable', function (): void {
 
 test('has subtitle', function (): void {
     $featuredTheme = FeaturedTheme::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->createOne();
 
     $this->assertIsString($featuredTheme->getSubtitle());
@@ -57,9 +57,9 @@ test('video', function (): void {
 
 test('entry', function (): void {
     $featuredTheme = FeaturedTheme::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->createOne();
 
     $this->assertInstanceOf(BelongsTo::class, $featuredTheme->animethemeentry());
-    $this->assertInstanceOf(AnimeThemeEntry::class, $featuredTheme->animethemeentry()->first());
+    $this->assertInstanceOf(Entry::class, $featuredTheme->animethemeentry()->first());
 });

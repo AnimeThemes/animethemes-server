@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Audio;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Performance;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Synonym;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Seeder;
@@ -34,9 +34,9 @@ class FactoryDataSeeder extends Seeder
             ->has(Image::factory()->count(fake()->numberBetween(1, 3)), Anime::RELATION_IMAGES)
             ->has(Studio::factory()->has(Image::factory())->count(fake()->numberBetween(1, 3)), Anime::RELATION_STUDIOS)
             ->has(
-                AnimeTheme::factory()
+                Theme::factory()
                     ->count(fake()->numberBetween(1, 5))
-                    ->for(Group::factory(), AnimeTheme::RELATION_GROUP)
+                    ->for(Group::factory(), Theme::RELATION_GROUP)
                     ->for(
                         Song::factory()->has(
                             Performance::factory()
@@ -51,10 +51,10 @@ class FactoryDataSeeder extends Seeder
                                 ->potentialMember(),
                             Song::RELATION_PERFORMANCES
                         ),
-                        AnimeTheme::RELATION_SONG
+                        Theme::RELATION_SONG
                     )
                     ->has(
-                        AnimeThemeEntry::factory()
+                        Entry::factory()
                             ->count(fake()->numberBetween(1, 5))
                             ->has(
                                 Video::factory()
@@ -65,7 +65,7 @@ class FactoryDataSeeder extends Seeder
                     )
             )
             ->has(
-                AnimeTheme::factory()
+                Theme::factory()
                     ->count(fake()->numberBetween(1, 5))
                     ->for(
                         Song::factory()->has(
@@ -81,10 +81,10 @@ class FactoryDataSeeder extends Seeder
                                 ->potentialMember(),
                             Song::RELATION_PERFORMANCES
                         ),
-                        AnimeTheme::RELATION_SONG
+                        Theme::RELATION_SONG
                     )
                     ->has(
-                        AnimeThemeEntry::factory()
+                        Entry::factory()
                             ->count(fake()->numberBetween(1, 5))
                             ->has(
                                 Video::factory()

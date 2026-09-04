@@ -3,20 +3,20 @@
 declare(strict_types=1);
 
 use App\Constants\FeatureConstants;
-use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
-use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
-use App\Events\Wiki\Anime\Theme\Entry\EntryRestored;
-use App\Events\Wiki\Anime\Theme\Entry\EntryUpdated;
+use App\Events\Wiki\Entry\EntryCreated;
+use App\Events\Wiki\Entry\EntryDeleted;
+use App\Events\Wiki\Entry\EntryRestored;
+use App\Events\Wiki\Entry\EntryUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 
 test('entry created sends discord notification', function (): void {
-    $theme = AnimeTheme::factory()
+    $theme = Theme::factory()
         ->for(Anime::factory())
         ->createOne();
 
@@ -24,14 +24,14 @@ test('entry created sends discord notification', function (): void {
     Bus::fake(SendDiscordNotificationJob::class);
     Event::fakeExcept(EntryCreated::class);
 
-    AnimeThemeEntry::factory()->for($theme)->createOne();
+    Entry::factory()->for($theme)->createOne();
 
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
 test('entry deleted sends discord notification', function (): void {
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -44,8 +44,8 @@ test('entry deleted sends discord notification', function (): void {
 });
 
 test('entry restored sends discord notification', function (): void {
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
@@ -58,12 +58,12 @@ test('entry restored sends discord notification', function (): void {
 });
 
 test('entry updated sends discord notification', function (): void {
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
-    $changes = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
+    $changes = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
         ->makeOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);

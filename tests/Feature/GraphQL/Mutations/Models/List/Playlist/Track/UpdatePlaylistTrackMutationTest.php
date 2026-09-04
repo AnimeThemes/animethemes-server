@@ -9,7 +9,7 @@ use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
@@ -133,7 +133,7 @@ it('updates', function (): void {
         ->for(Playlist::factory()->for($user))
         ->createOne();
 
-    $entry = AnimeThemeEntry::factory()->createOne();
+    $entry = Entry::factory()->createOne();
     $video = Video::factory()->createOne();
 
     $entry->videos()->attach($video);

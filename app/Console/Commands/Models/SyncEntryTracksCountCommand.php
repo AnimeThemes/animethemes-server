@@ -12,7 +12,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
 #[Signature('entry:sync-tracks-count')]
-#[Description('Synchronizes tracks in the anime_theme_entries table')]
+#[Description('Synchronizes tracks in the entries table')]
 class SyncEntryTracksCountCommand extends BaseCommand
 {
     public function handle(): int

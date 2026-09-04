@@ -39,12 +39,17 @@ class ExternalToken extends BaseModel
     final public const string TABLE = 'external_tokens';
 
     final public const string ATTRIBUTE_ID = 'token_id';
+
     final public const string ATTRIBUTE_PROFILE = 'profile_id';
+
     final public const string ATTRIBUTE_ACCESS_TOKEN = 'access_token';
+
     final public const string ATTRIBUTE_REFRESH_TOKEN = 'refresh_token';
 
     final public const string RELATION_PROFILE = 'externalprofile';
+
     final public const string RELATION_USER = 'externalprofile.user';
+
     final public const string RELATION_USER_SHALLOW = 'user';
 
     /**

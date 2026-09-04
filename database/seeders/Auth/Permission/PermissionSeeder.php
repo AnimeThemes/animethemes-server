@@ -21,23 +21,20 @@ use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\User\Like;
 use App\Models\User\Notification;
-use App\Models\User\Submission;
-use App\Models\User\WatchHistory;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Audio;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Performance;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Synonym;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Seeder;
@@ -74,15 +71,12 @@ class PermissionSeeder extends Seeder
         $this->registerResource(PlaylistTrack::class, CrudPermission::cases());
 
         // User Resources
-        $this->registerResource(Like::class, CrudPermission::cases());
         $this->registerResource(Notification::class, CrudPermission::cases());
-        $this->registerResource(Submission::class, CrudPermission::cases());
-        $this->registerResource(WatchHistory::class, CrudPermission::cases());
 
         // Wiki Resources
         $this->registerResource(Anime::class, $extendedCrudPermissions);
-        $this->registerResource(AnimeTheme::class, $extendedCrudPermissions);
-        $this->registerResource(AnimeThemeEntry::class, $extendedCrudPermissions);
+        $this->registerResource(Theme::class, $extendedCrudPermissions);
+        $this->registerResource(Entry::class, $extendedCrudPermissions);
         $this->registerResource(Artist::class, $extendedCrudPermissions);
         $this->registerResource(Audio::class, $extendedCrudPermissions);
         $this->registerResource(Group::class, $extendedCrudPermissions);

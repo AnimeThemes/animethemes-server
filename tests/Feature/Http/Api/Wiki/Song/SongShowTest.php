@@ -14,9 +14,9 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Resources\Wiki\Resource\SongJsonResource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
+use App\Models\Wiki\Theme;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -77,7 +77,7 @@ test('allowed include paths', function (): void {
     ];
 
     $song = Song::factory()
-        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->has(Theme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
         ->has(Artist::factory()->count(fake()->randomDigitNotNull()))
         ->createOne();
 
@@ -130,26 +130,26 @@ test('themes by sequence', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
+            Theme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
         ],
         IncludeParser::param() => Song::RELATION_ANIMETHEMES,
     ];
 
     $song = Song::factory()
         ->has(
-            AnimeTheme::factory()
+            Theme::factory()
                 ->count(fake()->randomDigitNotNull())
                 ->for(Anime::factory())
                 ->state(new Sequence(
-                    [AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
-                    [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
+                    [Theme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
+                    [Theme::ATTRIBUTE_SEQUENCE => $excludedSequence],
                 ))
         )
         ->createOne();
 
     $song->unsetRelations()->load([
         Song::RELATION_ANIMETHEMES => function (HasMany $query) use ($sequenceFilter): void {
-            $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
+            $query->where(Theme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
         },
     ]);
 
@@ -172,18 +172,18 @@ test('themes by type', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
+            Theme::ATTRIBUTE_TYPE => $typeFilter->localize(),
         ],
         IncludeParser::param() => Song::RELATION_ANIMETHEMES,
     ];
 
     $song = Song::factory()
-        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->has(Theme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
         ->createOne();
 
     $song->unsetRelations()->load([
         Song::RELATION_ANIMETHEMES => function (HasMany $query) use ($typeFilter): void {
-            $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
+            $query->where(Theme::ATTRIBUTE_TYPE, $typeFilter->value);
         },
     ]);
 
@@ -212,7 +212,7 @@ test('anime by media format', function (): void {
     ];
 
     $song = Song::factory()
-        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->has(Theme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
         ->createOne();
 
     $song->unsetRelations()->load([
@@ -246,7 +246,7 @@ test('anime by season', function (): void {
     ];
 
     $song = Song::factory()
-        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->has(Theme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
         ->createOne();
 
     $song->unsetRelations()->load([
@@ -282,7 +282,7 @@ test('anime by year', function (): void {
 
     $song = Song::factory()
         ->has(
-            AnimeTheme::factory()
+            Theme::factory()
                 ->count(fake()->randomDigitNotNull())
                 ->for(
                     Anime::factory()

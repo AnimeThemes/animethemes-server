@@ -41,11 +41,15 @@ class Imageable extends BaseMorphPivot implements Auditable
     final public const string TABLE = 'imageables';
 
     final public const string ATTRIBUTE_DEPTH = 'depth';
+
     final public const string ATTRIBUTE_IMAGE = 'image_id';
+
     final public const string ATTRIBUTE_IMAGEABLE_TYPE = 'imageable_type';
+
     final public const string ATTRIBUTE_IMAGEABLE_ID = 'imageable_id';
 
     final public const string RELATION_IMAGE = 'image';
+
     final public const string RELATION_IMAGEABLE = 'imageable';
 
     /**

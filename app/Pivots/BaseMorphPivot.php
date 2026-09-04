@@ -21,7 +21,9 @@ abstract class BaseMorphPivot extends MorphPivot
     use HasFactory;
 
     final public const ATTRIBUTE_ID = 'id';
+
     final public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
+
     final public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
 
     /**

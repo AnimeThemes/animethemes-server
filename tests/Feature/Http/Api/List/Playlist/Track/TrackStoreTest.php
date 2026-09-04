@@ -12,10 +12,10 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
@@ -31,8 +31,8 @@ test('protected', function (): void {
 
     Feature::activate(AllowPlaylistManagement::class);
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -54,8 +54,8 @@ test('forbidden if missing permission', function (): void {
 
     Feature::activate(AllowPlaylistManagement::class);
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -81,8 +81,8 @@ test('forbidden if not own playlist', function (): void {
 
     Feature::activate(AllowPlaylistManagement::class);
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -112,8 +112,8 @@ test('forbidden if flag disabled', function (): void {
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -160,8 +160,8 @@ test('anime theme entry video exists', function (): void {
 
     Feature::activate(AllowPlaylistManagement::class);
 
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
         ->create();
 
     $video = Video::factory()->create();
@@ -196,18 +196,18 @@ test('prohibits next and previous', function (): void {
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-    $entryVideoPrevious = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideoPrevious = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
-    $entryVideoNext = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideoNext = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -253,13 +253,13 @@ test('scope next', function (): void {
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-    $entryVideoNext = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideoNext = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -297,13 +297,13 @@ test('scope previous', function (): void {
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-    $entryVideoPrevious = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideoPrevious = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -341,8 +341,8 @@ test('create', function (): void {
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -378,8 +378,8 @@ test('create after last track', function (): void {
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -428,8 +428,8 @@ test('create after first track', function (): void {
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -479,8 +479,8 @@ test('create before last track', function (): void {
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -530,8 +530,8 @@ test('create before first track', function (): void {
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -583,8 +583,8 @@ test('create permitted for bypass', function (): void {
         )
         ->createOne();
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -615,8 +615,8 @@ test('max track limit', function (): void {
 
     $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -653,8 +653,8 @@ test('max track limit permitted for bypass', function (): void {
         )
         ->createOne();
 
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 

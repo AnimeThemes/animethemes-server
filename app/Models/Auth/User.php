@@ -17,10 +17,7 @@ use App\Events\Auth\User\UserUpdated;
 use App\Models\Admin\Activity;
 use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
-use App\Models\User\Like;
 use App\Models\User\Notification;
-use App\Models\User\Submission;
-use App\Models\User\WatchHistory;
 use Database\Factories\Auth\UserFactory;
 use Filament\Facades\Filament;
 use Filament\Models\Contracts\FilamentUser;
@@ -51,18 +48,15 @@ use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * @property Collection<int, Submission> $assignedSubmissions
  * @property Carbon $created_at
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property Collection<int, ExternalProfile> $externalprofiles
  * @property int $id
- * @property Collection<int, Like> $likes
  * @property string $name
  * @property string $password
  * @property Collection<int, Playlist> $playlists
  * @property string $remember_token
- * @property Collection<int, Submission> $submissions
  * @property Collection<int, PersonalAccessToken> $tokens
  * @property Carbon|null $two_factor_confirmed_at
  * @property string|null $two_factor_recovery_codes
@@ -93,26 +87,45 @@ class User extends Authenticatable implements Auditable, FilamentUser, HasAvatar
     final public const string TABLE = 'users';
 
     final public const string ATTRIBUTE_EMAIL = 'email';
+
     final public const string ATTRIBUTE_EMAIL_VERIFIED_AT = 'email_verified_at';
+
     final public const string ATTRIBUTE_ID = 'id';
+
     final public const string ATTRIBUTE_NAME = 'name';
+
     final public const string ATTRIBUTE_PASSWORD = 'password';
+
     final public const string ATTRIBUTE_REMEMBER_TOKEN = 'remember_token';
+
     final public const string ATTRIBUTE_TWO_FACTOR_CONFIRMED_AT = 'two_factor_confirmed_at';
+
     final public const string ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES = 'two_factor_recovery_codes';
+
     final public const string ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
 
     final public const string RELATION_ASSIGNED_SUBMISSIONS = 'assignedSubmissions';
+
     final public const string RELATION_EXTERNAL_PROFILES = 'externalprofiles';
+
     final public const string RELATION_LIKES = 'likes';
+
     final public const string RELATION_NOTIFICATIONS = 'notifications';
+
     final public const string RELATION_PERMISSIONS = 'permissions';
+
     final public const string RELATION_PROHIBITIONS = 'prohibitions';
+
     final public const string RELATION_PLAYLISTS = 'playlists';
+
     final public const string RELATION_SANCTIONS = 'sanctions';
+
     final public const string RELATION_SUBMISSIONS = 'submissions';
+
     final public const string RELATION_ROLES = 'roles';
+
     final public const string RELATION_ROLES_PERMISSIONS = 'roles.permissions';
+
     final public const string RELATION_WATCH_HISTORY = 'watchHistory';
 
     /**
@@ -229,30 +242,6 @@ class User extends Authenticatable implements Auditable, FilamentUser, HasAvatar
     }
 
     /**
-     * @return HasMany<Like, $this>
-     */
-    public function likes(): HasMany
-    {
-        return $this->hasMany(Like::class, Like::ATTRIBUTE_USER);
-    }
-
-    /**
-     * Get the submissions that the user made.
-     */
-    public function submissions(): HasMany
-    {
-        return $this->hasMany(Submission::class, Submission::ATTRIBUTE_USER);
-    }
-
-    /**
-     * Get the submissions that the admin managed.
-     */
-    public function assignedSubmissions(): HasMany
-    {
-        return $this->hasMany(Submission::class, Submission::ATTRIBUTE_ASSIGNEE);
-    }
-
-    /**
      * Get the activities that the user has executed.
      *
      * @return MorphMany<Activity, $this>
@@ -274,14 +263,6 @@ class User extends Authenticatable implements Auditable, FilamentUser, HasAvatar
         }
 
         return $notifications->whereNot(Notification::ATTRIBUTE_TYPE, FilamentNotification::class);
-    }
-
-    /**
-     * @return HasMany<WatchHistory, $this>
-     */
-    public function watchHistory(): HasMany
-    {
-        return $this->hasMany(WatchHistory::class, WatchHistory::ATTRIBUTE_USER);
     }
 
     /**

@@ -16,9 +16,11 @@ class Sanction extends BaseSanction implements Nameable
     final public const string TABLE = 'sanctions';
 
     final public const string ATTRIBUTE_ID = 'id';
+
     final public const string ATTRIBUTE_NAME = 'name';
 
     final public const string RELATION_PROHIBITIONS = 'prohibitions';
+
     final public const string RELATION_USERS = 'users';
 
     /**

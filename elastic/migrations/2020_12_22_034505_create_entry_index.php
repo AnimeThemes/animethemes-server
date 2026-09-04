@@ -17,7 +17,7 @@ final class CreateEntryIndex implements MigrationInterface
      */
     public function up(): void
     {
-        Index::createIfNotExists('anime_theme_entries', function (Mapping $mapping, Settings $settings) {
+        Index::createIfNotExists('entries', function (Mapping $mapping, Settings $settings) {
             $this->configureTextAnalyzers($settings);
 
             $mapping->text('anime_slug');
@@ -182,6 +182,6 @@ final class CreateEntryIndex implements MigrationInterface
      */
     public function down(): void
     {
-        Index::dropIfExists('anime_theme_entries');
+        Index::dropIfExists('entries');
     }
 }

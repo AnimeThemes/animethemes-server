@@ -8,9 +8,9 @@ use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Audio;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
@@ -56,7 +56,7 @@ test('passes source video', function (): void {
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
     $video = Video::factory()
-        ->has(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->has(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->createOne([
             Video::ATTRIBUTE_PATH => fake()->word().'.webm',
         ]);
@@ -79,7 +79,7 @@ test('passes with higher priority source', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
-    $entry = AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory()));
+    $entry = Entry::factory()->for(Theme::factory()->for(Anime::factory()));
 
     Video::factory()
         ->hasAttached($entry, [], Video::RELATION_ANIMETHEMEENTRIES)
@@ -108,7 +108,7 @@ test('passes with primary version source', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
     Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
-    $theme = AnimeTheme::factory()
+    $theme = Theme::factory()
         ->for(Anime::factory())
         ->createOne();
 
@@ -117,17 +117,17 @@ test('passes with primary version source', function (): void {
     $sourceAudio = Audio::factory()->createOne();
 
     Video::factory()
-        ->has(AnimeThemeEntry::factory()->set(AnimeThemeEntry::ATTRIBUTE_VERSION, 1)->for($theme))
+        ->has(Entry::factory()->set(Entry::ATTRIBUTE_VERSION, 1)->for($theme))
         ->for($sourceAudio)
         ->createOne($videoAttributes);
 
     Video::factory()
-        ->has(AnimeThemeEntry::factory()->set(AnimeThemeEntry::ATTRIBUTE_VERSION, 2)->for($theme))
+        ->has(Entry::factory()->set(Entry::ATTRIBUTE_VERSION, 2)->for($theme))
         ->for(Audio::factory())
         ->createOne($videoAttributes);
 
     $video = Video::factory()
-        ->has(AnimeThemeEntry::factory()->set(AnimeThemeEntry::ATTRIBUTE_VERSION, 3)->for($theme))
+        ->has(Entry::factory()->set(Entry::ATTRIBUTE_VERSION, 3)->for($theme))
         ->createOne($videoAttributes);
 
     $action = new BackfillAudioAction($video);

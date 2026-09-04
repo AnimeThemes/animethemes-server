@@ -29,6 +29,7 @@ class BackfillAnimeAction extends BackfillWikiAction
     use HasLabel;
 
     final public const string STUDIOS = 'studios';
+
     final public const string TITLES = 'titles';
 
     public function __construct(protected Anime $anime, protected array $toBackfill)

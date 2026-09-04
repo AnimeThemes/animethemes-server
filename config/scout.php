@@ -5,12 +5,12 @@ declare(strict_types=1);
 use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\Entry;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
 
 return [
@@ -285,7 +285,7 @@ return [
                     'query_by_weights' => '8,6,6,5',
                 ],
             ],
-            AnimeTheme::class => [
+            Theme::class => [
                 'collection-schema' => [
                     'enable_nested_fields' => true,
                     'fields' => [
@@ -340,7 +340,7 @@ return [
                     'query_by_weights' => '10,8,6,5,5,4,4',
                 ],
             ],
-            AnimeThemeEntry::class => [
+            Entry::class => [
                 'collection-schema' => [
                     'enable_nested_fields' => true,
                     'fields' => [

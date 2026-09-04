@@ -1,0 +1,53 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Database\Factories\Wiki;
+
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Performance;
+use App\Models\Wiki\Song;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @method Performance createOne($attributes = [])
+ * @method Performance makeOne($attributes = [])
+ *
+ * @extends Factory<Performance>
+ */
+#[UseModel(Performance::class)]
+class PerformanceFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            Performance::ATTRIBUTE_ALIAS => fake()->text(),
+            Performance::ATTRIBUTE_AS => fake()->text(),
+            Performance::ATTRIBUTE_ARTIST => Artist::factory(),
+            Performance::ATTRIBUTE_SONG => Song::factory(),
+        ];
+    }
+
+    public function potentialMember(): self
+    {
+        $hasMember = fake()->boolean();
+
+        return $this->state(fn (): array => [
+            Performance::ATTRIBUTE_MEMBER => $hasMember
+                ? Artist::factory()
+                : null,
+            Performance::ATTRIBUTE_MEMBER_ALIAS => $hasMember && fake()->boolean()
+                ? fake()->text()
+                : null,
+            Performance::ATTRIBUTE_MEMBER_AS => $hasMember && fake()->boolean()
+                ? fake()->text()
+                : null,
+        ]);
+    }
+}

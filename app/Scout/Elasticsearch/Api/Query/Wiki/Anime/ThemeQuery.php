@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scout\Elasticsearch\Api\Query\Wiki\Anime;
 
-use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Theme;
 use App\Scout\Criteria;
 use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
@@ -81,6 +81,6 @@ class ThemeQuery extends ElasticQuery
                 ],
             ]);
 
-        return AnimeTheme::searchQuery($query);
+        return Theme::searchQuery($query);
     }
 }

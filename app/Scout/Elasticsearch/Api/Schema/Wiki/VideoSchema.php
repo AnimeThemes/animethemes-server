@@ -24,8 +24,6 @@ use App\Scout\Elasticsearch\Api\Field\Wiki\Video\VideoSourceField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Video\VideoSubbedField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Video\VideoUncenField;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
-use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\Theme\EntrySchema;
-use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
 class VideoSchema extends Schema
 {

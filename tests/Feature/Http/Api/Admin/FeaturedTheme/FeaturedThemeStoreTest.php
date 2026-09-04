@@ -7,10 +7,10 @@ use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Admin\FeaturedTheme;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 
@@ -70,8 +70,8 @@ test('start at before end date', function (): void {
 });
 
 test('anime theme entry video exists', function (): void {
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
         ->create();
 
     $video = Video::factory()->create();
@@ -94,8 +94,8 @@ test('anime theme entry video exists', function (): void {
 });
 
 test('create', function (): void {
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 

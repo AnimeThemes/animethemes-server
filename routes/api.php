@@ -21,23 +21,23 @@ use App\Http\Controllers\Api\List\PlaylistController;
 use App\Http\Controllers\Api\List\PlaylistForwardController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeSeriesController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeStudioController;
-use App\Http\Controllers\Api\Pivot\Wiki\AnimeThemeEntryVideoController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistMemberController;
+use App\Http\Controllers\Api\Pivot\Wiki\EntryVideoController;
 use App\Http\Controllers\Api\SearchController;
-use App\Http\Controllers\Api\Wiki\Anime\Theme\EntryController;
-use App\Http\Controllers\Api\Wiki\Anime\ThemeController;
 use App\Http\Controllers\Api\Wiki\Anime\YearController;
 use App\Http\Controllers\Api\Wiki\AnimeController;
 use App\Http\Controllers\Api\Wiki\ArtistController;
 use App\Http\Controllers\Api\Wiki\AudioController;
+use App\Http\Controllers\Api\Wiki\EntryController;
 use App\Http\Controllers\Api\Wiki\ExternalResourceController;
 use App\Http\Controllers\Api\Wiki\GroupController;
 use App\Http\Controllers\Api\Wiki\ImageController;
+use App\Http\Controllers\Api\Wiki\PerformanceController;
 use App\Http\Controllers\Api\Wiki\SeriesController;
-use App\Http\Controllers\Api\Wiki\Song\PerformanceController;
 use App\Http\Controllers\Api\Wiki\SongController;
 use App\Http\Controllers\Api\Wiki\StudioController;
 use App\Http\Controllers\Api\Wiki\SynonymController;
+use App\Http\Controllers\Api\Wiki\ThemeController;
 use App\Http\Controllers\Api\Wiki\Video\ScriptController;
 use App\Http\Controllers\Api\Wiki\VideoController;
 use Illuminate\Support\Facades\Route;
@@ -241,7 +241,7 @@ Route::get('playlist/{playlist}/track/{track}/backward', [TrackBackwardControlle
 // Pivot Routes
 apiPivotResource('animeseries', 'anime', 'series', AnimeSeriesController::class);
 apiPivotResource('animestudio', 'anime', 'studio', AnimeStudioController::class);
-apiPivotResource('animethemeentryvideo', 'animethemeentry', 'video', AnimeThemeEntryVideoController::class);
+apiPivotResource('animethemeentryvideo', 'animethemeentry', 'video', EntryVideoController::class);
 apiEditablePivotResource('artistmember', 'artist', 'member', ArtistMemberController::class);
 
 // Wiki Routes

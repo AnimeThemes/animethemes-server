@@ -36,8 +36,11 @@ class Announcement extends BaseModel implements Auditable
     final public const string TABLE = 'announcements';
 
     final public const string ATTRIBUTE_CONTENT = 'content';
+
     final public const string ATTRIBUTE_END_AT = 'end_at';
+
     final public const string ATTRIBUTE_ID = 'announcement_id';
+
     final public const string ATTRIBUTE_START_AT = 'start_at';
 
     /**

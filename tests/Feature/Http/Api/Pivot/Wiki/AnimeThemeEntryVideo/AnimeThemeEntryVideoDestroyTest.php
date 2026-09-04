@@ -5,17 +5,17 @@ declare(strict_types=1);
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Entry;
+use App\Models\Wiki\Theme;
 use App\Models\Wiki\Video;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\EntryVideo;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\delete;
 
 test('protected', function (): void {
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -25,8 +25,8 @@ test('protected', function (): void {
 });
 
 test('forbidden', function (): void {
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
@@ -40,15 +40,15 @@ test('forbidden', function (): void {
 });
 
 test('not found', function (): void {
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
+    $entry = Entry::factory()
+        ->for(Theme::factory()->for(Anime::factory()))
         ->create();
 
     $video = Video::factory()->createOne();
 
     $user = User::factory()
         ->withPermissions(
-            CrudPermission::DELETE->format(AnimeThemeEntry::class),
+            CrudPermission::DELETE->format(Entry::class),
             CrudPermission::DELETE->format(Video::class)
         )
         ->createOne();
@@ -61,14 +61,14 @@ test('not found', function (): void {
 });
 
 test('deleted', function (): void {
-    $entryVideo = AnimeThemeEntryVideo::factory()
-        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+    $entryVideo = EntryVideo::factory()
+        ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
     $user = User::factory()
         ->withPermissions(
-            CrudPermission::DELETE->format(AnimeThemeEntry::class),
+            CrudPermission::DELETE->format(Entry::class),
             CrudPermission::DELETE->format(Video::class)
         )
         ->createOne();

@@ -14,6 +14,7 @@ use InvalidArgumentException;
 class BelongsToColumn extends TextColumn
 {
     protected BaseResource $resource;
+
     protected bool $shouldUseModelName = false;
 
     /**

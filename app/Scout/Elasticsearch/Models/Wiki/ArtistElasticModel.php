@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Models\Wiki;
 
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Song\Performance;
+use App\Models\Wiki\Performance;
 use App\Models\Wiki\Synonym;
 
 class ArtistElasticModel

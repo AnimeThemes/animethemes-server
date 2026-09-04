@@ -52,13 +52,19 @@ class Image extends BaseModel implements Auditable, SoftDeletable
     final public const string TABLE = 'images';
 
     final public const string ATTRIBUTE_FACET = 'facet';
+
     final public const string ATTRIBUTE_ID = 'image_id';
+
     final public const string ATTRIBUTE_PATH = 'path';
+
     final public const string ATTRIBUTE_LINK = 'link';
 
     final public const string RELATION_ANIME = 'anime';
+
     final public const string RELATION_ARTISTS = 'artists';
+
     final public const string RELATION_PLAYLISTS = 'playlists';
+
     final public const string RELATION_STUDIOS = 'studios';
 
     /**

@@ -27,9 +27,9 @@ use App\Http\Resources\Wiki\Collection\SongCollection;
 use App\Http\Resources\Wiki\Resource\SongJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
+use App\Models\Wiki\Theme;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -86,7 +86,7 @@ test('allowed include paths', function (): void {
     ];
 
     Song::factory()
-        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->has(Theme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
         ->has(Artist::factory()->count(fake()->randomDigitNotNull()))
         ->count(fake()->randomDigitNotNull())
         ->create();
@@ -377,19 +377,19 @@ test('themes by sequence', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
+            Theme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
         ],
         IncludeParser::param() => Song::RELATION_ANIMETHEMES,
     ];
 
     Song::factory()
         ->has(
-            AnimeTheme::factory()
+            Theme::factory()
                 ->count(fake()->randomDigitNotNull())
                 ->for(Anime::factory())
                 ->state(new Sequence(
-                    [AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
-                    [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
+                    [Theme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
+                    [Theme::ATTRIBUTE_SEQUENCE => $excludedSequence],
                 ))
         )
         ->count(fake()->randomDigitNotNull())
@@ -397,7 +397,7 @@ test('themes by sequence', function (): void {
 
     $songs = Song::with([
         Song::RELATION_ANIMETHEMES => function (HasMany $query) use ($sequenceFilter): void {
-            $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
+            $query->where(Theme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
         },
     ])
         ->get();
@@ -421,19 +421,19 @@ test('themes by type', function (): void {
 
     $parameters = [
         FilterParser::param() => [
-            AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
+            Theme::ATTRIBUTE_TYPE => $typeFilter->localize(),
         ],
         IncludeParser::param() => Song::RELATION_ANIMETHEMES,
     ];
 
     Song::factory()
-        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->has(Theme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
         ->count(fake()->randomDigitNotNull())
         ->create();
 
     $songs = Song::with([
         Song::RELATION_ANIMETHEMES => function (HasMany $query) use ($typeFilter): void {
-            $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
+            $query->where(Theme::ATTRIBUTE_TYPE, $typeFilter->value);
         },
     ])
         ->get();
@@ -463,7 +463,7 @@ test('anime by media format', function (): void {
     ];
 
     Song::factory()
-        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->has(Theme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
         ->count(fake()->randomDigitNotNull())
         ->create();
 
@@ -499,7 +499,7 @@ test('anime by season', function (): void {
     ];
 
     Song::factory()
-        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->has(Theme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
         ->count(fake()->randomDigitNotNull())
         ->create();
 
@@ -537,7 +537,7 @@ test('anime by year', function (): void {
 
     Song::factory()
         ->has(
-            AnimeTheme::factory()
+            Theme::factory()
                 ->count(fake()->randomDigitNotNull())
                 ->for(
                     Anime::factory()

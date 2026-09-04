@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasColumn('anime_themes', 'group_id')) {
-            Schema::table('anime_themes', function (Blueprint $table) {
+        if (! Schema::hasColumn('themes', 'group_id')) {
+            Schema::table('themes', function (Blueprint $table) {
                 $table->unsignedBigInteger('group_id')->nullable();
                 $table->foreign('group_id')->references('group_id')->on('groups')->nullOnDelete();
             });

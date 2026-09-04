@@ -15,12 +15,12 @@ use App\Http\Api\Field\Search\SearchThemeField;
 use App\Http\Api\Field\Search\SearchVideoField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\List\PlaylistSchema;
-use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Api\Schema\Wiki\SeriesSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
+use App\Http\Api\Schema\Wiki\ThemeSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\SearchJsonResource;
 
