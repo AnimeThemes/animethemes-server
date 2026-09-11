@@ -18,7 +18,7 @@ return [
 
     'default_disk' => env('AUDIO_DISK_DEFAULT', 'audios'),
 
-    'disks' => explode(',', env('AUDIO_DISKS', [])),
+    'disks' => explode(',', env('AUDIO_DISKS', '')),
 
     /*
     |--------------------------------------------------------------------------
