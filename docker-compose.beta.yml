@@ -4,59 +4,59 @@ services:
             context: .
             dockerfile: Dockerfile
             target: production
-        image: '${APP_IMAGE:-animethemes-server:local}'
-        container_name: animethemes-server
+        image: '${APP_IMAGE:-beta-animethemes-server:local}'
+        container_name: beta-animethemes-server
         restart: unless-stopped
         ports:
-          - "127.0.0.1:${APP_PORT:-9000}:9000"
+          - "127.0.0.1:${APP_PORT:-9001}:9000"
         env_file:
           - .env
         volumes:
-            - laravel-storage-production:/app/storage
+            - laravel-storage-beta:/app/storage
         networks:
-          - laravel-network
-          - shared-network 
+          - beta-laravel-network
+          - beta-shared-network 
         depends_on:
           redis:
             condition: service_healthy
     queue:
-        image: '${APP_IMAGE:-animethemes-server:local}'
-        container_name: animethemes-queue
+        image: '${APP_IMAGE:-beta-animethemes-server:local}'
+        container_name: beta-animethemes-queue
         restart: unless-stopped
         command: php artisan queue:work --sleep=3 --tries=3 --timeout=120 --max-time=3600 --queue=default,discord
         env_file:
             - .env
         volumes:
-            - laravel-storage-production:/app/storage
+            - laravel-storage-beta:/app/storage
         networks:
-          - laravel-network
-          - shared-network
+          - beta-laravel-network
+          - beta-shared-network
         depends_on:
             redis:
                 condition: service_healthy
     scheduler:
-        image: '${APP_IMAGE:-animethemes-server:local}'
-        container_name: animethemes-scheduler
+        image: '${APP_IMAGE:-beta-animethemes-server:local}'
+        container_name: beta-animethemes-scheduler
         restart: unless-stopped
         command: php artisan schedule:work
         env_file:
             - .env
         volumes:
-            - laravel-storage-production:/app/storage
+            - laravel-storage-beta:/app/storage
         networks:
-          - laravel-network
-          - shared-network
+          - beta-laravel-network
+          - beta-shared-network
         depends_on:
             redis:
                 condition: service_healthy
     redis:
         image: 'redis:alpine'
-        container_name: animethemes-redis
+        container_name: beta-animethemes-redis
         restart: unless-stopped
         volumes:
             - './docker-data/redis:/data'
         networks:
-            - laravel-network
+            - beta-laravel-network
         healthcheck:
             test:
                 - CMD
@@ -65,9 +65,10 @@ services:
             retries: 3
             timeout: 5s
 networks:
-    laravel-network:
+    beta-laravel-network:
         driver: bridge
-    shared-network:
+    beta-shared-network:
         external: true
 volumes:
-  laravel-storage-production:
+    laravel-storage-beta:
+        driver: local

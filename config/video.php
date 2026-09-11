@@ -18,7 +18,7 @@ return [
 
     'default_disk' => env('VIDEO_DISK_DEFAULT', 'videos'),
 
-    'disks' => explode(',', env('VIDEO_DISKS', [])),
+    'disks' => explode(',', env('VIDEO_DISKS', '')),
 
     /*
     |--------------------------------------------------------------------------
