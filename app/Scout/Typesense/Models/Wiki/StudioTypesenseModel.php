@@ -16,7 +16,7 @@ class StudioTypesenseModel
         return [
             'id' => (string) $studio->getKey(),
             'name' => $studio->name,
-            'created_at' => $studio->created_at?->timestamp,
+            'created_at' => $studio->created_at->timestamp,
         ];
     }
 }

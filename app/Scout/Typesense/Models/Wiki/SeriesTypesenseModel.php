@@ -17,7 +17,7 @@ class SeriesTypesenseModel
         return [
             'id' => (string) $series->getKey(),
             'title' => $series->title,
-            'created_at' => $series->created_at?->timestamp,
+            'created_at' => $series->created_at->timestamp,
             'anime' => $series->anime->map(
                 fn (Anime $anime): array => $anime->toSearchableArray()
             )->all(),

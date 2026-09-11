@@ -18,7 +18,7 @@ class VideoTypesenseModel
             'id' => (string) $video->getKey(),
             'filename' => $video->filename,
             'tags' => $video->tags,
-            'created_at' => $video->created_at?->timestamp,
+            'created_at' => $video->created_at->timestamp,
             'entries' => $video->animethemeentries->map(
                 fn (Entry $entry): array => $entry->toSearchableArray()
             )->all(),

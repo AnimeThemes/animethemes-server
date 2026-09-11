@@ -15,7 +15,7 @@ class ThemeTypesenseModel
     {
         return [
             'id' => (string) $theme->getKey(),
-            'created_at' => $theme->created_at?->timestamp,
+            'created_at' => $theme->created_at->timestamp,
 
             'type_sequence' => $theme->type->localize().($theme->sequence ?? 1),
             'type' => $theme->type->value,

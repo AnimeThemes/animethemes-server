@@ -18,7 +18,7 @@ class SongTypesenseModel
             'title' => $song->title,
             // So TypeSense does not boost when alternative titles are the same.
             'title_native' => $song->title_native !== $song->title ? $song->title_native : null,
-            'created_at' => $song->created_at?->timestamp,
+            'created_at' => $song->created_at->timestamp,
         ];
     }
 }
