@@ -4,6 +4,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     unzip \
     git \
+    ca-certificates \
+    ffmpeg \
     libonig-dev \
     libssl-dev \
     libxml2-dev \
