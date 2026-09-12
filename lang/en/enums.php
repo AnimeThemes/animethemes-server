@@ -7,7 +7,6 @@ use App\Enums\Models\List\ExternalEntryStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Enums\Models\List\PlaylistVisibility;
-use App\Enums\Models\User\SubmissionStatus;
 use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
@@ -70,13 +69,6 @@ return [
         PlaylistVisibility::PUBLIC->name => 'Public',
         PlaylistVisibility::PRIVATE->name => 'Private',
         PlaylistVisibility::UNLISTED->name => 'Unlisted',
-    ],
-    SubmissionStatus::class => [
-        SubmissionStatus::PENDING->name => 'Pending',
-        SubmissionStatus::CHANGES_REQUESTED->name => 'Changes Requested',
-        SubmissionStatus::REJECTED->name => 'Rejected',
-        SubmissionStatus::PARTIALLY_APPROVED->name => 'Partially Approved',
-        SubmissionStatus::APPROVED->name => 'Approved',
     ],
     ResourceSite::class => [
         ResourceSite::OFFICIAL_SITE->name => 'Official Website',

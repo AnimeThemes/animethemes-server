@@ -14,8 +14,6 @@ enum SpecialPermission: string
 
     case BYPASS_GRAPHQL_RATE_LIMITER = 'bypass graphql rate limiter';
 
-    case MAKE_SUBMISSION = 'make submission';
-
     case REVALIDATE_PAGES = 'revalidate pages';
 
     case VIEW_FILAMENT = 'view filament';
