@@ -20,6 +20,7 @@ use App\Scopes\WithoutInsertSongScope;
 use App\Scout\Elasticsearch\Models\Wiki\ThemeElasticModel;
 use App\Scout\Typesense\Models\Wiki\ThemeTypesenseModel;
 use Database\Factories\Wiki\ThemeFactory;
+use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
@@ -40,6 +41,7 @@ use RuntimeException;
  * @property Anime $anime
  * @property int $anime_id
  * @property Collection<int, Entry> $animethemeentries
+ * @property Collection<int, Entry> $entries
  * @property Group|null $group
  * @property int|null $group_id
  * @property int|null $sequence
@@ -213,7 +215,16 @@ class Theme extends BaseModel implements Auditable, InteractsWithSchema, SoftDel
     /**
      * @return HasMany<Entry, $this>
      */
+    #[Deprecated('Use entries() instead. Required for JSON:API.')]
     public function animethemeentries(): HasMany
+    {
+        return $this->entries();
+    }
+
+    /**
+     * @return HasMany<Entry, $this>
+     */
+    public function entries(): HasMany
     {
         return $this->hasMany(Entry::class, Entry::ATTRIBUTE_THEME);
     }

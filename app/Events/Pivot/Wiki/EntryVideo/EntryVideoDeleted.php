@@ -35,7 +35,7 @@ class EntryVideoDeleted extends PivotDeletedEvent implements UpdatePlaylistTrack
         $video = $this->getForeign();
 
         // Try to find another entry attached to replace the detached entry.
-        $newEntry = $video->animethemeentries()->first();
+        $newEntry = $video->entries()->first();
 
         PlaylistTrack::query()
             ->where(PlaylistTrack::ATTRIBUTE_ENTRY, $entry->getKey())

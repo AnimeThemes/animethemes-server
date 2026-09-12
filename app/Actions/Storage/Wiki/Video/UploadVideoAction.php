@@ -126,7 +126,7 @@ class UploadVideoAction extends UploadAction
     protected function attachEntry(Video $video): void
     {
         if ($this->entry instanceof Entry && $video->wasRecentlyCreated) {
-            $video->animethemeentries()->attach($this->entry);
+            $video->entries()->attach($this->entry);
         }
     }
 

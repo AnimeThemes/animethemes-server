@@ -20,7 +20,7 @@ class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
     {
         $theme = $this->getModel();
 
-        $theme->animethemeentries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Entry $entry): void {
+        $theme->entries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Entry $entry): void {
             Entry::withoutEvents(function () use ($entry): void {
                 $entry->restore();
                 $entry->searchable();

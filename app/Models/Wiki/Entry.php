@@ -23,6 +23,7 @@ use App\Pivots\Wiki\EntryVideo;
 use App\Scout\Elasticsearch\Models\Wiki\EntryElasticModel;
 use App\Scout\Typesense\Models\Wiki\EntryTypesenseModel;
 use Database\Factories\Wiki\EntryFactory;
+use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -52,6 +53,7 @@ use Znck\Eloquent\Traits\BelongsToThrough as ZnckBelongsToThrough;
  * @property Collection<int, ExternalResource> $resources
  * @property bool $spoiler
  * @property int $theme_id
+ * @property Theme $theme
  * @property int $tracks_count
  * @property int $version
  * @property Collection<int, Video> $videos
@@ -202,7 +204,16 @@ class Entry extends BaseModel implements Auditable, HasResources, InteractsWithS
     /**
      * @return BelongsTo<Theme, $this>
      */
+    #[Deprecated('Use theme() instead. Required for JSON:API.')]
     public function animetheme(): BelongsTo
+    {
+        return $this->theme();
+    }
+
+    /**
+     * @return BelongsTo<Theme, $this>
+     */
+    public function theme(): BelongsTo
     {
         return $this->belongsTo(Theme::class, Entry::ATTRIBUTE_THEME);
     }

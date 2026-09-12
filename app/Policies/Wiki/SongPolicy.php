@@ -14,7 +14,7 @@ use Illuminate\Auth\Access\Response;
 
 class SongPolicy extends BasePolicy
 {
-    public function addAnimeTheme(User $user): Response
+    public function addTheme(User $user): Response
     {
         return $user->can(CrudPermission::UPDATE->format(Theme::class))
             ? Response::allow()

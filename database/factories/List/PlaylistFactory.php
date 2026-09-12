@@ -112,7 +112,7 @@ class PlaylistFactory extends Factory
                     $track = PlaylistTrack::factory()
                         ->for($playlist)
                         ->for(Video::query()->find($videoId))
-                        ->for(Video::query()->find($videoId)->animethemeentries()->first())
+                        ->for(Video::query()->find($videoId)->entries()->first())
                         ->createOne();
 
                     if ($index === 1) {

@@ -60,6 +60,6 @@ test('entry', function (): void {
         ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $featuredTheme->animethemeentry());
-    $this->assertInstanceOf(Entry::class, $featuredTheme->animethemeentry()->first());
+    $this->assertInstanceOf(BelongsTo::class, $featuredTheme->entry());
+    $this->assertInstanceOf(Entry::class, $featuredTheme->entry()->first());
 });

@@ -24,7 +24,7 @@ test('anime theme entry video created sends discord notification', function (): 
     Bus::fake(SendDiscordNotificationJob::class);
     Event::fakeExcept(EntryVideoCreated::class);
 
-    $video->animethemeentries()->attach($entry);
+    $video->entries()->attach($entry);
 
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
@@ -35,13 +35,13 @@ test('anime theme entry video deleted sends discord notification', function (): 
         ->for(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
-    $video->animethemeentries()->attach($entry);
+    $video->entries()->attach($entry);
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Bus::fake(SendDiscordNotificationJob::class);
     Event::fakeExcept(EntryVideoDeleted::class);
 
-    $video->animethemeentries()->detach($entry);
+    $video->entries()->detach($entry);
 
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });

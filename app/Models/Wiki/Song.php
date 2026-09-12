@@ -137,8 +137,8 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
 
     public function getSubtitle(): string
     {
-        if ($this->animethemes()->count() !== 0 && $this->animethemes->first()->anime !== null) {
-            return "{$this->animethemes->first()->anime->getName()} {$this->animethemes->first()->slug}";
+        if ($this->themes()->count() !== 0 && $this->themes->first()->anime !== null) {
+            return "{$this->themes->first()->anime->getName()} {$this->themes->first()->slug}";
         }
 
         return $this->title_native ?? strval($this->getKey());
@@ -147,7 +147,16 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
     /**
      * @return HasMany<Theme, $this>
      */
+    #[Deprecated('Use themes() instead. Required for JSON:API.')]
     public function animethemes(): HasMany
+    {
+        return $this->themes();
+    }
+
+    /**
+     * @return HasMany<Theme, $this>
+     */
+    public function themes(): HasMany
     {
         return $this->hasMany(Theme::class, Theme::ATTRIBUTE_SONG);
     }

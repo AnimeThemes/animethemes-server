@@ -24,6 +24,7 @@ use App\Pivots\Wiki\EntryVideo;
 use App\Scout\Elasticsearch\Models\Wiki\VideoElasticModel;
 use App\Scout\Typesense\Models\Wiki\VideoTypesenseModel;
 use Database\Factories\Wiki\VideoFactory;
+use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\Table;
@@ -45,6 +46,7 @@ use RuntimeException;
  * @property Audio|null $audio
  * @property int|null $audio_id
  * @property string $basename
+ * @property Collection<int, Entry> $entries
  * @property string $filename
  * @property string $link
  * @property bool $lyrics
@@ -326,7 +328,16 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
     /**
      * @return BelongsToMany<Entry, $this, EntryVideo>
      */
+    #[Deprecated('Use entries() instead. Required for JSON:API.')]
     public function animethemeentries(): BelongsToMany
+    {
+        return $this->entries();
+    }
+
+    /**
+     * @return BelongsToMany<Entry, $this, EntryVideo>
+     */
+    public function entries(): BelongsToMany
     {
         return $this->belongsToMany(Entry::class, EntryVideo::TABLE, EntryVideo::ATTRIBUTE_VIDEO, EntryVideo::ATTRIBUTE_ENTRY)
             ->using(EntryVideo::class)

@@ -14,6 +14,7 @@ use App\Events\Wiki\ExternalResource\ExternalResourceUpdated;
 use App\Models\BaseModel;
 use App\Pivots\Morph\Resourceable;
 use Database\Factories\Wiki\ExternalResourceFactory;
+use Deprecated;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Casts\AsUri;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,6 +27,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @property Collection<int, Anime> $anime
  * @property Collection<int, Artist> $artists
+ * @property Collection<int, Entry> $entries
  * @property int|null $external_id
  * @property Uri $link
  * @property int $resource_id
@@ -126,7 +128,16 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     /**
      * @return MorphToMany<Entry, $this, Resourceable, 'entryresource'>
      */
+    #[Deprecated('Use entries() instead. Required for JSON:API.')]
     public function animethemeentries(): MorphToMany
+    {
+        return $this->entries();
+    }
+
+    /**
+     * @return MorphToMany<Entry, $this, Resourceable, 'entryresource'>
+     */
+    public function entries(): MorphToMany
     {
         return $this->morphedByMany(Entry::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
             ->using(Resourceable::class)

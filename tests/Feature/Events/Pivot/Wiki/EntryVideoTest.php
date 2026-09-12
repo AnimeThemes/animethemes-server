@@ -14,7 +14,7 @@ test('anime theme entry video created event dispatched', function (): void {
     $video = Video::factory()->createOne();
     $entry = Entry::factory()->createOne();
 
-    $video->animethemeentries()->attach($entry);
+    $video->entries()->attach($entry);
 
     Event::assertDispatched(EntryVideoCreated::class);
 });
@@ -23,8 +23,8 @@ test('anime theme entry video deleted event dispatched', function (): void {
     $video = Video::factory()->createOne();
     $entry = Entry::factory()->createOne();
 
-    $video->animethemeentries()->attach($entry);
-    $video->animethemeentries()->detach($entry);
+    $video->entries()->attach($entry);
+    $video->entries()->detach($entry);
 
     Event::assertDispatched(EntryVideoDeleted::class);
 });
@@ -38,7 +38,7 @@ test('anime theme entry video created event update playlist tracks', function ()
         ->for($video)
         ->createOne();
 
-    $video->animethemeentries()->attach($entry);
+    $video->entries()->attach($entry);
 
     Event::assertDispatched(EntryVideoCreated::class, function (EntryVideoCreated $event) use ($entry, $track) {
         $event->updatePlaylistTracks();
@@ -54,7 +54,7 @@ test('anime theme entry video deleted event update playlist tracks', function ()
 
     $secondEntry = Entry::factory()->createOne();
 
-    $video->animethemeentries()->attach($entry);
+    $video->entries()->attach($entry);
 
     $track = PlaylistTrack::factory()
         ->for(Playlist::factory())
@@ -62,8 +62,8 @@ test('anime theme entry video deleted event update playlist tracks', function ()
         ->for($entry)
         ->createOne();
 
-    $video->animethemeentries()->attach($secondEntry);
-    $video->animethemeentries()->detach($entry);
+    $video->entries()->attach($secondEntry);
+    $video->entries()->detach($entry);
 
     Event::assertDispatched(EntryVideoDeleted::class, function (EntryVideoDeleted $event) use ($secondEntry, $track) {
         $event->updatePlaylistTracks();

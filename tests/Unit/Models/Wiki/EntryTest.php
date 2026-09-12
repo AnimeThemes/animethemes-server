@@ -53,8 +53,8 @@ test('theme', function (): void {
         ->for(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $entry->animetheme());
-    $this->assertInstanceOf(Theme::class, $entry->animetheme()->first());
+    $this->assertInstanceOf(BelongsTo::class, $entry->theme());
+    $this->assertInstanceOf(Theme::class, $entry->theme()->first());
 });
 
 test('external resources', function (): void {

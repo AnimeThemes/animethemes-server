@@ -13,6 +13,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
 use Database\Factories\Admin\FeaturedThemeFactory;
+use Deprecated;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -27,6 +28,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @property Carbon $end_at
  * @property Entry|null $animethemeentry
+ * @property Entry|null $entry
  * @property int $entry_id
  * @property int $feature_id
  * @property Carbon $start_at
@@ -152,7 +154,16 @@ class FeaturedTheme extends BaseModel implements Auditable
     /**
      * @return BelongsTo<Entry, $this>
      */
+    #[Deprecated('Use entry() instead. Required for JSON:API')]
     public function animethemeentry(): BelongsTo
+    {
+        return $this->entry();
+    }
+
+    /**
+     * @return BelongsTo<Entry, $this>
+     */
+    public function entry(): BelongsTo
     {
         return $this->belongsTo(Entry::class, FeaturedTheme::ATTRIBUTE_ENTRY);
     }

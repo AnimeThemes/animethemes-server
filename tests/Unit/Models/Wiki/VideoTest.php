@@ -174,10 +174,10 @@ test('entries', function (): void {
         ->has(Entry::factory()->for(Theme::factory()->for(Anime::factory()))->count($entryCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $video->animethemeentries());
-    $this->assertEquals($entryCount, $video->animethemeentries()->count());
-    $this->assertInstanceOf(Entry::class, $video->animethemeentries()->first());
-    $this->assertEquals(EntryVideo::class, $video->animethemeentries()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $video->entries());
+    $this->assertEquals($entryCount, $video->entries()->count());
+    $this->assertInstanceOf(Entry::class, $video->entries()->first());
+    $this->assertEquals(EntryVideo::class, $video->entries()->getPivotClass());
 });
 
 test('audio', function (): void {

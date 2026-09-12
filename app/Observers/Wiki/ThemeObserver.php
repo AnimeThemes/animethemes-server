@@ -34,7 +34,7 @@ class ThemeObserver
     {
         // Update the sequence attribute of the first theme when creating a new sequence theme.
         if ($theme->sequence >= 2) {
-            $theme->anime->animethemes()->getQuery()
+            $theme->anime->themes()->getQuery()
                 ->where(Theme::ATTRIBUTE_SEQUENCE)
                 ->where(Theme::ATTRIBUTE_TYPE, $theme->type)
                 ->update([Theme::ATTRIBUTE_SEQUENCE => 1]);

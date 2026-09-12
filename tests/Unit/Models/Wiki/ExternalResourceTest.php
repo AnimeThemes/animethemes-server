@@ -55,10 +55,10 @@ test('anime theme entry', function (): void {
         ->has(Entry::factory()->forAnime()->count($entryCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $resource->animethemeentries());
-    $this->assertEquals($entryCount, $resource->animethemeentries()->count());
-    $this->assertInstanceOf(Entry::class, $resource->animethemeentries()->first());
-    $this->assertEquals(Resourceable::class, $resource->animethemeentries()->getPivotClass());
+    $this->assertInstanceOf(MorphToMany::class, $resource->entries());
+    $this->assertEquals($entryCount, $resource->entries()->count());
+    $this->assertInstanceOf(Entry::class, $resource->entries()->first());
+    $this->assertEquals(Resourceable::class, $resource->entries()->getPivotClass());
 });
 
 test('artists', function (): void {

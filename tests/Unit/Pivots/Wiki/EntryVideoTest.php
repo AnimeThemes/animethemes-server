@@ -10,21 +10,21 @@ use App\Pivots\Wiki\EntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 test('video', function (): void {
-    $animeThemeEntryVideo = EntryVideo::factory()
+    $entryVideo = EntryVideo::factory()
         ->for(Video::factory())
         ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $animeThemeEntryVideo->video());
-    $this->assertInstanceOf(Video::class, $animeThemeEntryVideo->video()->first());
+    $this->assertInstanceOf(BelongsTo::class, $entryVideo->video());
+    $this->assertInstanceOf(Video::class, $entryVideo->video()->first());
 });
 
 test('entry', function (): void {
-    $animeThemeEntryVideo = EntryVideo::factory()
+    $entryVideo = EntryVideo::factory()
         ->for(Video::factory())
         ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $animeThemeEntryVideo->animethemeentry());
-    $this->assertInstanceOf(Entry::class, $animeThemeEntryVideo->animethemeentry()->first());
+    $this->assertInstanceOf(BelongsTo::class, $entryVideo->entry());
+    $this->assertInstanceOf(Entry::class, $entryVideo->entry()->first());
 });
