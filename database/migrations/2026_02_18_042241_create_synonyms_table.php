@@ -18,7 +18,6 @@ return new class extends Migration
                 $table->id('synonym_id');
                 $table->morphs('synonymable');
                 $table->string('text');
-                $table->integer('type');
                 $table->timestamp('created_at', 6)->useCurrent();
                 $table->timestamp('updated_at', 6)->useCurrent();
                 $table->softDeletes(precision: 6);
