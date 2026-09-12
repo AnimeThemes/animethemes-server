@@ -53,6 +53,7 @@ FROM php:8.5-fpm AS production
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     ffmpeg \
+    default-mysql-client \
     libicu76 \
     libzip5 \
     libpng16-16t64 \
