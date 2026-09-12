@@ -57,7 +57,7 @@ return new class extends Migration
         });
 
         Schema::create($tableNames['model_prohibitions'], function (Blueprint $table) use ($tableNames): void {
-            $table->morphs('model');
+            $table->morphs('user');
 
             $table->unsignedBigInteger('prohibition_id');
             $table->foreign('prohibition_id')->references('id')->on($tableNames['prohibition'])->cascadeOnDelete();
@@ -67,7 +67,7 @@ return new class extends Migration
             $table->text('reason')->nullable();
             $table->timestamps();
 
-            $table->primary(['model_type', 'model_id', 'prohibition_id']);
+            $table->primary(['user_type', 'user_id', 'prohibition_id']);
             $table->index('expires_at');
         });
     }
