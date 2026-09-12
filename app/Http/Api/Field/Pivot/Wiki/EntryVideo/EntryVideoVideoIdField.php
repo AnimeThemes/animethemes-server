@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field\Pivot\Wiki\AnimeThemeEntryVideo;
+namespace App\Http\Api\Field\Pivot\Wiki\EntryVideo;
 
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Http\Api\Field\Field;
@@ -10,11 +10,11 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Pivots\Wiki\EntryVideo;
 
-class AnimeThemeEntryVideoEntryIdField extends Field implements SelectableField
+class EntryVideoVideoIdField extends Field implements SelectableField
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, EntryVideo::ATTRIBUTE_ENTRY);
+        parent::__construct($schema, EntryVideo::ATTRIBUTE_VIDEO);
     }
 
     public function shouldSelect(Query $query, Schema $schema): bool

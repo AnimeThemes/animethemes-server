@@ -12,7 +12,7 @@ services:
         env_file:
           - .env
         volumes:
-            - laravel-storage-beta:/app/storage
+            - laravel-storage:/app/storage
         networks:
           - beta-laravel-network
           - beta-shared-network 
@@ -27,7 +27,7 @@ services:
         env_file:
             - .env
         volumes:
-            - laravel-storage-beta:/app/storage
+            - laravel-storage:/app/storage
         networks:
           - beta-laravel-network
           - beta-shared-network
@@ -42,7 +42,7 @@ services:
         env_file:
             - .env
         volumes:
-            - laravel-storage-beta:/app/storage
+            - laravel-storage:/app/storage
         networks:
           - beta-laravel-network
           - beta-shared-network
@@ -70,5 +70,5 @@ networks:
     beta-shared-network:
         external: true
 volumes:
-    laravel-storage-beta:
+    laravel-storage:
         driver: local
