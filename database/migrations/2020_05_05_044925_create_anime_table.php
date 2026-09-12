@@ -26,7 +26,7 @@ return new class extends Migration
                 $table->integer('format')->nullable();
                 $table->text('synopsis')->nullable();
 
-                $table->index(['created_at', 'anime_id'], 'cursor_index');
+                $table->index(['created_at', 'anime_id'], 'anime_cursor_index');
             });
         }
     }

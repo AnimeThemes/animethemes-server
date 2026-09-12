@@ -23,7 +23,7 @@ return new class extends Migration
                 $table->string('name');
                 $table->text('information')->nullable();
 
-                $table->index(['created_at', 'artist_id'], 'cursor_index');
+                $table->index(['created_at', 'artist_id'], 'artist_cursor_index');
             });
         }
     }

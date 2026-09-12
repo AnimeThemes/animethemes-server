@@ -4,8 +4,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     unzip \
     git \
-    ca-certificates \
-    ffmpeg \
     libonig-dev \
     libssl-dev \
     libxml2-dev \
@@ -53,6 +51,8 @@ RUN rm -f .env
 FROM php:8.5-fpm AS production
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    ffmpeg \
     libicu76 \
     libzip5 \
     libpng16-16t64 \

@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->string('slug');
                 $table->string('name');
 
-                $table->index(['created_at', 'studio_id'], 'cursor_index');
+                $table->index(['created_at', 'studio_id'], 'studio_cursor_index');
             });
         }
     }
