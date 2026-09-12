@@ -10,6 +10,7 @@ LICENSE
 
 docker-compose*.yml
 Dockerfile*
+docker-data
 
 .env
 .env.*
