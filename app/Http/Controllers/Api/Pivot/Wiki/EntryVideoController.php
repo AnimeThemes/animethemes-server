@@ -14,7 +14,7 @@ use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Resources\Pivot\Wiki\Collection\EntryVideoCollection;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
+use App\Http\Resources\Pivot\Wiki\Resource\EntryVideoJsonResource;
 use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\EntryVideo;
@@ -39,7 +39,7 @@ class EntryVideoController extends PivotController
     /**
      * @param  StoreAction<EntryVideo>  $action
      */
-    public function store(StoreRequest $request, Entry $animethemeentry, Video $video, StoreAction $action): AnimeThemeEntryVideoJsonResource
+    public function store(StoreRequest $request, Entry $animethemeentry, Video $video, StoreAction $action): EntryVideoJsonResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -51,10 +51,10 @@ class EntryVideoController extends PivotController
 
         $entryVideo = $action->store(EntryVideo::query(), $validated);
 
-        return new AnimeThemeEntryVideoJsonResource($entryVideo, new Query());
+        return new EntryVideoJsonResource($entryVideo, new Query());
     }
 
-    public function show(ShowRequest $request, Entry $animethemeentry, Video $video, ShowAction $action): AnimeThemeEntryVideoJsonResource
+    public function show(ShowRequest $request, Entry $animethemeentry, Video $video, ShowAction $action): EntryVideoJsonResource
     {
         $entryVideo = EntryVideo::query()
             ->where(EntryVideo::ATTRIBUTE_ENTRY, $animethemeentry->getKey())
@@ -65,7 +65,7 @@ class EntryVideoController extends PivotController
 
         $show = $action->show($entryVideo, $query, $request->schema());
 
-        return new AnimeThemeEntryVideoJsonResource($show, $query);
+        return new EntryVideoJsonResource($show, $query);
     }
 
     public function destroy(Entry $animethemeentry, Video $video, DestroyAction $action): JsonResponse

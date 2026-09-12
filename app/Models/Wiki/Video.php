@@ -15,7 +15,7 @@ use App\Events\Wiki\Video\VideoDeleted;
 use App\Events\Wiki\Video\VideoForceDeleting;
 use App\Events\Wiki\Video\VideoRestored;
 use App\Events\Wiki\Video\VideoUpdated;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
+use App\Http\Resources\Pivot\Wiki\Resource\EntryVideoJsonResource;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -341,7 +341,7 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
     {
         return $this->belongsToMany(Entry::class, EntryVideo::TABLE, EntryVideo::ATTRIBUTE_VIDEO, EntryVideo::ATTRIBUTE_ENTRY)
             ->using(EntryVideo::class)
-            ->as(AnimeThemeEntryVideoJsonResource::$wrap)
+            ->as(EntryVideoJsonResource::$wrap)
             ->withPivot([EntryVideo::ATTRIBUTE_ID])
             ->withTimestamps();
     }

@@ -15,7 +15,7 @@ use App\Events\Wiki\Entry\EntryForceDeleting;
 use App\Events\Wiki\Entry\EntryRestored;
 use App\Events\Wiki\Entry\EntryUpdated;
 use App\Http\Api\Schema\Wiki\EntrySchema;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
+use App\Http\Resources\Pivot\Wiki\Resource\EntryVideoJsonResource;
 use App\Models\BaseModel;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Pivots\Morph\Resourceable;
@@ -230,7 +230,7 @@ class Entry extends BaseModel implements Auditable, HasResources, InteractsWithS
             EntryVideo::ATTRIBUTE_VIDEO
         )
             ->using(EntryVideo::class)
-            ->as(AnimeThemeEntryVideoJsonResource::$wrap)
+            ->as(EntryVideoJsonResource::$wrap)
             ->withPivot([EntryVideo::ATTRIBUTE_ID])
             ->withTimestamps();
     }

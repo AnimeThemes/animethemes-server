@@ -17,10 +17,10 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
-use App\Http\Api\Schema\Pivot\Wiki\AnimeThemeEntryVideoSchema;
+use App\Http\Api\Schema\Pivot\Wiki\EntryVideoSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Pivot\Wiki\Collection\EntryVideoCollection;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
+use App\Http\Resources\Pivot\Wiki\Resource\EntryVideoJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Entry;
 use App\Models\Wiki\Theme;
@@ -81,7 +81,7 @@ test('paginated', function (): void {
 });
 
 test('allowed include paths', function (): void {
-    $schema = new AnimeThemeEntryVideoSchema();
+    $schema = new EntryVideoSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
@@ -117,7 +117,7 @@ test('allowed include paths', function (): void {
 });
 
 test('sparse fieldsets', function (): void {
-    $schema = new AnimeThemeEntryVideoSchema();
+    $schema = new EntryVideoSchema();
 
     $fields = collect($schema->fields());
 
@@ -125,7 +125,7 @@ test('sparse fieldsets', function (): void {
 
     $parameters = [
         FieldParser::param() => [
-            AnimeThemeEntryVideoJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
+            EntryVideoJsonResource::$wrap => $includedFields->map(fn (Field $field): string => $field->getKey())->join(','),
         ],
     ];
 
@@ -153,7 +153,7 @@ test('sparse fieldsets', function (): void {
 });
 
 test('sorts', function (): void {
-    $schema = new AnimeThemeEntryVideoSchema();
+    $schema = new EntryVideoSchema();
 
     /** @var Sort $sort */
     $sort = collect($schema->fields())

@@ -7,20 +7,20 @@ namespace App\Http\Api\Schema\Pivot\Wiki;
 use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\Pivot\Wiki\AnimeThemeEntryVideo\AnimeThemeEntryVideoEntryIdField;
-use App\Http\Api\Field\Pivot\Wiki\AnimeThemeEntryVideo\AnimeThemeEntryVideoVideoIdField;
+use App\Http\Api\Field\Pivot\Wiki\EntryVideo\EntryVideoEntryIdField;
+use App\Http\Api\Field\Pivot\Wiki\EntryVideo\EntryVideoVideoIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\EntrySchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
+use App\Http\Resources\Pivot\Wiki\Resource\EntryVideoJsonResource;
 use App\Pivots\Wiki\EntryVideo;
 
-class AnimeThemeEntryVideoSchema extends EloquentSchema
+class EntryVideoSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return AnimeThemeEntryVideoJsonResource::$wrap;
+        return EntryVideoJsonResource::$wrap;
     }
 
     /**
@@ -44,8 +44,8 @@ class AnimeThemeEntryVideoSchema extends EloquentSchema
         return [
             new CreatedAtField($this),
             new UpdatedAtField($this),
-            new AnimeThemeEntryVideoEntryIdField($this),
-            new AnimeThemeEntryVideoVideoIdField($this),
+            new EntryVideoEntryIdField($this),
+            new EntryVideoVideoIdField($this),
         ];
     }
 }
