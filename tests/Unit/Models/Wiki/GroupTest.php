@@ -29,7 +29,7 @@ test('themes', function (): void {
         ->has(Theme::factory()->for(Anime::factory())->count($themeCount))
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $group->animethemes());
-    $this->assertEquals($themeCount, $group->animethemes()->count());
-    $this->assertInstanceOf(Theme::class, $group->animethemes()->first());
+    $this->assertInstanceOf(HasMany::class, $group->themes());
+    $this->assertEquals($themeCount, $group->themes()->count());
+    $this->assertInstanceOf(Theme::class, $group->themes()->first());
 });

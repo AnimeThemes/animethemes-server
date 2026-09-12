@@ -15,6 +15,7 @@ use App\Models\List\Playlist;
 use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
 use Database\Factories\List\Playlist\PlaylistTrackFactory;
+use Deprecated;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,6 +28,7 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 /**
  * @property int $entry_id
  * @property Entry $animethemeentry
+ * @property Entry $entry
  * @property PlaylistTrack|null $next
  * @property int $next_id
  * @property int $playlist_id
@@ -163,7 +165,16 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     /**
      * @return BelongsTo<Entry, $this>
      */
+    #[Deprecated('Use entry() instead. Required for JSON:API')]
     public function animethemeentry(): BelongsTo
+    {
+        return $this->entry();
+    }
+
+    /**
+     * @return BelongsTo<Entry, $this>
+     */
+    public function entry(): BelongsTo
     {
         return $this->belongsTo(Entry::class, PlaylistTrack::ATTRIBUTE_ENTRY);
     }

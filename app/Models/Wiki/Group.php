@@ -12,6 +12,7 @@ use App\Events\Wiki\Group\GroupRestored;
 use App\Events\Wiki\Group\GroupUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Wiki\GroupFactory;
+use Deprecated;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,6 +25,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property int $group_id
  * @property string $name
  * @property string $slug
+ * @property Collection<int, Theme> $themes
  *
  * @method static GroupFactory factory(...$parameters)
  */
@@ -98,7 +100,16 @@ class Group extends BaseModel implements Auditable, SoftDeletable
     /**
      * @return HasMany<Theme, $this>
      */
+    #[Deprecated('Use themes() instead. Required for JSON:API.')]
     public function animethemes(): HasMany
+    {
+        return $this->themes();
+    }
+
+    /**
+     * @return HasMany<Theme, $this>
+     */
+    public function themes(): HasMany
     {
         return $this->hasMany(Theme::class, Theme::ATTRIBUTE_GROUP);
     }

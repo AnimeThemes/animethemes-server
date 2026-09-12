@@ -63,6 +63,7 @@ use RuntimeException;
  * @property string $title
  * @property string|null $title_english
  * @property string|null $title_native
+ * @property Collection<int, Theme> $themes
  * @property int|null $year
  *
  * @method static AnimeFactory factory(...$parameters)
@@ -268,7 +269,16 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     /**
      * @return HasMany<Theme, $this>
      */
+    #[Deprecated('Use themes() instead. Required for JSON:API.')]
     public function animethemes(): HasMany
+    {
+        return $this->themes();
+    }
+
+    /**
+     * @return HasMany<Theme, $this>
+     */
+    public function themes(): HasMany
     {
         return $this->hasMany(Theme::class, Theme::ATTRIBUTE_ANIME);
     }

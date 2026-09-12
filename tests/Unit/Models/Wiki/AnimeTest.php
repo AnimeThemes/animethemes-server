@@ -93,9 +93,9 @@ test('themes', function (): void {
         ->has(Theme::factory()->count($themeCount))
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $anime->animethemes());
-    $this->assertEquals($themeCount, $anime->animethemes()->count());
-    $this->assertInstanceOf(Theme::class, $anime->animethemes()->first());
+    $this->assertInstanceOf(HasMany::class, $anime->themes());
+    $this->assertEquals($themeCount, $anime->themes()->count());
+    $this->assertInstanceOf(Theme::class, $anime->themes()->first());
 });
 
 test('external resources', function (): void {

@@ -14,14 +14,14 @@ use Illuminate\Auth\Access\Response;
 
 class VideoPolicy extends BasePolicy
 {
-    public function attachAnyAnimeThemeEntry(User $user): Response
+    public function attachAnyEntry(User $user): Response
     {
         return $user->can(CrudPermission::CREATE->format(Video::class)) && $user->can(CrudPermission::CREATE->format(Entry::class))
             ? Response::allow()
             : Response::deny();
     }
 
-    public function detachAnyAnimeThemeEntry(User $user): Response
+    public function detachAnyEntry(User $user): Response
     {
         return $user->can(CrudPermission::DELETE->format(Video::class)) && $user->can(CrudPermission::DELETE->format(Entry::class))
             ? Response::allow()

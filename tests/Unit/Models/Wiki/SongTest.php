@@ -49,9 +49,9 @@ test('themes', function (): void {
         ->has(Theme::factory()->for(Anime::factory())->count($themeCount))
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $song->animethemes());
-    $this->assertEquals($themeCount, $song->animethemes()->count());
-    $this->assertInstanceOf(Theme::class, $song->animethemes()->first());
+    $this->assertInstanceOf(HasMany::class, $song->themes());
+    $this->assertEquals($themeCount, $song->themes()->count());
+    $this->assertInstanceOf(Theme::class, $song->themes()->first());
 });
 
 test('artists', function (): void {

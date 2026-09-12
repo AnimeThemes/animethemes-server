@@ -10,6 +10,7 @@ use App\Models\Wiki\Entry;
 use App\Models\Wiki\Video;
 use App\Pivots\BasePivot;
 use Database\Factories\Pivots\Wiki\EntryVideoFactory;
+use Deprecated;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OwenIt\Auditing\Auditable as HasAudits;
@@ -17,6 +18,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Entry $animethemeentry
+ * @property Entry $entry
  * @property int $entry_id
  * @property Video $video
  * @property int $video_id
@@ -96,7 +98,18 @@ class EntryVideo extends BasePivot implements Auditable
      *
      * @return BelongsTo<Entry, $this>
      */
+    #[Deprecated('Use entry() instead. Required for JSON:API')]
     public function animethemeentry(): BelongsTo
+    {
+        return $this->entry();
+    }
+
+    /**
+     * Gets the entry that owns the video entry.
+     *
+     * @return BelongsTo<Entry, $this>
+     */
+    public function entry(): BelongsTo
     {
         return $this->belongsTo(Entry::class, EntryVideo::ATTRIBUTE_ENTRY);
     }

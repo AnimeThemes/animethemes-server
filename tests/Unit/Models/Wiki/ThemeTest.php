@@ -93,9 +93,9 @@ test('entries', function (): void {
         ->has(Entry::factory()->count($entryCount))
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $theme->animethemeentries());
-    $this->assertEquals($entryCount, $theme->animethemeentries()->count());
-    $this->assertInstanceOf(Entry::class, $theme->animethemeentries()->first());
+    $this->assertInstanceOf(HasMany::class, $theme->entries());
+    $this->assertEquals($entryCount, $theme->entries()->count());
+    $this->assertInstanceOf(Entry::class, $theme->entries()->first());
 });
 
 test('theme creates slug', function (): void {

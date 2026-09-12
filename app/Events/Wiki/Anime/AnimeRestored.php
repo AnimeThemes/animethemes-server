@@ -28,11 +28,11 @@ class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
             });
         });
 
-        $anime->animethemes()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Theme $theme): void {
+        $anime->themes()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Theme $theme): void {
             Theme::withoutEvents(function () use ($theme): void {
                 $theme->restore();
                 $theme->searchable();
-                $theme->animethemeentries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Entry $entry): void {
+                $theme->entries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Entry $entry): void {
                     Entry::withoutEvents(function () use ($entry): void {
                         $entry->restore();
                         $entry->searchable();
