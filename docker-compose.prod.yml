@@ -7,7 +7,7 @@ services:
         image: '${APP_IMAGE:-animethemes-server:local}'
         container_name: animethemes-server
         restart: unless-stopped
-        command: php artisan octane:frankenphp --host=0.0.0.0 --port=8000 --workers=auto --max-requests=500
+        command: php artisan octane:frankenphp --host=0.0.0.0 --port=8000 --workers=2 --max-requests=500
         ports:
           - "127.0.0.1:${APP_PORT:-9000}:8000"
         env_file:
