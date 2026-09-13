@@ -7,10 +7,15 @@ services:
         image: '${APP_IMAGE:-beta-animethemes-server:local}'
         container_name: beta-animethemes-server
         restart: unless-stopped
+        command: php artisan octane:frankenphp --host=0.0.0.0 --port=8000 --workers=auto --max-requests=500
         ports:
-          - "127.0.0.1:${APP_PORT:-9001}:9000"
+          - "127.0.0.1:${APP_PORT:-9001}:8000"
         env_file:
           - .env
+        environment:
+            XDG_CONFIG_HOME: /tmp/config
+            XDG_DATA_HOME: /tmp/data
+            HOME: /tmp
         volumes:
             - laravel-storage:/app/storage
         networks:
