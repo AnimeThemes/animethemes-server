@@ -7,12 +7,18 @@ services:
         image: '${APP_IMAGE:-beta-animethemes-server:local}'
         container_name: beta-animethemes-server
         restart: unless-stopped
+        command: >
+            sh -c "
+                find /public -mindepth 1 -maxdepth 1 -exec rm -rf {} + &&
+                cp -a /app/public/. /public/ &&
+                exec php-fpm
+            "
         ports:
           - "127.0.0.1:${APP_PORT:-9001}:9000"
-        env_file:
-          - .env
+        env_file: .env
         volumes:
             - laravel-storage:/app/storage
+            - ./public:/public
         networks:
           - beta-laravel-network
           - beta-shared-network 
@@ -24,8 +30,7 @@ services:
         container_name: beta-animethemes-queue
         restart: unless-stopped
         command: php artisan queue:work --sleep=3 --tries=3 --timeout=120 --max-time=3600 --queue=default,discord
-        env_file:
-            - .env
+        env_file: .env
         volumes:
             - laravel-storage:/app/storage
         networks:
@@ -39,8 +44,7 @@ services:
         container_name: beta-animethemes-scheduler
         restart: unless-stopped
         command: php artisan schedule:work
-        env_file:
-            - .env
+        env_file: .env
         volumes:
             - laravel-storage:/app/storage
         networks:
