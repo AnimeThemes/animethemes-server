@@ -30,6 +30,3 @@ public/js/app.js
 test.php
 docker-compose.yml
 docker-data
-**/caddy
-frankenphp
-frankenphp-worker.php
