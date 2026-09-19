@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Scout\Typesense;
 
+use App\Concerns\Actions\Http\Api\AggregatesFields;
+use App\Concerns\Actions\Http\Api\ConstrainsEagerLoads;
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Criteria\Paging\Criteria as PagingCriteria;
 use App\Http\Api\Criteria\Sort\FieldCriteria;
@@ -21,6 +23,9 @@ use Illuminate\Support\Collection;
 
 class Typesense extends Search
 {
+    use AggregatesFields;
+    use ConstrainsEagerLoads;
+
     public function __construct(protected Model $model, Criteria $criteria)
     {
         parent::__construct($criteria);
@@ -39,6 +44,13 @@ class Typesense extends Search
         /** @var \Laravel\Scout\Builder $builder */
         /** @phpstan-ignore-next-line */
         $builder = $model::search($this->criteria->getTerm());
+
+        $builder->query(function (EloquentBuilder $builder) use ($query, $schema) {
+            $this->withAggregates($builder, $query, $schema);
+
+            $builder->with($this->constrainEagerLoads($query, $schema));
+        });
+
         $scope = ScopeParser::parse($schema->type());
         foreach ($query->getFilterCriteria() as $filter) {
             foreach ($schema->filters() as $schemaFilter) {
