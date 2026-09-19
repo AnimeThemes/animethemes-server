@@ -10,7 +10,7 @@ services:
         command: >
             sh -c "
                 find /public -mindepth 1 -maxdepth 1 -exec rm -rf {} + &&
-                cp -a /app/public/. /public/ &&
+                cp -r /app/public/. /public/ &&
                 exec php-fpm
             "
         ports:
@@ -29,7 +29,7 @@ services:
         image: '${APP_IMAGE:-animethemes-server:local}'
         container_name: animethemes-queue
         restart: unless-stopped
-        command: php artisan queue:work --sleep=3 --tries=3 --timeout=120 --max-time=3600 --queue=default,discord
+        command: php artisan queue:work --sleep=3 --tries=3 --timeout=120 --max-time=3600 --queue=default,discord,optimize-image
         env_file: .env
         volumes:
             - laravel-storage:/app/storage
