@@ -16,9 +16,9 @@ class EntryTypesenseModel
     {
         return [
             'id' => (string) $entry->getKey(),
-            'animetheme' => $entry->animetheme->toSearchableArray(),
+            'theme' => $entry->theme->toSearchableArray(),
             'version' => $version = Str::of(strval($entry->version))->prepend('v')->__toString(),
-            'type_sequence_version' => $entry->animetheme->type->localize().(($entry->animetheme->sequence ?? 1)).$version,
+            'type_sequence_version' => $entry->theme->type->localize().(($entry->theme->sequence ?? 1)).$version,
             'created_at' => $entry->created_at->timestamp,
         ];
     }
