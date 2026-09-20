@@ -148,6 +148,9 @@ abstract class DumpAction
 
         $dumper->includeTables(static::allowedTables());
 
+        $dumper->addExtraOption('--skip-ssl');
+        $dumper->addExtraOption('--no-tablespaces');
+
         if ($this->option('comments')) {
             $dumper->dontSkipComments();
         }

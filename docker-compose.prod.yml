@@ -21,10 +21,13 @@ services:
             - ./public:/public
         networks:
           - laravel-network
-          - shared-network 
+          - shared-network
+        extra_hosts:
+            - "api.animethemes.moe:host-gateway"
         depends_on:
           redis:
             condition: service_healthy
+        
     queue:
         image: '${APP_IMAGE:-animethemes-server:local}'
         container_name: animethemes-queue
@@ -36,6 +39,8 @@ services:
         networks:
           - laravel-network
           - shared-network
+        extra_hosts:
+            - "api.animethemes.moe:host-gateway" 
         depends_on:
             redis:
                 condition: service_healthy
@@ -50,6 +55,8 @@ services:
         networks:
           - laravel-network
           - shared-network
+        extra_hosts:
+            - "api.animethemes.moe:host-gateway" 
         depends_on:
             redis:
                 condition: service_healthy

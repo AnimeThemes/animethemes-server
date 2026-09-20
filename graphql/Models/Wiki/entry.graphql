@@ -23,7 +23,7 @@ type AnimeThemeEntry @model(class: "App\\Models\\Wiki\\Entry") {
     version: Int!
 
     "The number of likes recorded for the resource"
-    likesCount: Int! @rename(attribute: "likes_count")
+    likesCount: Int! @rename(attribute: "favorites_count")
 
     "The number of tracks belonging to the resource"
     tracksCount: Int! @rename(attribute: "tracks_count")
