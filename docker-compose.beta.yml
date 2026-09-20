@@ -10,7 +10,7 @@ services:
         command: >
             sh -c "
                 find /public -mindepth 1 -maxdepth 1 -exec rm -rf {} + &&
-                cp -a /app/public/. /public/ &&
+                cp -r /app/public/. /public/ &&
                 exec php-fpm
             "
         ports:
@@ -21,7 +21,9 @@ services:
             - ./public:/public
         networks:
           - beta-laravel-network
-          - beta-shared-network 
+          - beta-shared-network
+        extra_hosts:
+            - "api.beta.animethemes.moe:host-gateway"
         depends_on:
           redis:
             condition: service_healthy
@@ -36,6 +38,8 @@ services:
         networks:
           - beta-laravel-network
           - beta-shared-network
+        extra_hosts:
+            - "api.beta.animethemes.moe:host-gateway"
         depends_on:
             redis:
                 condition: service_healthy
@@ -50,6 +54,8 @@ services:
         networks:
           - beta-laravel-network
           - beta-shared-network
+        extra_hosts:
+            - "api.beta.animethemes.moe:host-gateway"
         depends_on:
             redis:
                 condition: service_healthy
