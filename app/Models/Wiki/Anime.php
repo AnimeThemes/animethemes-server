@@ -210,8 +210,6 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
             'typesense' => (fn () => [
                 'id' => (string) $this->getKey(),
                 'format' => $this->format?->value,
-                // Backwards compatibility with JSON:API
-                'name' => $this->title,
                 'title' => $this->title,
                 // So TypeSense does not boost when alternative titles are the same.
                 'title_english' => $this->title_english !== $this->title
