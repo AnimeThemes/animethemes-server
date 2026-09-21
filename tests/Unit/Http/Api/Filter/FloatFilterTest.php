@@ -7,7 +7,7 @@ use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('should not apply if no floats', function (): void {
     $filterField = fake()->word();
@@ -16,7 +16,7 @@ test('should not apply if no floats', function (): void {
 
     $filter = new FloatFilter($filterField);
 
-    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    expect($criteria->shouldFilter($filter, $criteria->getScope()))->toBeFalse();
 });
 
 test('converts validated floats', function (): void {
@@ -30,5 +30,5 @@ test('converts validated floats', function (): void {
 
     $filterValues = $filter->getFilterValues($criteria->getFilterValues());
 
-    $this->assertEqualsWithDelta($floatValue, $filterValues[0], 0.0001);
+    expect($filterValues[0])->toEqualWithDelta($floatValue, 0.0001);
 });

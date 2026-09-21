@@ -6,7 +6,7 @@ use App\Rules\Api\IsValidBoolean;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('passes if boolean', function (): void {
     $attribute = fake()->word();
@@ -16,7 +16,7 @@ test('passes if boolean', function (): void {
         [$attribute => new IsValidBoolean()]
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('passes if boolean string', function (): void {
@@ -29,7 +29,7 @@ test('passes if boolean string', function (): void {
         [$attribute => new IsValidBoolean()]
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('passes if boolean integer', function (): void {
@@ -42,7 +42,7 @@ test('passes if boolean integer', function (): void {
         [$attribute => new IsValidBoolean()]
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('passes if boolean checkbox', function (): void {
@@ -55,7 +55,7 @@ test('passes if boolean checkbox', function (): void {
         [$attribute => new IsValidBoolean()]
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('fails if string', function (): void {
@@ -66,7 +66,7 @@ test('fails if string', function (): void {
         [$attribute => new IsValidBoolean()]
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });
 
 test('fails if number', function (): void {
@@ -77,5 +77,5 @@ test('fails if number', function (): void {
         [$attribute => new IsValidBoolean()]
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });

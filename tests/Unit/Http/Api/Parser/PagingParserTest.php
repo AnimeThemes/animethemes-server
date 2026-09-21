@@ -9,14 +9,14 @@ use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Parser\PagingParser;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('parse limit criteria by default', function (): void {
     $parameters = [];
 
     $criteria = collect(PagingParser::parse($parameters))->first(fn (Criteria $criteria): bool => $criteria->getStrategy() === PaginationStrategy::LIMIT);
 
-    $this->assertInstanceOf(LimitCriteria::class, $criteria);
+    expect($criteria)->toBeInstanceOf(LimitCriteria::class);
 });
 
 test('parse invalid limit criteria', function (): void {
@@ -30,10 +30,8 @@ test('parse invalid limit criteria', function (): void {
 
     $criteria = collect(PagingParser::parse($parameters))->first(fn (Criteria $criteria): bool => $criteria->getStrategy() === PaginationStrategy::LIMIT);
 
-    $this->assertTrue(
-        $criteria instanceof LimitCriteria
-        && $criteria->getResultSize() === Criteria::DEFAULT_SIZE
-    );
+    expect($criteria instanceof LimitCriteria
+    && $criteria->getResultSize() === Criteria::DEFAULT_SIZE)->toBeTrue();
 });
 
 test('parse valid limit criteria', function (): void {
@@ -47,10 +45,8 @@ test('parse valid limit criteria', function (): void {
 
     $criteria = collect(PagingParser::parse($parameters))->first(fn (Criteria $criteria): bool => $criteria->getStrategy() === PaginationStrategy::LIMIT);
 
-    $this->assertTrue(
-        $criteria instanceof LimitCriteria
-        && $criteria->getResultSize() === $limit
-    );
+    expect($criteria instanceof LimitCriteria
+    && $criteria->getResultSize() === $limit)->toBeTrue();
 });
 
 test('parse offset criteria by default', function (): void {
@@ -58,7 +54,7 @@ test('parse offset criteria by default', function (): void {
 
     $criteria = collect(PagingParser::parse($parameters))->first(fn (Criteria $criteria): bool => $criteria->getStrategy() === PaginationStrategy::OFFSET);
 
-    $this->assertInstanceOf(OffsetCriteria::class, $criteria);
+    expect($criteria)->toBeInstanceOf(OffsetCriteria::class);
 });
 
 test('parse invalid offset criteria', function (): void {
@@ -72,10 +68,8 @@ test('parse invalid offset criteria', function (): void {
 
     $criteria = collect(PagingParser::parse($parameters))->first(fn (Criteria $criteria): bool => $criteria->getStrategy() === PaginationStrategy::OFFSET);
 
-    $this->assertTrue(
-        $criteria instanceof OffsetCriteria
-        && $criteria->getResultSize() === Criteria::DEFAULT_SIZE
-    );
+    expect($criteria instanceof OffsetCriteria
+    && $criteria->getResultSize() === Criteria::DEFAULT_SIZE)->toBeTrue();
 });
 
 test('parse valid offset criteria', function (): void {
@@ -89,8 +83,6 @@ test('parse valid offset criteria', function (): void {
 
     $criteria = collect(PagingParser::parse($parameters))->first(fn (Criteria $criteria): bool => $criteria->getStrategy() === PaginationStrategy::OFFSET);
 
-    $this->assertTrue(
-        $criteria instanceof OffsetCriteria
-        && $criteria->getResultSize() === $size
-    );
+    expect($criteria instanceof OffsetCriteria
+    && $criteria->getResultSize() === $size)->toBeTrue();
 });

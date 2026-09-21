@@ -34,11 +34,11 @@ use Illuminate\Support\Facades\Date;
 
 use function Pest\Laravel\get;
 
-uses(AggregatesFields::class);
+pest()->use(AggregatesFields::class);
 
-uses(SortsModels::class);
+pest()->use(SortsModels::class);
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('default', function (): void {
     $publicCount = fake()->randomDigitNotNull();

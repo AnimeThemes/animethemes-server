@@ -9,7 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('fails when extraneous metadata is present', function (): void {
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
@@ -43,7 +43,7 @@ test('fails when extraneous metadata is present', function (): void {
         ['file' => new ExtraneousMetadataFormatRule()],
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -79,7 +79,7 @@ test('passes no extraneous metadata', function (): void {
         ['file' => new ExtraneousMetadataFormatRule()],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

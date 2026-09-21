@@ -7,12 +7,12 @@ use App\Http\Api\Criteria\Include\ResourceCriteria;
 use App\Http\Api\Parser\IncludeParser;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('no criteria by default', function (): void {
     $parameters = [];
 
-    $this->assertEmpty(IncludeParser::parse($parameters));
+    expect(IncludeParser::parse($parameters))->toBeEmpty();
 });
 
 test('parse criteria', function (): void {
@@ -24,7 +24,7 @@ test('parse criteria', function (): void {
 
     $criteria = IncludeParser::parse($parameters)[0];
 
-    $this->assertInstanceOf(Criteria::class, $criteria);
+    expect($criteria)->toBeInstanceOf(Criteria::class);
 });
 
 test('parse criteria paths', function (): void {
@@ -36,7 +36,7 @@ test('parse criteria paths', function (): void {
 
     $criteria = IncludeParser::parse($parameters)[0];
 
-    $this->assertEquals(collect($fields)->unique()->all(), $criteria->getPaths()->all());
+    expect($criteria->getPaths()->all())->toEqual(collect($fields)->unique()->all());
 });
 
 test('parse resource criteria', function (): void {
@@ -50,7 +50,7 @@ test('parse resource criteria', function (): void {
 
     $criteria = IncludeParser::parse($parameters)[0];
 
-    $this->assertInstanceOf(ResourceCriteria::class, $criteria);
+    expect($criteria)->toBeInstanceOf(ResourceCriteria::class);
 });
 
 test('parse resource criteria type', function (): void {
@@ -66,10 +66,8 @@ test('parse resource criteria type', function (): void {
 
     $criteria = IncludeParser::parse($parameters)[0];
 
-    $this->assertTrue(
-        $criteria instanceof ResourceCriteria
-        && $criteria->getType() === $type
-    );
+    expect($criteria instanceof ResourceCriteria
+    && $criteria->getType() === $type)->toBeTrue();
 });
 
 test('parse resource criteria paths', function (): void {
@@ -83,5 +81,5 @@ test('parse resource criteria paths', function (): void {
 
     $criteria = IncludeParser::parse($parameters)[0];
 
-    $this->assertEquals($fields->unique()->all(), $criteria->getPaths()->all());
+    expect($criteria->getPaths()->all())->toEqual($fields->unique()->all());
 });

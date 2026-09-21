@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Mockery\MockInterface;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('no results', function (): void {
     Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
@@ -31,8 +31,8 @@ test('no results', function (): void {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
-    $this->assertFalse($result->hasChanges());
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
+    expect($result->hasChanges())->toBeFalse();
     $this->assertDatabaseCount(Dump::class, 0);
 });
 
@@ -54,9 +54,9 @@ test('created', function (): void {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
-    $this->assertTrue($result->hasChanges());
-    $this->assertCount($createdDumpCount, $result->getCreated());
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
+    expect($result->hasChanges())->toBeTrue();
+    expect($result->getCreated())->toHaveCount($createdDumpCount);
     $this->assertDatabaseCount(Dump::class, $createdDumpCount);
 });
 
@@ -78,8 +78,8 @@ test('deleted', function (): void {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
-    $this->assertTrue($result->hasChanges());
-    $this->assertCount($deletedDumpCount, $result->getDeleted());
-    $this->assertEmpty(Dump::all());
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
+    expect($result->hasChanges())->toBeTrue();
+    expect($result->getDeleted())->toHaveCount($deletedDumpCount);
+    expect(Dump::all())->toBeEmpty();
 });

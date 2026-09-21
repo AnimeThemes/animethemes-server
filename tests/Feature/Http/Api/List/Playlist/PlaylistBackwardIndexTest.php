@@ -33,7 +33,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('private playlist cannot be publicly viewed', function (): void {
     Event::fakeExcept(PlaylistCreated::class);

@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Mockery\MockInterface;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('no results', function (): void {
     $this->mock(ScriptSourceRepository::class, function (MockInterface $mock): void {
@@ -26,8 +26,8 @@ test('no results', function (): void {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
-    $this->assertFalse($result->hasChanges());
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
+    expect($result->hasChanges())->toBeFalse();
     $this->assertDatabaseCount(VideoScript::class, 0);
 });
 
@@ -47,9 +47,9 @@ test('created', function (): void {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
-    $this->assertTrue($result->hasChanges());
-    $this->assertCount($createdScriptCount, $result->getCreated());
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
+    expect($result->hasChanges())->toBeTrue();
+    expect($result->getCreated())->toHaveCount($createdScriptCount);
     $this->assertDatabaseCount(VideoScript::class, $createdScriptCount);
 });
 
@@ -69,9 +69,9 @@ test('deleted', function (): void {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
-    $this->assertTrue($result->hasChanges());
-    $this->assertCount($deletedScriptCount, $result->getDeleted());
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
+    expect($result->hasChanges())->toBeTrue();
+    expect($result->getDeleted())->toHaveCount($deletedScriptCount);
 
     $this->assertDatabaseCount(VideoScript::class, $deletedScriptCount);
     foreach ($scripts as $script) {

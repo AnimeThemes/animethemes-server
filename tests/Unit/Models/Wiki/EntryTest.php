@@ -14,14 +14,14 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('searchable as', function (): void {
     $entry = Entry::factory()
         ->for(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
-    $this->assertIsString($entry->searchableAs());
+    expect($entry->searchableAs())->toBeString();
 });
 
 test('to searchable array', function (): void {
@@ -29,7 +29,7 @@ test('to searchable array', function (): void {
         ->for(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
-    $this->assertIsArray($entry->toSearchableArray());
+    expect($entry->toSearchableArray())->toBeArray();
 });
 
 test('nameable', function (): void {
@@ -37,7 +37,7 @@ test('nameable', function (): void {
         ->for(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
-    $this->assertIsString($entry->getName());
+    expect($entry->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
@@ -45,7 +45,7 @@ test('has subtitle', function (): void {
         ->for(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
-    $this->assertIsString($entry->getSubtitle());
+    expect($entry->getSubtitle())->toBeString();
 });
 
 test('theme', function (): void {
@@ -53,8 +53,8 @@ test('theme', function (): void {
         ->for(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $entry->theme());
-    $this->assertInstanceOf(Theme::class, $entry->theme()->first());
+    expect($entry->theme())->toBeInstanceOf(BelongsTo::class);
+    expect($entry->theme()->first())->toBeInstanceOf(Theme::class);
 });
 
 test('external resources', function (): void {
@@ -65,10 +65,10 @@ test('external resources', function (): void {
         ->has(ExternalResource::factory()->count($resourcesCount), Entry::RELATION_RESOURCES)
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $entry->resources());
-    $this->assertEquals($resourcesCount, $entry->resources()->count());
-    $this->assertInstanceOf(ExternalResource::class, $entry->resources()->first());
-    $this->assertEquals(Resourceable::class, $entry->resources()->getPivotClass());
+    expect($entry->resources())->toBeInstanceOf(MorphToMany::class);
+    expect($entry->resources()->count())->toEqual($resourcesCount);
+    expect($entry->resources()->first())->toBeInstanceOf(ExternalResource::class);
+    expect($entry->resources()->getPivotClass())->toEqual(Resourceable::class);
 });
 
 test('videos', function (): void {
@@ -79,10 +79,10 @@ test('videos', function (): void {
         ->has(Video::factory()->count($videoCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $entry->videos());
-    $this->assertEquals($videoCount, $entry->videos()->count());
-    $this->assertInstanceOf(Video::class, $entry->videos()->first());
-    $this->assertEquals(EntryVideo::class, $entry->videos()->getPivotClass());
+    expect($entry->videos())->toBeInstanceOf(BelongsToMany::class);
+    expect($entry->videos()->count())->toEqual($videoCount);
+    expect($entry->videos()->first())->toBeInstanceOf(Video::class);
+    expect($entry->videos()->getPivotClass())->toEqual(EntryVideo::class);
 });
 
 test('anime', function (): void {
@@ -90,6 +90,6 @@ test('anime', function (): void {
         ->for(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToThrough::class, $entry->anime());
-    $this->assertInstanceOf(Anime::class, $entry->anime()->first());
+    expect($entry->anime())->toBeInstanceOf(BelongsToThrough::class);
+    expect($entry->anime()->first())->toBeInstanceOf(Anime::class);
 });

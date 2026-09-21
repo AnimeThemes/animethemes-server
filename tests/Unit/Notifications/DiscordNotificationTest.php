@@ -12,7 +12,7 @@ test('via discord message', function (): void {
 
     $notification = new DiscordNotification($message);
 
-    $this->assertEquals([DiscordChannel::class], $notification->via(new AnonymousNotifiable()));
+    expect($notification->via(new AnonymousNotifiable()))->toEqual([DiscordChannel::class]);
 });
 
 test('to discord message', function (): void {
@@ -20,5 +20,5 @@ test('to discord message', function (): void {
 
     $notification = new DiscordNotification($message);
 
-    $this->assertInstanceOf(DiscordMessage::class, $notification->toDiscord(new AnonymousNotifiable()));
+    expect($notification->toDiscord(new AnonymousNotifiable()))->toBeInstanceOf(DiscordMessage::class);
 });

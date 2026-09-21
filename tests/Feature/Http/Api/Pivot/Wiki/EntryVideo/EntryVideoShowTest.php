@@ -23,7 +23,7 @@ use Illuminate\Support\Arr;
 
 use function Pest\Laravel\get;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('not found', function (): void {
     $entry = Entry::factory()

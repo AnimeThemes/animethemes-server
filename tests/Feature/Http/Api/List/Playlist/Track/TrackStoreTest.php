@@ -24,7 +24,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('protected', function (): void {
     Event::fakeExcept(PlaylistCreated::class);
@@ -367,8 +367,8 @@ test('create', function (): void {
 
     $this->assertDatabaseCount(PlaylistTrack::class, 1);
 
-    $this->assertTrue($playlist->first()->is($track));
-    $this->assertTrue($playlist->last()->is($track));
+    expect($playlist->first()->is($track))->toBeTrue();
+    expect($playlist->last()->is($track))->toBeTrue();
 });
 
 test('create after last track', function (): void {
@@ -413,12 +413,12 @@ test('create after last track', function (): void {
 
     $this->assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
-    $this->assertTrue($playlist->last()->is($track));
+    expect($playlist->last()->is($track))->toBeTrue();
 
-    $this->assertTrue($last->next()->is($track));
+    expect($last->next()->is($track))->toBeTrue();
 
-    $this->assertTrue($track->previous()->is($last));
-    $this->assertTrue($track->next()->doesntExist());
+    expect($track->previous()->is($last))->toBeTrue();
+    expect($track->next()->doesntExist())->toBeTrue();
 });
 
 test('create after first track', function (): void {
@@ -464,12 +464,12 @@ test('create after first track', function (): void {
 
     $this->assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
-    $this->assertTrue($playlist->first()->is($first));
+    expect($playlist->first()->is($first))->toBeTrue();
 
-    $this->assertTrue($first->next()->is($track));
+    expect($first->next()->is($track))->toBeTrue();
 
-    $this->assertTrue($track->previous()->is($first));
-    $this->assertTrue($track->next()->is($next));
+    expect($track->previous()->is($first))->toBeTrue();
+    expect($track->next()->is($next))->toBeTrue();
 });
 
 test('create before last track', function (): void {
@@ -515,12 +515,12 @@ test('create before last track', function (): void {
 
     $this->assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
-    $this->assertTrue($playlist->last()->is($last));
+    expect($playlist->last()->is($last))->toBeTrue();
 
-    $this->assertTrue($last->previous()->is($track));
+    expect($last->previous()->is($track))->toBeTrue();
 
-    $this->assertTrue($track->previous()->is($previous));
-    $this->assertTrue($track->next()->is($last));
+    expect($track->previous()->is($previous))->toBeTrue();
+    expect($track->next()->is($last))->toBeTrue();
 });
 
 test('create before first track', function (): void {
@@ -565,10 +565,10 @@ test('create before first track', function (): void {
 
     $this->assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
-    $this->assertTrue($playlist->first()->is($track));
+    expect($playlist->first()->is($track))->toBeTrue();
 
-    $this->assertTrue($track->previous()->doesntExist());
-    $this->assertTrue($track->next()->is($first));
+    expect($track->previous()->doesntExist())->toBeTrue();
+    expect($track->next()->is($first))->toBeTrue();
 });
 
 test('create permitted for bypass', function (): void {

@@ -12,12 +12,12 @@ use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('no criteria by default', function (): void {
     $parameters = [];
 
-    $this->assertEmpty(FilterParser::parse($parameters));
+    expect(FilterParser::parse($parameters))->toBeEmpty();
 });
 
 test('parse trashed criteria', function (): void {
@@ -29,7 +29,7 @@ test('parse trashed criteria', function (): void {
 
     $criteria = FilterParser::parse($parameters)[0];
 
-    $this->assertInstanceOf(TrashedCriteria::class, $criteria);
+    expect($criteria)->toBeInstanceOf(TrashedCriteria::class);
 });
 
 test('parse where in criteria', function (): void {
@@ -43,7 +43,7 @@ test('parse where in criteria', function (): void {
 
     $criteria = FilterParser::parse($parameters)[0];
 
-    $this->assertInstanceOf(WhereInCriteria::class, $criteria);
+    expect($criteria)->toBeInstanceOf(WhereInCriteria::class);
 });
 
 test('parse has criteria', function (): void {
@@ -55,7 +55,7 @@ test('parse has criteria', function (): void {
 
     $criteria = FilterParser::parse($parameters)[0];
 
-    $this->assertInstanceOf(HasCriteria::class, $criteria);
+    expect($criteria)->toBeInstanceOf(HasCriteria::class);
 });
 
 test('parse where criteria', function (): void {
@@ -67,7 +67,7 @@ test('parse where criteria', function (): void {
 
     $criteria = FilterParser::parse($parameters)[0];
 
-    $this->assertInstanceOf(WhereCriteria::class, $criteria);
+    expect($criteria)->toBeInstanceOf(WhereCriteria::class);
 });
 
 test('parse global scope', function (): void {
@@ -79,7 +79,7 @@ test('parse global scope', function (): void {
 
     $criteria = FilterParser::parse($parameters)[0];
 
-    $this->assertInstanceOf(GlobalScope::class, $criteria->getScope());
+    expect($criteria->getScope())->toBeInstanceOf(GlobalScope::class);
 });
 
 test('parse type scope', function (): void {
@@ -97,5 +97,5 @@ test('parse type scope', function (): void {
 
     $scope = $criteria->getScope();
 
-    $this->assertTrue($scope instanceof TypeScope && $scope->getType() === $type);
+    expect($scope instanceof TypeScope && $scope->getType() === $type)->toBeTrue();
 });

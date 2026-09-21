@@ -7,7 +7,7 @@ use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('default', function (): void {
     $video = Video::factory()->createOne();
@@ -16,7 +16,7 @@ test('default', function (): void {
 
     $result = $deleteResults->toActionResult();
 
-    $this->assertTrue($result->hasFailed());
+    expect($result->hasFailed())->toBeTrue();
 });
 
 test('failed', function (): void {
@@ -36,7 +36,7 @@ test('failed', function (): void {
 
     $result = $deleteResults->toActionResult();
 
-    $this->assertTrue($result->hasFailed());
+    expect($result->hasFailed())->toBeTrue();
 });
 
 test('passed', function (): void {
@@ -52,5 +52,5 @@ test('passed', function (): void {
 
     $result = $deleteResults->toActionResult();
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
 });

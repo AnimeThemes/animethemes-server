@@ -15,7 +15,7 @@ test('casts status to enum', function (): void {
 
     $status = $entry->status;
 
-    $this->assertInstanceOf(ExternalEntryStatus::class, $status);
+    expect($status)->toBeInstanceOf(ExternalEntryStatus::class);
 });
 
 test('casts is favorite to bool', function (): void {
@@ -25,7 +25,7 @@ test('casts is favorite to bool', function (): void {
 
     $is_favorite = $entry->is_favorite;
 
-    $this->assertIsBool($is_favorite);
+    expect($is_favorite)->toBeBool();
 });
 
 test('nameable', function (): void {
@@ -33,7 +33,7 @@ test('nameable', function (): void {
         ->for(ExternalProfile::factory())
         ->createOne();
 
-    $this->assertIsString($entry->getName());
+    expect($entry->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
@@ -42,7 +42,7 @@ test('has subtitle', function (): void {
         ->for(Anime::factory())
         ->createOne();
 
-    $this->assertIsString($entry->getSubtitle());
+    expect($entry->getSubtitle())->toBeString();
 });
 
 test('profile', function (): void {
@@ -50,8 +50,8 @@ test('profile', function (): void {
         ->for(ExternalProfile::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $entry->externalprofile());
-    $this->assertInstanceOf(ExternalProfile::class, $entry->externalprofile()->first());
+    expect($entry->externalprofile())->toBeInstanceOf(BelongsTo::class);
+    expect($entry->externalprofile()->first())->toBeInstanceOf(ExternalProfile::class);
 });
 
 test('anime', function (): void {
@@ -60,6 +60,6 @@ test('anime', function (): void {
         ->for(Anime::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $entry->anime());
-    $this->assertInstanceOf(Anime::class, $entry->anime()->first());
+    expect($entry->anime())->toBeInstanceOf(BelongsTo::class);
+    expect($entry->anime()->first())->toBeInstanceOf(Anime::class);
 });

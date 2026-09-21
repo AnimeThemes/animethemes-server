@@ -8,18 +8,18 @@ use App\Models\Wiki\Theme;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('nameable', function (): void {
     $group = Group::factory()->createOne();
 
-    $this->assertIsString($group->getName());
+    expect($group->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
     $group = Group::factory()->createOne();
 
-    $this->assertIsString($group->getSubtitle());
+    expect($group->getSubtitle())->toBeString();
 });
 
 test('themes', function (): void {
@@ -29,7 +29,7 @@ test('themes', function (): void {
         ->has(Theme::factory()->for(Anime::factory())->count($themeCount))
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $group->themes());
-    $this->assertEquals($themeCount, $group->themes()->count());
-    $this->assertInstanceOf(Theme::class, $group->themes()->first());
+    expect($group->themes())->toBeInstanceOf(HasMany::class);
+    expect($group->themes()->count())->toEqual($themeCount);
+    expect($group->themes()->first())->toBeInstanceOf(Theme::class);
 });

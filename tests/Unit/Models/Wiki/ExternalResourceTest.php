@@ -13,26 +13,26 @@ use App\Pivots\Morph\Resourceable;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('casts season to enum', function (): void {
     $resource = ExternalResource::factory()->createOne();
 
     $site = $resource->site;
 
-    $this->assertInstanceOf(ResourceSite::class, $site);
+    expect($site)->toBeInstanceOf(ResourceSite::class);
 });
 
 test('nameable', function (): void {
     $resource = ExternalResource::factory()->createOne();
 
-    $this->assertIsString($resource->getName());
+    expect($resource->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
     $resource = ExternalResource::factory()->createOne();
 
-    $this->assertIsString($resource->getSubtitle());
+    expect($resource->getSubtitle())->toBeString();
 });
 
 test('anime', function (): void {
@@ -42,10 +42,10 @@ test('anime', function (): void {
         ->has(Anime::factory()->count($animeCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $resource->anime());
-    $this->assertEquals($animeCount, $resource->anime()->count());
-    $this->assertInstanceOf(Anime::class, $resource->anime()->first());
-    $this->assertEquals(Resourceable::class, $resource->anime()->getPivotClass());
+    expect($resource->anime())->toBeInstanceOf(MorphToMany::class);
+    expect($resource->anime()->count())->toEqual($animeCount);
+    expect($resource->anime()->first())->toBeInstanceOf(Anime::class);
+    expect($resource->anime()->getPivotClass())->toEqual(Resourceable::class);
 });
 
 test('anime theme entry', function (): void {
@@ -55,10 +55,10 @@ test('anime theme entry', function (): void {
         ->has(Entry::factory()->forAnime()->count($entryCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $resource->entries());
-    $this->assertEquals($entryCount, $resource->entries()->count());
-    $this->assertInstanceOf(Entry::class, $resource->entries()->first());
-    $this->assertEquals(Resourceable::class, $resource->entries()->getPivotClass());
+    expect($resource->entries())->toBeInstanceOf(MorphToMany::class);
+    expect($resource->entries()->count())->toEqual($entryCount);
+    expect($resource->entries()->first())->toBeInstanceOf(Entry::class);
+    expect($resource->entries()->getPivotClass())->toEqual(Resourceable::class);
 });
 
 test('artists', function (): void {
@@ -68,10 +68,10 @@ test('artists', function (): void {
         ->has(Artist::factory()->count($artistCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $resource->artists());
-    $this->assertEquals($artistCount, $resource->artists()->count());
-    $this->assertInstanceOf(Artist::class, $resource->artists()->first());
-    $this->assertEquals(Resourceable::class, $resource->artists()->getPivotClass());
+    expect($resource->artists())->toBeInstanceOf(MorphToMany::class);
+    expect($resource->artists()->count())->toEqual($artistCount);
+    expect($resource->artists()->first())->toBeInstanceOf(Artist::class);
+    expect($resource->artists()->getPivotClass())->toEqual(Resourceable::class);
 });
 
 test('song', function (): void {
@@ -81,10 +81,10 @@ test('song', function (): void {
         ->has(Song::factory()->count($songCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $resource->songs());
-    $this->assertEquals($songCount, $resource->songs()->count());
-    $this->assertInstanceOf(Song::class, $resource->songs()->first());
-    $this->assertEquals(Resourceable::class, $resource->songs()->getPivotClass());
+    expect($resource->songs())->toBeInstanceOf(MorphToMany::class);
+    expect($resource->songs()->count())->toEqual($songCount);
+    expect($resource->songs()->first())->toBeInstanceOf(Song::class);
+    expect($resource->songs()->getPivotClass())->toEqual(Resourceable::class);
 });
 
 test('studio', function (): void {
@@ -94,8 +94,8 @@ test('studio', function (): void {
         ->has(Studio::factory()->count($studioCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $resource->studios());
-    $this->assertEquals($studioCount, $resource->studios()->count());
-    $this->assertInstanceOf(Studio::class, $resource->studios()->first());
-    $this->assertEquals(Resourceable::class, $resource->studios()->getPivotClass());
+    expect($resource->studios())->toBeInstanceOf(MorphToMany::class);
+    expect($resource->studios()->count())->toEqual($studioCount);
+    expect($resource->studios()->first())->toBeInstanceOf(Studio::class);
+    expect($resource->studios()->getPivotClass())->toEqual(Resourceable::class);
 });

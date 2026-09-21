@@ -15,10 +15,7 @@ use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\External\ExternalToken;
-use App\Scout\Elasticsearch\Models\List\ExternalProfileElasticModel;
-use App\Scout\Typesense\Models\List\ExternalProfileTypesenseModel;
 use Database\Factories\List\ExternalProfileFactory;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,6 +29,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 use Illuminate\Support\Uri;
+use Laravel\Scout\Searchable;
 use RuntimeException;
 
 /**
@@ -140,10 +138,21 @@ class ExternalProfile extends BaseModel
     {
         return match ($driver = Config::get('scout.driver')) {
             'collection',
-            'elastic' => ExternalProfileElasticModel::toSearchableArray($this),
-            'typesense' => ExternalProfileTypesenseModel::toSearchableArray($this),
+            'typesense' => $this->toTypesenseArray(),
             default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function toTypesenseArray(): array
+    {
+        return [
+            'id' => (string) $this->getKey(),
+            'name' => $this->name,
+            'site' => $this->site->value,
+        ];
     }
 
     /**

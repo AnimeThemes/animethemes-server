@@ -14,24 +14,24 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('searchable as', function (): void {
     $song = Song::factory()->createOne();
 
-    $this->assertIsString($song->searchableAs());
+    expect($song->searchableAs())->toBeString();
 });
 
 test('to searchable array', function (): void {
     $song = Song::factory()->createOne();
 
-    $this->assertIsArray($song->toSearchableArray());
+    expect($song->toSearchableArray())->toBeArray();
 });
 
 test('nameable', function (): void {
     $song = Song::factory()->createOne();
 
-    $this->assertIsString($song->getName());
+    expect($song->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
@@ -39,7 +39,7 @@ test('has subtitle', function (): void {
         ->has(Theme::factory()->for(Anime::factory()))
         ->createOne();
 
-    $this->assertIsString($song->getSubtitle());
+    expect($song->getSubtitle())->toBeString();
 });
 
 test('themes', function (): void {
@@ -49,9 +49,9 @@ test('themes', function (): void {
         ->has(Theme::factory()->for(Anime::factory())->count($themeCount))
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $song->themes());
-    $this->assertEquals($themeCount, $song->themes()->count());
-    $this->assertInstanceOf(Theme::class, $song->themes()->first());
+    expect($song->themes())->toBeInstanceOf(HasMany::class);
+    expect($song->themes()->count())->toEqual($themeCount);
+    expect($song->themes()->first())->toBeInstanceOf(Theme::class);
 });
 
 test('artists', function (): void {
@@ -61,9 +61,9 @@ test('artists', function (): void {
         ->has(Artist::factory()->count($artistCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $song->artists());
-    $this->assertEquals($artistCount, $song->artists()->count());
-    $this->assertInstanceOf(Artist::class, $song->artists()->first());
+    expect($song->artists())->toBeInstanceOf(BelongsToMany::class);
+    expect($song->artists()->count())->toEqual($artistCount);
+    expect($song->artists()->first())->toBeInstanceOf(Artist::class);
 });
 
 test('performances', function (): void {
@@ -73,9 +73,9 @@ test('performances', function (): void {
         ->has(Performance::factory()->count($performanceCount))
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $song->performances());
-    $this->assertEquals($performanceCount, $song->performances()->count());
-    $this->assertInstanceOf(Performance::class, $song->performances()->first());
+    expect($song->performances())->toBeInstanceOf(HasMany::class);
+    expect($song->performances()->count())->toEqual($performanceCount);
+    expect($song->performances()->first())->toBeInstanceOf(Performance::class);
 });
 
 test('external resources', function (): void {
@@ -85,8 +85,8 @@ test('external resources', function (): void {
         ->has(ExternalResource::factory()->count($resourceCount), 'resources')
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $song->resources());
-    $this->assertEquals($resourceCount, $song->resources()->count());
-    $this->assertInstanceOf(ExternalResource::class, $song->resources()->first());
-    $this->assertEquals(Resourceable::class, $song->resources()->getPivotClass());
+    expect($song->resources())->toBeInstanceOf(MorphToMany::class);
+    expect($song->resources()->count())->toEqual($resourceCount);
+    expect($song->resources()->first())->toBeInstanceOf(ExternalResource::class);
+    expect($song->resources()->getPivotClass())->toEqual(Resourceable::class);
 });

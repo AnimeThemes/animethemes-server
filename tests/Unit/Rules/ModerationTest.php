@@ -10,13 +10,10 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('fails if unknown moderation service', function (): void {
-    $this->expectException(RuntimeException::class);
-
-    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, fake()->word());
-
+    expect(fn () => Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, fake()->word()))->toThrow(RuntimeException::class);
     $attribute = fake()->word();
 
     $validator = Validator::make(
@@ -47,7 +44,7 @@ test('fails if flagged by open ai', function (): void {
         [$attribute => new ModerationRule()],
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });
 
 test('passes if not flagged by open ai', function (): void {
@@ -70,7 +67,7 @@ test('passes if not flagged by open ai', function (): void {
         [$attribute => new ModerationRule()],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('passes if open ai fails', function (): void {
@@ -87,5 +84,5 @@ test('passes if open ai fails', function (): void {
         [$attribute => new ModerationRule()],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('fails when bitrate is not expected', function (): void {
     Feature::activate(FeatureConstants::VIDEO_BITRATE_RESTRICTION);
@@ -52,7 +52,7 @@ test('fails when bitrate is not expected', function (): void {
         ['file' => new VideoBitrateRestrictionFormatRule()],
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -96,7 +96,7 @@ test('passes when bitrate is expected', function (): void {
         ['file' => new VideoBitrateRestrictionFormatRule()],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

@@ -13,7 +13,7 @@ test('nameable', function (): void {
         ->for(Playlist::factory())
         ->createOne();
 
-    $this->assertIsString($track->getName());
+    expect($track->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
@@ -21,7 +21,7 @@ test('has subtitle', function (): void {
         ->for(Playlist::factory()->for(User::factory()))
         ->createOne();
 
-    $this->assertIsString($track->getSubtitle());
+    expect($track->getSubtitle())->toBeString();
 });
 
 test('hashids', function (): void {
@@ -31,8 +31,8 @@ test('hashids', function (): void {
         ->for($playlist)
         ->createOne();
 
-    $this->assertEmpty(array_diff([$playlist->playlist_id, $track->track_id], $track->hashids()));
-    $this->assertEmpty(array_diff($track->hashids(), [$playlist->playlist_id, $track->track_id]));
+    expect(array_diff([$playlist->playlist_id, $track->track_id], $track->hashids()))->toBeEmpty();
+    expect(array_diff($track->hashids(), [$playlist->playlist_id, $track->track_id]))->toBeEmpty();
 });
 
 test('playlist', function (): void {
@@ -40,8 +40,8 @@ test('playlist', function (): void {
         ->for(Playlist::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $track->playlist());
-    $this->assertInstanceOf(Playlist::class, $track->playlist()->first());
+    expect($track->playlist())->toBeInstanceOf(BelongsTo::class);
+    expect($track->playlist()->first())->toBeInstanceOf(Playlist::class);
 });
 
 test('previous', function (): void {
@@ -57,8 +57,8 @@ test('previous', function (): void {
 
     $track->previous()->associate($previous)->save();
 
-    $this->assertInstanceOf(BelongsTo::class, $track->previous());
-    $this->assertInstanceOf(PlaylistTrack::class, $track->previous()->first());
+    expect($track->previous())->toBeInstanceOf(BelongsTo::class);
+    expect($track->previous()->first())->toBeInstanceOf(PlaylistTrack::class);
 });
 
 test('next', function (): void {
@@ -74,8 +74,8 @@ test('next', function (): void {
 
     $track->next()->associate($next)->save();
 
-    $this->assertInstanceOf(BelongsTo::class, $track->next());
-    $this->assertInstanceOf(PlaylistTrack::class, $track->next()->first());
+    expect($track->next())->toBeInstanceOf(BelongsTo::class);
+    expect($track->next()->first())->toBeInstanceOf(PlaylistTrack::class);
 });
 
 test('video', function (): void {
@@ -84,6 +84,6 @@ test('video', function (): void {
         ->for(Video::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $track->video());
-    $this->assertInstanceOf(Video::class, $track->video()->first());
+    expect($track->video())->toBeInstanceOf(BelongsTo::class);
+    expect($track->video()->first())->toBeInstanceOf(Video::class);
 });

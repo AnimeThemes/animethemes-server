@@ -6,14 +6,14 @@ use App\Actions\Storage\Base\UploadResults;
 use App\Enums\Actions\ActionStatus;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('default', function (): void {
     $uploadResults = new UploadResults();
 
     $result = $uploadResults->toActionResult();
 
-    $this->assertTrue($result->hasFailed());
+    expect($result->hasFailed())->toBeTrue();
 });
 
 test('failed', function (): void {
@@ -31,7 +31,7 @@ test('failed', function (): void {
 
     $result = $uploadResults->toActionResult();
 
-    $this->assertTrue($result->hasFailed());
+    expect($result->hasFailed())->toBeTrue();
 });
 
 test('passed', function (): void {
@@ -45,5 +45,5 @@ test('passed', function (): void {
 
     $result = $uploadResults->toActionResult();
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
 });

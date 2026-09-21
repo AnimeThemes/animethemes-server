@@ -11,13 +11,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 test('nameable', function (): void {
     $page = Page::factory()->createOne();
 
-    $this->assertIsString($page->getName());
+    expect($page->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
     $page = Page::factory()->createOne();
 
-    $this->assertIsString($page->getSubtitle());
+    expect($page->getSubtitle())->toBeString();
 });
 
 test('previous', function (): void {
@@ -25,8 +25,8 @@ test('previous', function (): void {
         ->for(Page::factory(), Page::RELATION_PREVIOUS)
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $page->previous());
-    $this->assertInstanceOf(Page::class, $page->previous()->first());
+    expect($page->previous())->toBeInstanceOf(BelongsTo::class);
+    expect($page->previous()->first())->toBeInstanceOf(Page::class);
 });
 
 test('next', function (): void {
@@ -34,8 +34,8 @@ test('next', function (): void {
         ->for(Page::factory(), Page::RELATION_NEXT)
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $page->next());
-    $this->assertInstanceOf(Page::class, $page->next()->first());
+    expect($page->next())->toBeInstanceOf(BelongsTo::class);
+    expect($page->next()->first())->toBeInstanceOf(Page::class);
 });
 
 test('roles', function (): void {
@@ -52,8 +52,8 @@ test('roles', function (): void {
         ->count($roleCount)
         ->create();
 
-    $this->assertInstanceOf(BelongsToMany::class, $page->roles());
-    $this->assertEquals($roleCount, $page->roles()->count());
-    $this->assertInstanceOf(Role::class, $page->roles()->first());
-    $this->assertEquals(PageRole::class, $page->roles()->getPivotClass());
+    expect($page->roles())->toBeInstanceOf(BelongsToMany::class);
+    expect($page->roles()->count())->toEqual($roleCount);
+    expect($page->roles()->first())->toBeInstanceOf(Role::class);
+    expect($page->roles()->getPivotClass())->toEqual(PageRole::class);
 });

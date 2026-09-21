@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 
 use function Pest\Laravel\get;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('default', function (): void {
     $year = intval(fake()->year());

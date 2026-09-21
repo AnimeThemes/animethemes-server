@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('default size', function (): void {
     $resultSize = fake()->numberBetween(1, Criteria::MAX_RESULTS);
@@ -33,7 +33,7 @@ test('default size', function (): void {
         }
     };
 
-    $this->assertEquals($resultSize, $criteria->getResultSize());
+    expect($criteria->getResultSize())->toEqual($resultSize);
 });
 
 test('upper bound size', function (): void {
@@ -58,7 +58,7 @@ test('upper bound size', function (): void {
         }
     };
 
-    $this->assertEquals(Criteria::DEFAULT_SIZE, $criteria->getResultSize());
+    expect($criteria->getResultSize())->toEqual(Criteria::DEFAULT_SIZE);
 });
 
 test('lower bound size', function (): void {
@@ -83,5 +83,5 @@ test('lower bound size', function (): void {
         }
     };
 
-    $this->assertEquals(Criteria::DEFAULT_SIZE, $criteria->getResultSize());
+    expect($criteria->getResultSize())->toEqual(Criteria::DEFAULT_SIZE);
 });

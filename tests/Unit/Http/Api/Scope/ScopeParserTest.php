@@ -8,18 +8,18 @@ use App\Http\Api\Scope\ScopeParser;
 use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('parse global scope', function (): void {
-    $this->assertInstanceOf(GlobalScope::class, ScopeParser::parse(''));
+    expect(ScopeParser::parse(''))->toBeInstanceOf(GlobalScope::class);
 });
 
 test('parse type scope', function (): void {
-    $this->assertInstanceOf(TypeScope::class, ScopeParser::parse(fake()->word()));
+    expect(ScopeParser::parse(fake()->word()))->toBeInstanceOf(TypeScope::class);
 });
 
 test('parse relation scope', function (): void {
     $relation = collect(fake()->words())->join('.');
 
-    $this->assertInstanceOf(RelationScope::class, ScopeParser::parse($relation));
+    expect(ScopeParser::parse($relation))->toBeInstanceOf(RelationScope::class);
 });

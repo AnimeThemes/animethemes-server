@@ -15,7 +15,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 use function Pest\Laravel\get;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('not found', function (): void {
     $artist = Artist::factory()->createOne();

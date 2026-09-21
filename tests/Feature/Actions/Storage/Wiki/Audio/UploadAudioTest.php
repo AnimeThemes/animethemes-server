@@ -11,7 +11,7 @@ use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('default', function (): void {
     Config::set(AudioConstants::DISKS_QUALIFIED, []);
@@ -25,7 +25,7 @@ test('default', function (): void {
 
     $result = $storageResults->toActionResult();
 
-    $this->assertTrue($result->hasFailed());
+    expect($result->hasFailed())->toBeTrue();
 });
 
 test('passed', function (): void {
@@ -40,7 +40,7 @@ test('passed', function (): void {
 
     $result = $storageResults->toActionResult();
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
 });
 
 test('uploaded to disk', function (): void {
@@ -53,7 +53,7 @@ test('uploaded to disk', function (): void {
 
     $action->handle();
 
-    $this->assertCount(1, Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    expect(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles())->toHaveCount(1);
 });
 
 test('created audio', function (): void {

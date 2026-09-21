@@ -13,18 +13,18 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('nameable', function (): void {
     $audio = Audio::factory()->createOne();
 
-    $this->assertIsString($audio->getName());
+    expect($audio->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
     $audio = Audio::factory()->createOne();
 
-    $this->assertIsString($audio->getSubtitle());
+    expect($audio->getSubtitle())->toBeString();
 });
 
 test('videos', function (): void {
@@ -34,9 +34,9 @@ test('videos', function (): void {
         ->has(Video::factory()->count($videoCount))
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $audio->videos());
-    $this->assertEquals($videoCount, $audio->videos()->count());
-    $this->assertInstanceOf(Video::class, $audio->videos()->first());
+    expect($audio->videos())->toBeInstanceOf(HasMany::class);
+    expect($audio->videos()->count())->toEqual($videoCount);
+    expect($audio->videos()->first())->toBeInstanceOf(Video::class);
 });
 
 test('audio storage deletion', function (): void {
@@ -50,7 +50,7 @@ test('audio storage deletion', function (): void {
 
     $audio->delete();
 
-    $this->assertTrue($fs->exists($audio->path));
+    expect($fs->exists($audio->path))->toBeTrue();
 });
 
 test('audio storage force deletion', function (): void {
@@ -66,5 +66,5 @@ test('audio storage force deletion', function (): void {
 
     $audio->forceDelete();
 
-    $this->assertFalse($fs->exists($audio->path));
+    expect($fs->exists($audio->path))->toBeFalse();
 });

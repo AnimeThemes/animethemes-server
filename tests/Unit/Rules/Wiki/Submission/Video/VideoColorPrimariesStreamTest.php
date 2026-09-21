@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('fails when color primaries is not accepted', function (): void {
     Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, 'bt709,smpte170m,bt470bg');
@@ -47,7 +47,7 @@ test('fails when color primaries is not accepted', function (): void {
         ['file' => new VideoColorPrimariesStreamRule()],
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -85,7 +85,7 @@ test('passes when color primaries is accepted', function (): void {
         ['file' => new VideoColorPrimariesStreamRule()],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

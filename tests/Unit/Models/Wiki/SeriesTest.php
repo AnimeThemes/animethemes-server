@@ -8,30 +8,30 @@ use App\Pivots\Wiki\AnimeSeries;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('searchable as', function (): void {
     $series = Series::factory()->createOne();
 
-    $this->assertIsString($series->searchableAs());
+    expect($series->searchableAs())->toBeString();
 });
 
 test('to searchable array', function (): void {
     $series = Series::factory()->createOne();
 
-    $this->assertIsArray($series->toSearchableArray());
+    expect($series->toSearchableArray())->toBeArray();
 });
 
 test('nameable', function (): void {
     $series = Series::factory()->createOne();
 
-    $this->assertIsString($series->getName());
+    expect($series->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
     $series = Series::factory()->createOne();
 
-    $this->assertIsString($series->getSubtitle());
+    expect($series->getSubtitle())->toBeString();
 });
 
 test('anime', function (): void {
@@ -41,8 +41,8 @@ test('anime', function (): void {
         ->has(Anime::factory()->count($animeCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $series->anime());
-    $this->assertEquals($animeCount, $series->anime()->count());
-    $this->assertInstanceOf(Anime::class, $series->anime()->first());
-    $this->assertEquals(AnimeSeries::class, $series->anime()->getPivotClass());
+    expect($series->anime())->toBeInstanceOf(BelongsToMany::class);
+    expect($series->anime()->count())->toEqual($animeCount);
+    expect($series->anime()->first())->toBeInstanceOf(Anime::class);
+    expect($series->anime()->getPivotClass())->toEqual(AnimeSeries::class);
 });

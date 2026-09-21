@@ -17,11 +17,8 @@ use App\Http\Api\Schema\Wiki\ThemeSchema;
 use App\Models\BaseModel;
 use App\Observers\Wiki\ThemeObserver;
 use App\Scopes\WithoutInsertSongScope;
-use App\Scout\Elasticsearch\Models\Wiki\ThemeElasticModel;
-use App\Scout\Typesense\Models\Wiki\ThemeTypesenseModel;
 use Database\Factories\Wiki\ThemeFactory;
 use Deprecated;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\Table;
@@ -33,6 +30,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 use RuntimeException;
@@ -165,10 +163,28 @@ class Theme extends BaseModel implements Auditable, InteractsWithSchema, SoftDel
     {
         return match ($driver = Config::get('scout.driver')) {
             'collection',
-            'elastic' => ThemeElasticModel::toSearchableArray($this),
-            'typesense' => ThemeTypesenseModel::toSearchableArray($this),
+            'typesense' => $this->toTypesenseArray(),
             default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function toTypesenseArray(): array
+    {
+        return [
+            'id' => (string) $this->getKey(),
+            'created_at' => $this->created_at->timestamp,
+
+            'type_sequence' => $this->type->localize().($this->sequence ?? 1),
+            'type' => $this->type->value,
+            'sequence' => $this->sequence ?? 1,
+
+            'anime' => $this->anime->toSearchableArray(),
+            'song' => $this->song?->toSearchableArray(),
+            'song_title' => $this->song?->title,
+        ];
     }
 
     public function getName(): string

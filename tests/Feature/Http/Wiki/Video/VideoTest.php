@@ -25,7 +25,7 @@ use function Pest\Laravel\get;
 
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('video streaming not allowed forbidden', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
@@ -94,7 +94,7 @@ test('streamed through response', function (): void {
 
     $response = get(route('video.show', ['video' => $video]));
 
-    $this->assertInstanceOf(StreamedResponse::class, $response->baseResponse);
+    expect($response->baseResponse)->toBeInstanceOf(StreamedResponse::class);
 });
 
 test('streamed through nginx redirect', function (): void {

@@ -14,20 +14,20 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('casts season to enum', function (): void {
     $playlist = Playlist::factory()->createOne();
 
     $visibility = $playlist->visibility;
 
-    $this->assertInstanceOf(PlaylistVisibility::class, $visibility);
+    expect($visibility)->toBeInstanceOf(PlaylistVisibility::class);
 });
 
 test('nameable', function (): void {
     $playlist = Playlist::factory()->createOne();
 
-    $this->assertIsString($playlist->getName());
+    expect($playlist->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
@@ -35,7 +35,7 @@ test('has subtitle', function (): void {
         ->for(User::factory())
         ->createOne();
 
-    $this->assertIsString($playlist->getSubtitle());
+    expect($playlist->getSubtitle())->toBeString();
 });
 
 test('searchable if public', function (): void {
@@ -44,7 +44,7 @@ test('searchable if public', function (): void {
             Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
         ]);
 
-    $this->assertTrue($playlist->shouldBeSearchable());
+    expect($playlist->shouldBeSearchable())->toBeTrue();
 });
 
 test('not searchable if not public', function (): void {
@@ -62,14 +62,14 @@ test('not searchable if not public', function (): void {
             Playlist::ATTRIBUTE_VISIBILITY => $visibility->value,
         ]);
 
-    $this->assertFalse($playlist->shouldBeSearchable());
+    expect($playlist->shouldBeSearchable())->toBeFalse();
 });
 
 test('hashids nullable user', function (): void {
     $playlist = Playlist::factory()->createOne();
 
-    $this->assertEmpty(array_diff([$playlist->playlist_id], $playlist->hashids()));
-    $this->assertEmpty(array_diff($playlist->hashids(), [$playlist->playlist_id]));
+    expect(array_diff([$playlist->playlist_id], $playlist->hashids()))->toBeEmpty();
+    expect(array_diff($playlist->hashids(), [$playlist->playlist_id]))->toBeEmpty();
 });
 
 test('hashids non null user', function (): void {
@@ -79,8 +79,8 @@ test('hashids non null user', function (): void {
         ->for($user)
         ->createOne();
 
-    $this->assertEmpty(array_diff([$user->id, $playlist->playlist_id], $playlist->hashids()));
-    $this->assertEmpty(array_diff($playlist->hashids(), [$user->id, $playlist->playlist_id]));
+    expect(array_diff([$user->id, $playlist->playlist_id], $playlist->hashids()))->toBeEmpty();
+    expect(array_diff($playlist->hashids(), [$user->id, $playlist->playlist_id]))->toBeEmpty();
 });
 
 test('user', function (): void {
@@ -88,8 +88,8 @@ test('user', function (): void {
         ->for(User::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $playlist->user());
-    $this->assertInstanceOf(User::class, $playlist->user()->first());
+    expect($playlist->user())->toBeInstanceOf(BelongsTo::class);
+    expect($playlist->user()->first())->toBeInstanceOf(User::class);
 });
 
 test('first', function (): void {
@@ -102,8 +102,8 @@ test('first', function (): void {
 
     $playlist->first()->associate($first)->save();
 
-    $this->assertInstanceOf(BelongsTo::class, $playlist->first());
-    $this->assertInstanceOf(PlaylistTrack::class, $playlist->first()->first());
+    expect($playlist->first())->toBeInstanceOf(BelongsTo::class);
+    expect($playlist->first()->first())->toBeInstanceOf(PlaylistTrack::class);
 });
 
 test('last', function (): void {
@@ -115,8 +115,8 @@ test('last', function (): void {
 
     $playlist->last()->associate($last)->save();
 
-    $this->assertInstanceOf(BelongsTo::class, $playlist->last());
-    $this->assertInstanceOf(PlaylistTrack::class, $playlist->last()->first());
+    expect($playlist->last())->toBeInstanceOf(BelongsTo::class);
+    expect($playlist->last()->first())->toBeInstanceOf(PlaylistTrack::class);
 });
 
 test('images', function (): void {
@@ -126,10 +126,10 @@ test('images', function (): void {
         ->has(Image::factory()->count($imageCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $playlist->images());
-    $this->assertEquals($imageCount, $playlist->images()->count());
-    $this->assertInstanceOf(Image::class, $playlist->images()->first());
-    $this->assertEquals(Imageable::class, $playlist->images()->getPivotClass());
+    expect($playlist->images())->toBeInstanceOf(MorphToMany::class);
+    expect($playlist->images()->count())->toEqual($imageCount);
+    expect($playlist->images()->first())->toBeInstanceOf(Image::class);
+    expect($playlist->images()->getPivotClass())->toEqual(Imageable::class);
 });
 
 test('tracks', function (): void {
@@ -142,7 +142,7 @@ test('tracks', function (): void {
         ->count($trackCount)
         ->create();
 
-    $this->assertInstanceOf(HasMany::class, $playlist->tracks());
-    $this->assertEquals($trackCount, $playlist->tracks()->count());
-    $this->assertInstanceOf(PlaylistTrack::class, $playlist->tracks()->first());
+    expect($playlist->tracks())->toBeInstanceOf(HasMany::class);
+    expect($playlist->tracks()->count())->toEqual($trackCount);
+    expect($playlist->tracks()->first())->toBeInstanceOf(PlaylistTrack::class);
 });

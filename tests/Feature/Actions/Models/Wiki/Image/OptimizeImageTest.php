@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('skipped', function (): void {
     $fs = Storage::fake(Config::get(ImageConstants::DISKS_QUALIFIED));
@@ -27,9 +27,9 @@ test('skipped', function (): void {
 
     $result = $action->handle();
 
-    $this->assertTrue($result->getStatus() === ActionStatus::SKIPPED);
+    expect($result->getStatus())->toBe(ActionStatus::SKIPPED);
     $this->assertDatabaseCount(Image::class, 1);
-    $this->assertTrue($image->exists());
+    expect($image->exists())->toBeTrue();
 });
 
 test('converts to avif', function (): void {
@@ -45,10 +45,10 @@ test('converts to avif', function (): void {
 
     $result = $action->handle();
 
-    $this->assertTrue(Str::endsWith(($image->refresh()->path), '.avif'));
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    expect(Str::endsWith(($image->refresh()->path), '.avif'))->toBeTrue();
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
     $this->assertDatabaseCount(Image::class, 1);
-    $this->assertTrue($image->exists());
+    expect($image->exists())->toBeTrue();
 });
 
 test('downscale', function (): void {
@@ -64,7 +64,7 @@ test('downscale', function (): void {
 
     $result = $action->handle();
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
     $this->assertDatabaseCount(Image::class, 1);
-    $this->assertTrue($image->exists());
+    expect($image->exists())->toBeTrue();
 });

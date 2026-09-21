@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('fails when color transfer is not accepted', function (): void {
     Feature::activate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM, 'bt709,smpte170m,bt470bg');
@@ -47,7 +47,7 @@ test('fails when color transfer is not accepted', function (): void {
         ['file' => new VideoColorTransferStreamRule()],
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -85,7 +85,7 @@ test('passes when color transfer is accepted', function (): void {
         ['file' => new VideoColorTransferStreamRule()],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

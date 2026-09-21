@@ -13,5 +13,5 @@ it('converts validated timestamps', function (): void {
 
     $filterValues = $filter->getFilterValues(Arr::wrap($timestampValue));
 
-    $this->assertEquals(DateTime::createFromTimestamp($timestampValue)->format(AllowedDateFormat::YMDHIS->value), $filterValues[0]);
+    expect($filterValues[0])->toEqual(DateTime::createFromTimestamp($timestampValue)->format(AllowedDateFormat::YMDHIS->value));
 });

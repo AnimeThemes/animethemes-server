@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('database dump output', function (): void {
     Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
@@ -29,6 +29,6 @@ test('database dump file', function (): void {
 
     $this->artisan(ContentDumpCommand::class)->run();
 
-    $this->assertEmpty($local->allFiles());
-    $this->assertCount(1, $fs->allFiles());
+    expect($local->allFiles())->toBeEmpty();
+    expect($fs->allFiles())->toHaveCount(1);
 });

@@ -7,7 +7,7 @@ use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('should not apply if no integers', function (): void {
     $filterField = fake()->word();
@@ -16,7 +16,7 @@ test('should not apply if no integers', function (): void {
 
     $filter = new IntFilter($filterField);
 
-    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    expect($criteria->shouldFilter($filter, $criteria->getScope()))->toBeFalse();
 });
 
 test('converts validated integers', function (): void {
@@ -30,5 +30,5 @@ test('converts validated integers', function (): void {
 
     $filterValues = $filter->getFilterValues($criteria->getFilterValues());
 
-    $this->assertEquals(intval($intValue), $filterValues[0]);
+    expect($filterValues[0])->toEqual(intval($intValue));
 });

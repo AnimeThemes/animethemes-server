@@ -7,14 +7,14 @@ use App\Http\Api\Scope\RelationScope;
 use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('global scope is within scope', function (): void {
     $scope = new GlobalScope();
 
     $otherScope = new GlobalScope();
 
-    $this->assertTrue($scope->isWithinScope($otherScope));
+    expect($scope->isWithinScope($otherScope))->toBeTrue();
 });
 
 test('type scope is within scope', function (): void {
@@ -22,7 +22,7 @@ test('type scope is within scope', function (): void {
 
     $otherScope = new TypeScope(fake()->word());
 
-    $this->assertTrue($scope->isWithinScope($otherScope));
+    expect($scope->isWithinScope($otherScope))->toBeTrue();
 });
 
 test('relation scope is within scope', function (): void {
@@ -30,5 +30,5 @@ test('relation scope is within scope', function (): void {
 
     $otherScope = new RelationScope(fake()->word());
 
-    $this->assertTrue($scope->isWithinScope($otherScope));
+    expect($scope->isWithinScope($otherScope))->toBeTrue();
 });

@@ -12,8 +12,8 @@ test('artist', function (): void {
         ->for(Artist::factory(), 'member')
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $artistMember->artist());
-    $this->assertInstanceOf(Artist::class, $artistMember->artist()->first());
+    expect($artistMember->artist())->toBeInstanceOf(BelongsTo::class);
+    expect($artistMember->artist()->first())->toBeInstanceOf(Artist::class);
 });
 
 test('member', function (): void {
@@ -22,6 +22,6 @@ test('member', function (): void {
         ->for(Artist::factory(), 'member')
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $artistMember->member());
-    $this->assertInstanceOf(Artist::class, $artistMember->member()->first());
+    expect($artistMember->member())->toBeInstanceOf(BelongsTo::class);
+    expect($artistMember->member()->first())->toBeInstanceOf(Artist::class);
 });

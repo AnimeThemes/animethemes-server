@@ -19,8 +19,8 @@ test('first track', function (): void {
 
     $action->insert($playlist, $track);
 
-    $this->assertTrue($playlist->first()->is($track));
-    $this->assertTrue($playlist->last()->is($track));
+    expect($playlist->first()->is($track))->toBeTrue();
+    expect($playlist->last()->is($track))->toBeTrue();
 });
 
 test('second track', function (): void {
@@ -41,14 +41,14 @@ test('second track', function (): void {
     $action->insert($playlist, $first);
     $action->insert($playlist, $second);
 
-    $this->assertTrue($playlist->first()->is($first));
-    $this->assertTrue($playlist->last()->is($second));
+    expect($playlist->first()->is($first))->toBeTrue();
+    expect($playlist->last()->is($second))->toBeTrue();
 
-    $this->assertTrue($first->previous()->doesntExist());
-    $this->assertTrue($first->next()->is($second));
+    expect($first->previous()->doesntExist())->toBeTrue();
+    expect($first->next()->is($second))->toBeTrue();
 
-    $this->assertTrue($second->previous()->is($first));
-    $this->assertTrue($second->next()->doesntExist());
+    expect($second->previous()->is($first))->toBeTrue();
+    expect($second->next()->doesntExist())->toBeTrue();
 });
 
 test('third track', function (): void {
@@ -75,15 +75,15 @@ test('third track', function (): void {
     $action->insert($playlist, $second);
     $action->insert($playlist, $third);
 
-    $this->assertTrue($playlist->first()->is($first));
-    $this->assertTrue($playlist->last()->is($third));
+    expect($playlist->first()->is($first))->toBeTrue();
+    expect($playlist->last()->is($third))->toBeTrue();
 
-    $this->assertTrue($first->previous()->doesntExist());
-    $this->assertTrue($first->next()->is($second));
+    expect($first->previous()->doesntExist())->toBeTrue();
+    expect($first->next()->is($second))->toBeTrue();
 
-    $this->assertTrue($second->previous()->is($first));
-    $this->assertTrue($second->next()->is($third));
+    expect($second->previous()->is($first))->toBeTrue();
+    expect($second->next()->is($third))->toBeTrue();
 
-    $this->assertTrue($third->previous()->is($second));
-    $this->assertTrue($third->next()->doesntExist());
+    expect($third->previous()->is($second))->toBeTrue();
+    expect($third->next()->doesntExist())->toBeTrue();
 });

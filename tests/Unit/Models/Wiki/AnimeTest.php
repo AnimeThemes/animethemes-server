@@ -21,44 +21,44 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('casts season to enum', function (): void {
     $anime = Anime::factory()->createOne();
 
     $season = $anime->season;
 
-    $this->assertInstanceOf(AnimeSeason::class, $season);
+    expect($season)->toBeInstanceOf(AnimeSeason::class);
 });
 
 test('casts format to enum', function (): void {
     $anime = Anime::factory()->createOne();
 
-    $this->assertInstanceOf(AnimeFormat::class, $anime->format);
+    expect($anime->format)->toBeInstanceOf(AnimeFormat::class);
 });
 
 test('searchable as', function (): void {
     $anime = Anime::factory()->createOne();
 
-    $this->assertIsString($anime->searchableAs());
+    expect($anime->searchableAs())->toBeString();
 });
 
 test('to searchable array', function (): void {
     $anime = Anime::factory()->createOne();
 
-    $this->assertIsArray($anime->toSearchableArray());
+    expect($anime->toSearchableArray())->toBeArray();
 });
 
 test('nameable', function (): void {
     $anime = Anime::factory()->createOne();
 
-    $this->assertIsString($anime->getName());
+    expect($anime->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
     $anime = Anime::factory()->createOne();
 
-    $this->assertIsString($anime->getSubtitle());
+    expect($anime->getSubtitle())->toBeString();
 });
 
 test('synonyms', function (): void {
@@ -68,9 +68,9 @@ test('synonyms', function (): void {
         ->has(Synonym::factory()->count($synonymCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphMany::class, $anime->synonyms());
-    $this->assertEquals($synonymCount, $anime->synonyms()->count());
-    $this->assertInstanceOf(Synonym::class, $anime->synonyms()->first());
+    expect($anime->synonyms())->toBeInstanceOf(MorphMany::class);
+    expect($anime->synonyms()->count())->toEqual($synonymCount);
+    expect($anime->synonyms()->first())->toBeInstanceOf(Synonym::class);
 });
 
 test('series', function (): void {
@@ -80,10 +80,10 @@ test('series', function (): void {
         ->has(Series::factory()->count($seriesCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $anime->series());
-    $this->assertEquals($seriesCount, $anime->series()->count());
-    $this->assertInstanceOf(Series::class, $anime->series()->first());
-    $this->assertEquals(AnimeSeries::class, $anime->series()->getPivotClass());
+    expect($anime->series())->toBeInstanceOf(BelongsToMany::class);
+    expect($anime->series()->count())->toEqual($seriesCount);
+    expect($anime->series()->first())->toBeInstanceOf(Series::class);
+    expect($anime->series()->getPivotClass())->toEqual(AnimeSeries::class);
 });
 
 test('themes', function (): void {
@@ -93,9 +93,9 @@ test('themes', function (): void {
         ->has(Theme::factory()->count($themeCount))
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $anime->themes());
-    $this->assertEquals($themeCount, $anime->themes()->count());
-    $this->assertInstanceOf(Theme::class, $anime->themes()->first());
+    expect($anime->themes())->toBeInstanceOf(HasMany::class);
+    expect($anime->themes()->count())->toEqual($themeCount);
+    expect($anime->themes()->first())->toBeInstanceOf(Theme::class);
 });
 
 test('external resources', function (): void {
@@ -105,10 +105,10 @@ test('external resources', function (): void {
         ->has(ExternalResource::factory()->count($resourceCount), 'resources')
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $anime->resources());
-    $this->assertEquals($resourceCount, $anime->resources()->count());
-    $this->assertInstanceOf(ExternalResource::class, $anime->resources()->first());
-    $this->assertEquals(Resourceable::class, $anime->resources()->getPivotClass());
+    expect($anime->resources())->toBeInstanceOf(MorphToMany::class);
+    expect($anime->resources()->count())->toEqual($resourceCount);
+    expect($anime->resources()->first())->toBeInstanceOf(ExternalResource::class);
+    expect($anime->resources()->getPivotClass())->toEqual(Resourceable::class);
 });
 
 test('images', function (): void {
@@ -118,10 +118,10 @@ test('images', function (): void {
         ->has(Image::factory()->count($imageCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $anime->images());
-    $this->assertEquals($imageCount, $anime->images()->count());
-    $this->assertInstanceOf(Image::class, $anime->images()->first());
-    $this->assertEquals(Imageable::class, $anime->images()->getPivotClass());
+    expect($anime->images())->toBeInstanceOf(MorphToMany::class);
+    expect($anime->images()->count())->toEqual($imageCount);
+    expect($anime->images()->first())->toBeInstanceOf(Image::class);
+    expect($anime->images()->getPivotClass())->toEqual(Imageable::class);
 });
 
 test('studios', function (): void {
@@ -131,8 +131,8 @@ test('studios', function (): void {
         ->has(Studio::factory()->count($studioCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $anime->studios());
-    $this->assertEquals($studioCount, $anime->studios()->count());
-    $this->assertInstanceOf(Studio::class, $anime->studios()->first());
-    $this->assertEquals(AnimeStudio::class, $anime->studios()->getPivotClass());
+    expect($anime->studios())->toBeInstanceOf(BelongsToMany::class);
+    expect($anime->studios()->count())->toEqual($studioCount);
+    expect($anime->studios()->first())->toBeInstanceOf(Studio::class);
+    expect($anime->studios()->getPivotClass())->toEqual(AnimeStudio::class);
 });

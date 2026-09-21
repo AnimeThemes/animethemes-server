@@ -7,7 +7,7 @@ use App\Rules\Api\RandomSoleRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('fails if random is not sole sort', function (): void {
     $sorts = fake()->words(fake()->randomDigitNotNull());
@@ -21,7 +21,7 @@ test('fails if random is not sole sort', function (): void {
         [$attribute => new RandomSoleRule()]
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });
 
 test('passes if random is not included', function (): void {
@@ -34,7 +34,7 @@ test('passes if random is not included', function (): void {
         [$attribute => new RandomSoleRule()]
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('passes if random is sole sort', function (): void {
@@ -45,5 +45,5 @@ test('passes if random is sole sort', function (): void {
         [$attribute => new RandomSoleRule()]
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });

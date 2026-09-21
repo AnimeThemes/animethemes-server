@@ -6,7 +6,7 @@ use App\Rules\Api\DelimitedRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('passes if all values pass', function (): void {
     $attribute = fake()->word();
@@ -18,7 +18,7 @@ test('passes if all values pass', function (): void {
         [$attribute => new DelimitedRule(['required', 'string'])]
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('fails for duplicate values', function (): void {
@@ -33,7 +33,7 @@ test('fails for duplicate values', function (): void {
         [$attribute => new DelimitedRule(['required', 'string'])]
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });
 
 test('fails for invalid value', function (): void {
@@ -46,7 +46,7 @@ test('fails for invalid value', function (): void {
         [$attribute => new DelimitedRule(['required', 'integer'])]
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });
 
 test('validates empty values', function (): void {
@@ -59,5 +59,5 @@ test('validates empty values', function (): void {
         [$attribute => new DelimitedRule(['required', 'string'])]
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });

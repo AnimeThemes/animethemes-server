@@ -7,11 +7,11 @@ use App\Models\Admin\Dump;
 test('nameable', function (): void {
     $dump = Dump::factory()->createOne();
 
-    $this->assertIsString($dump->getName());
+    expect($dump->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
     $dump = Dump::factory()->createOne();
 
-    $this->assertIsString($dump->getSubtitle());
+    expect($dump->getSubtitle())->toBeString();
 });

@@ -16,7 +16,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('protected', function (): void {
     $image = Image::factory()->makeOne();
@@ -66,6 +66,6 @@ test('create', function (): void {
     ]);
 
     $response->assertCreated();
-    $this->assertCount(1, $fs->allFiles());
+    expect($fs->allFiles())->toHaveCount(1);
     $this->assertDatabaseCount(Image::class, 1);
 });

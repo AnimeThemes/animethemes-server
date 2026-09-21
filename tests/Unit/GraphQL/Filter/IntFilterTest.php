@@ -12,5 +12,5 @@ it('converts validated integers', function (): void {
 
     $filterValues = $filter->getFilterValues(Arr::wrap($intValue));
 
-    $this->assertEquals(intval($intValue), $filterValues[0]);
+    expect($filterValues[0])->toEqual(intval($intValue));
 });

@@ -12,5 +12,5 @@ it('converts validated boolean', function (): void {
 
     $filterValues = $filter->getFilterValues(Arr::wrap(Arr::random([$booleanValue, $booleanValue ? 'true' : 'false'])));
 
-    $this->assertEquals($booleanValue, $filterValues[0]);
+    expect($filterValues[0])->toEqual($booleanValue);
 });

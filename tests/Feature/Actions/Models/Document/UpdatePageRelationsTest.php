@@ -18,7 +18,7 @@ test('associates next of previous page', function (): void {
 
     $previous->refresh();
 
-    $this->assertTrue($previous->next()->is($page));
+    expect($previous->next()->is($page))->toBeTrue();
 });
 
 test('associates previous of next page', function (): void {
@@ -34,5 +34,5 @@ test('associates previous of next page', function (): void {
 
     $next->refresh();
 
-    $this->assertTrue($next->previous()->is($page));
+    expect($next->previous()->is($page))->toBeTrue();
 });

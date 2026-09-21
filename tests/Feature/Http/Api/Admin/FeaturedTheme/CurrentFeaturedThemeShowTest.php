@@ -23,7 +23,7 @@ use Illuminate\Support\Collection;
 
 use function Pest\Laravel\get;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('not found if no featured themes', function (): void {
     $response = get(route('api.featuredtheme.current.show'));

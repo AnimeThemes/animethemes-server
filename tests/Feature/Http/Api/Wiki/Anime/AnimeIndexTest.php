@@ -46,9 +46,9 @@ use Illuminate\Support\Facades\Date;
 
 use function Pest\Laravel\get;
 
-uses(SortsModels::class);
+pest()->use(SortsModels::class);
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('default', function (): void {
     $anime = Anime::factory()->count(fake()->numberBetween(1, 3))->create();

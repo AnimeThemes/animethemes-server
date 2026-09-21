@@ -18,7 +18,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\delete;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('protected', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
@@ -141,8 +141,8 @@ test('deleted', function (): void {
     $playlist->refresh();
 
     $this->assertModelMissing($track);
-    $this->assertTrue($playlist->first()->doesntExist());
-    $this->assertTrue($playlist->last()->doesntExist());
+    expect($playlist->first()->doesntExist())->toBeTrue();
+    expect($playlist->last()->doesntExist())->toBeTrue();
 });
 
 test('destroy permitted for bypass', function (): void {
@@ -197,8 +197,8 @@ test('destroy first', function (): void {
     $second->refresh();
 
     $this->assertModelMissing($first);
-    $this->assertTrue($playlist->first()->is($second));
-    $this->assertTrue($second->previous()->doesntExist());
+    expect($playlist->first()->is($second))->toBeTrue();
+    expect($second->previous()->doesntExist())->toBeTrue();
 });
 
 test('destroy last', function (): void {
@@ -226,8 +226,8 @@ test('destroy last', function (): void {
     $previous->refresh();
 
     $this->assertModelMissing($last);
-    $this->assertTrue($playlist->last()->is($previous));
-    $this->assertTrue($previous->next()->doesntExist());
+    expect($playlist->last()->is($previous))->toBeTrue();
+    expect($previous->next()->doesntExist())->toBeTrue();
 });
 
 test('destroy second', function (): void {
@@ -258,12 +258,12 @@ test('destroy second', function (): void {
 
     $this->assertModelMissing($second);
 
-    $this->assertTrue($playlist->first()->is($first));
-    $this->assertTrue($playlist->last()->is($third));
+    expect($playlist->first()->is($first))->toBeTrue();
+    expect($playlist->last()->is($third))->toBeTrue();
 
-    $this->assertTrue($first->previous()->doesntExist());
-    $this->assertTrue($first->next()->is($third));
+    expect($first->previous()->doesntExist())->toBeTrue();
+    expect($first->next()->is($third))->toBeTrue();
 
-    $this->assertTrue($third->previous()->is($first));
-    $this->assertTrue($third->next()->doesntExist());
+    expect($third->previous()->is($first))->toBeTrue();
+    expect($third->next()->doesntExist())->toBeTrue();
 });

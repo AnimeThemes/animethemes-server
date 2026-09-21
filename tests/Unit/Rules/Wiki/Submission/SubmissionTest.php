@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('runs processes once', function (): void {
     Feature::activate(FeatureConstants::REQUIRED_ENCODER_VERSION, 'Lavf59.27.100');
@@ -122,7 +122,7 @@ test('runs processes once', function (): void {
         ],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 
     Process::assertRanTimes(UploadedFileAction::formatFfprobeCommand($file));
     Process::assertRanTimes(UploadedFileAction::formatLoudnessCommand($file));

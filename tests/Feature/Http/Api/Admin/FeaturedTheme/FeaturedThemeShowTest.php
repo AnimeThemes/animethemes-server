@@ -22,7 +22,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 use function Pest\Laravel\get;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('forbidden if future start date', function (): void {
     $featuredTheme = FeaturedTheme::factory()->create([

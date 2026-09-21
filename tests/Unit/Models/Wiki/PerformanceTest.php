@@ -8,18 +8,18 @@ use App\Models\Wiki\Song;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('nameable', function (): void {
     $performance = Performance::factory()->createOne();
 
-    $this->assertIsString($performance->getName());
+    expect($performance->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
     $performance = Performance::factory()->createOne();
 
-    $this->assertIsString($performance->getSubtitle());
+    expect($performance->getSubtitle())->toBeString();
 });
 
 test('song', function (): void {
@@ -27,8 +27,8 @@ test('song', function (): void {
         ->for(Song::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $performance->song());
-    $this->assertInstanceOf(Song::class, $performance->song()->first());
+    expect($performance->song())->toBeInstanceOf(BelongsTo::class);
+    expect($performance->song()->first())->toBeInstanceOf(Song::class);
 });
 
 test('artist', function (): void {
@@ -36,8 +36,8 @@ test('artist', function (): void {
         ->for(Artist::factory()->createOne(), Performance::RELATION_ARTIST)
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $performance->artist());
-    $this->assertInstanceOf(Artist::class, $performance->artist()->first());
+    expect($performance->artist())->toBeInstanceOf(BelongsTo::class);
+    expect($performance->artist()->first())->toBeInstanceOf(Artist::class);
 });
 
 test('member', function (): void {
@@ -46,6 +46,6 @@ test('member', function (): void {
         ->for(Artist::factory(), Performance::RELATION_MEMBER)
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $performance->member());
-    $this->assertInstanceOf(Artist::class, $performance->member()->first());
+    expect($performance->member())->toBeInstanceOf(BelongsTo::class);
+    expect($performance->member()->first())->toBeInstanceOf(Artist::class);
 });

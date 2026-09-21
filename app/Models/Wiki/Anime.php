@@ -25,12 +25,9 @@ use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
-use App\Scout\Elasticsearch\Models\Wiki\AnimeElasticModel;
-use App\Scout\Typesense\Models\Wiki\AnimeTypesenseModel;
 use App\ValueObjects\FuzzyDate;
 use Database\Factories\Wiki\AnimeFactory;
 use Deprecated;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,6 +37,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 use RuntimeException;
@@ -209,8 +207,22 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     {
         return match ($driver = Config::get('scout.driver')) {
             'collection',
-            'elastic' => AnimeElasticModel::toSearchableArray($this),
-            'typesense' => AnimeTypesenseModel::toSearchableArray($this),
+            'typesense' => (fn () => [
+                'id' => (string) $this->getKey(),
+                'format' => $this->format?->value,
+                'title' => $this->title,
+                // So TypeSense does not boost when alternative titles are the same.
+                'title_english' => $this->title_english !== $this->title
+                    ? $this->title_english
+                    : null,
+                'title_native' => $this->title_native !== $this->title
+                    ? $this->title_native
+                    : null,
+                'season' => $this->season?->value,
+                'year' => $this->year,
+                'created_at' => $this->created_at->timestamp,
+                'synonyms' => $this->synonyms->map(fn (Synonym $synonym) => $synonym->text)->all(),
+            ])(),
             default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
     }

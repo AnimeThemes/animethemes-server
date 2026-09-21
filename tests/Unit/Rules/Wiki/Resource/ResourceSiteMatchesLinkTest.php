@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('passes if site matches link', function (): void {
     $site = null;
@@ -33,7 +33,7 @@ test('passes if site matches link', function (): void {
         [$attribute => new ResourceSiteMatchesLinkRule($url)],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('resource site domain rule official passes', function (): void {
@@ -44,7 +44,7 @@ test('resource site domain rule official passes', function (): void {
         [$attribute => new ResourceSiteMatchesLinkRule(fake()->url())],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('resource site domain rule fails', function (): void {
@@ -64,5 +64,5 @@ test('resource site domain rule fails', function (): void {
         [$attribute => new ResourceSiteMatchesLinkRule(fake()->url())],
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });

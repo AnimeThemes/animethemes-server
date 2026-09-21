@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('casts type to enum', function (): void {
     $theme = Theme::factory()
@@ -21,7 +21,7 @@ test('casts type to enum', function (): void {
 
     $type = $theme->type;
 
-    $this->assertInstanceOf(ThemeType::class, $type);
+    expect($type)->toBeInstanceOf(ThemeType::class);
 });
 
 test('searchable as', function (): void {
@@ -29,7 +29,7 @@ test('searchable as', function (): void {
         ->for(Anime::factory())
         ->createOne();
 
-    $this->assertIsString($theme->searchableAs());
+    expect($theme->searchableAs())->toBeString();
 });
 
 test('to searchable array', function (): void {
@@ -37,7 +37,7 @@ test('to searchable array', function (): void {
         ->for(Anime::factory())
         ->createOne();
 
-    $this->assertIsArray($theme->toSearchableArray());
+    expect($theme->toSearchableArray())->toBeArray();
 });
 
 test('nameable', function (): void {
@@ -45,7 +45,7 @@ test('nameable', function (): void {
         ->for(Anime::factory())
         ->createOne();
 
-    $this->assertIsString($theme->getName());
+    expect($theme->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
@@ -53,7 +53,7 @@ test('has subtitle', function (): void {
         ->for(Anime::factory())
         ->createOne();
 
-    $this->assertIsString($theme->getSubtitle());
+    expect($theme->getSubtitle())->toBeString();
 });
 
 test('anime', function (): void {
@@ -61,8 +61,8 @@ test('anime', function (): void {
         ->for(Anime::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $theme->anime());
-    $this->assertInstanceOf(Anime::class, $theme->anime()->first());
+    expect($theme->anime())->toBeInstanceOf(BelongsTo::class);
+    expect($theme->anime()->first())->toBeInstanceOf(Anime::class);
 });
 
 test('group', function (): void {
@@ -71,8 +71,8 @@ test('group', function (): void {
         ->for(Group::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $theme->group());
-    $this->assertInstanceOf(Group::class, $theme->group()->first());
+    expect($theme->group())->toBeInstanceOf(BelongsTo::class);
+    expect($theme->group()->first())->toBeInstanceOf(Group::class);
 });
 
 test('song', function (): void {
@@ -81,8 +81,8 @@ test('song', function (): void {
         ->for(Song::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $theme->song());
-    $this->assertInstanceOf(Song::class, $theme->song()->first());
+    expect($theme->song())->toBeInstanceOf(BelongsTo::class);
+    expect($theme->song()->first())->toBeInstanceOf(Song::class);
 });
 
 test('entries', function (): void {
@@ -93,9 +93,9 @@ test('entries', function (): void {
         ->has(Entry::factory()->count($entryCount))
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $theme->entries());
-    $this->assertEquals($entryCount, $theme->entries()->count());
-    $this->assertInstanceOf(Entry::class, $theme->entries()->first());
+    expect($theme->entries())->toBeInstanceOf(HasMany::class);
+    expect($theme->entries()->count())->toEqual($entryCount);
+    expect($theme->entries()->first())->toBeInstanceOf(Entry::class);
 });
 
 test('theme creates slug', function (): void {
@@ -103,5 +103,5 @@ test('theme creates slug', function (): void {
         ->for(Anime::factory())
         ->createOne();
 
-    $this->assertArrayHasKey('slug', $theme);
+    expect($theme)->toHaveKey('slug');
 });

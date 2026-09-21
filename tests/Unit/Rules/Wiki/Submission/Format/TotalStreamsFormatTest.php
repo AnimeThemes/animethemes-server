@@ -9,7 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('fails when count is not expected', function (): void {
     $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
@@ -41,7 +41,7 @@ test('fails when count is not expected', function (): void {
         ['file' => new TotalStreamsFormatRule(2)],
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -79,7 +79,7 @@ test('passes when count is expected', function (): void {
         ['file' => new TotalStreamsFormatRule(2)],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

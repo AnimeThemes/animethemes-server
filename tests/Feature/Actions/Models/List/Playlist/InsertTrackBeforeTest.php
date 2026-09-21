@@ -8,7 +8,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('first track', function (): void {
     $playlist = Playlist::factory()
@@ -26,12 +26,12 @@ test('first track', function (): void {
 
     $action->insertBefore($playlist, $track, $first);
 
-    $this->assertTrue($playlist->first()->is($track));
+    expect($playlist->first()->is($track))->toBeTrue();
 
-    $this->assertTrue($first->previous()->is($track));
+    expect($first->previous()->is($track))->toBeTrue();
 
-    $this->assertTrue($track->next()->is($first));
-    $this->assertTrue($track->previous()->doesntExist());
+    expect($track->next()->is($first))->toBeTrue();
+    expect($track->previous()->doesntExist())->toBeTrue();
 });
 
 test('last track', function (): void {
@@ -52,10 +52,10 @@ test('last track', function (): void {
 
     $action->insertBefore($playlist, $track, $last);
 
-    $this->assertTrue($playlist->last()->is($last));
+    expect($playlist->last()->is($last))->toBeTrue();
 
-    $this->assertTrue($last->previous()->is($track));
+    expect($last->previous()->is($track))->toBeTrue();
 
-    $this->assertTrue($track->previous()->is($previous));
-    $this->assertTrue($track->next()->is($last));
+    expect($track->previous()->is($previous))->toBeTrue();
+    expect($track->next()->is($last))->toBeTrue();
 });

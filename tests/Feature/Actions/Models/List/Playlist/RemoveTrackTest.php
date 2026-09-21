@@ -6,7 +6,7 @@ use App\Actions\Models\List\Playlist\RemoveTrackAction;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('remove sole', function (): void {
     $playlist = Playlist::factory()
@@ -19,11 +19,11 @@ test('remove sole', function (): void {
 
     $action->remove($playlist, $first);
 
-    $this->assertTrue($playlist->first()->doesntExist());
-    $this->assertTrue($playlist->last()->doesntExist());
+    expect($playlist->first()->doesntExist())->toBeTrue();
+    expect($playlist->last()->doesntExist())->toBeTrue();
 
-    $this->assertTrue($first->previous()->doesntExist());
-    $this->assertTrue($first->next()->doesntExist());
+    expect($first->previous()->doesntExist())->toBeTrue();
+    expect($first->next()->doesntExist())->toBeTrue();
 });
 
 test('remove first', function (): void {
@@ -38,12 +38,12 @@ test('remove first', function (): void {
 
     $action->remove($playlist, $first);
 
-    $this->assertTrue($playlist->first()->is($second));
+    expect($playlist->first()->is($second))->toBeTrue();
 
-    $this->assertTrue($first->previous()->doesntExist());
-    $this->assertTrue($first->next()->doesntExist());
+    expect($first->previous()->doesntExist())->toBeTrue();
+    expect($first->next()->doesntExist())->toBeTrue();
 
-    $this->assertTrue($second->previous()->doesntExist());
+    expect($second->previous()->doesntExist())->toBeTrue();
 });
 
 test('remove last', function (): void {
@@ -58,12 +58,12 @@ test('remove last', function (): void {
 
     $action->remove($playlist, $last);
 
-    $this->assertTrue($playlist->last()->is($previous));
+    expect($playlist->last()->is($previous))->toBeTrue();
 
-    $this->assertTrue($last->previous()->doesntExist());
-    $this->assertTrue($last->next()->doesntExist());
+    expect($last->previous()->doesntExist())->toBeTrue();
+    expect($last->next()->doesntExist())->toBeTrue();
 
-    $this->assertTrue($previous->next()->doesntExist());
+    expect($previous->next()->doesntExist())->toBeTrue();
 });
 
 test('remove second', function (): void {
@@ -79,15 +79,15 @@ test('remove second', function (): void {
 
     $action->remove($playlist, $second);
 
-    $this->assertTrue($playlist->first()->is($first));
-    $this->assertTrue($playlist->last()->is($third));
+    expect($playlist->first()->is($first))->toBeTrue();
+    expect($playlist->last()->is($third))->toBeTrue();
 
-    $this->assertTrue($first->previous()->doesntExist());
-    $this->assertTrue($first->next()->is($third));
+    expect($first->previous()->doesntExist())->toBeTrue();
+    expect($first->next()->is($third))->toBeTrue();
 
-    $this->assertTrue($second->previous()->doesntExist());
-    $this->assertTrue($second->next()->doesntExist());
+    expect($second->previous()->doesntExist())->toBeTrue();
+    expect($second->next()->doesntExist())->toBeTrue();
 
-    $this->assertTrue($third->previous()->is($first));
-    $this->assertTrue($third->next()->doesntExist());
+    expect($third->previous()->is($first))->toBeTrue();
+    expect($third->next()->doesntExist())->toBeTrue();
 });

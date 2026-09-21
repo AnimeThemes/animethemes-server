@@ -12,5 +12,5 @@ it('converts validated floats', function (): void {
 
     $filterValues = $filter->getFilterValues(Arr::wrap($floatValue));
 
-    $this->assertEqualsWithDelta($floatValue, $filterValues[0], 0.0001);
+    expect($filterValues[0])->toEqualWithDelta($floatValue, 0.0001);
 });

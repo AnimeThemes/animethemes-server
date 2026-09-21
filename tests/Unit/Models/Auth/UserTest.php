@@ -13,16 +13,16 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\PersonalAccessToken;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('tokens', function (): void {
     $user = User::factory()->createOne();
 
     $user->createToken(fake()->word());
 
-    $this->assertInstanceOf(MorphMany::class, $user->tokens());
-    $this->assertEquals(1, $user->tokens()->count());
-    $this->assertInstanceOf(PersonalAccessToken::class, $user->tokens()->first());
+    expect($user->tokens())->toBeInstanceOf(MorphMany::class);
+    expect($user->tokens()->count())->toEqual(1);
+    expect($user->tokens()->first())->toBeInstanceOf(PersonalAccessToken::class);
 });
 
 test('verification email notification', function (): void {
@@ -36,13 +36,13 @@ test('verification email notification', function (): void {
 test('nameable', function (): void {
     $user = User::factory()->createOne();
 
-    $this->assertIsString($user->getName());
+    expect($user->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
     $user = User::factory()->createOne();
 
-    $this->assertIsString($user->getSubtitle());
+    expect($user->getSubtitle())->toBeString();
 });
 
 test('playlists', function (): void {
@@ -52,9 +52,9 @@ test('playlists', function (): void {
         ->has(Playlist::factory()->count($playlistCount))
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $user->playlists());
-    $this->assertEquals($playlistCount, $user->playlists()->count());
-    $this->assertInstanceOf(Playlist::class, $user->playlists()->first());
+    expect($user->playlists())->toBeInstanceOf(HasMany::class);
+    expect($user->playlists()->count())->toEqual($playlistCount);
+    expect($user->playlists()->first())->toBeInstanceOf(Playlist::class);
 });
 
 test('external profiles', function (): void {
@@ -64,9 +64,9 @@ test('external profiles', function (): void {
         ->has(ExternalProfile::factory()->count($profileCount))
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $user->externalprofiles());
-    $this->assertEquals($profileCount, $user->externalprofiles()->count());
-    $this->assertInstanceOf(ExternalProfile::class, $user->externalprofiles()->first());
+    expect($user->externalprofiles())->toBeInstanceOf(HasMany::class);
+    expect($user->externalprofiles()->count())->toEqual($profileCount);
+    expect($user->externalprofiles()->first())->toBeInstanceOf(ExternalProfile::class);
 });
 
 test('notifications', function (): void {
@@ -76,7 +76,7 @@ test('notifications', function (): void {
         ->has(UserNotification::factory()->count($notificationCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphMany::class, $user->notifications());
-    $this->assertEquals($notificationCount, $user->notifications()->count());
-    $this->assertInstanceOf(UserNotification::class, $user->notifications()->first());
+    expect($user->notifications())->toBeInstanceOf(MorphMany::class);
+    expect($user->notifications()->count())->toEqual($notificationCount);
+    expect($user->notifications()->first())->toBeInstanceOf(UserNotification::class);
 });

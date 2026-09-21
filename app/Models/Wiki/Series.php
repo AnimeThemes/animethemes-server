@@ -13,16 +13,14 @@ use App\Events\Wiki\Series\SeriesUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesJsonResource;
 use App\Models\BaseModel;
 use App\Pivots\Wiki\AnimeSeries;
-use App\Scout\Elasticsearch\Models\Wiki\SeriesElasticModel;
-use App\Scout\Typesense\Models\Wiki\SeriesTypesenseModel;
 use Database\Factories\Wiki\SeriesFactory;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 use RuntimeException;
@@ -107,10 +105,24 @@ class Series extends BaseModel implements Auditable, SoftDeletable
     {
         return match ($driver = Config::get('scout.driver')) {
             'collection',
-            'elastic' => SeriesElasticModel::toSearchableArray($this),
-            'typesense' => SeriesTypesenseModel::toSearchableArray($this),
+            'typesense' => $this->toTypesenseArray(),
             default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function toTypesenseArray(): array
+    {
+        return [
+            'id' => (string) $this->getKey(),
+            'title' => $this->title,
+            'created_at' => $this->created_at->timestamp,
+            'anime' => $this->anime->map(
+                fn (Anime $anime): array => $anime->toSearchableArray()
+            )->all(),
+        ];
     }
 
     /**

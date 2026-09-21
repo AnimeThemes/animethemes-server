@@ -6,12 +6,12 @@ use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Parser\FieldParser;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('no criteria by default', function (): void {
     $parameters = [];
 
-    $this->assertEmpty(FieldParser::parse($parameters));
+    expect(FieldParser::parse($parameters))->toBeEmpty();
 });
 
 test('parse criteria', function (): void {
@@ -25,7 +25,7 @@ test('parse criteria', function (): void {
 
     $criteria = FieldParser::parse($parameters)[0];
 
-    $this->assertInstanceOf(Criteria::class, $criteria);
+    expect($criteria)->toBeInstanceOf(Criteria::class);
 });
 
 test('parse type', function (): void {
@@ -41,7 +41,7 @@ test('parse type', function (): void {
 
     $criteria = FieldParser::parse($parameters)[0];
 
-    $this->assertEquals($type, $criteria->getType());
+    expect($criteria->getType())->toEqual($type);
 });
 
 test('parse fields', function (): void {
@@ -55,5 +55,5 @@ test('parse fields', function (): void {
 
     $criteria = FieldParser::parse($parameters)[0];
 
-    $this->assertEquals($fields, $criteria->getFields()->all());
+    expect($criteria->getFields()->all())->toEqual($fields);
 });

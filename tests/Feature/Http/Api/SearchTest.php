@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Config;
 
 use function Pest\Laravel\get;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('no search term', function (): void {
     $response = get(route('api.search.show'));

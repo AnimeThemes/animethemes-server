@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 use Mockery\MockInterface;
 use Propaganistas\LaravelDisposableEmail\Validation\Indisposable;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('required', function (): void {
     $this->expectException(ValidationException::class);
@@ -166,10 +166,7 @@ test('created if open ai fails', function (): void {
 });
 
 test('validation error when flagged by open ai', function (): void {
-    $this->expectException(ValidationException::class);
-
-    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
-
+    expect(fn () => Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value))->toThrow(ValidationException::class);
     Http::fake([
         'https://api.openai.com/v1/moderations' => Http::response([
             'results' => [
@@ -194,11 +191,11 @@ test('validation error when flagged by open ai', function (): void {
 });
 
 test('disposable email', function (): void {
-    $this->expectException(ValidationException::class);
-
-    $this->mock(Indisposable::class, function (MockInterface $mock): void {
-        $mock->shouldReceive('validate')->once()->andReturn(false);
-    });
+    expect(function (): void {
+        $this->mock(Indisposable::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('validate')->once()->andReturn(false);
+        });
+    })->toThrow(ValidationException::class);
 
     $email = fake()->unique()->companyEmail();
 
