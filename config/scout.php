@@ -242,12 +242,6 @@ return [
                             'type' => 'int32',
                             'optional' => true,
                         ],
-                        // Backwards compatibility with JSON:API
-                        [
-                            'name' => 'name',
-                            'type' => 'string',
-                            'sort' => true,
-                        ],
                         [
                             'name' => 'title',
                             'type' => 'string',
@@ -446,12 +440,6 @@ return [
                         [
                             'name' => 'id',
                             'type' => 'string',
-                        ],
-                        // Backwards compatibility with JSON:API
-                        [
-                            'name' => 'name',
-                            'type' => 'string',
-                            'sort' => true,
                         ],
                         [
                             'name' => 'title',

@@ -56,7 +56,7 @@ class Typesense extends Search
             foreach ($schema->filters() as $schemaFilter) {
                 if ($filter->shouldFilter($schemaFilter, $scope)) {
                     $builder->where(
-                        $filter->getField(),
+                        $schemaFilter->getColumn(),
                         $filter->getComparisonOperator()->value,
                         $schemaFilter->getFilterValues($filter->getFilterValues()),
                     );
@@ -67,7 +67,7 @@ class Typesense extends Search
         foreach ($query->getSortCriteria() as $sort) {
             foreach ($schema->sorts() as $schemaSort) {
                 if ($sort->shouldSort($schemaSort, $scope) && $sort instanceof FieldCriteria) {
-                    $builder->orderBy($sort->getField(), $sort->getDirection()->value);
+                    $builder->orderBy($schemaSort->getColumn(), $sort->getDirection()->value);
                 }
             }
         }
