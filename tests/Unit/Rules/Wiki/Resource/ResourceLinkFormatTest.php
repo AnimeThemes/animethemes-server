@@ -13,7 +13,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('passes for no site', function (): void {
     $attribute = fake()->word();
@@ -23,7 +23,7 @@ test('passes for no site', function (): void {
         [$attribute => new ResourceLinkFormatRule()],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('passes for no pattern', function (): void {
@@ -34,7 +34,7 @@ test('passes for no pattern', function (): void {
         [$attribute => new ResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE)],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('passes for anime resource', function (): void {
@@ -59,7 +59,7 @@ test('passes for anime resource', function (): void {
         [$attribute => new ResourceLinkFormatRule($site)],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('passes for artist resource', function (): void {
@@ -84,7 +84,7 @@ test('passes for artist resource', function (): void {
         [$attribute => new ResourceLinkFormatRule($site)],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('passes for song resource', function (): void {
@@ -106,7 +106,7 @@ test('passes for song resource', function (): void {
         [$attribute => new ResourceLinkFormatRule($site)],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('passes for studio resource', function (): void {
@@ -129,7 +129,7 @@ test('passes for studio resource', function (): void {
         [$attribute => new ResourceLinkFormatRule($site)],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('fails for trailing slash', function (): void {
@@ -151,5 +151,5 @@ test('fails for trailing slash', function (): void {
         [$attribute => new ResourceLinkFormatRule($site)],
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });

@@ -21,11 +21,8 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\Wiki\EntryVideo;
-use App\Scout\Elasticsearch\Models\Wiki\VideoElasticModel;
-use App\Scout\Typesense\Models\Wiki\VideoTypesenseModel;
 use Database\Factories\Wiki\VideoFactory;
 use Deprecated;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -37,6 +34,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 use RuntimeException;
@@ -279,10 +277,25 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
     {
         return match ($driver = Config::get('scout.driver')) {
             'collection',
-            'elastic' => VideoElasticModel::toSearchableArray($this),
-            'typesense' => VideoTypesenseModel::toSearchableArray($this),
+            'typesense' => $this->toTypesenseArray(),
             default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function toTypesenseArray(): array
+    {
+        return [
+            'id' => (string) $this->getKey(),
+            'filename' => $this->filename,
+            'tags' => $this->tags,
+            'created_at' => $this->created_at->timestamp,
+            'entries' => $this->animethemeentries->map(
+                fn (Entry $entry): array => $entry->toSearchableArray()
+            )->all(),
+        ];
     }
 
     /**

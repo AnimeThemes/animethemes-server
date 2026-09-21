@@ -9,7 +9,7 @@ use Illuminate\Support\Arr;
 use Tests\Unit\Enums\LocalizedEnum;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('should not apply if no enums', function (): void {
     $filterField = fake()->word();
@@ -18,7 +18,7 @@ test('should not apply if no enums', function (): void {
 
     $filter = new EnumFilter($filterField, LocalizedEnum::class);
 
-    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    expect($criteria->shouldFilter($filter, $criteria->getScope()))->toBeFalse();
 });
 
 test('should not apply if all enums', function (): void {
@@ -32,7 +32,7 @@ test('should not apply if all enums', function (): void {
 
     $filter = new EnumFilter($filterField, LocalizedEnum::class);
 
-    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    expect($criteria->shouldFilter($filter, $criteria->getScope()))->toBeFalse();
 });
 
 test('enum key converted to value', function (): void {
@@ -46,5 +46,5 @@ test('enum key converted to value', function (): void {
 
     $filterValues = $filter->getFilterValues($criteria->getFilterValues());
 
-    $this->assertEquals($enum->value, $filterValues[0]);
+    expect($filterValues[0])->toEqual($enum->value);
 });

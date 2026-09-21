@@ -19,7 +19,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\put;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('protected', function (): void {
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
@@ -391,17 +391,17 @@ test('insert first after second', function (): void {
     $second->refresh();
     $third->refresh();
 
-    $this->assertTrue($playlist->first()->is($second));
-    $this->assertTrue($playlist->last()->is($third));
+    expect($playlist->first()->is($second))->toBeTrue();
+    expect($playlist->last()->is($third))->toBeTrue();
 
-    $this->assertTrue($first->previous()->is($second));
-    $this->assertTrue($first->next()->is($third));
+    expect($first->previous()->is($second))->toBeTrue();
+    expect($first->next()->is($third))->toBeTrue();
 
-    $this->assertTrue($second->previous()->doesntExist());
-    $this->assertTrue($second->next()->is($first));
+    expect($second->previous()->doesntExist())->toBeTrue();
+    expect($second->next()->is($first))->toBeTrue();
 
-    $this->assertTrue($third->previous()->is($first));
-    $this->assertTrue($third->next()->doesntExist());
+    expect($third->previous()->is($first))->toBeTrue();
+    expect($third->next()->doesntExist())->toBeTrue();
 });
 
 test('insert first after third', function (): void {
@@ -435,17 +435,17 @@ test('insert first after third', function (): void {
     $second->refresh();
     $third->refresh();
 
-    $this->assertTrue($playlist->first()->is($second));
-    $this->assertTrue($playlist->last()->is($first));
+    expect($playlist->first()->is($second))->toBeTrue();
+    expect($playlist->last()->is($first))->toBeTrue();
 
-    $this->assertTrue($first->previous()->is($third));
-    $this->assertTrue($first->next()->doesntExist());
+    expect($first->previous()->is($third))->toBeTrue();
+    expect($first->next()->doesntExist())->toBeTrue();
 
-    $this->assertTrue($second->previous()->doesntExist());
-    $this->assertTrue($second->next()->is($third));
+    expect($second->previous()->doesntExist())->toBeTrue();
+    expect($second->next()->is($third))->toBeTrue();
 
-    $this->assertTrue($third->previous()->is($second));
-    $this->assertTrue($third->next()->is($first));
+    expect($third->previous()->is($second))->toBeTrue();
+    expect($third->next()->is($first))->toBeTrue();
 });
 
 test('insert first before third', function (): void {
@@ -479,17 +479,17 @@ test('insert first before third', function (): void {
     $second->refresh();
     $third->refresh();
 
-    $this->assertTrue($playlist->first()->is($second));
-    $this->assertTrue($playlist->last()->is($third));
+    expect($playlist->first()->is($second))->toBeTrue();
+    expect($playlist->last()->is($third))->toBeTrue();
 
-    $this->assertTrue($first->previous()->is($second));
-    $this->assertTrue($first->next()->is($third));
+    expect($first->previous()->is($second))->toBeTrue();
+    expect($first->next()->is($third))->toBeTrue();
 
-    $this->assertTrue($second->previous()->doesntExist());
-    $this->assertTrue($second->next()->is($first));
+    expect($second->previous()->doesntExist())->toBeTrue();
+    expect($second->next()->is($first))->toBeTrue();
 
-    $this->assertTrue($third->previous()->is($first));
-    $this->assertTrue($third->next()->doesntExist());
+    expect($third->previous()->is($first))->toBeTrue();
+    expect($third->next()->doesntExist())->toBeTrue();
 });
 
 test('insert second after third', function (): void {
@@ -523,17 +523,17 @@ test('insert second after third', function (): void {
     $second->refresh();
     $third->refresh();
 
-    $this->assertTrue($playlist->first()->is($first));
-    $this->assertTrue($playlist->last()->is($second));
+    expect($playlist->first()->is($first))->toBeTrue();
+    expect($playlist->last()->is($second))->toBeTrue();
 
-    $this->assertTrue($first->previous()->doesntExist());
-    $this->assertTrue($first->next()->is($third));
+    expect($first->previous()->doesntExist())->toBeTrue();
+    expect($first->next()->is($third))->toBeTrue();
 
-    $this->assertTrue($second->previous()->is($third));
-    $this->assertTrue($second->next()->doesntExist());
+    expect($second->previous()->is($third))->toBeTrue();
+    expect($second->next()->doesntExist())->toBeTrue();
 
-    $this->assertTrue($third->previous()->is($first));
-    $this->assertTrue($third->next()->is($second));
+    expect($third->previous()->is($first))->toBeTrue();
+    expect($third->next()->is($second))->toBeTrue();
 });
 
 test('insert second before first', function (): void {
@@ -567,17 +567,17 @@ test('insert second before first', function (): void {
     $second->refresh();
     $third->refresh();
 
-    $this->assertTrue($playlist->first()->is($second));
-    $this->assertTrue($playlist->last()->is($third));
+    expect($playlist->first()->is($second))->toBeTrue();
+    expect($playlist->last()->is($third))->toBeTrue();
 
-    $this->assertTrue($first->previous()->is($second));
-    $this->assertTrue($first->next()->is($third));
+    expect($first->previous()->is($second))->toBeTrue();
+    expect($first->next()->is($third))->toBeTrue();
 
-    $this->assertTrue($second->previous()->doesntExist());
-    $this->assertTrue($second->next()->is($first));
+    expect($second->previous()->doesntExist())->toBeTrue();
+    expect($second->next()->is($first))->toBeTrue();
 
-    $this->assertTrue($third->previous()->is($first));
-    $this->assertTrue($third->next()->doesntExist());
+    expect($third->previous()->is($first))->toBeTrue();
+    expect($third->next()->doesntExist())->toBeTrue();
 });
 
 test('insert third after first', function (): void {
@@ -611,17 +611,17 @@ test('insert third after first', function (): void {
     $second->refresh();
     $third->refresh();
 
-    $this->assertTrue($playlist->first()->is($first));
-    $this->assertTrue($playlist->last()->is($second));
+    expect($playlist->first()->is($first))->toBeTrue();
+    expect($playlist->last()->is($second))->toBeTrue();
 
-    $this->assertTrue($first->previous()->doesntExist());
-    $this->assertTrue($first->next()->is($third));
+    expect($first->previous()->doesntExist())->toBeTrue();
+    expect($first->next()->is($third))->toBeTrue();
 
-    $this->assertTrue($second->previous()->is($third));
-    $this->assertTrue($second->next()->doesntExist());
+    expect($second->previous()->is($third))->toBeTrue();
+    expect($second->next()->doesntExist())->toBeTrue();
 
-    $this->assertTrue($third->previous()->is($first));
-    $this->assertTrue($third->next()->is($second));
+    expect($third->previous()->is($first))->toBeTrue();
+    expect($third->next()->is($second))->toBeTrue();
 });
 
 test('insert third before second', function (): void {
@@ -655,17 +655,17 @@ test('insert third before second', function (): void {
     $second->refresh();
     $third->refresh();
 
-    $this->assertTrue($playlist->first()->is($first));
-    $this->assertTrue($playlist->last()->is($second));
+    expect($playlist->first()->is($first))->toBeTrue();
+    expect($playlist->last()->is($second))->toBeTrue();
 
-    $this->assertTrue($first->previous()->doesntExist());
-    $this->assertTrue($first->next()->is($third));
+    expect($first->previous()->doesntExist())->toBeTrue();
+    expect($first->next()->is($third))->toBeTrue();
 
-    $this->assertTrue($second->previous()->is($third));
-    $this->assertTrue($second->next()->doesntExist());
+    expect($second->previous()->is($third))->toBeTrue();
+    expect($second->next()->doesntExist())->toBeTrue();
 
-    $this->assertTrue($third->previous()->is($first));
-    $this->assertTrue($third->next()->is($second));
+    expect($third->previous()->is($first))->toBeTrue();
+    expect($third->next()->is($second))->toBeTrue();
 });
 
 test('insert third before first', function (): void {
@@ -699,17 +699,17 @@ test('insert third before first', function (): void {
     $second->refresh();
     $third->refresh();
 
-    $this->assertTrue($playlist->first()->is($third));
-    $this->assertTrue($playlist->last()->is($second));
+    expect($playlist->first()->is($third))->toBeTrue();
+    expect($playlist->last()->is($second))->toBeTrue();
 
-    $this->assertTrue($first->previous()->is($third));
-    $this->assertTrue($first->next()->is($second));
+    expect($first->previous()->is($third))->toBeTrue();
+    expect($first->next()->is($second))->toBeTrue();
 
-    $this->assertTrue($second->previous()->is($first));
-    $this->assertTrue($second->next()->doesntExist());
+    expect($second->previous()->is($first))->toBeTrue();
+    expect($second->next()->doesntExist())->toBeTrue();
 
-    $this->assertTrue($third->previous()->doesntExist());
-    $this->assertTrue($third->next()->is($first));
+    expect($third->previous()->doesntExist())->toBeTrue();
+    expect($third->next()->is($first))->toBeTrue();
 });
 
 test('update permitted for bypass', function (): void {

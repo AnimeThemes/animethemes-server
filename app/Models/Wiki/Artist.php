@@ -19,11 +19,8 @@ use App\Models\BaseModel;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistMember;
-use App\Scout\Elasticsearch\Models\Wiki\ArtistElasticModel;
-use App\Scout\Typesense\Models\Wiki\ArtistTypesenseModel;
 use Database\Factories\Wiki\ArtistFactory;
 use Deprecated;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,6 +30,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 use RuntimeException;
@@ -162,10 +160,37 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     {
         return match ($driver = Config::get('scout.driver')) {
             'collection',
-            'elastic' => ArtistElasticModel::toSearchableArray($this),
-            'typesense' => ArtistTypesenseModel::toSearchableArray($this),
+            'typesense' => $this->toTypesenseArray(),
             default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function toTypesenseArray(): array
+    {
+        return [
+            'id' => (string) $this->getKey(),
+            'name' => $this->name,
+            // So TypeSense does not boost when alternative names are the same.
+            'name_native' => $this->name_native !== $this->name ? $this->name_native : null,
+            'created_at' => $this->created_at->timestamp,
+            'synonyms' => $synonyms = $this->synonyms->map(fn (Synonym $synonym) => $synonym->text)->all(),
+            'as' => $as = $this->performances->map(fn (Performance $performance) => $performance->as)
+                ->toBase()
+                ->concat($this->memberPerformances->map(fn (Performance $performance) => $performance->member_as))
+                ->filter()
+                ->unique()
+                ->values()
+                ->all(),
+            'search_text' => implode(' ', [
+                $this->name,
+                $this->name_native,
+                ...$synonyms,
+                // ...$as,
+            ]),
+        ];
     }
 
     /**

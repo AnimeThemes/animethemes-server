@@ -36,9 +36,9 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(SortsModels::class);
+pest()->use(SortsModels::class);
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 /**
  * Setup the test environment.

@@ -17,30 +17,30 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('searchable as', function (): void {
     $artist = Artist::factory()->createOne();
 
-    $this->assertIsString($artist->searchableAs());
+    expect($artist->searchableAs())->toBeString();
 });
 
 test('to searchable array', function (): void {
     $artist = Artist::factory()->createOne();
 
-    $this->assertIsArray($artist->toSearchableArray());
+    expect($artist->toSearchableArray())->toBeArray();
 });
 
 test('nameable', function (): void {
     $artist = Artist::factory()->createOne();
 
-    $this->assertIsString($artist->getName());
+    expect($artist->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
     $artist = Artist::factory()->createOne();
 
-    $this->assertIsString($artist->getSubtitle());
+    expect($artist->getSubtitle())->toBeString();
 });
 
 test('synonyms', function (): void {
@@ -50,9 +50,9 @@ test('synonyms', function (): void {
         ->has(Synonym::factory()->count($synonymCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphMany::class, $artist->synonyms());
-    $this->assertEquals($synonymCount, $artist->synonyms()->count());
-    $this->assertInstanceOf(Synonym::class, $artist->synonyms()->first());
+    expect($artist->synonyms())->toBeInstanceOf(MorphMany::class);
+    expect($artist->synonyms()->count())->toEqual($synonymCount);
+    expect($artist->synonyms()->first())->toBeInstanceOf(Synonym::class);
 });
 
 test('songs', function (): void {
@@ -62,9 +62,9 @@ test('songs', function (): void {
         ->has(Song::factory()->count($songCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $artist->songs());
-    $this->assertEquals($songCount, $artist->songs()->count());
-    $this->assertInstanceOf(Song::class, $artist->songs()->first());
+    expect($artist->songs())->toBeInstanceOf(BelongsToMany::class);
+    expect($artist->songs()->count())->toEqual($songCount);
+    expect($artist->songs()->first())->toBeInstanceOf(Song::class);
 });
 
 test('performances', function (): void {
@@ -78,9 +78,9 @@ test('performances', function (): void {
         ->count($performanceCount)
         ->create();
 
-    $this->assertInstanceOf(HasMany::class, $artist->performances());
-    $this->assertEquals($performanceCount, $artist->performances()->count());
-    $this->assertInstanceOf(Performance::class, $artist->performances()->first());
+    expect($artist->performances())->toBeInstanceOf(HasMany::class);
+    expect($artist->performances()->count())->toEqual($performanceCount);
+    expect($artist->performances()->first())->toBeInstanceOf(Performance::class);
 });
 
 test('member performances', function (): void {
@@ -95,9 +95,9 @@ test('member performances', function (): void {
         ->count($performanceCount)
         ->create();
 
-    $this->assertInstanceOf(HasMany::class, $member->memberPerformances());
-    $this->assertEquals($performanceCount, $member->memberPerformances()->count());
-    $this->assertInstanceOf(Performance::class, $member->memberPerformances()->first());
+    expect($member->memberPerformances())->toBeInstanceOf(HasMany::class);
+    expect($member->memberPerformances()->count())->toEqual($performanceCount);
+    expect($member->memberPerformances()->first())->toBeInstanceOf(Performance::class);
 });
 
 test('members', function (): void {
@@ -107,10 +107,10 @@ test('members', function (): void {
         ->has(Artist::factory()->count($memberCount), Artist::RELATION_MEMBERS)
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $artist->members());
-    $this->assertEquals($memberCount, $artist->members()->count());
-    $this->assertInstanceOf(Artist::class, $artist->members()->first());
-    $this->assertEquals(ArtistMember::class, $artist->members()->getPivotClass());
+    expect($artist->members())->toBeInstanceOf(BelongsToMany::class);
+    expect($artist->members()->count())->toEqual($memberCount);
+    expect($artist->members()->first())->toBeInstanceOf(Artist::class);
+    expect($artist->members()->getPivotClass())->toEqual(ArtistMember::class);
 });
 
 test('groups', function (): void {
@@ -120,10 +120,10 @@ test('groups', function (): void {
         ->has(Artist::factory()->count($groupCount), Artist::RELATION_GROUPS)
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $artist->groups());
-    $this->assertEquals($groupCount, $artist->groups()->count());
-    $this->assertInstanceOf(Artist::class, $artist->groups()->first());
-    $this->assertEquals(ArtistMember::class, $artist->groups()->getPivotClass());
+    expect($artist->groups())->toBeInstanceOf(BelongsToMany::class);
+    expect($artist->groups()->count())->toEqual($groupCount);
+    expect($artist->groups()->first())->toBeInstanceOf(Artist::class);
+    expect($artist->groups()->getPivotClass())->toEqual(ArtistMember::class);
 });
 
 test('images', function (): void {
@@ -133,10 +133,10 @@ test('images', function (): void {
         ->has(Image::factory()->count($imageCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $artist->images());
-    $this->assertEquals($imageCount, $artist->images()->count());
-    $this->assertInstanceOf(Image::class, $artist->images()->first());
-    $this->assertEquals(Imageable::class, $artist->images()->getPivotClass());
+    expect($artist->images())->toBeInstanceOf(MorphToMany::class);
+    expect($artist->images()->count())->toEqual($imageCount);
+    expect($artist->images()->first())->toBeInstanceOf(Image::class);
+    expect($artist->images()->getPivotClass())->toEqual(Imageable::class);
 });
 
 test('external resources', function (): void {
@@ -146,8 +146,8 @@ test('external resources', function (): void {
         ->has(ExternalResource::factory()->count($resourceCount), 'resources')
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $artist->resources());
-    $this->assertEquals($resourceCount, $artist->resources()->count());
-    $this->assertInstanceOf(ExternalResource::class, $artist->resources()->first());
-    $this->assertEquals(Resourceable::class, $artist->resources()->getPivotClass());
+    expect($artist->resources())->toBeInstanceOf(MorphToMany::class);
+    expect($artist->resources()->count())->toEqual($resourceCount);
+    expect($artist->resources()->first())->toBeInstanceOf(ExternalResource::class);
+    expect($artist->resources()->getPivotClass())->toEqual(Resourceable::class);
 });

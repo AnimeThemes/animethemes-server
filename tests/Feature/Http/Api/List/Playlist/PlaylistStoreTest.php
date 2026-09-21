@@ -17,7 +17,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\post;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('protected', function (): void {
     Feature::activate(AllowPlaylistManagement::class);

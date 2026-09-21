@@ -17,16 +17,14 @@ use App\Models\BaseModel;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeStudio;
-use App\Scout\Elasticsearch\Models\Wiki\StudioElasticModel;
-use App\Scout\Typesense\Models\Wiki\StudioTypesenseModel;
 use Database\Factories\Wiki\StudioFactory;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 use RuntimeException;
@@ -106,10 +104,21 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
     {
         return match ($driver = Config::get('scout.driver')) {
             'collection',
-            'elastic' => StudioElasticModel::toSearchableArray($this),
-            'typesense' => StudioTypesenseModel::toSearchableArray($this),
+            'typesense' => $this->toTypesenseArray(),
             default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function toTypesenseArray(): array
+    {
+        return [
+            'id' => (string) $this->getKey(),
+            'name' => $this->name,
+            'created_at' => $this->created_at->timestamp,
+        ];
     }
 
     /**

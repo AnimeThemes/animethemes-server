@@ -8,12 +8,12 @@ use App\Http\Api\Sort\RandomSort;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('format', function (): void {
     $sort = new RandomSort();
 
     $direction = Arr::random(Direction::cases());
 
-    $this->assertEquals(RandomCriteria::PARAM_VALUE, $sort->format($direction));
+    expect($sort->format($direction))->toEqual(RandomCriteria::PARAM_VALUE);
 });

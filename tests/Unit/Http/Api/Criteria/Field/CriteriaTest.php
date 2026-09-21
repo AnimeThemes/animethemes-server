@@ -6,14 +6,14 @@ use App\Http\Api\Criteria\Field\Criteria;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('is allowed field', function (): void {
     $fields = collect(fake()->words(fake()->randomDigitNotNull()));
 
     $criteria = new Criteria(fake()->word(), $fields);
 
-    $this->assertTrue($criteria->isAllowedField($fields->random()));
+    expect($criteria->isAllowedField($fields->random()))->toBeTrue();
 });
 
 test('is not allowed', function (): void {
@@ -21,5 +21,5 @@ test('is not allowed', function (): void {
 
     $criteria = new Criteria(fake()->word(), $fields);
 
-    $this->assertFalse($criteria->isAllowedField(Str::random()));
+    expect($criteria->isAllowedField(Str::random()))->toBeFalse();
 });

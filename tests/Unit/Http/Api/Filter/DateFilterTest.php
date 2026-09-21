@@ -10,7 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('should not apply if no dates', function (): void {
     $filterField = fake()->word();
@@ -19,7 +19,7 @@ test('should not apply if no dates', function (): void {
 
     $filter = new DateFilter($filterField);
 
-    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    expect($criteria->shouldFilter($filter, $criteria->getScope()))->toBeFalse();
 });
 
 test('should not apply if wrong format', function (): void {
@@ -29,7 +29,7 @@ test('should not apply if wrong format', function (): void {
 
     $filter = new DateFilter($filterField);
 
-    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    expect($criteria->shouldFilter($filter, $criteria->getScope()))->toBeFalse();
 });
 
 test('should apply if accepted format', function (): void {
@@ -41,7 +41,7 @@ test('should apply if accepted format', function (): void {
 
     $filter = new DateFilter($filterField);
 
-    $this->assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
+    expect($criteria->shouldFilter($filter, $criteria->getScope()))->toBeTrue();
 });
 
 test('converts dates to canonical format', function (): void {
@@ -57,8 +57,5 @@ test('converts dates to canonical format', function (): void {
 
     $filterValues = $filter->getFilterValues($criteria->getFilterValues());
 
-    $this->assertEquals(
-        DateTime::createFromFormat('!'.$dateFormat->value, $dateFilter)->format(AllowedDateFormat::YMDHISU->value),
-        $filterValues[0]
-    );
+    expect($filterValues[0])->toEqual(DateTime::createFromFormat('!'.$dateFormat->value, $dateFilter)->format(AllowedDateFormat::YMDHISU->value));
 });

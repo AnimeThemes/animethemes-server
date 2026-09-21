@@ -14,7 +14,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('should not filter if key mismatch', function (): void {
     $expression = new Expression(fake()->word());
@@ -71,7 +71,7 @@ test('should not filter if key mismatch', function (): void {
         }
     };
 
-    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    expect($criteria->shouldFilter($filter, $criteria->getScope()))->toBeFalse();
 });
 
 test('should filter if key match', function (): void {
@@ -131,7 +131,7 @@ test('should filter if key match', function (): void {
         }
     };
 
-    $this->assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
+    expect($criteria->shouldFilter($filter, $criteria->getScope()))->toBeTrue();
 });
 
 test('should not filter if not within scope', function (): void {
@@ -191,7 +191,7 @@ test('should not filter if not within scope', function (): void {
         }
     };
 
-    $this->assertFalse($criteria->shouldFilter($filter, new GlobalScope()));
+    expect($criteria->shouldFilter($filter, new GlobalScope()))->toBeFalse();
 });
 
 test('should filter if within scope', function (): void {
@@ -251,5 +251,5 @@ test('should filter if within scope', function (): void {
         }
     };
 
-    $this->assertTrue($criteria->shouldFilter($filter, $scope));
+    expect($criteria->shouldFilter($filter, $scope))->toBeTrue();
 });

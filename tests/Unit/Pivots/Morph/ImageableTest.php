@@ -17,8 +17,8 @@ test('image', function (): void {
         ->forAnime()
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $imageable->image());
-    $this->assertInstanceOf(Image::class, $imageable->image()->first());
+    expect($imageable->image())->toBeInstanceOf(BelongsTo::class);
+    expect($imageable->image()->first())->toBeInstanceOf(Image::class);
 });
 
 test('imageable playlist', function (): void {
@@ -27,8 +27,8 @@ test('imageable playlist', function (): void {
         ->forPlaylist()
         ->createOne();
 
-    $this->assertInstanceOf(MorphTo::class, $imageable->imageable());
-    $this->assertInstanceOf(Playlist::class, $imageable->imageable()->first());
+    expect($imageable->imageable())->toBeInstanceOf(MorphTo::class);
+    expect($imageable->imageable()->first())->toBeInstanceOf(Playlist::class);
 });
 
 test('imageable anime', function (): void {
@@ -37,8 +37,8 @@ test('imageable anime', function (): void {
         ->forAnime()
         ->createOne();
 
-    $this->assertInstanceOf(MorphTo::class, $imageable->imageable());
-    $this->assertInstanceOf(Anime::class, $imageable->imageable()->first());
+    expect($imageable->imageable())->toBeInstanceOf(MorphTo::class);
+    expect($imageable->imageable()->first())->toBeInstanceOf(Anime::class);
 });
 
 test('imageable artist', function (): void {
@@ -47,8 +47,8 @@ test('imageable artist', function (): void {
         ->forArtist()
         ->createOne();
 
-    $this->assertInstanceOf(MorphTo::class, $imageable->imageable());
-    $this->assertInstanceOf(Artist::class, $imageable->imageable()->first());
+    expect($imageable->imageable())->toBeInstanceOf(MorphTo::class);
+    expect($imageable->imageable()->first())->toBeInstanceOf(Artist::class);
 });
 
 test('imageable studio', function (): void {
@@ -57,6 +57,6 @@ test('imageable studio', function (): void {
         ->forStudio()
         ->createOne();
 
-    $this->assertInstanceOf(MorphTo::class, $imageable->imageable());
-    $this->assertInstanceOf(Studio::class, $imageable->imageable()->first());
+    expect($imageable->imageable())->toBeInstanceOf(MorphTo::class);
+    expect($imageable->imageable()->first())->toBeInstanceOf(Studio::class);
 });

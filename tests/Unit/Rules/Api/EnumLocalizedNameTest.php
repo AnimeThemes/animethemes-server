@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Tests\Unit\Enums\LocalizedEnum;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('passes if enum description', function (): void {
     $enum = Arr::random(LocalizedEnum::cases());
@@ -21,7 +21,7 @@ test('passes if enum description', function (): void {
         [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('fails if enum value', function (): void {
@@ -34,7 +34,7 @@ test('fails if enum value', function (): void {
         [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });
 
 test('fails if string', function (): void {
@@ -45,5 +45,5 @@ test('fails if string', function (): void {
         [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });

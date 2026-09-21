@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('no results', function (): void {
     Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));

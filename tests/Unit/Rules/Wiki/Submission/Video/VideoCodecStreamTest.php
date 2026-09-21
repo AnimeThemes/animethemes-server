@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('fails when codec is not vp9', function (): void {
     Feature::activate(FeatureConstants::VIDEO_CODEC_STREAM, 'vp9');
@@ -46,7 +46,7 @@ test('fails when codec is not vp9', function (): void {
         ['file' => new VideoCodecStreamRule()],
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -84,7 +84,7 @@ test('passes when codec is vp9', function (): void {
         ['file' => new VideoCodecStreamRule()],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

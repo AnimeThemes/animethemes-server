@@ -15,8 +15,8 @@ test('video', function (): void {
         ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $entryVideo->video());
-    $this->assertInstanceOf(Video::class, $entryVideo->video()->first());
+    expect($entryVideo->video())->toBeInstanceOf(BelongsTo::class);
+    expect($entryVideo->video()->first())->toBeInstanceOf(Video::class);
 });
 
 test('entry', function (): void {
@@ -25,6 +25,6 @@ test('entry', function (): void {
         ->for(Entry::factory()->for(Theme::factory()->for(Anime::factory())))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $entryVideo->entry());
-    $this->assertInstanceOf(Entry::class, $entryVideo->entry()->first());
+    expect($entryVideo->entry())->toBeInstanceOf(BelongsTo::class);
+    expect($entryVideo->entry()->first())->toBeInstanceOf(Entry::class);
 });

@@ -20,5 +20,5 @@ test('default', function (): void {
         }
     };
 
-    $this->assertTrue($reconcileResults->getStatus() === ActionStatus::PASSED);
+    expect($reconcileResults->getStatus())->toBe(ActionStatus::PASSED);
 });

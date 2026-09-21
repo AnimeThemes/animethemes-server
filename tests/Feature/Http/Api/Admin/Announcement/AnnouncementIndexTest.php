@@ -25,9 +25,9 @@ use Illuminate\Support\Facades\Date;
 
 use function Pest\Laravel\get;
 
-uses(SortsModels::class);
+pest()->use(SortsModels::class);
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('default', function (): void {
     $announcements = Announcement::factory()->count(fake()->randomDigitNotNull())->create();

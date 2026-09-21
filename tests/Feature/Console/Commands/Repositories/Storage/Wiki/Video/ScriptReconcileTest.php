@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Mockery\MockInterface;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('no results', function (): void {
     Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));

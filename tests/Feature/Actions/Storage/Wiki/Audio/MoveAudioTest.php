@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\File as FileFacade;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('default', function (): void {
     Config::set(AudioConstants::DISKS_QUALIFIED, []);
@@ -29,7 +29,7 @@ test('default', function (): void {
 
     $result = $storageResults->toActionResult();
 
-    $this->assertTrue($result->hasFailed());
+    expect($result->hasFailed())->toBeTrue();
 });
 
 test('passed', function (): void {
@@ -54,7 +54,7 @@ test('passed', function (): void {
 
     $result = $storageResults->toActionResult();
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
 });
 
 test('moved in disk', function (): void {

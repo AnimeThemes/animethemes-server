@@ -18,26 +18,26 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('casts facet to enum', function (): void {
     $image = Image::factory()->createOne();
 
     $facet = $image->facet;
 
-    $this->assertInstanceOf(ImageFacet::class, $facet);
+    expect($facet)->toBeInstanceOf(ImageFacet::class);
 });
 
 test('nameable', function (): void {
     $image = Image::factory()->createOne();
 
-    $this->assertIsString($image->getName());
+    expect($image->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
     $image = Image::factory()->createOne();
 
-    $this->assertIsString($image->getSubtitle());
+    expect($image->getSubtitle())->toBeString();
 });
 
 test('anime', function (): void {
@@ -47,10 +47,10 @@ test('anime', function (): void {
         ->has(Anime::factory()->count($animeCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $image->anime());
-    $this->assertEquals($animeCount, $image->anime()->count());
-    $this->assertInstanceOf(Anime::class, $image->anime()->first());
-    $this->assertEquals(Imageable::class, $image->anime()->getPivotClass());
+    expect($image->anime())->toBeInstanceOf(MorphToMany::class);
+    expect($image->anime()->count())->toEqual($animeCount);
+    expect($image->anime()->first())->toBeInstanceOf(Anime::class);
+    expect($image->anime()->getPivotClass())->toEqual(Imageable::class);
 });
 
 test('artists', function (): void {
@@ -60,10 +60,10 @@ test('artists', function (): void {
         ->has(Artist::factory()->count($artistCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $image->artists());
-    $this->assertEquals($artistCount, $image->artists()->count());
-    $this->assertInstanceOf(Artist::class, $image->artists()->first());
-    $this->assertEquals(Imageable::class, $image->artists()->getPivotClass());
+    expect($image->artists())->toBeInstanceOf(MorphToMany::class);
+    expect($image->artists()->count())->toEqual($artistCount);
+    expect($image->artists()->first())->toBeInstanceOf(Artist::class);
+    expect($image->artists()->getPivotClass())->toEqual(Imageable::class);
 });
 
 test('studios', function (): void {
@@ -73,10 +73,10 @@ test('studios', function (): void {
         ->has(Studio::factory()->count($studioCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $image->studios());
-    $this->assertEquals($studioCount, $image->studios()->count());
-    $this->assertInstanceOf(Studio::class, $image->studios()->first());
-    $this->assertEquals(Imageable::class, $image->studios()->getPivotClass());
+    expect($image->studios())->toBeInstanceOf(MorphToMany::class);
+    expect($image->studios()->count())->toEqual($studioCount);
+    expect($image->studios()->first())->toBeInstanceOf(Studio::class);
+    expect($image->studios()->getPivotClass())->toEqual(Imageable::class);
 });
 
 test('playlists', function (): void {
@@ -86,10 +86,10 @@ test('playlists', function (): void {
         ->has(Playlist::factory()->count($playlistCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $image->playlists());
-    $this->assertEquals($playlistCount, $image->playlists()->count());
-    $this->assertInstanceOf(Playlist::class, $image->playlists()->first());
-    $this->assertEquals(Imageable::class, $image->playlists()->getPivotClass());
+    expect($image->playlists())->toBeInstanceOf(MorphToMany::class);
+    expect($image->playlists()->count())->toEqual($playlistCount);
+    expect($image->playlists()->first())->toBeInstanceOf(Playlist::class);
+    expect($image->playlists()->getPivotClass())->toEqual(Imageable::class);
 });
 
 test('image storage deletion', function (): void {
@@ -106,7 +106,7 @@ test('image storage deletion', function (): void {
 
     $image->delete();
 
-    $this->assertTrue($fs->exists($image->path));
+    expect($fs->exists($image->path))->toBeTrue();
 });
 
 test('image storage force deletion', function (): void {
@@ -125,5 +125,5 @@ test('image storage force deletion', function (): void {
 
     $image->forceDelete();
 
-    $this->assertFalse($fs->exists($image->path));
+    expect($fs->exists($image->path))->toBeFalse();
 });

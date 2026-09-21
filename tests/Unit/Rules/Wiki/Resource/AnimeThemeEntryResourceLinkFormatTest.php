@@ -10,7 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('fails for no pattern', function (): void {
     $attribute = fake()->word();
@@ -20,7 +20,7 @@ test('fails for no pattern', function (): void {
         [$attribute => new EntryResourceLinkFormatRule(ResourceSite::YOUTUBE_MUSIC)],
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });
 
 test('passes for pattern', function (): void {
@@ -36,7 +36,7 @@ test('passes for pattern', function (): void {
         [$attribute => new EntryResourceLinkFormatRule($site)],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('fails for trailing slash', function (): void {
@@ -56,7 +56,7 @@ test('fails for trailing slash', function (): void {
         [$attribute => new EntryResourceLinkFormatRule($site)],
     );
 
-    $this->assertFalse($site->getPattern(Entry::class) && $validator->passes());
+    expect($site->getPattern(Entry::class) && $validator->passes())->toBeFalse();
 });
 
 test('fails for trailing slug', function (): void {
@@ -77,7 +77,7 @@ test('fails for trailing slug', function (): void {
         [$attribute => new EntryResourceLinkFormatRule($site)],
     );
 
-    $this->assertFalse($site->getPattern(Entry::class) && $validator->passes());
+    expect($site->getPattern(Entry::class) && $validator->passes())->toBeFalse();
 });
 
 test('fails for other resources', function (): void {
@@ -98,5 +98,5 @@ test('fails for other resources', function (): void {
         [$attribute => new EntryResourceLinkFormatRule($site)],
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });

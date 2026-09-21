@@ -13,7 +13,7 @@ test('enum converted to value', function (): void {
 
     $filterValues = $filter->getFilterValues(Arr::wrap($enum));
 
-    $this->assertEquals($enum->value, $filterValues[0]);
+    expect($filterValues[0])->toEqual($enum->value);
 });
 
 test('enum name converted to value', function (): void {
@@ -23,5 +23,5 @@ test('enum name converted to value', function (): void {
 
     $filterValues = $filter->getFilterValues(Arr::wrap($enum->name));
 
-    $this->assertEquals($enum->value, $filterValues[0]);
+    expect($filterValues[0])->toEqual($enum->value);
 });

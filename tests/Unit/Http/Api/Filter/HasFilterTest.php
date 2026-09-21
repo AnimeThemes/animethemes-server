@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('should not apply if no allowed paths', function (): void {
     $criteria = FakeCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, Str::random());
@@ -58,7 +58,7 @@ test('should not apply if no allowed paths', function (): void {
 
     $filter = new HasFilter($allowedIncludes->all());
 
-    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    expect($criteria->shouldFilter($filter, $criteria->getScope()))->toBeFalse();
 });
 
 test('should apply if allowed paths', function (): void {
@@ -107,5 +107,5 @@ test('should apply if allowed paths', function (): void {
 
     $filter = new HasFilter($allowedIncludes->all());
 
-    $this->assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
+    expect($criteria->shouldFilter($filter, $criteria->getScope()))->toBeTrue();
 });

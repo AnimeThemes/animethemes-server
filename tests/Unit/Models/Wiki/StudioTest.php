@@ -13,30 +13,30 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('searchable as', function (): void {
     $studio = Studio::factory()->createOne();
 
-    $this->assertIsString($studio->searchableAs());
+    expect($studio->searchableAs())->toBeString();
 });
 
 test('to searchable array', function (): void {
     $studio = Studio::factory()->createOne();
 
-    $this->assertIsArray($studio->toSearchableArray());
+    expect($studio->toSearchableArray())->toBeArray();
 });
 
 test('nameable', function (): void {
     $studio = Studio::factory()->createOne();
 
-    $this->assertIsString($studio->getName());
+    expect($studio->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
     $studio = Studio::factory()->createOne();
 
-    $this->assertIsString($studio->getSubtitle());
+    expect($studio->getSubtitle())->toBeString();
 });
 
 test('anime', function (): void {
@@ -46,10 +46,10 @@ test('anime', function (): void {
         ->has(Anime::factory()->count($animeCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $studio->anime());
-    $this->assertEquals($animeCount, $studio->anime()->count());
-    $this->assertInstanceOf(Anime::class, $studio->anime()->first());
-    $this->assertEquals(AnimeStudio::class, $studio->anime()->getPivotClass());
+    expect($studio->anime())->toBeInstanceOf(BelongsToMany::class);
+    expect($studio->anime()->count())->toEqual($animeCount);
+    expect($studio->anime()->first())->toBeInstanceOf(Anime::class);
+    expect($studio->anime()->getPivotClass())->toEqual(AnimeStudio::class);
 });
 
 test('external resources', function (): void {
@@ -59,10 +59,10 @@ test('external resources', function (): void {
         ->has(ExternalResource::factory()->count($resourceCount), 'resources')
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $studio->resources());
-    $this->assertEquals($resourceCount, $studio->resources()->count());
-    $this->assertInstanceOf(ExternalResource::class, $studio->resources()->first());
-    $this->assertEquals(Resourceable::class, $studio->resources()->getPivotClass());
+    expect($studio->resources())->toBeInstanceOf(MorphToMany::class);
+    expect($studio->resources()->count())->toEqual($resourceCount);
+    expect($studio->resources()->first())->toBeInstanceOf(ExternalResource::class);
+    expect($studio->resources()->getPivotClass())->toEqual(Resourceable::class);
 });
 
 test('images', function (): void {
@@ -72,8 +72,8 @@ test('images', function (): void {
         ->has(Image::factory()->count($imageCount))
         ->createOne();
 
-    $this->assertInstanceOf(MorphToMany::class, $studio->images());
-    $this->assertEquals($imageCount, $studio->images()->count());
-    $this->assertInstanceOf(Image::class, $studio->images()->first());
-    $this->assertEquals(Imageable::class, $studio->images()->getPivotClass());
+    expect($studio->images())->toBeInstanceOf(MorphToMany::class);
+    expect($studio->images()->count())->toEqual($imageCount);
+    expect($studio->images()->first())->toBeInstanceOf(Image::class);
+    expect($studio->images()->getPivotClass())->toEqual(Imageable::class);
 });

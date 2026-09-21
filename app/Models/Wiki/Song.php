@@ -14,11 +14,8 @@ use App\Events\Wiki\Song\SongRestored;
 use App\Events\Wiki\Song\SongUpdated;
 use App\Models\BaseModel;
 use App\Pivots\Morph\Resourceable;
-use App\Scout\Elasticsearch\Models\Wiki\SongElasticModel;
-use App\Scout\Typesense\Models\Wiki\SongTypesenseModel;
 use Database\Factories\Wiki\SongFactory;
 use Deprecated;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -26,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 use RuntimeException;
@@ -120,10 +118,23 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
     {
         return match ($driver = Config::get('scout.driver')) {
             'collection',
-            'elastic' => SongElasticModel::toSearchableArray($this),
-            'typesense' => SongTypesenseModel::toSearchableArray($this),
+            'typesense' => $this->toTypesenseArray(),
             default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function toTypesenseArray(): array
+    {
+        return [
+            'id' => (string) $this->getKey(),
+            'title' => $this->title,
+            // So TypeSense does not boost when alternative titles are the same.
+            'title_native' => $this->title_native !== $this->title ? $this->title_native : null,
+            'created_at' => $this->created_at->timestamp,
+        ];
     }
 
     public function getName(): string

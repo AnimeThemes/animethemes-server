@@ -14,14 +14,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('casts site to enum', function (): void {
     $profile = ExternalProfile::factory()->createOne();
 
     $site = $profile->site;
 
-    $this->assertInstanceOf(ExternalProfileSite::class, $site);
+    expect($site)->toBeInstanceOf(ExternalProfileSite::class);
 });
 
 test('casts visibility to enum', function (): void {
@@ -29,13 +29,13 @@ test('casts visibility to enum', function (): void {
 
     $visibility = $profile->visibility;
 
-    $this->assertInstanceOf(ExternalProfileVisibility::class, $visibility);
+    expect($visibility)->toBeInstanceOf(ExternalProfileVisibility::class);
 });
 
 test('nameable', function (): void {
     $profile = ExternalProfile::factory()->createOne();
 
-    $this->assertIsString($profile->getName());
+    expect($profile->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
@@ -43,7 +43,7 @@ test('has subtitle', function (): void {
         ->for(User::factory())
         ->createOne();
 
-    $this->assertIsString($profile->getSubtitle());
+    expect($profile->getSubtitle())->toBeString();
 });
 
 test('searchable if public', function (): void {
@@ -52,7 +52,7 @@ test('searchable if public', function (): void {
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
         ]);
 
-    $this->assertTrue($profile->shouldBeSearchable());
+    expect($profile->shouldBeSearchable())->toBeTrue();
 });
 
 test('not searchable if not public', function (): void {
@@ -70,7 +70,7 @@ test('not searchable if not public', function (): void {
             ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->value,
         ]);
 
-    $this->assertFalse($profile->shouldBeSearchable());
+    expect($profile->shouldBeSearchable())->toBeFalse();
 });
 
 test('claimed', function (): void {
@@ -81,8 +81,8 @@ test('claimed', function (): void {
     $unclaimedProfile = ExternalProfile::factory()
         ->createOne();
 
-    $this->assertTrue($claimedProfile->isClaimed());
-    $this->assertFalse($unclaimedProfile->isClaimed());
+    expect($claimedProfile->isClaimed())->toBeTrue();
+    expect($unclaimedProfile->isClaimed())->toBeFalse();
 });
 
 test('user', function (): void {
@@ -90,8 +90,8 @@ test('user', function (): void {
         ->for(User::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $profile->user());
-    $this->assertInstanceOf(User::class, $profile->user()->first());
+    expect($profile->user())->toBeInstanceOf(BelongsTo::class);
+    expect($profile->user()->first())->toBeInstanceOf(User::class);
 });
 
 test('external token', function (): void {
@@ -99,8 +99,8 @@ test('external token', function (): void {
         ->has(ExternalToken::factory(), ExternalProfile::RELATION_EXTERNAL_TOKEN)
         ->createOne();
 
-    $this->assertInstanceOf(HasOne::class, $profile->externaltoken());
-    $this->assertInstanceOf(ExternalToken::class, $profile->externaltoken()->first());
+    expect($profile->externaltoken())->toBeInstanceOf(HasOne::class);
+    expect($profile->externaltoken()->first())->toBeInstanceOf(ExternalToken::class);
 });
 
 test('external entries', function (): void {
@@ -113,7 +113,7 @@ test('external entries', function (): void {
         ->count($entryCount)
         ->create();
 
-    $this->assertInstanceOf(HasMany::class, $profile->externalentries());
-    $this->assertEquals($entryCount, $profile->externalentries()->count());
-    $this->assertInstanceOf(ExternalEntry::class, $profile->externalentries()->first());
+    expect($profile->externalentries())->toBeInstanceOf(HasMany::class);
+    expect($profile->externalentries()->count())->toEqual($entryCount);
+    expect($profile->externalentries()->first())->toBeInstanceOf(ExternalEntry::class);
 });

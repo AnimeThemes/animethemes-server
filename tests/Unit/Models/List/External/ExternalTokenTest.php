@@ -12,7 +12,7 @@ test('nameable', function (): void {
     $token = ExternalToken::factory()
         ->createOne();
 
-    $this->assertIsString($token->getName());
+    expect($token->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
@@ -20,7 +20,7 @@ test('has subtitle', function (): void {
         ->for(ExternalProfile::factory())
         ->createOne();
 
-    $this->assertIsString($token->getSubtitle());
+    expect($token->getSubtitle())->toBeString();
 });
 
 test('profile', function (): void {
@@ -28,8 +28,8 @@ test('profile', function (): void {
         ->for(ExternalProfile::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $token->externalprofile());
-    $this->assertInstanceOf(ExternalProfile::class, $token->externalprofile()->first());
+    expect($token->externalprofile())->toBeInstanceOf(BelongsTo::class);
+    expect($token->externalprofile()->first())->toBeInstanceOf(ExternalProfile::class);
 });
 
 test('user', function (): void {
@@ -37,6 +37,6 @@ test('user', function (): void {
         ->for(ExternalProfile::factory()->for(User::factory()))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToThrough::class, $token->user());
-    $this->assertInstanceOf(User::class, $token->user()->first());
+    expect($token->user())->toBeInstanceOf(BelongsToThrough::class);
+    expect($token->user()->first())->toBeInstanceOf(User::class);
 });

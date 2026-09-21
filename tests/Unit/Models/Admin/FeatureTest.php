@@ -5,24 +5,24 @@ declare(strict_types=1);
 use App\Models\Admin\Feature;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('nameable', function (): void {
     $feature = Feature::factory()->createOne();
 
-    $this->assertIsString($feature->getName());
+    expect($feature->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
     $feature = Feature::factory()->createOne();
 
-    $this->assertIsString($feature->getSubtitle());
+    expect($feature->getSubtitle())->toBeString();
 });
 
 test('nullable scope', function (): void {
     $feature = Feature::factory()->createOne();
 
-    $this->assertTrue($feature->isNullScope());
+    expect($feature->isNullScope())->toBeTrue();
 });
 
 test('non null scope', function (): void {
@@ -30,5 +30,5 @@ test('non null scope', function (): void {
         Feature::ATTRIBUTE_SCOPE => fake()->word(),
     ]);
 
-    $this->assertFalse($feature->isNullScope());
+    expect($feature->isNullScope())->toBeFalse();
 });

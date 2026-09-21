@@ -11,7 +11,7 @@ use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('default', function (): void {
     Config::set(VideoConstants::SCRIPT_DISK_QUALIFIED, []);
@@ -25,7 +25,7 @@ test('default', function (): void {
 
     $result = $storageResults->toActionResult();
 
-    $this->assertTrue($result->hasFailed());
+    expect($result->hasFailed())->toBeTrue();
 });
 
 test('passed', function (): void {
@@ -43,7 +43,7 @@ test('passed', function (): void {
 
     $result = $storageResults->toActionResult();
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
 });
 
 test('deleted from disk', function (): void {
@@ -59,7 +59,7 @@ test('deleted from disk', function (): void {
 
     $action->handle();
 
-    $this->assertEmpty($fs->allFiles());
+    expect($fs->allFiles())->toBeEmpty();
 });
 
 test('video deleted', function (): void {

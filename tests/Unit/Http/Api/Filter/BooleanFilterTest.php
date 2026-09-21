@@ -9,7 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('should not apply if no booleans', function (): void {
     $filterField = fake()->word();
@@ -18,7 +18,7 @@ test('should not apply if no booleans', function (): void {
 
     $filter = new BooleanFilter($filterField);
 
-    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    expect($criteria->shouldFilter($filter, $criteria->getScope()))->toBeFalse();
 });
 
 test('should not apply if all booleans', function (): void {
@@ -28,7 +28,7 @@ test('should not apply if all booleans', function (): void {
 
     $filter = new BooleanFilter($filterField);
 
-    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    expect($criteria->shouldFilter($filter, $criteria->getScope()))->toBeFalse();
 });
 
 test('converts validated boolean', function (): void {
@@ -38,5 +38,5 @@ test('converts validated boolean', function (): void {
 
     $filterValues = $filter->getFilterValues(Arr::wrap($booleanValue ? 'true' : 'false'));
 
-    $this->assertEquals($booleanValue, $filterValues[0]);
+    expect($filterValues[0])->toEqual($booleanValue);
 });

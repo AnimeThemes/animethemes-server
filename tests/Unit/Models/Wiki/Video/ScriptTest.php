@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('nameable', function (): void {
     $script = VideoScript::factory()->createOne();
 
-    $this->assertIsString($script->getName());
+    expect($script->getName())->toBeString();
 });
 
 test('has subtitle', function (): void {
@@ -26,7 +26,7 @@ test('has subtitle', function (): void {
         ->for(Video::factory())
         ->createOne();
 
-    $this->assertIsString($script->getSubtitle());
+    expect($script->getSubtitle())->toBeString();
 });
 
 test('video', function (): void {
@@ -34,8 +34,8 @@ test('video', function (): void {
         ->for(Video::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $script->video());
-    $this->assertInstanceOf(Video::class, $script->video()->first());
+    expect($script->video())->toBeInstanceOf(BelongsTo::class);
+    expect($script->video()->first())->toBeInstanceOf(Video::class);
 });
 
 test('script storage deletion', function (): void {
@@ -49,7 +49,7 @@ test('script storage deletion', function (): void {
 
     $script->delete();
 
-    $this->assertTrue($fs->exists($script->path));
+    expect($fs->exists($script->path))->toBeTrue();
 });
 
 test('script storage force deletion', function (): void {
@@ -65,5 +65,5 @@ test('script storage force deletion', function (): void {
 
     $script->forceDelete();
 
-    $this->assertFalse($fs->exists($script->path));
+    expect($fs->exists($script->path))->toBeFalse();
 });

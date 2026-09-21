@@ -16,7 +16,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('script downloading not allowed forbidden', function (): void {
     Feature::deactivate(AllowScriptDownloading::class);

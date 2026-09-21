@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Mockery\MockInterface;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('no results', function (): void {
     $this->mock(AudioRepository::class, function (MockInterface $mock): void {

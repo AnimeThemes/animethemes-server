@@ -27,8 +27,8 @@ test('only public pages are readable by guests', function (): void {
 
     $pages = Page::query()->get();
 
-    $this->assertCount(1, $pages);
-    $this->assertEquals($publicPage->getKey(), $pages->first()->getKey());
+    expect($pages)->toHaveCount(1);
+    expect($pages->first()->getKey())->toEqual($publicPage->getKey());
 })->repeat(5);
 
 test('admin can see all pages', function (): void {
@@ -54,7 +54,7 @@ test('admin can see all pages', function (): void {
 
     $pages = Page::query()->get();
 
-    $this->assertCount($roleCount + 1, $pages);
+    expect($pages)->toHaveCount($roleCount + 1);
 });
 
 test('user with role can see pages with that role', function (): void {
@@ -94,5 +94,5 @@ test('user with role can see pages with that role', function (): void {
 
     $pages = Page::query()->get();
 
-    $this->assertCount($userPageCount + 1, $pages);
+    expect($pages)->toHaveCount($userPageCount + 1);
 })->repeat(5);

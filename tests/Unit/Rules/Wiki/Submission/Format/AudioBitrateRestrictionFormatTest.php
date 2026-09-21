@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('fails when bitrate is not expected', function (): void {
     Feature::activate(FeatureConstants::AUDIO_BITRATE_RESTRICTION);
@@ -43,7 +43,7 @@ test('fails when bitrate is not expected', function (): void {
         ['file' => new AudioBitrateRestrictionFormatRule()],
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -78,7 +78,7 @@ test('passes when bitrate is expected', function (): void {
         ['file' => new AudioBitrateRestrictionFormatRule()],
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

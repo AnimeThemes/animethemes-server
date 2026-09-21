@@ -8,7 +8,7 @@ use App\Rules\Api\DistinctIgnoringDirectionRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('fails if duplicate sort', function (): void {
     $key = fake()->word();
@@ -22,7 +22,7 @@ test('fails if duplicate sort', function (): void {
         [$attribute => new DistinctIgnoringDirectionRule()]
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });
 
 test('fails if duplicate sort different direction', function (): void {
@@ -43,7 +43,7 @@ test('fails if duplicate sort different direction', function (): void {
         [$attribute => new DistinctIgnoringDirectionRule()]
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });
 
 test('passes if no duplicates', function (): void {
@@ -56,5 +56,5 @@ test('passes if no duplicates', function (): void {
         [$attribute => new DistinctIgnoringDirectionRule()]
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });

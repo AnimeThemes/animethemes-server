@@ -21,7 +21,7 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('private external profile cannot be publicly viewed', function (): void {
     Event::fakeExcept(ExternalProfileCreated::class);

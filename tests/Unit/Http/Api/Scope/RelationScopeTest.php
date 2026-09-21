@@ -7,14 +7,14 @@ use App\Http\Api\Scope\RelationScope;
 use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('global scope is not within scope', function (): void {
     $scope = new RelationScope(fake()->word());
 
     $otherScope = new GlobalScope();
 
-    $this->assertFalse($scope->isWithinScope($otherScope));
+    expect($scope->isWithinScope($otherScope))->toBeFalse();
 });
 
 test('type scope is not within scope', function (): void {
@@ -22,7 +22,7 @@ test('type scope is not within scope', function (): void {
 
     $otherScope = new TypeScope(fake()->word());
 
-    $this->assertFalse($scope->isWithinScope($otherScope));
+    expect($scope->isWithinScope($otherScope))->toBeFalse();
 });
 
 test('unequal relation is not within scope', function (): void {
@@ -30,7 +30,7 @@ test('unequal relation is not within scope', function (): void {
 
     $otherScope = new RelationScope(fake()->unique()->word());
 
-    $this->assertFalse($scope->isWithinScope($otherScope));
+    expect($scope->isWithinScope($otherScope))->toBeFalse();
 });
 
 test('relation is within scope', function (): void {
@@ -40,5 +40,5 @@ test('relation is within scope', function (): void {
 
     $otherScope = new RelationScope($relation);
 
-    $this->assertTrue($scope->isWithinScope($otherScope));
+    expect($scope->isWithinScope($otherScope))->toBeTrue();
 });

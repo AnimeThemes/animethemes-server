@@ -6,12 +6,12 @@ use App\Http\Api\Parser\SearchParser;
 use App\Scout\Criteria;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('no criteria by default', function (): void {
     $parameters = [];
 
-    $this->assertEmpty(SearchParser::parse($parameters));
+    expect(SearchParser::parse($parameters))->toBeEmpty();
 });
 
 test('parse search criteria', function (): void {
@@ -21,7 +21,7 @@ test('parse search criteria', function (): void {
 
     $criteria = SearchParser::parse($parameters)[0];
 
-    $this->assertInstanceOf(Criteria::class, $criteria);
+    expect($criteria)->toBeInstanceOf(Criteria::class);
 });
 
 test('parse search criteria term', function (): void {
@@ -33,5 +33,5 @@ test('parse search criteria term', function (): void {
 
     $criteria = SearchParser::parse($parameters)[0];
 
-    $this->assertEquals($term, $criteria->getTerm());
+    expect($criteria->getTerm())->toEqual($term);
 });

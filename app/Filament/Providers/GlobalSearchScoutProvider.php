@@ -7,13 +7,13 @@ namespace App\Filament\Providers;
 use App\Filament\Resources\BaseResource;
 use App\Scout\Criteria;
 use App\Scout\Search;
-use Elastic\ScoutDriverPlus\Searchable;
 use Filament\Facades\Filament;
 use Filament\GlobalSearch\GlobalSearchResult;
 use Filament\GlobalSearch\GlobalSearchResults;
 use Filament\GlobalSearch\Providers\Contracts\GlobalSearchProvider;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class GlobalSearchScoutProvider implements GlobalSearchProvider
 {

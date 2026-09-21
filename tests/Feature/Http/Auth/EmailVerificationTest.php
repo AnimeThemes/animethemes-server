@@ -16,7 +16,7 @@ use function Pest\Laravel\actingAs;
 
 use Spatie\Permission\PermissionRegistrar;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('assigns default roles', function (): void {
     Event::fakeExcept(Verified::class);
@@ -52,5 +52,5 @@ test('assigns default roles', function (): void {
 
     actingAs($user)->get($url);
 
-    $this->assertCount($defaultRoleCount, $user->roles()->get());
+    expect($user->roles()->get())->toHaveCount($defaultRoleCount);
 });

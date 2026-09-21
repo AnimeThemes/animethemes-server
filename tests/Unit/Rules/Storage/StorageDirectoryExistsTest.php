@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('passes if directory exists', function (): void {
     $directory = fake()->word();
@@ -23,7 +23,7 @@ test('passes if directory exists', function (): void {
         [$attribute => new StorageDirectoryExistsRule($fs)]
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('fails if directory does not exist', function (): void {
@@ -36,5 +36,5 @@ test('fails if directory does not exist', function (): void {
         [$attribute => new StorageDirectoryExistsRule($fs)]
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });

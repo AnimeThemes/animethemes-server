@@ -6,7 +6,7 @@ use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Filter\Filter;
 use Illuminate\Foundation\Testing\WithFaker;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('default column', function (): void {
     $filter = new class(fake()->word()) extends Filter
@@ -55,5 +55,5 @@ test('default column', function (): void {
         }
     };
 
-    $this->assertEquals($filter->getKey(), $filter->getColumn());
+    expect($filter->getColumn())->toEqual($filter->getKey());
 });

@@ -88,5 +88,5 @@ test('rate limited', function (): void {
 
     $middleware = collect($job->middleware())->first();
 
-    $this->assertInstanceOf(RateLimited::class, $middleware);
+    expect($middleware)->toBeInstanceOf(RateLimited::class);
 });

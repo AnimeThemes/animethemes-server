@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('should not sort if key mismatch', function (): void {
     $criteria = new class(new GlobalScope(), fake()->unique()->word()) extends Criteria
@@ -26,7 +26,7 @@ test('should not sort if key mismatch', function (): void {
 
     $sort = new Sort(fake()->unique()->word());
 
-    $this->assertFalse($criteria->shouldSort($sort, $criteria->getScope()));
+    expect($criteria->shouldSort($sort, $criteria->getScope()))->toBeFalse();
 });
 
 test('should sort if key match', function (): void {
@@ -45,7 +45,7 @@ test('should sort if key match', function (): void {
 
     $sort = new Sort($key);
 
-    $this->assertTrue($criteria->shouldSort($sort, $criteria->getScope()));
+    expect($criteria->shouldSort($sort, $criteria->getScope()))->toBeTrue();
 });
 
 test('should not sort if not within scope', function (): void {
@@ -66,7 +66,7 @@ test('should not sort if not within scope', function (): void {
 
     $sort = new Sort($key);
 
-    $this->assertFalse($criteria->shouldSort($sort, new GlobalScope()));
+    expect($criteria->shouldSort($sort, new GlobalScope()))->toBeFalse();
 });
 
 test('should sort if within scope', function (): void {
@@ -87,5 +87,5 @@ test('should sort if within scope', function (): void {
 
     $sort = new Sort($key);
 
-    $this->assertTrue($criteria->shouldSort($sort, $scope));
+    expect($criteria->shouldSort($sort, $scope))->toBeTrue();
 });

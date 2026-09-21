@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('skipped', function (): void {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
@@ -31,9 +31,9 @@ test('skipped', function (): void {
 
     $result = $action->handle();
 
-    $this->assertTrue($result->getStatus() === ActionStatus::SKIPPED);
+    expect($result->getStatus())->toBe(ActionStatus::SKIPPED);
     $this->assertDatabaseCount(Audio::class, 1);
-    $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    expect(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles())->toBeEmpty();
 });
 
 test('failed when no entries', function (): void {
@@ -46,9 +46,9 @@ test('failed when no entries', function (): void {
 
     $result = $action->handle();
 
-    $this->assertTrue($result->hasFailed());
+    expect($result->hasFailed())->toBeTrue();
     $this->assertDatabaseCount(Audio::class, 0);
-    $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    expect(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles())->toBeEmpty();
 });
 
 test('passes source video', function (): void {
@@ -69,10 +69,10 @@ test('passes source video', function (): void {
 
     $result = $action->handle();
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
     $this->assertDatabaseCount(Audio::class, 1);
-    $this->assertTrue($video->audio()->exists());
-    $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    expect($video->audio()->exists())->toBeTrue();
+    expect(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles())->toBeEmpty();
 });
 
 test('passes with higher priority source', function (): void {
@@ -98,10 +98,10 @@ test('passes with higher priority source', function (): void {
 
     $result = $action->handle();
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
     $this->assertDatabaseCount(Audio::class, 1);
-    $this->assertTrue($video->audio()->exists());
-    $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    expect($video->audio()->exists())->toBeTrue();
+    expect(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles())->toBeEmpty();
 });
 
 test('passes with primary version source', function (): void {
@@ -134,8 +134,8 @@ test('passes with primary version source', function (): void {
 
     $result = $action->handle();
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
     $this->assertDatabaseCount(Audio::class, 2);
-    $this->assertTrue($video->audio()->is($sourceAudio));
-    $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    expect($video->audio()->is($sourceAudio))->toBeTrue();
+    expect(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles())->toBeEmpty();
 });

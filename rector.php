@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Pest\Rector\Rules\ChainExpectCallsRector;
+use Pest\Rector\Set\PestSetList;
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\CodingStyle\Rector\ArrowFunction\ArrowFunctionDelegatingCallToFirstClassCallableRector;
 use Rector\CodingStyle\Rector\Closure\ClosureDelegatingCallToFirstClassCallableRector;
@@ -14,7 +16,6 @@ use RectorLaravel\Rector\MethodCall\ConvertEnumerableToArrayToAllRector;
 use RectorLaravel\Rector\MethodCall\ResponseHelperCallToJsonResponseRector;
 use RectorLaravel\Rector\StaticCall\DispatchToHelperFunctionsRector;
 use RectorLaravel\Set\LaravelSetList;
-use RectorPest\Set\PestSetList;
 
 return RectorConfig::configure()
     ->withComposerBased(laravel: true)
@@ -28,7 +29,7 @@ return RectorConfig::configure()
         LaravelSetList::LARAVEL_FACADE_ALIASES_TO_FULL_NAMES,
         LaravelSetList::LARAVEL_IF_HELPERS,
         LaravelSetList::LARAVEL_LEGACY_FACTORIES_TO_CLASSES,
-        PestSetList::PEST_CODE_QUALITY,
+        PestSetList::CODING_STYLE,
     ])
     ->withRules([
         ResponseHelperCallToJsonResponseRector::class,
@@ -53,6 +54,7 @@ return RectorConfig::configure()
         __DIR__.'/database/migrations',
         AddOverrideAttributeToOverriddenMethodsRector::class,
         AddOverrideAttributeToOverriddenPropertiesRector::class,
+        ChainExpectCallsRector::class,
         DispatchToHelperFunctionsRector::class,
         ConvertEnumerableToArrayToAllRector::class,
         ArrowFunctionDelegatingCallToFirstClassCallableRector::class,

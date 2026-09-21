@@ -17,8 +17,8 @@ test('resource', function (): void {
         ->for(Anime::factory(), Resourceable::RELATION_RESOURCEABLE)
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $resourceable->resource());
-    $this->assertInstanceOf(ExternalResource::class, $resourceable->resource()->first());
+    expect($resourceable->resource())->toBeInstanceOf(BelongsTo::class);
+    expect($resourceable->resource()->first())->toBeInstanceOf(ExternalResource::class);
 });
 
 test('resourceable anime', function (): void {
@@ -27,8 +27,8 @@ test('resourceable anime', function (): void {
         ->forAnime()
         ->createOne();
 
-    $this->assertInstanceOf(MorphTo::class, $resourceable->resourceable());
-    $this->assertInstanceOf(Anime::class, $resourceable->resourceable()->first());
+    expect($resourceable->resourceable())->toBeInstanceOf(MorphTo::class);
+    expect($resourceable->resourceable()->first())->toBeInstanceOf(Anime::class);
 });
 
 test('resourceable artist', function (): void {
@@ -37,8 +37,8 @@ test('resourceable artist', function (): void {
         ->forArtist()
         ->createOne();
 
-    $this->assertInstanceOf(MorphTo::class, $resourceable->resourceable());
-    $this->assertInstanceOf(Artist::class, $resourceable->resourceable()->first());
+    expect($resourceable->resourceable())->toBeInstanceOf(MorphTo::class);
+    expect($resourceable->resourceable()->first())->toBeInstanceOf(Artist::class);
 });
 
 test('resourceable song', function (): void {
@@ -47,8 +47,8 @@ test('resourceable song', function (): void {
         ->forSong()
         ->createOne();
 
-    $this->assertInstanceOf(MorphTo::class, $resourceable->resourceable());
-    $this->assertInstanceOf(Song::class, $resourceable->resourceable()->first());
+    expect($resourceable->resourceable())->toBeInstanceOf(MorphTo::class);
+    expect($resourceable->resourceable()->first())->toBeInstanceOf(Song::class);
 });
 
 test('resourceable studio', function (): void {
@@ -57,6 +57,6 @@ test('resourceable studio', function (): void {
         ->forStudio()
         ->createOne();
 
-    $this->assertInstanceOf(MorphTo::class, $resourceable->resourceable());
-    $this->assertInstanceOf(Studio::class, $resourceable->resourceable()->first());
+    expect($resourceable->resourceable())->toBeInstanceOf(MorphTo::class);
+    expect($resourceable->resourceable()->first())->toBeInstanceOf(Studio::class);
 });

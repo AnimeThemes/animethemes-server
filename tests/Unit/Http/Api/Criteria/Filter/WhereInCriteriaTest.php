@@ -12,14 +12,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('field', function (): void {
     $field = fake()->word();
 
     $criteria = WhereInCriteria::make(new GlobalScope(), $field, fake()->word());
 
-    $this->assertEquals($field, $criteria->getField());
+    expect($criteria->getField())->toEqual($field);
 });
 
 test('comparison operator', function (): void {
@@ -34,13 +34,13 @@ test('comparison operator', function (): void {
 
     $criteria = WhereInCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    $this->assertNull($criteria->getComparisonOperator());
+    expect($criteria->getComparisonOperator())->toBeNull();
 });
 
 test('default logical operator', function (): void {
     $criteria = WhereInCriteria::make(new GlobalScope(), fake()->word(), fake()->word());
 
-    $this->assertEquals(BinaryLogicalOperator::AND, $criteria->getLogicalOperator());
+    expect($criteria->getLogicalOperator())->toEqual(BinaryLogicalOperator::AND);
 });
 
 test('logical operator', function (): void {
@@ -50,13 +50,13 @@ test('logical operator', function (): void {
 
     $criteria = WhereInCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    $this->assertEquals($operator, $criteria->getLogicalOperator());
+    expect($criteria->getLogicalOperator())->toEqual($operator);
 });
 
 test('default unary operator', function (): void {
     $criteria = WhereInCriteria::make(new GlobalScope(), fake()->word(), fake()->word());
 
-    $this->assertFalse($criteria->not());
+    expect($criteria->not())->toBeFalse();
 });
 
 test('unary operator', function (): void {
@@ -69,5 +69,5 @@ test('unary operator', function (): void {
 
     $criteria = WhereInCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    $this->assertTrue($criteria->not());
+    expect($criteria->not())->toBeTrue();
 });

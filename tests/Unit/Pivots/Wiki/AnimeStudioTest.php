@@ -13,8 +13,8 @@ test('anime', function (): void {
         ->for(Studio::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $animeStudio->anime());
-    $this->assertInstanceOf(Anime::class, $animeStudio->anime()->first());
+    expect($animeStudio->anime())->toBeInstanceOf(BelongsTo::class);
+    expect($animeStudio->anime()->first())->toBeInstanceOf(Anime::class);
 });
 
 test('studio', function (): void {
@@ -23,6 +23,6 @@ test('studio', function (): void {
         ->for(Studio::factory())
         ->createOne();
 
-    $this->assertInstanceOf(BelongsTo::class, $animeStudio->studio());
-    $this->assertInstanceOf(Studio::class, $animeStudio->studio()->first());
+    expect($animeStudio->studio())->toBeInstanceOf(BelongsTo::class);
+    expect($animeStudio->studio()->first())->toBeInstanceOf(Studio::class);
 });

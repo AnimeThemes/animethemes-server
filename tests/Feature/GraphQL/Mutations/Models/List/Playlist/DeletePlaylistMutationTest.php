@@ -120,5 +120,5 @@ it('deletes', function (): void {
 
     $this->assertDatabaseCount(Playlist::class, 0);
     $response->assertOk();
-    $this->assertIsString($response->json('data.DeletePlaylist.message'));
+    expect($response->json('data.DeletePlaylist.message'))->toBeString();
 });

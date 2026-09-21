@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Mockery\MockInterface;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('no results', function (): void {
     $this->mock(AudioSourceRepository::class, function (MockInterface $mock): void {
@@ -27,8 +27,8 @@ test('no results', function (): void {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
-    $this->assertFalse($result->hasChanges());
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
+    expect($result->hasChanges())->toBeFalse();
     $this->assertDatabaseCount(Audio::class, 0);
 });
 
@@ -48,9 +48,9 @@ test('created', function (): void {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
-    $this->assertTrue($result->hasChanges());
-    $this->assertCount($createdAudioCount, $result->getCreated());
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
+    expect($result->hasChanges())->toBeTrue();
+    expect($result->getCreated())->toHaveCount($createdAudioCount);
     $this->assertDatabaseCount(Audio::class, $createdAudioCount);
 });
 
@@ -70,9 +70,9 @@ test('deleted', function (): void {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
-    $this->assertTrue($result->hasChanges());
-    $this->assertCount($deletedAudioCount, $result->getDeleted());
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
+    expect($result->hasChanges())->toBeTrue();
+    expect($result->getDeleted())->toHaveCount($deletedAudioCount);
 
     $this->assertDatabaseCount(Audio::class, $deletedAudioCount);
     foreach ($audios as $audio) {
@@ -106,8 +106,8 @@ test('updated', function (): void {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
-    $this->assertTrue($result->hasChanges());
-    $this->assertCount($updatedAudioCount, $result->getUpdated());
+    expect($result->getStatus())->toBe(ActionStatus::PASSED);
+    expect($result->hasChanges())->toBeTrue();
+    expect($result->getUpdated())->toHaveCount($updatedAudioCount);
     $this->assertDatabaseCount(Audio::class, $updatedAudioCount);
 });

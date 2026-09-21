@@ -17,7 +17,7 @@ use Laravel\Pennant\Feature;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('dump downloading not allowed forbidden', function (): void {
     Feature::deactivate(AllowDumpDownloading::class);

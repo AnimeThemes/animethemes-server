@@ -9,7 +9,7 @@ use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('passes if directory exists', function (): void {
     /** @var FilesystemAdapter $fs */
@@ -26,7 +26,7 @@ test('passes if directory exists', function (): void {
         [$attribute => new StorageFileDirectoryExistsRule($fs)]
     );
 
-    $this->assertTrue($validator->passes());
+    expect($validator->passes())->toBeTrue();
 });
 
 test('fails if directory does not exist', function (): void {
@@ -39,5 +39,5 @@ test('fails if directory does not exist', function (): void {
         [$attribute => new StorageFileDirectoryExistsRule($fs)]
     );
 
-    $this->assertFalse($validator->passes());
+    expect($validator->passes())->toBeFalse();
 });

@@ -11,18 +11,18 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('field', function (): void {
     $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, fake()->word());
 
-    $this->assertEquals(HasCriteria::PARAM_VALUE, $criteria->getField());
+    expect($criteria->getField())->toEqual(HasCriteria::PARAM_VALUE);
 });
 
 test('default comparison operator', function (): void {
     $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, fake()->word());
 
-    $this->assertEquals(ComparisonOperator::GTE, $criteria->getComparisonOperator());
+    expect($criteria->getComparisonOperator())->toEqual(ComparisonOperator::GTE);
 });
 
 test('comparison operator', function (): void {
@@ -32,13 +32,13 @@ test('comparison operator', function (): void {
 
     $criteria = HasCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    $this->assertEquals($operator, $criteria->getComparisonOperator());
+    expect($criteria->getComparisonOperator())->toEqual($operator);
 });
 
 test('default count', function (): void {
     $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, fake()->word());
 
-    $this->assertEquals(1, $criteria->getCount());
+    expect($criteria->getCount())->toEqual(1);
 });
 
 test('count', function (): void {
@@ -48,13 +48,13 @@ test('count', function (): void {
 
     $criteria = HasCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    $this->assertEquals($count, $criteria->getCount());
+    expect($criteria->getCount())->toEqual($count);
 });
 
 test('default logical operator', function (): void {
     $criteria = HasCriteria::make(new GlobalScope(), fake()->word(), fake()->word());
 
-    $this->assertEquals(BinaryLogicalOperator::AND, $criteria->getLogicalOperator());
+    expect($criteria->getLogicalOperator())->toEqual(BinaryLogicalOperator::AND);
 });
 
 test('logical operator', function (): void {
@@ -64,5 +64,5 @@ test('logical operator', function (): void {
 
     $criteria = HasCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    $this->assertEquals($operator, $criteria->getLogicalOperator());
+    expect($criteria->getLogicalOperator())->toEqual($operator);
 });

@@ -15,10 +15,7 @@ use App\Models\BaseModel;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Image;
 use App\Pivots\Morph\Imageable;
-use App\Scout\Elasticsearch\Models\List\PlaylistElasticModel;
-use App\Scout\Typesense\Models\List\PlaylistTypesenseModel;
 use Database\Factories\List\PlaylistFactory;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Laravel\Scout\Searchable;
 use RuntimeException;
 
 /**
@@ -165,10 +163,21 @@ class Playlist extends BaseModel implements HasHashids, HasImages
     {
         return match ($driver = Config::get('scout.driver')) {
             'collection',
-            'elastic' => PlaylistElasticModel::toSearchableArray($this),
-            'typesense' => PlaylistTypesenseModel::toSearchableArray($this),
+            'typesense' => $this->toTypesenseArray(),
             default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function toTypesenseArray(): array
+    {
+        return [
+            'id' => (string) $this->getKey(),
+            'name' => $this->name,
+            'created_at' => $this->created_at?->timestamp,
+        ];
     }
 
     /**

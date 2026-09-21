@@ -20,11 +20,8 @@ use App\Models\BaseModel;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\EntryVideo;
-use App\Scout\Elasticsearch\Models\Wiki\EntryElasticModel;
-use App\Scout\Typesense\Models\Wiki\EntryTypesenseModel;
 use Database\Factories\Wiki\EntryFactory;
 use Deprecated;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -36,6 +33,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 use RuntimeException;
@@ -177,10 +175,23 @@ class Entry extends BaseModel implements Auditable, HasResources, InteractsWithS
     {
         return match ($driver = Config::get('scout.driver')) {
             'collection',
-            'elastic' => EntryElasticModel::toSearchableArray($this),
-            'typesense' => EntryTypesenseModel::toSearchableArray($this),
+            'typesense' => $this->toTypesenseArray(),
             default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function toTypesenseArray(): array
+    {
+        return [
+            'id' => (string) $this->getKey(),
+            'theme' => $this->theme->toSearchableArray(),
+            'version' => $version = Str::of(strval($this->version))->prepend('v')->__toString(),
+            'type_sequence_version' => $this->theme->type->localize().(($this->theme->sequence ?? 1)).$version,
+            'created_at' => $this->created_at->timestamp,
+        ];
     }
 
     public function getName(): string

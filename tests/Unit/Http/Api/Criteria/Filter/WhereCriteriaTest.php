@@ -11,20 +11,20 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('field', function (): void {
     $field = fake()->word();
 
     $criteria = WhereCriteria::make(new GlobalScope(), $field, fake()->word());
 
-    $this->assertEquals($field, $criteria->getField());
+    expect($criteria->getField())->toEqual($field);
 });
 
 test('default comparison operator', function (): void {
     $criteria = WhereCriteria::make(new GlobalScope(), fake()->word(), fake()->word());
 
-    $this->assertEquals(ComparisonOperator::EQ, $criteria->getComparisonOperator());
+    expect($criteria->getComparisonOperator())->toEqual(ComparisonOperator::EQ);
 });
 
 test('comparison operator', function (): void {
@@ -34,13 +34,13 @@ test('comparison operator', function (): void {
 
     $criteria = WhereCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    $this->assertEquals($operator, $criteria->getComparisonOperator());
+    expect($criteria->getComparisonOperator())->toEqual($operator);
 });
 
 test('default logical operator', function (): void {
     $criteria = WhereCriteria::make(new GlobalScope(), fake()->word(), fake()->word());
 
-    $this->assertEquals(BinaryLogicalOperator::AND, $criteria->getLogicalOperator());
+    expect($criteria->getLogicalOperator())->toEqual(BinaryLogicalOperator::AND);
 });
 
 test('logical operator', function (): void {
@@ -50,5 +50,5 @@ test('logical operator', function (): void {
 
     $criteria = WhereCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    $this->assertEquals($operator, $criteria->getLogicalOperator());
+    expect($criteria->getLogicalOperator())->toEqual($operator);
 });

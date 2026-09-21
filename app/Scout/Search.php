@@ -8,7 +8,6 @@ use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Scout\Collection\CollectionSearch;
-use App\Scout\Elasticsearch\Elasticsearch;
 use App\Scout\Typesense\Typesense;
 use Closure;
 use Illuminate\Contracts\Pagination\Paginator;
@@ -33,7 +32,6 @@ abstract class Search
 
         return match ($driver = Config::get('scout.driver')) {
             'collection' => App::make(CollectionSearch::class, ['model' => $model, 'criteria' => $criteria]),
-            'elastic' => App::make(Elasticsearch::class, ['model' => $model, 'criteria' => $criteria]),
             'typesense' => App::make(Typesense::class, ['model' => $model, 'criteria' => $criteria]),
             default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };

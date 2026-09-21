@@ -25,7 +25,7 @@ use Illuminate\Support\Arr;
 
 use function Pest\Laravel\get;
 
-uses(WithFaker::class);
+pest()->use(WithFaker::class);
 
 test('default', function (): void {
     $song = Song::factory()->create();
