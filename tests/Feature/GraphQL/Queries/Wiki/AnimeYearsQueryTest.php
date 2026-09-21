@@ -11,7 +11,7 @@ test('fails query season anime field without year', function (): void {
 
     $response = $this->graphQL(
         '
-        query($season: AnimeSeason) {
+        query {
             animeyears {
                 year
                 season {
@@ -55,12 +55,16 @@ test('query season & seasons field', function (): void {
     $response->assertOk();
     $response->assertJsonStructure([
         'data' => [
-            'animeyears' => [[
-                'year',
-                'season' => [
-                    'season',
+            'animeyears' => [
+                '*' => [
+                    'year',
+                    'season' => [
+                        '*' => [
+                            'season',
+                        ],
+                    ],
                 ],
-            ]],
+            ],
         ],
     ]);
 });
@@ -97,15 +101,21 @@ test('query season anime field with year', function (): void {
     $response->assertOk();
     $response->assertJsonStructure([
         'data' => [
-            'animeyears' => [[
-                'year',
-                'season' => [
-                    'season',
-                    'anime' => [
-                        'data' => [['id']],
+            'animeyears' => [
+                '*' => [
+                    'year',
+                    'season' => [
+                        '*' => [
+                            'season',
+                            'anime' => [
+                                'data' => [
+                                    '*' => ['id'],
+                                ],
+                            ],
+                        ],
                     ],
                 ],
-            ]],
+            ],
         ],
     ]);
 });
