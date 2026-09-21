@@ -117,6 +117,8 @@ class Series extends BaseModel implements Auditable, SoftDeletable
     {
         return [
             'id' => (string) $this->getKey(),
+            // Backwards compatibility with JSON:API
+            'name' => $this->title,
             'title' => $this->title,
             'created_at' => $this->created_at->timestamp,
             'anime' => $this->anime->map(
