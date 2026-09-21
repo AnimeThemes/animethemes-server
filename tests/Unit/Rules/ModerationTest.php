@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Validator;
 pest()->use(WithFaker::class);
 
 test('fails if unknown moderation service', function (): void {
-    expect(fn () => Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, fake()->word()))->toThrow(RuntimeException::class);
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, fake()->word());
+
     $attribute = fake()->word();
 
     $validator = Validator::make(
@@ -22,7 +23,7 @@ test('fails if unknown moderation service', function (): void {
     );
 
     $validator->passes();
-});
+})->throws(RuntimeException::class);
 
 test('fails if flagged by open ai', function (): void {
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);

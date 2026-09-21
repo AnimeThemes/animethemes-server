@@ -166,7 +166,8 @@ test('created if open ai fails', function (): void {
 });
 
 test('validation error when flagged by open ai', function (): void {
-    expect(fn () => Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value))->toThrow(ValidationException::class);
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+
     Http::fake([
         'https://api.openai.com/v1/moderations' => Http::response([
             'results' => [
@@ -188,14 +189,12 @@ test('validation error when flagged by open ai', function (): void {
     $action->update($user, [
         User::ATTRIBUTE_NAME => $name,
     ]);
-});
+})->throws(ValidationException::class);
 
 test('disposable email', function (): void {
-    expect(function (): void {
-        $this->mock(Indisposable::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('validate')->once()->andReturn(false);
-        });
-    })->toThrow(ValidationException::class);
+    $this->mock(Indisposable::class, function (MockInterface $mock): void {
+        $mock->shouldReceive('validate')->once()->andReturn(false);
+    });
 
     $email = fake()->unique()->companyEmail();
 
@@ -208,7 +207,7 @@ test('disposable email', function (): void {
     $action->update($user, [
         User::ATTRIBUTE_EMAIL => $email,
     ]);
-});
+})->throws(ValidationException::class);
 
 test('indisposable email', function (): void {
     Notification::fake();
