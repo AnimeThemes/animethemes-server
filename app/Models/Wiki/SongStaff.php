@@ -76,6 +76,18 @@ class SongStaff extends BaseModel implements Auditable, SoftDeletable, Sortable
     final public const string RELATION_SONG = 'song';
 
     /**
+     * The default roles for song staff.
+     *
+     * @var string[]
+     */
+    public static $roles = [
+        'Performance',
+        'Lyrics',
+        'Composition',
+        'Arrangement',
+    ];
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.

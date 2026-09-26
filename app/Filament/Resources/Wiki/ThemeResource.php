@@ -21,6 +21,7 @@ use App\Filament\Resources\Wiki\SongStaff\Schemas\SongStaffForm;
 use App\Filament\Resources\Wiki\Theme\Pages\ListThemes;
 use App\Filament\Resources\Wiki\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Theme\RelationManagers\EntryThemeRelationManager;
+use App\Filament\Resources\Wiki\Theme\RelationManagers\ThemeStaffThemeRelationManager;
 use App\Filament\Resources\Wiki\Theme\Schemas\ThemeForm;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Theme;
@@ -101,6 +102,7 @@ class ThemeResource extends BaseResource
             Theme::RELATION_ENTRIES,
             Theme::RELATION_SONG_STAFF,
             Theme::RELATION_SONG,
+            Theme::RELATION_STAFF,
             'song.themes',
             'song.staff.artist',
             'song.staff.member',
@@ -128,6 +130,18 @@ class ThemeResource extends BaseResource
                                     ->resource(GroupResource::class)
                                     ->showCreateOption()
                                     ->live(),
+                            ]),
+
+                        Tab::make('staff')
+                            ->label(__('filament.resources.singularLabel.staff'))
+                            ->schema([
+                                Repeater::make('theme_staff')
+                                    ->label(__('filament.resources.label.staff'))
+                                    ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.artist')]))
+                                    ->relationship(Theme::RELATION_STAFF)
+                                    ->schema(ThemeStaffResource::form($schema)->getComponents())
+                                    ->key('staff')
+                                    ->columns(3),
                             ]),
 
                         Tab::make('song')
@@ -268,6 +282,7 @@ class ThemeResource extends BaseResource
         return [
             RelationGroup::make(static::getModelLabel(), [
                 EntryThemeRelationManager::class,
+                ThemeStaffThemeRelationManager::class,
 
                 ...parent::getBaseRelations(),
             ]),

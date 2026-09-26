@@ -99,6 +99,8 @@ class Theme extends BaseModel implements Auditable, InteractsWithSchema, SoftDel
 
     final public const string RELATION_SONG_STAFF = 'song.staff';
 
+    final public const string RELATION_STAFF = 'staff';
+
     final public const string RELATION_SYNONYMS = 'anime.synonyms';
 
     final public const string RELATION_VIDEOS = 'animethemeentries.videos';
@@ -247,6 +249,14 @@ class Theme extends BaseModel implements Auditable, InteractsWithSchema, SoftDel
     public function entries(): HasMany
     {
         return $this->hasMany(Entry::class, Entry::ATTRIBUTE_THEME);
+    }
+
+    /**
+     * @return HasMany<ThemeStaff, $this>
+     */
+    public function staff(): HasMany
+    {
+        return $this->hasMany(ThemeStaff::class, ThemeStaff::ATTRIBUTE_THEME);
     }
 
     /**

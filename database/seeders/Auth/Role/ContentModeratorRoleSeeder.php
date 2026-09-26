@@ -25,9 +25,11 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Performance;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
+use App\Models\Wiki\SongStaff;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Theme;
+use App\Models\Wiki\ThemeStaff;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 
@@ -79,8 +81,10 @@ class ContentModeratorRoleSeeder extends RoleSeeder
         $this->configureResource($role, Performance::class, $extendedCrudPermissions);
         $this->configureResource($role, Series::class, $extendedCrudPermissions);
         $this->configureResource($role, Song::class, $extendedCrudPermissions);
+        $this->configureResource($role, SongStaff::class, $extendedCrudPermissions);
         $this->configureResource($role, Studio::class, $extendedCrudPermissions);
         $this->configureResource($role, Synonym::class, $extendedCrudPermissions);
+        $this->configureResource($role, ThemeStaff::class, $extendedCrudPermissions);
         $this->configureResource($role, Video::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
         $this->configureResource($role, VideoScript::class, [CrudPermission::VIEW]);
 

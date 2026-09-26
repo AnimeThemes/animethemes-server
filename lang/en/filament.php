@@ -968,6 +968,16 @@ return [
                 'name' => 'Slug',
             ],
         ],
+        'theme_staff' => [
+            'alias' => [
+                'help' => 'Used in place of the Artist if the staff is using an alias.',
+                'name' => 'Alias',
+            ],
+            'role' => [
+                'help' => 'The role in which the artist is credited.',
+                'name' => 'Role',
+            ],
+        ],
         'user' => [
             'avatar' => 'Avatar',
             'email' => 'Email',
@@ -1068,6 +1078,7 @@ return [
             'studios' => 'Studios',
             'synonyms' => 'Synonyms',
             'themes' => 'Themes',
+            'theme_staff' => 'Theme Staff',
             'users' => 'Users',
             'video_scripts' => 'Video Scripts',
             'videos' => 'Videos',
@@ -1104,6 +1115,7 @@ return [
             'studio' => 'Studio',
             'synonym' => 'Synonym',
             'theme' => 'Theme',
+            'theme_staff' => 'Theme Staff',
             'user' => 'User',
             'video_script' => 'Video Script',
             'video' => 'Video',
