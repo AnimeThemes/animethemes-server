@@ -27,7 +27,6 @@ services:
         depends_on:
           redis:
             condition: service_healthy
-        
     queue:
         image: '${APP_IMAGE:-animethemes-server:local}'
         container_name: animethemes-queue

@@ -165,7 +165,7 @@ test('filter by entry spoiler', function (): void {
             'data.animethemeShuffle',
             fn (AssertableJson $themes): AssertableJson => $themes->each(
                 fn (AssertableJson $theme): AssertableJson => $theme->has(
-                    Theme::RELATION_ENTRIES,
+                    Theme::RELATION_ANIMETHEMEENTRIES,
                     fn (AssertableJson $entries): AssertableJson => $entries->each(
                         fn (AssertableJson $entry): AssertableJson => $entry->where(Entry::ATTRIBUTE_SPOILER, $spoiler)
                     )

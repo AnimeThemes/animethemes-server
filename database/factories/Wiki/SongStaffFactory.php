@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace Database\Factories\Wiki;
 
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Performance;
 use App\Models\Wiki\Song;
+use App\Models\Wiki\SongStaff;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @method Performance createOne($attributes = [])
- * @method Performance makeOne($attributes = [])
+ * @method SongStaff createOne($attributes = [])
+ * @method SongStaff makeOne($attributes = [])
  *
- * @extends Factory<Performance>
+ * @extends Factory<SongStaff>
  */
-#[UseModel(Performance::class)]
-class PerformanceFactory extends Factory
+#[UseModel(SongStaff::class)]
+class SongStaffFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -27,11 +27,11 @@ class PerformanceFactory extends Factory
     public function definition(): array
     {
         return [
-            Performance::ATTRIBUTE_ALIAS => fake()->text(),
-            Performance::ATTRIBUTE_AS => fake()->text(),
-            Performance::ATTRIBUTE_ARTIST => Artist::factory(),
-            Performance::ATTRIBUTE_SONG => Song::factory(),
-            Performance::ATTRIBUTE_ROLE => 'Performance',
+            SongStaff::ATTRIBUTE_ALIAS => fake()->text(),
+            SongStaff::ATTRIBUTE_AS => fake()->text(),
+            SongStaff::ATTRIBUTE_ARTIST => Artist::factory(),
+            SongStaff::ATTRIBUTE_SONG => Song::factory(),
+            SongStaff::ATTRIBUTE_ROLE => fake()->word(),
         ];
     }
 
@@ -40,13 +40,13 @@ class PerformanceFactory extends Factory
         $hasMember = fake()->boolean();
 
         return $this->state(fn (): array => [
-            Performance::ATTRIBUTE_MEMBER => $hasMember
+            SongStaff::ATTRIBUTE_MEMBER => $hasMember
                 ? Artist::factory()
                 : null,
-            Performance::ATTRIBUTE_MEMBER_ALIAS => $hasMember && fake()->boolean()
+            SongStaff::ATTRIBUTE_MEMBER_ALIAS => $hasMember && fake()->boolean()
                 ? fake()->text()
                 : null,
-            Performance::ATTRIBUTE_MEMBER_AS => $hasMember && fake()->boolean()
+            SongStaff::ATTRIBUTE_MEMBER_AS => $hasMember && fake()->boolean()
                 ? fake()->text()
                 : null,
         ]);

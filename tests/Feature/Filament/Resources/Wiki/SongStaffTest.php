@@ -9,10 +9,10 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\Resources\Wiki\PerformanceResource;
+use App\Filament\Resources\Wiki\SongStaffResource;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Performance as PerformanceModel;
+use App\Models\Wiki\SongStaff;
 use App\Models\Wiki\Song;
 use Filament\Actions\Testing\TestAction;
 use Illuminate\Support\Facades\DB;
@@ -25,21 +25,21 @@ test('render index page', function (): void {
     $user = User::factory()
         ->withPermissions(
             SpecialPermission::VIEW_FILAMENT->value,
-            CrudPermission::VIEW->format(PerformanceModel::class)
+            CrudPermission::VIEW->format(SongStaff::class)
         )
         ->createOne();
 
     actingAs($user);
 
-    $records = PerformanceModel::factory()
+    $records = SongStaff::factory()
         ->for(Song::factory())
-        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
+        ->for(Artist::factory(), SongStaff::RELATION_ARTIST)
         ->create();
 
-    get(PerformanceResource::getUrl('index'))
+    get(SongStaffResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(PerformanceResource::class))
+    Livewire::test(getIndexPage(SongStaffResource::class))
         ->assertCanSeeTableRecords(collect([$records]));
 });
 
@@ -47,18 +47,18 @@ test('render view page', function (): void {
     $user = User::factory()
         ->withPermissions(
             SpecialPermission::VIEW_FILAMENT->value,
-            CrudPermission::VIEW->format(PerformanceModel::class)
+            CrudPermission::VIEW->format(SongStaff::class)
         )
         ->createOne();
 
     actingAs($user);
 
-    $record = PerformanceModel::factory()
+    $record = SongStaff::factory()
         ->for(Song::factory())
-        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
+        ->for(Artist::factory(), SongStaff::RELATION_ARTIST)
         ->createOne();
 
-    get(PerformanceResource::getUrl('view', ['record' => $record]))
+    get(SongStaffResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -66,13 +66,13 @@ test('mount create action', function (): void {
     $user = User::factory()
         ->withPermissions(
             SpecialPermission::VIEW_FILAMENT->value,
-            CrudPermission::CREATE->format(PerformanceModel::class)
+            CrudPermission::CREATE->format(SongStaff::class)
         )
         ->createOne();
 
     actingAs($user);
 
-    Livewire::test(getIndexPage(PerformanceResource::class))
+    Livewire::test(getIndexPage(SongStaffResource::class))
         ->mountAction(CreateAction::class)
         ->assertActionMounted(CreateAction::class);
 });
@@ -85,67 +85,67 @@ test('mount edit action', function (): void {
     $user = User::factory()
         ->withPermissions(
             SpecialPermission::VIEW_FILAMENT->value,
-            CrudPermission::UPDATE->format(PerformanceModel::class)
+            CrudPermission::UPDATE->format(SongStaff::class)
         )
         ->createOne();
 
     actingAs($user);
 
-    $record = PerformanceModel::factory()
+    $record = SongStaff::factory()
         ->for(Song::factory())
-        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
+        ->for(Artist::factory(), SongStaff::RELATION_ARTIST)
         ->createOne();
 
-    Livewire::test(getIndexPage(PerformanceResource::class))
+    Livewire::test(getIndexPage(SongStaffResource::class))
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();
 });
 
 test('user cannot create record', function (): void {
-    Livewire::test(getIndexPage(PerformanceResource::class))
+    Livewire::test(getIndexPage(SongStaffResource::class))
         ->assertActionHidden(CreateAction::class);
 });
 
 test('user cannot edit record', function (): void {
-    $record = PerformanceModel::factory()
+    $record = SongStaff::factory()
         ->for(Song::factory())
-        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
+        ->for(Artist::factory(), SongStaff::RELATION_ARTIST)
         ->createOne();
 
-    Livewire::test(getIndexPage(PerformanceResource::class))
+    Livewire::test(getIndexPage(SongStaffResource::class))
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function (): void {
-    $record = PerformanceModel::factory()
+    $record = SongStaff::factory()
         ->for(Song::factory())
-        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
+        ->for(Artist::factory(), SongStaff::RELATION_ARTIST)
         ->createOne();
 
-    Livewire::test(getIndexPage(PerformanceResource::class))
+    Livewire::test(getIndexPage(SongStaffResource::class))
         ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });
 
 test('user cannot restore record', function (): void {
-    $record = PerformanceModel::factory()
+    $record = SongStaff::factory()
         ->for(Song::factory())
-        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
+        ->for(Artist::factory(), SongStaff::RELATION_ARTIST)
         ->createOne();
 
     $record->delete();
 
-    Livewire::test(getIndexPage(PerformanceResource::class))
+    Livewire::test(getIndexPage(SongStaffResource::class))
         ->filterTable('trashed', 0)
         ->assertActionDoesNotExist(TestAction::make(RestoreAction::getDefaultName())->table($record));
 });
 
 test('user cannot force delete record', function (): void {
-    $record = PerformanceModel::factory()
+    $record = SongStaff::factory()
         ->for(Song::factory())
-        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
+        ->for(Artist::factory(), SongStaff::RELATION_ARTIST)
         ->createOne();
 
-    Livewire::test(getIndexPage(PerformanceResource::class))
+    Livewire::test(getIndexPage(SongStaffResource::class))
         ->assertActionDoesNotExist(TestAction::make(ForceDeleteAction::getDefaultName())->table($record));
 });

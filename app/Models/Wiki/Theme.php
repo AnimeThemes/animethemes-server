@@ -83,7 +83,9 @@ class Theme extends BaseModel implements Auditable, InteractsWithSchema, SoftDel
 
     final public const string RELATION_AUDIO = 'animethemeentries.videos.audio';
 
-    final public const string RELATION_ENTRIES = 'animethemeentries';
+    final public const string RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
+
+    final public const string RELATION_ENTRIES = 'entries';
 
     final public const string RELATION_GROUP = 'group';
 
@@ -94,6 +96,8 @@ class Theme extends BaseModel implements Auditable, InteractsWithSchema, SoftDel
     final public const string RELATION_PERFORMANCES_ARTISTS = 'song.performances.artist';
 
     final public const string RELATION_SONG = 'song';
+
+    final public const string RELATION_SONG_STAFF = 'song.staff';
 
     final public const string RELATION_SYNONYMS = 'anime.synonyms';
 

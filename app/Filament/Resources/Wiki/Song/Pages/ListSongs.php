@@ -13,7 +13,7 @@ use App\Filament\Tabs\Song\Resource\SongAppleMusicResourceTab;
 use App\Filament\Tabs\Song\Resource\SongSpotifyResourceTab;
 use App\Filament\Tabs\Song\Resource\SongYoutubeMusicResourceTab;
 use App\Filament\Tabs\Song\Resource\SongYoutubeResourceTab;
-use App\Filament\Tabs\Song\SongPerformanceTab;
+use App\Filament\Tabs\Song\SongStaffTab;
 use App\Models\Wiki\Song;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
@@ -46,7 +46,7 @@ class ListSongs extends BaseListResources
             SongSpotifyResourceTab::class,
             SongYoutubeMusicResourceTab::class,
             SongYoutubeResourceTab::class,
-            SongPerformanceTab::class,
+            SongStaffTab::class,
         ]);
     }
 }

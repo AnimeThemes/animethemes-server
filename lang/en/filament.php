@@ -301,8 +301,8 @@ return [
                 ],
             ],
         ],
-        'performances' => [
-            'manage_performances' => 'Manage Performances',
+        'song_staff' => [
+            'manage_staff' => 'Manage Staff',
         ],
         'permission' => [
             'give_role' => [
@@ -616,11 +616,11 @@ return [
         'artist' => [
             'groups' => [
                 'alias' => [
-                    'help' => 'Used in place of the Artist if the performance is using an alias.',
+                    'help' => 'Used in place of the Artist if the staff is using an alias.',
                     'name' => 'Alias',
                 ],
                 'as' => [
-                    'help' => 'Used alongside the Artist name if the performance is made as a character.',
+                    'help' => 'Used alongside the Artist name if the staff is made as a character.',
                     'name' => 'As',
                 ],
                 'notes' => [
@@ -634,11 +634,11 @@ return [
             ],
             'members' => [
                 'alias' => [
-                    'help' => 'Used in place of the Artist if the performance is using an alias.',
+                    'help' => 'Used in place of the Artist if the staff is using an alias.',
                     'name' => 'Alias',
                 ],
                 'as' => [
-                    'help' => 'Used alongside the Artist name if the performance is made as a character.',
+                    'help' => 'Used alongside the Artist name if the staff is made as a character.',
                     'name' => 'As',
                 ],
                 'notes' => [
@@ -660,11 +660,11 @@ return [
             ],
             'songs' => [
                 'alias' => [
-                    'help' => 'Used in place of the Artist if the performance is using an alias.',
+                    'help' => 'Used in place of the Artist if the staff is using an alias.',
                     'name' => 'Alias',
                 ],
                 'as' => [
-                    'help' => 'Used alongside the Artist name if the performance is made as a character.',
+                    'help' => 'Used alongside the Artist name if the staff is made as a character.',
                     'name' => 'As',
                 ],
             ],
@@ -824,24 +824,24 @@ return [
                 'name' => 'Type',
             ],
         ],
-        'performance' => [
+        'song_staff' => [
             'alias' => [
-                'help' => 'Used in place of the Artist name if the performance is using an alias.',
+                'help' => 'Used in place of the Artist name if the staff is using an alias.',
                 'name' => 'Alias',
             ],
             'artist' => 'Artist',
             'as' => [
-                'help' => 'Used alongside the Artist name if the performance is made as a character.',
+                'help' => 'Used alongside the Artist name if the staff is made as a character.',
                 'name' => 'As',
             ],
             'group' => 'Group',
             'member' => 'Member',
             'member_alias' => [
-                'help' => 'Used in place of the Member name if the performance is using an alias.',
+                'help' => 'Used in place of the Member name if the staff is using an alias.',
                 'name' => 'Member Alias',
             ],
             'member_as' => [
-                'help' => 'Used alongside the Member name if the performance is made as a character.',
+                'help' => 'Used alongside the Member name if the staff is made as a character.',
                 'name' => 'Member As',
             ],
             'load_members' => [
@@ -849,6 +849,10 @@ return [
             ],
             'members' => [
                 'help' => 'When a group and its members are credited, you must include the individual members who performed the song.',
+            ],
+            'role' => [
+                'help' => 'The role in which the artist performed the song. For example, "Performance".',
+                'name' => 'Role',
             ],
         ],
         'permission' => [
@@ -1046,12 +1050,13 @@ return [
             'features' => 'Features',
             'featured_themes' => 'Featured Themes',
             'groups' => 'Groups',
-            'group_performances' => 'Group Performances',
+            'group_song_staff' => 'Group Song Staff',
             'images' => 'Images',
             'members' => 'Members',
-            'member_performances' => 'Member Performances',
+            'member_song_staff' => 'Member Song Staff',
             'pages' => 'Pages',
-            'performances' => 'Performances',
+            'staff' => 'Staff',
+            'song_staff' => 'Song Staff',
             'permissions' => 'Permissions',
             'playlist_tracks' => 'Playlist Tracks',
             'playlists' => 'Playlists',
@@ -1081,12 +1086,13 @@ return [
             'feature' => 'Feature',
             'featured_theme' => 'Featured Theme',
             'group' => 'Group',
-            'group_performance' => 'Group Performance',
+            'group_song_staff' => 'Group Song Staff',
             'image' => 'Image',
             'member' => 'Member',
-            'member_performance' => 'Member Performance',
+            'member_song_staff' => 'Member Song Staff',
             'page' => 'Page',
-            'performance' => 'Performance',
+            'staff' => 'Staff',
+            'song_staff' => 'Song Staff',
             'permission' => 'Permission',
             'playlist_track' => 'Playlist Track',
             'playlist' => 'Playlist',
@@ -1121,8 +1127,8 @@ return [
             ],
         ],
         'artist' => [
-            'performance' => [
-                'name' => 'Without Performances',
+            'song_staff' => [
+                'name' => 'Without Song Staff',
             ],
         ],
         'audio' => [
@@ -1146,8 +1152,8 @@ return [
             ],
         ],
         'song' => [
-            'performance' => [
-                'name' => 'Without Performances',
+            'song_staff' => [
+                'name' => 'Without Song Staff',
             ],
         ],
         'studio' => [

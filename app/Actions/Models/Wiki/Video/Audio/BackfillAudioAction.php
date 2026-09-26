@@ -203,7 +203,7 @@ class BackfillAudioAction extends BackfillAction
             ->with([
                 Theme::RELATION_ANIME,
                 Theme::RELATION_AUDIO,
-                Theme::RELATION_ENTRIES => fn (Relation $relation) => $relation->getQuery()->orderBy(Entry::ATTRIBUTE_VERSION),
+                Theme::RELATION_ANIMETHEMEENTRIES => fn (Relation $relation) => $relation->getQuery()->orderBy(Entry::ATTRIBUTE_VERSION),
             ])
             ->get()
             ->flatMap(fn (Theme $theme) => $theme->animethemeentries)

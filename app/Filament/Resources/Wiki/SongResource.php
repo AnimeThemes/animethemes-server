@@ -14,7 +14,7 @@ use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Song\Pages\ListSongs;
 use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
-use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
+use App\Filament\Resources\Wiki\Song\RelationManagers\SongStaffSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Song;
 use Filament\QueryBuilder\Constraints\TextConstraint;
@@ -166,7 +166,7 @@ class SongResource extends BaseResource
     {
         return [
             RelationGroup::make(static::getModelLabel(), [
-                PerformanceSongRelationManager::class,
+                SongStaffSongRelationManager::class,
                 ThemeSongRelationManager::class,
                 ResourceRelationManager::class,
 

@@ -43,7 +43,7 @@ class AnimeThemeShuffleQuery
         $builder->whereHas(Theme::RELATION_VIDEOS);
 
         if (is_bool($spoiler = Arr::get($args, 'spoiler'))) {
-            $builder->whereRelation(Theme::RELATION_ENTRIES, Entry::ATTRIBUTE_SPOILER, $spoiler);
+            $builder->whereRelation(Theme::RELATION_ANIMETHEMEENTRIES, Entry::ATTRIBUTE_SPOILER, $spoiler);
         }
 
         $builder->inRandomOrder();

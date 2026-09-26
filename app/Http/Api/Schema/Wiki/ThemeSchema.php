@@ -41,7 +41,7 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
         return $this->withIntermediatePaths([
             new AllowedInclude(new AnimeSchema(), Theme::RELATION_ANIME),
             new AllowedInclude(new ArtistSchema(), Theme::RELATION_ARTISTS),
-            new AllowedInclude(new EntrySchema(), Theme::RELATION_ENTRIES),
+            new AllowedInclude(new EntrySchema(), Theme::RELATION_ANIMETHEMEENTRIES),
             new AllowedInclude(new GroupSchema(), Theme::RELATION_GROUP),
             new AllowedInclude(new ImageSchema(), Theme::RELATION_IMAGES),
             new AllowedInclude(new SongSchema(), Theme::RELATION_SONG),

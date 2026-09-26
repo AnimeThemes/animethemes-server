@@ -14,7 +14,7 @@ class EntryThemeRelationManager extends EntryRelationManager
     /**
      * The relationship the relation manager corresponds to.
      */
-    protected static string $relationship = Theme::RELATION_ENTRIES;
+    protected static string $relationship = Theme::RELATION_ANIMETHEMEENTRIES;
 
     public function table(Table $table): Table
     {

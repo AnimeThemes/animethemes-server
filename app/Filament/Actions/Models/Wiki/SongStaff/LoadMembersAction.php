@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Actions\Models\Wiki\Performance;
+namespace App\Filament\Actions\Models\Wiki\SongStaff;
 
-use App\Filament\Resources\Wiki\Performance\Schemas\PerformanceForm;
+use App\Filament\Resources\Wiki\SongStaff\Schemas\SongStaffForm;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Performance;
+use App\Models\Wiki\SongStaff;
 use App\Pivots\Wiki\ArtistMember;
 use Filament\Actions\Action;
 use Filament\Schemas\Components\Utilities\Get;
@@ -25,12 +25,12 @@ class LoadMembersAction extends Action
     {
         parent::setUp();
 
-        $this->label(__('filament.fields.performance.load_members.name'));
+        $this->label(__('filament.fields.song_staff.load_members.name'));
 
         $this->action(function (Get $get, Set $set): void {
             $artistId = $get(Artist::ATTRIBUTE_ID);
             if ($artistId === null) {
-                $set(PerformanceForm::REPEATER_MEMBERS, []);
+                $set(SongStaffForm::REPEATER_MEMBERS, []);
 
                 return;
             }
@@ -44,10 +44,10 @@ class LoadMembersAction extends Action
                 ])
                 ->find($artistId);
 
-            $set(PerformanceForm::REPEATER_MEMBERS, $group->members->map(fn (Artist $member): array => [
-                Performance::ATTRIBUTE_MEMBER => $member->getKey(),
-                Performance::ATTRIBUTE_MEMBER_ALIAS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_ALIAS),
-                Performance::ATTRIBUTE_MEMBER_AS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_AS),
+            $set(SongStaffForm::REPEATER_MEMBERS, $group->members->map(fn (Artist $member): array => [
+                SongStaff::ATTRIBUTE_MEMBER => $member->getKey(),
+                SongStaff::ATTRIBUTE_MEMBER_ALIAS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_ALIAS),
+                SongStaff::ATTRIBUTE_MEMBER_AS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_AS),
             ])->toArray());
         });
     }
