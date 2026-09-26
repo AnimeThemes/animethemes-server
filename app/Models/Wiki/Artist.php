@@ -223,12 +223,12 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     public function songs(): BelongsToMany
     {
         $sub = Performance::query()
-            ->selectRaw('MIN(performance_id) as performance_id')
+            ->selectRaw('MIN(id) as song_staff_id')
             ->groupBy(Performance::ATTRIBUTE_ARTIST, Performance::ATTRIBUTE_SONG);
 
         return $this->belongsToMany(Song::class, Performance::TABLE, Performance::ATTRIBUTE_ARTIST, Performance::ATTRIBUTE_SONG)
             ->joinSub($sub, 'unique_performances', function ($join): void {
-                $join->on('performances.performance_id', '=', 'unique_performances.performance_id');
+                $join->on('song_staff.id', '=', 'unique_performances.song_staff_id');
             })
             ->as('artistsong')
             ->withPivot([Performance::ATTRIBUTE_ID, Performance::ATTRIBUTE_ALIAS, Performance::ATTRIBUTE_AS])
