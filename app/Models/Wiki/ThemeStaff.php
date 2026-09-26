@@ -13,16 +13,20 @@ use App\Events\Wiki\ThemeStaff\ThemeStaffUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Wiki\ThemeStaffFactory;
 use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 
 /**
  * @property int $id
  * @property string|null $alias
  * @property int $artist_id
  * @property Artist $artist
+ * @property int $relevance
  * @property string $role
  * @property int $theme_id
  * @property Theme $theme
@@ -30,11 +34,12 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @method static ThemeStaffFactory factory(...$parameters)
  */
 #[Table(ThemeStaff::TABLE, ThemeStaff::ATTRIBUTE_ID)]
-class ThemeStaff extends BaseModel implements Auditable, SoftDeletable
+class ThemeStaff extends BaseModel implements Auditable, SoftDeletable, Sortable
 {
     use HasAudits;
     use HasFactory;
     use SoftDeletes;
+    use SortableTrait;
 
     final public const string TABLE = 'theme_staff';
 
@@ -43,6 +48,8 @@ class ThemeStaff extends BaseModel implements Auditable, SoftDeletable
     final public const string ATTRIBUTE_ALIAS = 'alias';
 
     final public const string ATTRIBUTE_ARTIST = 'artist_id';
+
+    final public const string ATTRIBUTE_RELEVANCE = 'relevance';
 
     final public const string ATTRIBUTE_ROLE = 'role';
 
@@ -101,6 +108,10 @@ class ThemeStaff extends BaseModel implements Auditable, SoftDeletable
         ThemeStaff::ATTRIBUTE_THEME,
     ];
 
+    public $sortable = [
+        'order_column_name' => ThemeStaff::ATTRIBUTE_RELEVANCE,
+    ];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -124,6 +135,11 @@ class ThemeStaff extends BaseModel implements Auditable, SoftDeletable
     public function getSubtitle(): string
     {
         return $this->role;
+    }
+
+    public function buildSortQuery(): Builder
+    {
+        return static::query()->whereBelongsTo($this->theme);
     }
 
     /**

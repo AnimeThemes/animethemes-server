@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable('performances')) {
-            Schema::create('performances', function (Blueprint $table) {
-                $table->id('performance_id');
+        if (! Schema::hasTable('song_staff')) {
+            Schema::create('song_staff', function (Blueprint $table) {
+                $table->id();
 
                 $table->unsignedBigInteger('song_id');
                 $table->foreign('song_id')->references('song_id')->on('songs')->cascadeOnDelete();
@@ -24,7 +24,9 @@ return new class extends Migration
                 $table->foreign('artist_id')->references('artist_id')->on('artists')->cascadeOnDelete();
 
                 $table->unsignedBigInteger('member_id')->nullable();
-                $table->foreign('member_id')->references('artist_id')->on('artists')->nullOnDelete();
+                $table->foreign('member_id')->references('artist_id')->on('artists')->cascadeOnDelete();
+
+                $table->string('role');
 
                 $table->string('alias')->nullable();
                 $table->string('as')->nullable();
@@ -35,7 +37,10 @@ return new class extends Migration
                 $table->timestamp('updated_at', 6)->useCurrent();
                 $table->softDeletes('deleted_at', 6);
 
-                $table->unique(['song_id', 'artist_id', 'member_id', 'deleted_at'], 'unique_performance');
+                $table->unique(
+                    ['song_id', 'artist_id', 'member_id', 'role', 'deleted_at'],
+                    'unique_song_staff'
+                );
             });
         }
     }

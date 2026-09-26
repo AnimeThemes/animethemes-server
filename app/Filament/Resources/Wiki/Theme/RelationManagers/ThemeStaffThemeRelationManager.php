@@ -23,6 +23,8 @@ class ThemeStaffThemeRelationManager extends ThemeStaffRelationManager
                 ->inverseRelationship(ThemeStaff::RELATION_THEME)
         )
             ->heading(__('filament.resources.label.staff'))
-            ->modelLabel(__('filament.resources.singularLabel.staff'));
+            ->modelLabel(__('filament.resources.singularLabel.staff'))
+            ->reorderable(ThemeStaff::ATTRIBUTE_RELEVANCE)
+            ->defaultSort(ThemeStaff::ATTRIBUTE_RELEVANCE);
     }
 }
