@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasColumns('theme_staff', ['relevance'])) {
+        if (! Schema::hasColumn('theme_staff', 'relevance')) {
             Schema::table('theme_staff', function (Blueprint $table) {
                 $table->integer('relevance')->after('alias')->default(1);
             });
