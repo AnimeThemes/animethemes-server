@@ -21,7 +21,7 @@ class ManageSongStaff
         Song|int $song,
         /** @var Collection<int, non-empty-array<string, mixed>> */
         protected Collection $staff = new Collection(),
-        /** @var Collection<int, array<string, mixed>> */
+        /** @var Collection<string, array<string, mixed>> */
         protected Collection $members = new Collection(),
     ) {
         $this->song = $song instanceof Song ? $song : Song::query()->find($song);
