@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\SongStaff;
 use App\Models\Wiki\Song;
+use App\Models\Wiki\SongStaff;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
 

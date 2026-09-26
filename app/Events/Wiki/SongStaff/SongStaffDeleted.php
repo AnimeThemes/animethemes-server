@@ -32,10 +32,10 @@ class SongStaffDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesE
             $memberName = $staff->member_alias ?? $member->getName();
             $memberName = filled($staff->member_as) ? "{$staff->member_as} (CV: {$memberName})" : $memberName;
 
-            return "Song '**{$song->getName()}**' has been detached from Member '**{$memberName}**' of '**{$groupName}**' as **{$staff->role}**.";
+            return "Song '**{$song->getName()}**' has been detached from Member '**{$memberName}**' of '**{$groupName}**' as '**{$staff->role}**'.";
         }
 
-        return "Song '**{$song->getName()}**' has been detached from Artist '**{$artistName}**' as **{$staff->role}**.";
+        return "Song '**{$song->getName()}**' has been detached from Artist '**{$artistName}**' as '**{$staff->role}**'.";
     }
 
     protected function getNotificationMessage(): string

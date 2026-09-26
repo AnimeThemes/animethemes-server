@@ -33,10 +33,10 @@ class SongStaffCreated extends WikiCreatedEvent implements CreateSynonymEvent, U
             $memberName = $staff->member_alias ?? $member->getName();
             $memberName = filled($staff->member_as) ? "{$staff->member_as} (CV: {$memberName})" : $memberName;
 
-            return "Song '**{$song->getName()}**' has been attached to Member '**{$memberName}**' of '**{$groupName}**' as **{$staff->role}**.";
+            return "Song '**{$song->getName()}**' has been attached to Member '**{$memberName}**' of '**{$groupName}**' as '**{$staff->role}**'.";
         }
 
-        return "Song '**{$song->getName()}**' has been attached to Artist '**{$artistName}**' as **{$staff->role}**.";
+        return "Song '**{$song->getName()}**' has been attached to Artist '**{$artistName}**' as '**{$staff->role}**'.";
     }
 
     public function updateRelatedIndices(): void

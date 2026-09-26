@@ -32,12 +32,7 @@ class SongStaffArtistRelationManager extends SongStaffRelationManager
                 ->helperText(__('filament.fields.song_staff.role.help'))
                 ->required()
                 ->columnSpanFull()
-                ->datalist([
-                    'Performance',
-                    'Lyrics',
-                    'Composition',
-                    'Arrangement',
-                ]),
+                ->datalist(SongStaff::$roles),
 
             TextInput::make(SongStaff::ATTRIBUTE_AS)
                 ->label(__('filament.fields.song_staff.as.name'))

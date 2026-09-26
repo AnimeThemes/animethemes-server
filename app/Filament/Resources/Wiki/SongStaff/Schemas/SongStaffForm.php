@@ -21,7 +21,7 @@ use Filament\Schemas\Schema;
 
 class SongStaffForm
 {
-    final public const string REPEATER_STAFF = Song::RELATION_STAFF;
+    final public const string REPEATER_STAFF = 'song_staff';
 
     final public const string REPEATER_MEMBERS = 'members';
 
@@ -84,12 +84,7 @@ class SongStaffForm
                         ->label(__('filament.fields.song_staff.role.name'))
                         ->helperText(__('filament.fields.song_staff.role.help'))
                         ->required()
-                        ->datalist([
-                            'Performance',
-                            'Lyrics',
-                            'Composition',
-                            'Arrangement',
-                        ]),
+                        ->datalist(SongStaff::$roles),
 
                     TextInput::make(SongStaff::ATTRIBUTE_AS)
                         ->label(__('filament.fields.song_staff.as.name'))
