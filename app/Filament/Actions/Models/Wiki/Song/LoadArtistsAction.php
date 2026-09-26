@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Wiki\Song;
 
-use App\Filament\Resources\Wiki\Performance\Schemas\PerformanceForm;
-use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
+use App\Filament\Resources\Wiki\Song\RelationManagers\SongStaffSongRelationManager;
+use App\Filament\Resources\Wiki\SongStaff\Schemas\SongStaffForm;
 use App\Models\Wiki\Song;
 use Filament\Actions\Action;
 use Filament\Schemas\Components\Utilities\Set;
@@ -26,7 +26,7 @@ class LoadArtistsAction extends Action
         $this->action(function (Set $set, $state): void {
             /** @var Song|null $song */
             $song = Song::query()->find($state);
-            $set(PerformanceForm::REPEATER_PERFORMANCES, PerformanceSongRelationManager::formatArtists($song));
+            $set(SongStaffForm::REPEATER_STAFF, SongStaffSongRelationManager::formatArtists($song));
         });
     }
 }

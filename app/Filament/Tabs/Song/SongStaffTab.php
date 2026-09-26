@@ -8,25 +8,25 @@ use App\Filament\Tabs\BaseTab;
 use App\Models\Wiki\Song;
 use Illuminate\Database\Eloquent\Builder;
 
-class SongPerformanceTab extends BaseTab
+class SongStaffTab extends BaseTab
 {
     public static function getSlug(): string
     {
-        return 'song-performance-tab';
+        return 'song-staff-tab';
     }
 
     public function getLabel(): string
     {
-        return __('filament.tabs.song.performance.name');
+        return __('filament.tabs.song.song_staff.name');
     }
 
     public function modifyQuery(Builder $query): Builder
     {
-        return $query->whereDoesntHave(Song::RELATION_PERFORMANCES);
+        return $query->whereDoesntHave(Song::RELATION_STAFF);
     }
 
     public function getBadge(): ?string
     {
-        return (string) Song::query()->whereDoesntHave(Song::RELATION_PERFORMANCES)->count();
+        return (string) Song::query()->whereDoesntHave(Song::RELATION_STAFF)->count();
     }
 }

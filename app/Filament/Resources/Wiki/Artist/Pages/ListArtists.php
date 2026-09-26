@@ -18,7 +18,7 @@ use App\Filament\Tabs\Artist\Resource\ArtistOfficialSiteResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistSpotifyResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistXResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistYoutubeResourceTab;
-use App\Filament\Tabs\Artist\Song\ArtistPerformanceTab;
+use App\Filament\Tabs\Artist\Song\ArtistSongStaffTab;
 use App\Models\Wiki\Artist;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
@@ -56,7 +56,7 @@ class ListArtists extends BaseListResources
             ArtistSpotifyResourceTab::class,
             ArtistXResourceTab::class,
             ArtistYoutubeResourceTab::class,
-            ArtistPerformanceTab::class,
+            ArtistSongStaffTab::class,
         ]);
     }
 }

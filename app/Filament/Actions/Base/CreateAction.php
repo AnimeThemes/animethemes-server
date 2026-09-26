@@ -10,6 +10,7 @@ use App\Filament\Resources\Base\BaseManageResources;
 use Filament\Actions\CreateAction as BaseCreateAction;
 use Filament\Facades\Filament;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Gate;
@@ -19,6 +20,8 @@ class CreateAction extends BaseCreateAction
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->modalWidth(Width::FiveExtraLarge);
 
         $this->schema(fn (Schema $schema, BaseManageResources|BaseListResources|BaseRelationManager $livewire): array => [
             ...$livewire->form($schema)->getComponents(),

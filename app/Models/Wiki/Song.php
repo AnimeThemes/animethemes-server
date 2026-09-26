@@ -69,7 +69,11 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
 
     final public const string RELATION_RESOURCES = 'resources';
 
-    final public const string RELATION_THEME_GROUPS = 'animethemes.group';
+    final public const string RELATION_STAFF = 'staff';
+
+    final public const string RELATION_THEMES = 'themes';
+
+    final public const string RELATION_THEME_GROUPS = 'themes.group';
 
     final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
@@ -194,6 +198,14 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
     public function performances(): HasMany
     {
         return $this->hasMany(Performance::class, Performance::ATTRIBUTE_SONG);
+    }
+
+    /**
+     * @return HasMany<SongStaff, $this>
+     */
+    public function staff(): HasMany
+    {
+        return $this->hasMany(SongStaff::class, SongStaff::ATTRIBUTE_SONG);
     }
 
     /**

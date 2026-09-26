@@ -93,7 +93,7 @@ class EntryResource extends BaseResource
 
     public static function getRecordSlug(): string
     {
-        return 'anime-theme-entries';
+        return 'entries';
     }
 
     public static function getEloquentQuery(): Builder

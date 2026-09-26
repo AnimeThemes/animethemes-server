@@ -11,6 +11,7 @@ use App\Filament\Resources\Base\BaseViewResource;
 use Filament\Actions\EditAction as BaseEditAction;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\IconSize;
+use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
@@ -25,6 +26,8 @@ class EditAction extends BaseEditAction
 
         $this->icon(Heroicon::PencilSquare);
         $this->iconSize(IconSize::Medium);
+
+        $this->modalWidth(Width::FiveExtraLarge);
 
         $this->schema(fn (Schema $schema, BaseListResources|BaseViewResource|BaseManageResources|BaseRelationManager $livewire): array => [
             ...$livewire->form($schema)->getComponents(),

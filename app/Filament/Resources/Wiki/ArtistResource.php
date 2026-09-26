@@ -17,8 +17,8 @@ use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
 use App\Filament\Resources\Wiki\Artist\Pages\ViewArtist;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberArtistRelationManager;
-use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberPerformanceArtistRelationManager;
-use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberSongStaffArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\SongStaffArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\SynonymArtistRelationManager;
 use App\Filament\Resources\Wiki\Theme\Pages\ViewTheme;
 use App\Models\Wiki\Artist;
@@ -218,8 +218,8 @@ class ArtistResource extends BaseResource
         return [
             RelationGroup::make(static::getModelLabel(), [
                 SynonymArtistRelationManager::class,
-                PerformanceArtistRelationManager::class,
-                MemberPerformanceArtistRelationManager::class,
+                SongStaffArtistRelationManager::class,
+                MemberSongStaffArtistRelationManager::class,
                 ResourceRelationManager::class,
                 MemberArtistRelationManager::class,
                 GroupArtistRelationManager::class,

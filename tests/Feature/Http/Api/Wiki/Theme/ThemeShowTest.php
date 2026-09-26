@@ -300,7 +300,7 @@ test('entries by nsfw', function (): void {
         FilterParser::param() => [
             Entry::ATTRIBUTE_NSFW => $nsfwFilter,
         ],
-        IncludeParser::param() => Theme::RELATION_ENTRIES,
+        IncludeParser::param() => Theme::RELATION_ANIMETHEMEENTRIES,
     ];
 
     $theme = Theme::factory()
@@ -309,7 +309,7 @@ test('entries by nsfw', function (): void {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        Theme::RELATION_ENTRIES => function (HasMany $query) use ($nsfwFilter): void {
+        Theme::RELATION_ANIMETHEMEENTRIES => function (HasMany $query) use ($nsfwFilter): void {
             $query->where(Entry::ATTRIBUTE_NSFW, $nsfwFilter);
         },
     ]);
@@ -335,7 +335,7 @@ test('entries by spoiler', function (): void {
         FilterParser::param() => [
             Entry::ATTRIBUTE_SPOILER => $spoilerFilter,
         ],
-        IncludeParser::param() => Theme::RELATION_ENTRIES,
+        IncludeParser::param() => Theme::RELATION_ANIMETHEMEENTRIES,
     ];
 
     $theme = Theme::factory()
@@ -344,7 +344,7 @@ test('entries by spoiler', function (): void {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        Theme::RELATION_ENTRIES => function (HasMany $query) use ($spoilerFilter): void {
+        Theme::RELATION_ANIMETHEMEENTRIES => function (HasMany $query) use ($spoilerFilter): void {
             $query->where(Entry::ATTRIBUTE_SPOILER, $spoilerFilter);
         },
     ]);
@@ -371,7 +371,7 @@ test('entries by version', function (): void {
         FilterParser::param() => [
             Entry::ATTRIBUTE_VERSION => $versionFilter,
         ],
-        IncludeParser::param() => Theme::RELATION_ENTRIES,
+        IncludeParser::param() => Theme::RELATION_ANIMETHEMEENTRIES,
     ];
 
     $theme = Theme::factory()
@@ -387,7 +387,7 @@ test('entries by version', function (): void {
         ->createOne();
 
     $theme->unsetRelations()->load([
-        Theme::RELATION_ENTRIES => function (HasMany $query) use ($versionFilter): void {
+        Theme::RELATION_ANIMETHEMEENTRIES => function (HasMany $query) use ($versionFilter): void {
             $query->where(Entry::ATTRIBUTE_VERSION, $versionFilter);
         },
     ]);

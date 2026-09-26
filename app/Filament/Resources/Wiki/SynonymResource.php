@@ -81,7 +81,11 @@ class SynonymResource extends BaseResource
                     ->label(__('filament.fields.synonym.language.name'))
                     ->helperText(__('filament.fields.synonym.language.help'))
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->datalist([
+                        'Short Romaji',
+                        'Romaji',
+                    ]),
 
                 TextInput::make(Synonym::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.synonym.text.name'))

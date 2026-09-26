@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\Wiki\Song;
 
-use App\Models\Wiki\Performance;
 use App\Models\Wiki\Song;
+use App\Models\Wiki\SongStaff;
 use App\Pivots\Wiki\ArtistMember;
 use Exception;
 use Illuminate\Support\Arr;
@@ -13,21 +13,22 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class ManageSongPerformances
+class ManageSongStaff
 {
     protected Song $song;
 
     public function __construct(
         Song|int $song,
         /** @var Collection<int, non-empty-array<string, mixed>> */
-        protected Collection $performances = new Collection(),
-        /** @var Collection<int, array<string, mixed>> */
+        protected Collection $staff = new Collection(),
+        /** @var Collection<string, array<string, mixed>> */
         protected Collection $members = new Collection(),
     ) {
         $this->song = $song instanceof Song ? $song : Song::query()->find($song);
     }
 
     public function addArtist(
+        string $role,
         int $artist,
         ?int $member = null,
         ?string $alias = null,
@@ -35,18 +36,19 @@ class ManageSongPerformances
         ?string $memberAlias = null,
         ?string $memberAs = null
     ): static {
-        $this->performances->push([
-            Performance::ATTRIBUTE_SONG => $this->song->getKey(),
-            Performance::ATTRIBUTE_ARTIST => $artist,
-            Performance::ATTRIBUTE_MEMBER => $member,
-            Performance::ATTRIBUTE_ALIAS => filled($alias) ? trim($alias) : null,
-            Performance::ATTRIBUTE_AS => filled($as) ? trim($as) : null,
-            Performance::ATTRIBUTE_MEMBER_ALIAS => filled($memberAlias) ? trim($memberAlias) : null,
-            Performance::ATTRIBUTE_MEMBER_AS => filled($memberAs) ? trim($memberAs) : null,
+        $this->staff->push([
+            SongStaff::ATTRIBUTE_SONG => $this->song->getKey(),
+            SongStaff::ATTRIBUTE_ARTIST => $artist,
+            SongStaff::ATTRIBUTE_MEMBER => $member,
+            SongStaff::ATTRIBUTE_ALIAS => filled($alias) ? trim($alias) : null,
+            SongStaff::ATTRIBUTE_AS => filled($as) ? trim($as) : null,
+            SongStaff::ATTRIBUTE_ROLE => $role,
+            SongStaff::ATTRIBUTE_MEMBER_ALIAS => filled($memberAlias) ? trim($memberAlias) : null,
+            SongStaff::ATTRIBUTE_MEMBER_AS => filled($memberAs) ? trim($memberAs) : null,
         ]);
 
         if ($member !== null) {
-            $this->members->put($member, [
+            $this->members->put($artist.':'.$member, [
                 ArtistMember::ATTRIBUTE_ARTIST => $artist,
                 ArtistMember::ATTRIBUTE_MEMBER => $member,
                 ArtistMember::ATTRIBUTE_ALIAS => filled($memberAlias) ? trim($memberAlias) : null,
@@ -62,28 +64,34 @@ class ManageSongPerformances
         try {
             DB::beginTransaction();
 
-            $new = collect($this->performances)
-                ->keyBy(fn (array $p): string => $p[Performance::ATTRIBUTE_ARTIST].':'.($p[Performance::ATTRIBUTE_MEMBER] ?? ''));
+            $new = collect($this->staff)
+                ->keyBy(fn (array $p): string => $p[SongStaff::ATTRIBUTE_ROLE].':'.$p[SongStaff::ATTRIBUTE_ARTIST].':'.($p[SongStaff::ATTRIBUTE_MEMBER] ?? ''));
 
-            $existing = Performance::query()
+            $existing = SongStaff::query()
                 ->whereBelongsTo($this->song)
                 ->get()
-                ->keyBy(fn (Performance $p): string => $p->artist_id.':'.($p->member_id ?? ''));
+                ->keyBy(fn (SongStaff $s): string => $s->role.':'.$s->artist_id.':'.($s->member_id ?? ''));
 
             $models = $new->map(
-                fn (array $performance) => Performance::query()->updateOrCreate(
-                    Arr::only($performance, [Performance::ATTRIBUTE_SONG, Performance::ATTRIBUTE_ARTIST, Performance::ATTRIBUTE_MEMBER]),
-                    Arr::only($performance, [Performance::ATTRIBUTE_ALIAS, Performance::ATTRIBUTE_AS, Performance::ATTRIBUTE_MEMBER_ALIAS, Performance::ATTRIBUTE_MEMBER_AS])
+                fn (array $staff) => SongStaff::query()->updateOrCreate(
+                    Arr::only($staff, [SongStaff::ATTRIBUTE_SONG, SongStaff::ATTRIBUTE_ARTIST, SongStaff::ATTRIBUTE_MEMBER, SongStaff::ATTRIBUTE_ROLE]),
+                    Arr::only($staff, [SongStaff::ATTRIBUTE_ALIAS, SongStaff::ATTRIBUTE_AS, SongStaff::ATTRIBUTE_MEMBER_ALIAS, SongStaff::ATTRIBUTE_MEMBER_AS])
                 )
             );
 
             $existing->diffKeys($new)->each->delete();
 
-            Performance::setNewOrder($models->pluck(Performance::ATTRIBUTE_ID)->all());
+            SongStaff::setNewOrder($models->pluck(SongStaff::ATTRIBUTE_ID)->all());
+
+            $members = $this->members
+                ->unique(
+                    fn (array $member) => $member[ArtistMember::ATTRIBUTE_ARTIST].':'.$member[ArtistMember::ATTRIBUTE_MEMBER]
+                )
+                ->values();
 
             // Update artist_member table to match member performances
             ArtistMember::query()->upsert(
-                $this->members->all(),
+                $members->all(),
                 [ArtistMember::ATTRIBUTE_ARTIST, ArtistMember::ATTRIBUTE_MEMBER],
                 [ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS],
             );

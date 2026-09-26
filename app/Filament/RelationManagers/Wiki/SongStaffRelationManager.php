@@ -6,24 +6,24 @@ namespace App\Filament\RelationManagers\Wiki;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\PerformanceResource;
-use App\Models\Wiki\Performance;
+use App\Filament\Resources\Wiki\SongStaffResource;
+use App\Models\Wiki\SongStaff;
 use Filament\Tables\Table;
 
-abstract class PerformanceRelationManager extends BaseRelationManager
+abstract class SongStaffRelationManager extends BaseRelationManager
 {
     /**
      * The resource of the relation manager.
      *
      * @var class-string<BaseResource>|null
      */
-    protected static ?string $relatedResource = PerformanceResource::class;
+    protected static ?string $relatedResource = SongStaffResource::class;
 
     public function table(Table $table): Table
     {
         return parent::table(
             $table
-                ->recordTitleAttribute(Performance::ATTRIBUTE_ID)
+                ->recordTitleAttribute(SongStaff::ATTRIBUTE_ID)
         );
     }
 }

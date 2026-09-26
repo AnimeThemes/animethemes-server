@@ -85,6 +85,8 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
 
     final public const string RELATION_MEMBER_PERFORMANCES = 'memberPerformances';
 
+    final public const string RELATION_MEMBER_SONG_STAFF = 'memberSongStaff';
+
     final public const string RELATION_MEMBER_PERFORMANCES_SONG = 'memberPerformances.song';
 
     final public const string RELATION_PERFORMANCES = 'performances';
@@ -94,6 +96,8 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     final public const string RELATION_RESOURCES = 'resources';
 
     final public const string RELATION_SONGS = 'songs';
+
+    final public const string RELATION_SONG_STAFF = 'songStaff';
 
     final public const string RELATION_SYNONYMS = 'synonyms';
 
@@ -250,11 +254,27 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     }
 
     /**
+     * @return HasMany<SongStaff, $this>
+     */
+    public function songStaff(): HasMany
+    {
+        return $this->hasMany(SongStaff::class, SongStaff::ATTRIBUTE_ARTIST);
+    }
+
+    /**
      * @return HasMany<Performance, $this>
      */
     public function memberPerformances(): HasMany
     {
         return $this->hasMany(Performance::class, Performance::ATTRIBUTE_MEMBER);
+    }
+
+    /**
+     * @return HasMany<SongStaff, $this>
+     */
+    public function memberSongStaff(): HasMany
+    {
+        return $this->hasMany(SongStaff::class, SongStaff::ATTRIBUTE_MEMBER);
     }
 
     /**

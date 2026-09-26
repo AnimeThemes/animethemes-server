@@ -16,8 +16,8 @@ use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\RelationManagers\Wiki\ThemeRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
-use App\Filament\Resources\Wiki\Performance\Schemas\PerformanceForm;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
+use App\Filament\Resources\Wiki\SongStaff\Schemas\SongStaffForm;
 use App\Filament\Resources\Wiki\Theme\Pages\ListThemes;
 use App\Filament\Resources\Wiki\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Theme\RelationManagers\EntryThemeRelationManager;
@@ -86,7 +86,7 @@ class ThemeResource extends BaseResource
 
     public static function getRecordSlug(): string
     {
-        return 'anime-themes';
+        return 'themes';
     }
 
     public static function getEloquentQuery(): Builder
@@ -99,11 +99,11 @@ class ThemeResource extends BaseResource
             Theme::RELATION_ANIME,
             Theme::RELATION_GROUP,
             Theme::RELATION_ENTRIES,
-            Theme::RELATION_PERFORMANCES,
+            Theme::RELATION_SONG_STAFF,
             Theme::RELATION_SONG,
-            'song.animethemes',
-            'song.performances.artist',
-            'song.performances.member',
+            'song.themes',
+            'song.staff.artist',
+            'song.staff.member',
         ]);
     }
 
@@ -139,13 +139,13 @@ class ThemeResource extends BaseResource
                                     ->live()
                                     ->hintAction(LoadArtistsAction::make()),
 
-                                ...PerformanceForm::performancesFields(),
+                                ...SongStaffForm::songStaffFields(),
                             ]),
 
                         Tab::make('entries')
                             ->label(__('filament.resources.label.entries'))
                             ->schema([
-                                Repeater::make(Theme::RELATION_ENTRIES)
+                                Repeater::make(Theme::RELATION_ANIMETHEMEENTRIES)
                                     ->label(__('filament.resources.label.entries'))
                                     ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.entry')]))
                                     ->relationship()
@@ -222,9 +222,9 @@ class ThemeResource extends BaseResource
 
                 Section::make(__('filament.resources.singularLabel.song'))
                     ->schema([
-                        RepeatableEntry::make(Theme::RELATION_PERFORMANCES)
+                        RepeatableEntry::make(Theme::RELATION_SONG_STAFF)
                             ->label('')
-                            ->schema(PerformanceResource::infolist($schema)->getComponents())
+                            ->schema(SongStaffResource::infolist($schema)->getComponents())
                             ->columnSpanFull(),
                     ]),
 
