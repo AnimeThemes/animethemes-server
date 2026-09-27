@@ -26,7 +26,7 @@ use App\Filament\Resources\Wiki\Theme\RelationManagers\EntryThemeRelationManager
 use App\Models\Wiki\Entry;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Theme;
-use App\Rules\Wiki\Resource\EntryResourceLinkFormatRule;
+use App\Rules\Wiki\Resource\ModelResourceLinkFormatRule;
 use Filament\Forms\Components\Checkbox;
 use Filament\Infolists\Components\IconEntry;
 use Filament\QueryBuilder\Constraints\BooleanConstraint;
@@ -160,7 +160,7 @@ class EntryResource extends BaseResource
                     ->helperText(__('filament.fields.entry.youtube.help'))
                     ->url()
                     ->maxLength(255)
-                    ->rule(new EntryResourceLinkFormatRule(ResourceSite::YOUTUBE))
+                    ->rule(new ModelResourceLinkFormatRule(ResourceSite::YOUTUBE, Entry::class))
                     ->uri()
                     ->saveRelationshipsUsing(function (Entry $record, AttachResourceAction $action, ?Uri $state, $livewire): void {
                         $action->handle($record, [ResourceSite::YOUTUBE->name => $state], [ResourceSite::YOUTUBE]);

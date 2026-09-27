@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Wiki\Studio;
-use App\Rules\Wiki\Resource\StudioResourceLinkFormatRule;
+use App\Models\Wiki\Song;
+use App\Rules\Wiki\Resource\ModelResourceLinkFormatRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
@@ -17,7 +17,7 @@ test('fails for no pattern', function (): void {
 
     $validator = Validator::make(
         [$attribute => fake()->url()],
-        [$attribute => new StudioResourceLinkFormatRule(ResourceSite::SPOTIFY)],
+        [$attribute => new ModelResourceLinkFormatRule(ResourceSite::HULU, Song::class)],
     );
 
     expect($validator->passes())->toBeFalse();
@@ -25,15 +25,15 @@ test('fails for no pattern', function (): void {
 
 test('passes for pattern', function (): void {
     /** @var ResourceSite $site */
-    $site = Arr::random(ResourceSite::getForModel(Studio::class));
+    $site = Arr::random(ResourceSite::getForModel(Song::class));
 
-    $url = $site->formatResourceLink(Studio::class, fake()->randomDigitNotNull(), fake()->word(), 'null');
+    $url = $site->formatResourceLink(Song::class, fake()->randomDigitNotNull(), fake()->word(), 'null');
 
     $attribute = fake()->word();
 
     $validator = Validator::make(
         [$attribute => $url],
-        [$attribute => new StudioResourceLinkFormatRule($site)],
+        [$attribute => new ModelResourceLinkFormatRule($site, Song::class)],
     );
 
     expect($validator->passes())->toBeTrue();
@@ -41,9 +41,9 @@ test('passes for pattern', function (): void {
 
 test('fails for trailing slash', function (): void {
     /** @var ResourceSite $site */
-    $site = Arr::random(ResourceSite::getForModel(Studio::class));
+    $site = Arr::random(ResourceSite::getForModel(Song::class));
 
-    $url = $site->formatResourceLink(Studio::class, fake()->randomDigitNotNull(), fake()->word());
+    $url = $site->formatResourceLink(Song::class, fake()->randomDigitNotNull(), fake()->word());
 
     $url = Str::of($url)
         ->append('/')
@@ -53,17 +53,17 @@ test('fails for trailing slash', function (): void {
 
     $validator = Validator::make(
         [$attribute => $url],
-        [$attribute => new StudioResourceLinkFormatRule($site)],
+        [$attribute => new ModelResourceLinkFormatRule($site, Song::class)],
     );
 
-    expect($site->getPattern(Studio::class) && $validator->passes())->toBeFalse();
+    expect($site->getPattern(Song::class) && $validator->passes())->toBeFalse();
 });
 
 test('fails for trailing slug', function (): void {
     /** @var ResourceSite $site */
-    $site = Arr::random(ResourceSite::getForModel(Studio::class));
+    $site = Arr::random(ResourceSite::getForModel(Song::class));
 
-    $url = $site->formatResourceLink(Studio::class, fake()->randomDigitNotNull(), fake()->word());
+    $url = $site->formatResourceLink(Song::class, fake()->randomDigitNotNull(), fake()->word());
 
     $url = Str::of($url)
         ->append('/')
@@ -74,10 +74,10 @@ test('fails for trailing slug', function (): void {
 
     $validator = Validator::make(
         [$attribute => $url],
-        [$attribute => new StudioResourceLinkFormatRule($site)],
+        [$attribute => new ModelResourceLinkFormatRule($site, Song::class)],
     );
 
-    expect($site->getPattern(Studio::class) && $validator->passes())->toBeFalse();
+    expect($site->getPattern(Song::class) && $validator->passes())->toBeFalse();
 });
 
 test('fails for other resources', function (): void {
@@ -85,17 +85,17 @@ test('fails for other resources', function (): void {
     $site = Arr::random(
         array_filter(
             ResourceSite::cases(),
-            fn (ResourceSite $value): bool => ! in_array($value, ResourceSite::getForModel(Studio::class))
+            fn (ResourceSite $value): bool => ! in_array($value, ResourceSite::getForModel(Song::class))
         )
     );
 
-    $url = $site->formatResourceLink(Studio::class, fake()->randomDigitNotNull(), fake()->word());
+    $url = $site->formatResourceLink(Song::class, fake()->randomDigitNotNull(), fake()->word());
 
     $attribute = fake()->word();
 
     $validator = Validator::make(
         [$attribute => $url],
-        [$attribute => new StudioResourceLinkFormatRule($site)],
+        [$attribute => new ModelResourceLinkFormatRule($site, Song::class)],
     );
 
     expect($validator->passes())->toBeFalse();
