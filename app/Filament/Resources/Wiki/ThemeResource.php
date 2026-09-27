@@ -112,6 +112,7 @@ class ThemeResource extends BaseResource
     public static function form(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->components([
                 Tabs::make('Tabs')
                     ->tabs([
@@ -141,6 +142,7 @@ class ThemeResource extends BaseResource
                                     ->relationship(Theme::RELATION_STAFF)
                                     ->schema(ThemeStaffResource::form($schema)->getComponents())
                                     ->key('staff')
+                                    ->defaultItems(0)
                                     ->columns(3),
                             ]),
 
@@ -159,15 +161,14 @@ class ThemeResource extends BaseResource
                         Tab::make('entries')
                             ->label(__('filament.resources.label.entries'))
                             ->schema([
-                                Repeater::make(Theme::RELATION_ANIMETHEMEENTRIES)
+                                Repeater::make(Theme::RELATION_ENTRIES)
                                     ->label(__('filament.resources.label.entries'))
                                     ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.entry')]))
                                     ->relationship()
                                     ->schema(EntryResource::form($schema)->getComponents()),
                             ]),
                     ]),
-            ])
-            ->columns(1);
+            ]);
     }
 
     public static function table(Table $table): Table
