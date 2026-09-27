@@ -14,6 +14,7 @@ use Filament\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Str;
 
 class SongStaffSongRelationManager extends SongStaffRelationManager
@@ -64,26 +65,35 @@ class SongStaffSongRelationManager extends SongStaffRelationManager
 
         return $song->staff
             ->sortBy(SongStaff::ATTRIBUTE_RELEVANCE)
-            ->groupBy(SongStaff::ATTRIBUTE_ARTIST)
-            /** @phpstan-ignore-next-line */
-            ->mapWithKeys(fn (Collection $staffs, $artistId): array => [
-                Str::uuid()->__toString() => [
+            ->groupBy([
+                SongStaff::ATTRIBUTE_ARTIST,
+                SongStaff::ATTRIBUTE_ROLE,
+            ])
+            ->flatMap(fn (Collection $roles, $artistId): SupportCollection => $roles->map(function (Collection $staffs) use ($artistId): array {
+                /** @var Collection<int, SongStaff> $staffs */
+                $staffs = $staffs;
+
+                $first = $staffs->first();
+
+                return [
                     SongStaff::ATTRIBUTE_ARTIST => $artistId,
-                    SongStaff::ATTRIBUTE_ROLE => $staffs->first()->getAttribute(SongStaff::ATTRIBUTE_ROLE),
-                    SongStaff::ATTRIBUTE_AS => $staffs->first()->getAttribute(SongStaff::ATTRIBUTE_AS),
-                    SongStaff::ATTRIBUTE_ALIAS => $staffs->first()->getAttribute(SongStaff::ATTRIBUTE_ALIAS),
+                    SongStaff::ATTRIBUTE_ROLE => $first->getAttribute(SongStaff::ATTRIBUTE_ROLE),
+                    SongStaff::ATTRIBUTE_AS => $first->getAttribute(SongStaff::ATTRIBUTE_AS),
+                    SongStaff::ATTRIBUTE_ALIAS => $first->getAttribute(SongStaff::ATTRIBUTE_ALIAS),
                     SongStaffForm::REPEATER_MEMBERS => $staffs
-                        /** @phpstan-ignore-next-line */
                         ->filter(fn (SongStaff $staff): bool => filled($staff->getAttribute(SongStaff::ATTRIBUTE_MEMBER)))
-                        /** @phpstan-ignore-next-line */
                         ->mapWithKeys(fn (SongStaff $staff): array => [
                             Str::uuid()->__toString() => [
                                 SongStaff::ATTRIBUTE_MEMBER => $staff->getAttribute(SongStaff::ATTRIBUTE_MEMBER),
                                 SongStaff::ATTRIBUTE_MEMBER_ALIAS => $staff->getAttribute(SongStaff::ATTRIBUTE_MEMBER_ALIAS),
                                 SongStaff::ATTRIBUTE_MEMBER_AS => $staff->getAttribute(SongStaff::ATTRIBUTE_MEMBER_AS),
                             ],
-                        ])->all(),
-                ],
+                        ])
+                        ->all(),
+                ];
+            }))
+            ->mapWithKeys(fn (array $data): array => [
+                Str::uuid()->__toString() => $data,
             ])
             ->all();
     }
