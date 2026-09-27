@@ -14,7 +14,6 @@ use Filament\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Str;
 
 class SongStaffSongRelationManager extends SongStaffRelationManager
@@ -65,37 +64,32 @@ class SongStaffSongRelationManager extends SongStaffRelationManager
 
         return $song->staff
             ->sortBy(SongStaff::ATTRIBUTE_RELEVANCE)
-            ->groupBy([
-                SongStaff::ATTRIBUTE_ARTIST,
-                SongStaff::ATTRIBUTE_ROLE,
-            ])
-            ->flatMap(
-                fn (Collection $roles, $artistId): SupportCollection => $roles
-                    ->map(function (Collection $staffs) use ($artistId): array {
-                        /** @var Collection<int, SongStaff> $staffs */
-                        $first = $staffs->first();
-
-                        return [
-                            SongStaff::ATTRIBUTE_ARTIST => $artistId,
-                            SongStaff::ATTRIBUTE_ROLE => $first->getAttribute(SongStaff::ATTRIBUTE_ROLE),
-                            SongStaff::ATTRIBUTE_AS => $first->getAttribute(SongStaff::ATTRIBUTE_AS),
-                            SongStaff::ATTRIBUTE_ALIAS => $first->getAttribute(SongStaff::ATTRIBUTE_ALIAS),
-                            SongStaffForm::REPEATER_MEMBERS => $staffs
-                                ->filter(
-                                    fn (SongStaff $staff): bool => filled($staff->getAttribute(SongStaff::ATTRIBUTE_MEMBER))
-                                )
-                                ->mapWithKeys(fn (SongStaff $staff): array => [
-                                    Str::uuid()->__toString() => [
-                                        SongStaff::ATTRIBUTE_MEMBER => $staff->getAttribute(SongStaff::ATTRIBUTE_MEMBER),
-                                        SongStaff::ATTRIBUTE_MEMBER_ALIAS => $staff->getAttribute(SongStaff::ATTRIBUTE_MEMBER_ALIAS),
-                                        SongStaff::ATTRIBUTE_MEMBER_AS => $staff->getAttribute(SongStaff::ATTRIBUTE_MEMBER_AS),
-                                    ],
-                                ])
-                                ->all(),
-                        ];
-                    })
-                    ->values()
+            ->groupBy(
+                fn (SongStaff $staff): string => $staff->getAttribute(SongStaff::ATTRIBUTE_ARTIST)
+                    .':'
+                    .$staff->getAttribute(SongStaff::ATTRIBUTE_ROLE)
             )
+            ->map(function (Collection $staffs): array {
+                /** @var Collection<int, SongStaff> $staffs */
+                $first = $staffs->first();
+
+                return [
+                    SongStaff::ATTRIBUTE_ARTIST => $first->getAttribute(SongStaff::ATTRIBUTE_ARTIST),
+                    SongStaff::ATTRIBUTE_ROLE => $first->getAttribute(SongStaff::ATTRIBUTE_ROLE),
+                    SongStaff::ATTRIBUTE_AS => $first->getAttribute(SongStaff::ATTRIBUTE_AS),
+                    SongStaff::ATTRIBUTE_ALIAS => $first->getAttribute(SongStaff::ATTRIBUTE_ALIAS),
+                    SongStaffForm::REPEATER_MEMBERS => $staffs
+                        ->filter(fn (SongStaff $staff): bool => filled($staff->getAttribute(SongStaff::ATTRIBUTE_MEMBER)))
+                        ->mapWithKeys(fn (SongStaff $staff): array => [
+                            Str::uuid()->__toString() => [
+                                SongStaff::ATTRIBUTE_MEMBER => $staff->getAttribute(SongStaff::ATTRIBUTE_MEMBER),
+                                SongStaff::ATTRIBUTE_MEMBER_ALIAS => $staff->getAttribute(SongStaff::ATTRIBUTE_MEMBER_ALIAS),
+                                SongStaff::ATTRIBUTE_MEMBER_AS => $staff->getAttribute(SongStaff::ATTRIBUTE_MEMBER_AS),
+                            ],
+                        ])
+                        ->all(),
+                ];
+            })
             ->mapWithKeys(fn (array $data): array => [
                 Str::uuid()->__toString() => $data,
             ])

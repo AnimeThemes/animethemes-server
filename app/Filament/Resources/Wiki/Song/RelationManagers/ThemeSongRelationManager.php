@@ -22,7 +22,7 @@ class ThemeSongRelationManager extends ThemeRelationManager
             $table
                 ->inverseRelationship(Theme::RELATION_SONG)
         )
-            ->heading(__('filament.resources.label.staff'))
-            ->modelLabel(__('filament.resources.singularLabel.staff'));
+            ->heading(__('filament.resources.label.themes'))
+            ->modelLabel(__('filament.resources.singularLabel.theme'));
     }
 }
