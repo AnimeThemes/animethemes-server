@@ -11,11 +11,7 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Entry;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
-use App\Rules\Wiki\Resource\AnimeResourceLinkFormatRule;
-use App\Rules\Wiki\Resource\ArtistResourceLinkFormatRule;
-use App\Rules\Wiki\Resource\EntryResourceLinkFormatRule;
-use App\Rules\Wiki\Resource\SongResourceLinkFormatRule;
-use App\Rules\Wiki\Resource\StudioResourceLinkFormatRule;
+use App\Rules\Wiki\Resource\ModelResourceLinkFormatRule;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Model;
@@ -183,11 +179,11 @@ enum ResourceSite: int implements HasLabel
     public function getFormatRule(Model&HasResources $model): ValidationRule
     {
         return match (true) {
-            $model instanceof Anime => new AnimeResourceLinkFormatRule($this),
-            $model instanceof Entry => new EntryResourceLinkFormatRule($this),
-            $model instanceof Artist => new ArtistResourceLinkFormatRule($this),
-            $model instanceof Song => new SongResourceLinkFormatRule($this),
-            $model instanceof Studio => new StudioResourceLinkFormatRule($this),
+            $model instanceof Anime => new ModelResourceLinkFormatRule($this, Anime::class),
+            $model instanceof Entry => new ModelResourceLinkFormatRule($this, Entry::class),
+            $model instanceof Artist => new ModelResourceLinkFormatRule($this, Artist::class),
+            $model instanceof Song => new ModelResourceLinkFormatRule($this, Song::class),
+            $model instanceof Studio => new ModelResourceLinkFormatRule($this, Studio::class),
             default => throw new RuntimeException('The model does not have a resource link format rule.'),
         };
     }
@@ -345,79 +341,6 @@ enum ResourceSite: int implements HasLabel
         };
     }
 
-    public function getUrlCaptureGroups(?Model $model): string
-    {
-        // The first capture group refers to $type, the second to $id and $slug of the formatResourceLink method.
-        if ($model instanceof Anime) {
-            return match ($this) {
-                ResourceSite::X => '/^https:\/\/(x)\.com\/(\w+)/',
-                ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/(anime)\/(\d+)$/',
-                ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/(anime)\/([a-zA-Z0-9-]+)$/',
-                ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/(anime)\.php\?id=(\d+)$/',
-                ResourceSite::KITSU => '/^https:\/\/kitsu\.app\/(anime)\/([a-zA-Z0-9-]+)$/',
-                ResourceSite::LIVECHART => '/^https:\/\/www\.livechart\.me\/(anime)\/(\d+)$/',
-                ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/(anime)\/(\d+)$/',
-                ResourceSite::YOUTUBE => '/^https:\/\/www\.(youtube)\.com\/\@([\w-]+)$/',
-                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/(anime)\/(\d+)$/',
-                ResourceSite::CRUNCHYROLL => '/^https:\/\/www\.crunchyroll\.com\/(series|watch)\/(\w+)/',
-                ResourceSite::HIDIVE => '/^https:\/\/www\.hidive\.com\/(tv|movies)\/([\w-]+)/',
-                ResourceSite::NETFLIX => '/^https:\/\/www\.netflix\.com\/(title|watch)\/(\d+)/',
-                ResourceSite::DISNEY_PLUS => '/^https:\/\/www\.disneyplus\.com\/(series|movies)\/([\w-]+\/\w+)/',
-                ResourceSite::HULU => '/^https:\/\/www\.hulu\.com\/(series|watch|movie)\/([\w-]+)/',
-                ResourceSite::AMAZON_PRIME_VIDEO => '/^https:\/\/www\.primevideo\.com\/(detail)\/(\w+)/',
-                default => '/^$/',
-            };
-        }
-
-        if ($model instanceof Entry) {
-            return match ($this) {
-                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/(watch)\?v=([\w-]+)$/',
-                default => '/^$/',
-            };
-        }
-
-        if ($model instanceof Artist) {
-            return match ($this) {
-                ResourceSite::X => '/^https:\/\/(x)\.com\/(\w+)$/',
-                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/(creator)\/(?:virtual\/)?(\d+)$/',
-                ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/(staff)\/(\d+)$/',
-                ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/(people)\/([a-zA-Z0-9-]+)$/',
-                ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/(people)\.php\?id=(\d+)$/',
-                ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/(people)\/(\d+)$/',
-                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/(artist)\/([\w-]+)$/',
-                ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/(channel)\/([\w-]+)$/',
-                ResourceSite::YOUTUBE => '/^https:\/\/www\.(youtube)\.com\/\@([\w-]+)$/',
-                default => '/^$/',
-            };
-        }
-
-        if ($model instanceof Song) {
-            return match ($this) {
-                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/(song)\/(\d+)$/',
-                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/(track)\/(\w+)$/',
-                ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/(watch)\?v=([\w-]+)$/',
-                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/(watch)\?v=([\w-]+)$/',
-                ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/(album)\/(\d+)$/',
-                ResourceSite::AMAZON_MUSIC => '/^https:\/\/music\.amazon\.co\.jp\/(tracks)\/(\w+)$/',
-                default => '/^$/',
-            };
-        }
-
-        if ($model instanceof Studio) {
-            return match ($this) {
-                ResourceSite::X => '/^https:\/\/(x)\.com\/(\w+)$/',
-                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/(creator)\/(?:virtual\/)?(\d+)$/',
-                ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/(studio)\/(\d+)$/',
-                ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/(studios)\/([a-zA-Z0-9-]+)$/',
-                ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/(company)\.php\?id=(\d+)$/',
-                ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/(producer)\/(\d+)$/',
-                default => '/^$/',
-            };
-        }
-
-        return '/^.*/';
-    }
-
     /**
      * @param  class-string|null  $modelClass
      */
@@ -462,8 +385,8 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/people\.php\?id=\d+$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/people\/\d+$/',
                 ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/artist\/\w+$/',
-                ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/channel\/[\w-]+/',
-                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
+                ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/channel\/[\w.-]+/',
+                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/(?:@[\w.-]+|channel\/[\w.-]+)$/',
                 ResourceSite::OFFICIAL_SITE,
                 ResourceSite::WIKI => null,
                 default => '/$.^/',
@@ -478,8 +401,6 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/watch\?v=[\w-]+$/',
                 ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/album\/\d+$/',
                 ResourceSite::AMAZON_MUSIC => '/^https:\/\/music\.amazon\.co\.jp\/tracks\/\w+$/',
-                ResourceSite::OFFICIAL_SITE,
-                ResourceSite::WIKI => null,
                 default => '/$.^/',
             };
         }

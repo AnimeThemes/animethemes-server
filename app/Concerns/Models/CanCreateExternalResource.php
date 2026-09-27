@@ -24,12 +24,6 @@ trait CanCreateExternalResource
         $id = $id === null ? null : intval($id);
 
         if ($model instanceof BaseModel) {
-            $urlPattern = $site->getUrlCaptureGroups($model);
-
-            if (preg_match($urlPattern, $url, $matches)) {
-                $url = $site->formatResourceLink($model::class, intval($matches[2]), $matches[2], $matches[1]);
-            }
-
             if ($id !== null && $site->usesIdInLink()) {
                 $url = $site->formatResourceLink($model::class, $id, strval($id));
             }

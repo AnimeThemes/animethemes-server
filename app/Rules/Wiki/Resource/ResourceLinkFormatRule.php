@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Rules\Wiki\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Song;
+use App\Models\Wiki\Studio;
 use Closure;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -62,10 +66,10 @@ class ResourceLinkFormatRule implements DataAwareRule, ValidationRule
         $key = Str::of($attribute)->explode('.')->last();
 
         $rules = [
-            new AnimeResourceLinkFormatRule($site),
-            new ArtistResourceLinkFormatRule($site),
-            new SongResourceLinkFormatRule($site),
-            new StudioResourceLinkFormatRule($site),
+            new ModelResourceLinkFormatRule($site, Anime::class),
+            new ModelResourceLinkFormatRule($site, Artist::class),
+            new ModelResourceLinkFormatRule($site, Song::class),
+            new ModelResourceLinkFormatRule($site, Studio::class),
         ];
 
         foreach ($rules as $rule) {
