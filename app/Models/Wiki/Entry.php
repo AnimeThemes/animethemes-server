@@ -209,7 +209,7 @@ class Entry extends BaseModel implements Auditable, HasResources, InteractsWithS
 
     public function getSubtitle(): string
     {
-        return "{$this->anime->getName()} {$this->animetheme->getName()}";
+        return strval($this->getKey());
     }
 
     /**

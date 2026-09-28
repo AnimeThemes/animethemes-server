@@ -107,7 +107,8 @@ class SongStaffResource extends BaseResource
                     ->label(__('filament.fields.song_staff.member')),
 
                 TextColumn::make(SongStaff::ATTRIBUTE_ROLE)
-                    ->label(__('filament.fields.song_staff.role.name')),
+                    ->label(__('filament.fields.song_staff.role.name'))
+                    ->searchable(true, isIndividual: true),
 
                 TextColumn::make(SongStaff::ATTRIBUTE_ALIAS)
                     ->label(__('filament.fields.song_staff.alias.name')),

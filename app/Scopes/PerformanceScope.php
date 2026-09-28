@@ -16,6 +16,7 @@ class PerformanceScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        $builder->where(SongStaff::ATTRIBUTE_ROLE, 'Performance');
+        $builder->orWhere(SongStaff::ATTRIBUTE_ROLE, 'Performance')
+            ->orWhereLike(SongStaff::ATTRIBUTE_ROLE, 'feat%');
     }
 }

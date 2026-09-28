@@ -180,9 +180,6 @@ class EntryResource extends BaseResource
                     ->formatStateUsing(fn (Entry $record) => $record->animetheme->slug)
                     ->tooltip(fn (Entry $record) => $record->animetheme->slug),
 
-                TextColumn::make(Entry::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id')),
-
                 TextColumn::make(Entry::ATTRIBUTE_VERSION)
                     ->label(__('filament.fields.entry.version.name')),
 
@@ -199,8 +196,20 @@ class EntryResource extends BaseResource
 
                 TextColumn::make(Entry::ATTRIBUTE_NOTES)
                     ->label(__('filament.fields.entry.notes.name'))
-                    ->limit(50)
-                    ->tooltip(fn (string $state): string => $state),
+                    ->html()
+                    ->formatStateUsing(fn (?string $state): string => sprintf(
+                        '<div style="max-width: 320px; white-space: pre-wrap; overflow-wrap: anywhere;">%s</div>',
+                        e($state ?? '')
+                    )),
+
+                TextColumn::make('anime_mod_notes')
+                    ->label(__('filament.fields.entry.anime_mod_notes.name'))
+                    ->state(fn (Entry $record): ?string => $record->theme->anime->mod_notes)
+                    ->html()
+                    ->formatStateUsing(fn (?string $state): string => sprintf(
+                        '<div style="max-width: 320px; white-space: pre-wrap; overflow-wrap: anywhere;">%s</div>',
+                        e($state ?? '')
+                    )),
 
                 BelongsToColumn::make(Entry::RELATION_SONG_SHALLOW, SongResource::class)
                     ->hiddenOn(EntryThemeRelationManager::class)
@@ -248,6 +257,11 @@ class EntryResource extends BaseResource
 
                         TextEntry::make(Entry::ATTRIBUTE_NOTES)
                             ->label(__('filament.fields.entry.notes.name'))
+                            ->columnSpanFull(),
+
+                        TextEntry::make('anime_mod_notes')
+                            ->label(__('filament.fields.entry.anime_mod_notes.name'))
+                            ->state(fn (Entry $record): ?string => $record->theme->anime->mod_notes)
                             ->columnSpanFull(),
                     ])
                     ->columns(4),
