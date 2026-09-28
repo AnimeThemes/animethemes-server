@@ -113,10 +113,12 @@ class ThemeStaffResource extends BaseResource
                 BelongsToColumn::make(ThemeStaff::RELATION_ARTIST, ArtistResource::class),
 
                 TextColumn::make(ThemeStaff::ATTRIBUTE_ROLE)
-                    ->label(__('filament.fields.theme_staff.role.name')),
+                    ->label(__('filament.fields.theme_staff.role.name'))
+                    ->searchable(true, isIndividual: true),
 
                 TextColumn::make(ThemeStaff::ATTRIBUTE_ALIAS)
-                    ->label(__('filament.fields.theme_staff.alias.name')),
+                    ->label(__('filament.fields.theme_staff.alias.name'))
+                    ->searchable(true, isIndividual: true),
             ]);
     }
 

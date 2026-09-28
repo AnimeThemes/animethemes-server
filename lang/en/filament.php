@@ -529,6 +529,9 @@ return [
             'exception' => 'Exception',
         ],
         'entry' => [
+            'anime_mod_notes' => [
+                'name' => 'Anime Moderator Notes',
+            ],
             'episodes' => [
                 'help' => 'The range(s) of episodes that the theme entry is used. Can be left blank if used for all episodes or if there are not episodes as with movies. Ex: "1-", "1-11", "1-2, 10, 12".',
                 'name' => 'Episodes',
