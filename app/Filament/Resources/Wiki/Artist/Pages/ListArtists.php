@@ -7,8 +7,7 @@ namespace App\Filament\Resources\Wiki\Artist\Pages;
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\ArtistResource;
-use App\Filament\Tabs\Artist\Image\ArtistLargeCoverTab;
-use App\Filament\Tabs\Artist\Image\ArtistSmallCoverTab;
+use App\Filament\Tabs\Artist\ArtistImageTab;
 use App\Filament\Tabs\Artist\Resource\ArtistAnidbResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistAnilistResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistAnimePlanetResourceTab;
@@ -45,8 +44,7 @@ class ListArtists extends BaseListResources
     public function getTabs(): array
     {
         return ['all' => Tab::make()] + $this->toArray([
-            ArtistLargeCoverTab::class,
-            ArtistSmallCoverTab::class,
+            ArtistImageTab::class,
             ArtistAnidbResourceTab::class,
             ArtistAnilistResourceTab::class,
             ArtistAnimePlanetResourceTab::class,
