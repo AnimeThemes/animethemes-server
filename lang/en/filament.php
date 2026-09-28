@@ -579,9 +579,12 @@ return [
                 'help' => 'The Format of the Anime.',
                 'name' => 'Format',
             ],
+            'mod' => [
+                'name' => 'Moderator',
+            ],
             'mod_notes' => [
                 'help' => 'Any additional information not included in other fields that may be useful for moderators.',
-                'name' => 'Moderator Notes',
+                'name' => 'Mod Notes',
             ],
             'season' => [
                 'help' => 'The Season in which the Anime is considered.',
@@ -1127,7 +1130,7 @@ return [
     'tabs' => [
         'base' => [
             'images' => [
-                'name' => 'Without :facet',
+                'name' => 'Without Images',
             ],
             'resources' => [
                 'name' => 'Without :site Resource',

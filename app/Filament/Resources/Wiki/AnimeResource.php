@@ -34,6 +34,8 @@ use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Filters\QueryBuilder;
@@ -88,132 +90,145 @@ class AnimeResource extends BaseResource
     {
         return $schema
             ->components([
-                Fieldset::make(Anime::ATTRIBUTE_TITLE)
-                    ->label(__('filament.fields.anime.title.name'))
-                    ->columns([
-                        'xl' => 1,
-                    ])
-                    ->columnSpanFull()
-                    ->schema([
-                        TextInput::make(Anime::ATTRIBUTE_TITLE)
-                            ->label(__('filament.fields.anime.title.name'))
-                            ->helperText(__('filament.fields.anime.title.help'))
-                            ->required()
-                            ->maxLength(255)
-                            ->afterStateUpdatedJs(<<<'JS'
-                                $set('slug', slug($state ?? ''));
-                            JS),
+                Tabs::make()
+                    ->tabs([
+                        Tab::make(__('filament.resources.singularLabel.anime'))
+                            ->columns(3)
+                            ->schema([
+                                Fieldset::make(Anime::ATTRIBUTE_TITLE)
+                                    ->label(__('filament.fields.anime.title.name'))
+                                    ->columns([
+                                        'xl' => 1,
+                                    ])
+                                    ->columnSpanFull()
+                                    ->schema([
+                                        TextInput::make(Anime::ATTRIBUTE_TITLE)
+                                            ->label(__('filament.fields.anime.title.name'))
+                                            ->helperText(__('filament.fields.anime.title.help'))
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->afterStateUpdatedJs(<<<'JS'
+                                                $set('slug', slug($state ?? ''));
+                                            JS),
 
-                        TextInput::make(Anime::ATTRIBUTE_TITLE_ENGLISH)
-                            ->label(__('filament.fields.anime.title_english.name'))
-                            ->helperText(__('filament.fields.anime.title_english.help'))
-                            ->maxLength(255),
+                                        TextInput::make(Anime::ATTRIBUTE_TITLE_ENGLISH)
+                                            ->label(__('filament.fields.anime.title_english.name'))
+                                            ->helperText(__('filament.fields.anime.title_english.help'))
+                                            ->maxLength(255),
 
-                        TextInput::make(Anime::ATTRIBUTE_TITLE_NATIVE)
-                            ->label(__('filament.fields.anime.title_native.name'))
-                            ->helperText(__('filament.fields.anime.title_native.help'))
-                            ->maxLength(255),
+                                        TextInput::make(Anime::ATTRIBUTE_TITLE_NATIVE)
+                                            ->label(__('filament.fields.anime.title_native.name'))
+                                            ->helperText(__('filament.fields.anime.title_native.help'))
+                                            ->maxLength(255),
+                                    ]),
+
+                                Slug::make(Anime::ATTRIBUTE_SLUG)
+                                    ->label(__('filament.fields.anime.slug.name'))
+                                    ->helperText(__('filament.fields.anime.slug.help'))
+                                    ->columnSpanFull(),
+
+                                TextInput::make(Anime::ATTRIBUTE_YEAR)
+                                    ->label(__('filament.fields.anime.year.name'))
+                                    ->helperText(__('filament.fields.anime.year.help'))
+                                    ->required()
+                                    ->integer()
+                                    ->columnSpan(1)
+                                    ->default(intval(date('Y')))
+                                    ->minValue(1960)
+                                    ->maxValue(intval(date('Y')) + 4),
+
+                                Select::make(Anime::ATTRIBUTE_SEASON)
+                                    ->label(__('filament.fields.anime.season.name'))
+                                    ->helperText(__('filament.fields.anime.season.help'))
+                                    ->options(AnimeSeason::asSelectArrayStyled())
+                                    ->required()
+                                    ->enum(AnimeSeason::class)
+                                    ->default(AnimeSeason::getCurrentSeason())
+                                    ->searchable()
+                                    ->allowHtml()
+                                    ->columnSpan(1),
+
+                                Select::make(Anime::ATTRIBUTE_FORMAT)
+                                    ->label(__('filament.fields.anime.format.name'))
+                                    ->helperText(__('filament.fields.anime.format.help'))
+                                    ->options(AnimeFormat::class)
+                                    ->columnSpan(1)
+                                    ->required(),
+
+                                MarkdownEditor::make(Anime::ATTRIBUTE_SYNOPSIS)
+                                    ->label(__('filament.fields.anime.synopsis.name'))
+                                    ->helperText(__('filament.fields.anime.synopsis.help'))
+                                    ->columnSpanFull()
+                                    ->maxLength(65535),
+                            ]),
+                        Tab::make('mod')
+                            ->label(__('filament.fields.anime.mod.name'))
+                            ->schema([
+                                Textarea::make(Anime::ATTRIBUTE_MOD_NOTES)
+                                    ->label(__('filament.fields.anime.mod_notes.name'))
+                                    ->helperText(__('filament.fields.anime.mod_notes.help'))
+                                    ->columnSpanFull()
+                                    ->maxLength(65535),
+
+                                Fieldset::make(Anime::ATTRIBUTE_START_DATE)
+                                    ->label(__('filament.fields.anime.start_date.name'))
+                                    ->columns([
+                                        'xl' => 3,
+                                    ])
+                                    ->columnSpanFull()
+                                    ->statePath('start_date')
+                                    ->formatStateUsing(fn (?Anime $record) => $record?->start_date?->toArray())
+                                    ->schema([
+                                        TextInput::make('year')
+                                            ->label(__('filament.fields.base.year'))
+                                            ->integer()
+                                            ->minValue(1960)
+                                            ->maxValue(intval(date('Y')) + 4),
+
+                                        TextInput::make('month')
+                                            ->label(__('filament.fields.base.month'))
+                                            ->integer()
+                                            ->minValue(1)
+                                            ->maxValue(12),
+
+                                        TextInput::make('day')
+                                            ->label(__('filament.fields.base.day'))
+                                            ->integer()
+                                            ->minValue(1)
+                                            ->maxValue(31),
+                                    ]),
+
+                                Fieldset::make(Anime::ATTRIBUTE_END_DATE)
+                                    ->label(__('filament.fields.anime.end_date.name'))
+                                    ->columns([
+                                        'xl' => 3,
+                                    ])
+                                    ->columnSpanFull()
+                                    ->statePath('end_date')
+                                    ->formatStateUsing(fn (?Anime $record) => $record?->end_date?->toArray())
+                                    ->schema([
+                                        TextInput::make('year')
+                                            ->label(__('filament.fields.base.year'))
+                                            ->integer()
+                                            ->length(4)
+                                            ->minValue(1960)
+                                            ->maxValue(intval(date('Y')) + 4),
+
+                                        TextInput::make('month')
+                                            ->label(__('filament.fields.base.month'))
+                                            ->integer()
+                                            ->minValue(1)
+                                            ->maxValue(12),
+
+                                        TextInput::make('day')
+                                            ->label(__('filament.fields.base.day'))
+                                            ->integer()
+                                            ->minValue(1)
+                                            ->maxValue(31),
+                                    ]),
+                            ]),
                     ]),
-
-                Slug::make(Anime::ATTRIBUTE_SLUG)
-                    ->label(__('filament.fields.anime.slug.name'))
-                    ->helperText(__('filament.fields.anime.slug.help')),
-
-                Select::make(Anime::ATTRIBUTE_SEASON)
-                    ->label(__('filament.fields.anime.season.name'))
-                    ->helperText(__('filament.fields.anime.season.help'))
-                    ->options(AnimeSeason::asSelectArrayStyled())
-                    ->required()
-                    ->enum(AnimeSeason::class)
-                    ->default(AnimeSeason::getCurrentSeason())
-                    ->searchable()
-                    ->allowHtml(),
-
-                TextInput::make(Anime::ATTRIBUTE_YEAR)
-                    ->label(__('filament.fields.anime.year.name'))
-                    ->helperText(__('filament.fields.anime.year.help'))
-                    ->required()
-                    ->integer()
-                    ->default(intval(date('Y')))
-                    ->minValue(1960)
-                    ->maxValue(intval(date('Y')) + 4),
-
-                Select::make(Anime::ATTRIBUTE_FORMAT)
-                    ->label(__('filament.fields.anime.format.name'))
-                    ->helperText(__('filament.fields.anime.format.help'))
-                    ->options(AnimeFormat::class)
-                    ->required(),
-
-                Fieldset::make(Anime::ATTRIBUTE_START_DATE)
-                    ->label(__('filament.fields.anime.start_date.name'))
-                    ->columns([
-                        'xl' => 3,
-                    ])
-                    ->columnSpanFull()
-                    ->statePath('start_date')
-                    ->formatStateUsing(fn (?Anime $record) => $record?->start_date?->toArray())
-                    ->schema([
-                        TextInput::make('year')
-                            ->label(__('filament.fields.base.year'))
-                            ->integer()
-                            ->minValue(1960)
-                            ->maxValue(intval(date('Y')) + 4),
-
-                        TextInput::make('month')
-                            ->label(__('filament.fields.base.month'))
-                            ->integer()
-                            ->minValue(1)
-                            ->maxValue(12),
-
-                        TextInput::make('day')
-                            ->label(__('filament.fields.base.day'))
-                            ->integer()
-                            ->minValue(1)
-                            ->maxValue(31),
-                    ]),
-
-                Fieldset::make(Anime::ATTRIBUTE_END_DATE)
-                    ->label(__('filament.fields.anime.end_date.name'))
-                    ->columns([
-                        'xl' => 3,
-                    ])
-                    ->columnSpanFull()
-                    ->statePath('end_date')
-                    ->formatStateUsing(fn (?Anime $record) => $record?->end_date?->toArray())
-                    ->schema([
-                        TextInput::make('year')
-                            ->label(__('filament.fields.base.year'))
-                            ->integer()
-                            ->length(4)
-                            ->minValue(1960)
-                            ->maxValue(intval(date('Y')) + 4),
-
-                        TextInput::make('month')
-                            ->label(__('filament.fields.base.month'))
-                            ->integer()
-                            ->minValue(1)
-                            ->maxValue(12),
-
-                        TextInput::make('day')
-                            ->label(__('filament.fields.base.day'))
-                            ->integer()
-                            ->minValue(1)
-                            ->maxValue(31),
-                    ]),
-
-                MarkdownEditor::make(Anime::ATTRIBUTE_SYNOPSIS)
-                    ->label(__('filament.fields.anime.synopsis.name'))
-                    ->helperText(__('filament.fields.anime.synopsis.help'))
-                    ->columnSpan(2)
-                    ->maxLength(65535),
-
-                Textarea::make(Anime::ATTRIBUTE_MOD_NOTES)
-                    ->label(__('filament.fields.anime.mod_notes.name'))
-                    ->helperText(__('filament.fields.anime.mod_notes.help'))
-                    ->columnSpan(2)
-                    ->maxLength(65535),
-            ])
-            ->columns(2);
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -240,6 +255,14 @@ class AnimeResource extends BaseResource
                 TextColumn::make(Anime::ATTRIBUTE_FORMAT)
                     ->label(__('filament.fields.anime.format.name'))
                     ->formatStateUsing(fn (AnimeFormat $state): ?string => $state->localize()),
+
+                TextColumn::make(Anime::ATTRIBUTE_MOD_NOTES)
+                    ->label(__('filament.fields.anime.mod_notes.name'))
+                    ->html()
+                    ->formatStateUsing(fn (?string $state): string => sprintf(
+                        '<div style="max-width: 320px; white-space: pre-wrap; overflow-wrap: anywhere;">%s</div>',
+                        e($state ?? '')
+                    )),
             ])
             ->searchable();
     }
