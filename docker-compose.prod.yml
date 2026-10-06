@@ -47,7 +47,13 @@ services:
         image: '${APP_IMAGE:-animethemes-server:local}'
         container_name: animethemes-scheduler
         restart: unless-stopped
-        command: php artisan schedule:work
+        command: >
+          sh -c '
+              while true; do
+                  php artisan schedule:run --no-interaction;
+                  sleep $((60 - $(date +%s) % 60));
+              done
+          '
         env_file: .env
         volumes:
             - laravel-storage:/app/storage
