@@ -83,6 +83,7 @@ class SongResource extends BaseResource
                 TextInput::make(Song::ATTRIBUTE_TITLE_NATIVE)
                     ->label(__('filament.fields.song.title_native.name'))
                     ->helperText(__('filament.fields.song.title_native.help'))
+                    ->required()
                     ->maxLength(192),
             ]);
     }

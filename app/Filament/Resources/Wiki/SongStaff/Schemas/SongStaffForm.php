@@ -11,38 +11,17 @@ use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberSongStaffArtistRel
 use App\Filament\Resources\Wiki\Artist\RelationManagers\SongStaffArtistRelationManager;
 use App\Filament\Resources\Wiki\ArtistResource;
 use App\Filament\Resources\Wiki\Song\RelationManagers\SongStaffSongRelationManager;
-use App\Filament\Resources\Wiki\SongResource;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\SongStaff;
 use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Schema;
 
 class SongStaffForm
 {
     final public const string REPEATER_STAFF = 'song_staff';
 
     final public const string REPEATER_MEMBERS = 'members';
-
-    /**
-     * Configure the form schema.
-     */
-    public static function configure(Schema $schema): Schema
-    {
-        return $schema
-            ->components([
-                BelongsTo::make(SongStaff::ATTRIBUTE_SONG)
-                    ->resource(SongResource::class)
-                    ->required()
-                    ->hiddenOn([SongStaffSongRelationManager::class])
-                    ->disabledOn('edit')
-                    ->columnSpanFull(),
-
-                ...static::songStaffFields(),
-            ])
-            ->columns(2);
-    }
 
     /**
      * Get the song staff fields to create a song staff.

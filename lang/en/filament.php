@@ -658,7 +658,7 @@ return [
             ],
             'name_native' => [
                 'help' => 'The native title of the Artist.',
-                'name' => 'Name Native',
+                'name' => 'Native Name',
             ],
             'slug' => [
                 'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "aimer", "yui_horie", "falilv".',
