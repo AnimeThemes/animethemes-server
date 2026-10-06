@@ -28,8 +28,6 @@ class AttachAnimeResourceAction extends AttachResourceAction
             ResourceSite::MAL,
             ResourceSite::OFFICIAL_SITE,
             ResourceSite::X,
-            ResourceSite::YOUTUBE,
-            ResourceSite::WIKI,
         ]);
     }
 }
