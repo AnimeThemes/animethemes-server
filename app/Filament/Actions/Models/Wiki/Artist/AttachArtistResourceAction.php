@@ -21,15 +21,12 @@ class AttachArtistResourceAction extends AttachResourceAction
         $this->sites([
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
             ResourceSite::MAL,
             ResourceSite::OFFICIAL_SITE,
             ResourceSite::SPOTIFY,
             ResourceSite::X,
             ResourceSite::YOUTUBE,
             ResourceSite::YOUTUBE_MUSIC,
-            ResourceSite::WIKI,
         ]);
     }
 }
