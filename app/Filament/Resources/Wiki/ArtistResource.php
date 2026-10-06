@@ -100,6 +100,7 @@ class ArtistResource extends BaseResource
                         TextInput::make(Artist::ATTRIBUTE_NAME_NATIVE)
                             ->label(__('filament.fields.artist.name_native.name'))
                             ->helperText(__('filament.fields.artist.name_native.help'))
+                            ->required()
                             ->maxLength(192),
                     ]),
 
