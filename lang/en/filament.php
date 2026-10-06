@@ -1170,13 +1170,21 @@ return [
             ],
         ],
         'song' => [
-            'song_staff' => [
-                'name' => 'Without Song Staff',
+            'staff' => [
+                'name' => 'Without Staff',
             ],
         ],
         'studio' => [
             'unlinked' => [
                 'name' => 'Without Anime',
+            ],
+        ],
+        'theme' => [
+            'entry' => [
+                'name' => 'Without Entry',
+            ],
+            'staff' => [
+                'name' => 'Without Staff',
             ],
         ],
         'video' => [

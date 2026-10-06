@@ -17,7 +17,7 @@ class SongStaffTab extends BaseTab
 
     public function getLabel(): string
     {
-        return __('filament.tabs.song.song_staff.name');
+        return __('filament.tabs.song.staff.name');
     }
 
     public function modifyQuery(Builder $query): Builder
