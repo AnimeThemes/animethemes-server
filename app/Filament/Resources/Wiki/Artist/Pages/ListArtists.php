@@ -10,8 +10,6 @@ use App\Filament\Resources\Wiki\ArtistResource;
 use App\Filament\Tabs\Artist\ArtistImageTab;
 use App\Filament\Tabs\Artist\Resource\ArtistAnidbResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistAnilistResourceTab;
-use App\Filament\Tabs\Artist\Resource\ArtistAnimePlanetResourceTab;
-use App\Filament\Tabs\Artist\Resource\ArtistAnnResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistMalResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistOfficialSiteResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistSpotifyResourceTab;
@@ -47,8 +45,6 @@ class ListArtists extends BaseListResources
             ArtistImageTab::class,
             ArtistAnidbResourceTab::class,
             ArtistAnilistResourceTab::class,
-            ArtistAnimePlanetResourceTab::class,
-            ArtistAnnResourceTab::class,
             ArtistMalResourceTab::class,
             ArtistOfficialSiteResourceTab::class,
             ArtistSpotifyResourceTab::class,
