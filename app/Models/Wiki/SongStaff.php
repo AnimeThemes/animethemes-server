@@ -81,10 +81,22 @@ class SongStaff extends BaseModel implements Auditable, SoftDeletable, Sortable
      * @var string[]
      */
     public static $roles = [
-        'Performance',
-        'Lyrics',
-        'Composition',
+        'A&R',
         'Arrangement',
+        'Assistance',
+        'Choreography',
+        'Composition',
+        'Featuring',
+        'Lyrics',
+        'Mixing',
+        'Performance',
+        'Piano',
+        'Producer',
+        'Production',
+        'Production Assistance',
+        'Production Manager',
+        'Recording',
+        'Strings Arrangement',
     ];
 
     /**
