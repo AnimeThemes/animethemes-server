@@ -55,9 +55,6 @@ class LivechartAnimeExternalApiAction extends ExternalApiAction implements Backf
         return [
             ResourceSite::ANIDB->value => 'anidb_url',
             ResourceSite::ANILIST->value => 'anilist_url',
-            ResourceSite::ANIME_PLANET->value => 'anime_planet_url',
-            ResourceSite::ANN->value => 'ann_url',
-            ResourceSite::KITSU->value => 'kitsu_url',
             ResourceSite::MAL->value => 'mal_url',
             ResourceSite::OFFICIAL_SITE->value => 'website_url',
             ResourceSite::X->value => 'twitter_url',

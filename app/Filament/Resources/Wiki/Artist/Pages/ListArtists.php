@@ -11,10 +11,7 @@ use App\Filament\Tabs\Artist\ArtistImageTab;
 use App\Filament\Tabs\Artist\Resource\ArtistAnidbResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistAnilistResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistMalResourceTab;
-use App\Filament\Tabs\Artist\Resource\ArtistOfficialSiteResourceTab;
-use App\Filament\Tabs\Artist\Resource\ArtistSpotifyResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistXResourceTab;
-use App\Filament\Tabs\Artist\Resource\ArtistYoutubeResourceTab;
 use App\Filament\Tabs\Artist\Song\ArtistSongStaffTab;
 use App\Models\Wiki\Artist;
 use Filament\Schemas\Components\Tabs\Tab;
@@ -46,10 +43,7 @@ class ListArtists extends BaseListResources
             ArtistAnidbResourceTab::class,
             ArtistAnilistResourceTab::class,
             ArtistMalResourceTab::class,
-            ArtistOfficialSiteResourceTab::class,
-            ArtistSpotifyResourceTab::class,
             ArtistXResourceTab::class,
-            ArtistYoutubeResourceTab::class,
             ArtistSongStaffTab::class,
         ]);
     }

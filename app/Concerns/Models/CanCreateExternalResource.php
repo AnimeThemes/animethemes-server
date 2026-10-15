@@ -24,7 +24,7 @@ trait CanCreateExternalResource
         $id = $id === null ? null : intval($id);
 
         if ($model instanceof BaseModel) {
-            if ($id !== null && $site->usesIdInLink()) {
+            if ($id !== null) {
                 $url = $site->formatResourceLink($model::class, $id, strval($id));
             }
         }

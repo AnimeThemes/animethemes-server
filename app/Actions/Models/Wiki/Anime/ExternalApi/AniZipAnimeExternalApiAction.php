@@ -79,10 +79,8 @@ class AniZipAnimeExternalApiAction extends ExternalApiAction implements Backfill
     public function getResourcesMapping(): array
     {
         return [
-            ResourceSite::ANIME_PLANET->value => 'animeplanet_id',
             ResourceSite::ANIDB->value => 'anidb_id',
             ResourceSite::ANILIST->value => 'anilist_id',
-            ResourceSite::KITSU->value => 'kitsu_id',
             ResourceSite::LIVECHART->value => 'livechart_id',
             ResourceSite::MAL->value => 'mal_id',
         ];

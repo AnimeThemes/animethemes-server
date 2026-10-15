@@ -10,10 +10,7 @@ use App\Filament\Resources\Wiki\AnimeResource;
 use App\Filament\Tabs\Anime\AnimeImageTab;
 use App\Filament\Tabs\Anime\Resource\AnimeAnidbResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeAnilistResourceTab;
-use App\Filament\Tabs\Anime\Resource\AnimeAnnResourceTab;
-use App\Filament\Tabs\Anime\Resource\AnimeKitsuResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeMalResourceTab;
-use App\Filament\Tabs\Anime\Resource\AnimePlanetResourceTab;
 use App\Filament\Tabs\Anime\Studio\AnimeStudioTab;
 use App\Models\Wiki\Anime;
 use Filament\Schemas\Components\Tabs\Tab;
@@ -44,10 +41,7 @@ class ListAnimes extends BaseListResources
             AnimeImageTab::class,
             AnimeAnidbResourceTab::class,
             AnimeAnilistResourceTab::class,
-            AnimeAnnResourceTab::class,
-            AnimeKitsuResourceTab::class,
             AnimeMalResourceTab::class,
-            AnimePlanetResourceTab::class,
             AnimeStudioTab::class,
         ]);
     }

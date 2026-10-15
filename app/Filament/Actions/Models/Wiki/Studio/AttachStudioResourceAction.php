@@ -21,8 +21,6 @@ class AttachStudioResourceAction extends AttachResourceAction
         $this->sites([
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
             ResourceSite::MAL,
         ]);
     }

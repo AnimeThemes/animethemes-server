@@ -28,18 +28,6 @@ return [
                             'help' => 'Use AniZip/LiveChart to find an AniList mapping',
                             'name' => 'Backfill Anilist Resource',
                         ],
-                        'anime_planet' => [
-                            'help' => 'Use AniZip/LiveChart to find an Anime Planet mapping',
-                            'name' => 'Backfill Anime Planet Resource',
-                        ],
-                        'ann' => [
-                            'help' => 'Use AniZip/LiveChart to find an Anime News Network mapping',
-                            'name' => 'Backfill ANN Resource',
-                        ],
-                        'kitsu' => [
-                            'help' => 'Use AniZip/LiveChart to find a Kitsu mapping',
-                            'name' => 'Backfill Kitsu Resource',
-                        ],
                         'livechart' => [
                             'help' => 'Use AniZip to find a LiveChart mapping',
                             'name' => 'Backfill LiveChart Resource',
@@ -219,23 +207,11 @@ return [
                         'anilist' => [
                             'help' => 'Ex: https://anilist.co/anime/21460, https://anilist.co/staff/106030',
                         ],
-                        'anime_planet' => [
-                            'help' => 'Ex: https://www.anime-planet.com/anime/sound-euphonium-2, https://www.anime-planet.com/people/chika-anzai',
-                        ],
-                        'ann' => [
-                            'help' => 'Ex: https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18558',
-                        ],
-                        'kitsu' => [
-                            'help' => 'Ex: https://kitsu.app/anime/hibike-euphonium-2, https://kitsu.app/anime/11474',
-                        ],
                         'livechart' => [
                             'help' => 'Ex: https://www.livechart.me/anime/11873',
                         ],
                         'mal' => [
                             'help' => 'Ex: https://myanimelist.net/anime/31988, https://myanimelist.net/people/11030',
-                        ],
-                        'wiki' => [
-                            'help' => 'Ex: https://unite-up.fandom.com/wiki/Protostar',
                         ],
                         'spotify' => [
                             'help' => 'Ex: https://open.spotify.com/track/5dmkAW2HpEJgFDSgkywm8N',

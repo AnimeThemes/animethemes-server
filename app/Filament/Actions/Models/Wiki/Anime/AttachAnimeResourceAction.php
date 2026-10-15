@@ -21,9 +21,6 @@ class AttachAnimeResourceAction extends AttachResourceAction
         $this->sites([
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
-            ResourceSite::KITSU,
             ResourceSite::LIVECHART,
             ResourceSite::MAL,
             ResourceSite::OFFICIAL_SITE,
