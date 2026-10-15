@@ -8,6 +8,7 @@ use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\AnimeResource;
 use App\Filament\Tabs\Anime\AnimeImageTab;
+use App\Filament\Tabs\Anime\AnimeThemesTab;
 use App\Filament\Tabs\Anime\Resource\AnimeAnidbResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeAnilistResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeMalResourceTab;
@@ -38,6 +39,7 @@ class ListAnimes extends BaseListResources
     public function getTabs(): array
     {
         return ['all' => Tab::make()] + $this->toArray([
+            AnimeThemesTab::class,
             AnimeImageTab::class,
             AnimeAnidbResourceTab::class,
             AnimeAnilistResourceTab::class,
