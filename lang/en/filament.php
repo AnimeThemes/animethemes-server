@@ -246,6 +246,12 @@ return [
                         'amazon_prime_video' => [
                             'help' => 'Ex: https://www.primevideo.com/detail/0PXZCO5NGDNH8OWTJIDTEB8IEF',
                         ],
+                        'instagram' => [
+                            'help' => 'Ex: https://www.instagram.com/koi_liyuu',
+                        ],
+                        'tiktok' => [
+                            'help' => 'Ex: https://www.tiktok.com/@hanazawa_kana.official',
+                        ],
                     ],
                     'name' => 'Attach Resources',
                 ],
