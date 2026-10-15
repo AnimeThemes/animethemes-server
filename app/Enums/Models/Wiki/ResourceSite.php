@@ -13,12 +13,10 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Rules\Wiki\Resource\ModelResourceLinkFormatRule;
 use Filament\Support\Contracts\HasLabel;
+use GraphQL\Type\Definition\Deprecated;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Uri;
 use RuntimeException;
@@ -34,13 +32,17 @@ enum ResourceSite: int implements HasLabel
     // Tracking Sites
     case ANIDB = 2;
     case ANILIST = 3;
+    #[Deprecated('No longer actively maintained')]
     case ANIME_PLANET = 4;
+    #[Deprecated('No longer actively maintained')]
     case ANN = 5;
+    #[Deprecated('No longer actively maintained')]
     case KITSU = 6;
     case MAL = 7;
     case LIVECHART = 20;
 
     // Compendia
+    #[Deprecated('No longer actively maintained')]
     case WIKI = 8;
 
     // Song Resources
@@ -64,12 +66,8 @@ enum ResourceSite: int implements HasLabel
             ResourceSite::X->value => 'x.com',
             ResourceSite::ANIDB->value => 'anidb.net',
             ResourceSite::ANILIST->value => 'anilist.co',
-            ResourceSite::ANIME_PLANET->value => 'www.anime-planet.com',
-            ResourceSite::ANN->value => 'www.animenewsnetwork.com',
-            ResourceSite::KITSU->value => 'kitsu.app',
             ResourceSite::LIVECHART->value => 'www.livechart.me',
             ResourceSite::MAL->value => 'myanimelist.net',
-            ResourceSite::WIKI->value => 'wikipedia.org',
             ResourceSite::SPOTIFY->value => 'open.spotify.com',
             ResourceSite::YOUTUBE_MUSIC->value => 'music.youtube.com',
             ResourceSite::YOUTUBE->value => 'www.youtube.com',
@@ -105,72 +103,12 @@ enum ResourceSite: int implements HasLabel
         return match ($site) {
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
-            ResourceSite::ANN,
             ResourceSite::MAL,
             ResourceSite::NETFLIX,
             ResourceSite::LIVECHART,
             ResourceSite::APPLE_MUSIC => Str::match('/\d+/', $link),
-            ResourceSite::ANIME_PLANET => ResourceSite::parseAnimePlanetIdFromLink($link),
-            ResourceSite::KITSU => ResourceSite::parseKitsuIdFromLink($link),
             default => null,
         };
-    }
-
-    protected static function parseAnimePlanetIdFromLink(string $link): ?string
-    {
-        // We only want to attempt to parse the ID for an anime resource
-        if (Str::match('/^https?:\/\/www\.anime-planet\.com\/anime\/[a-zA-Z0-9-]+$/', $link) !== $link) {
-            return null;
-        }
-
-        try {
-            $response = Http::get($link)
-                ->throw()
-                ->body();
-
-            return Str::match(
-                '/["\']?ENTRY_INFO["\']? *: *{.*id["\']? *: *["\']?(\d+)["\']? *,/s',
-                $response
-            );
-        } catch (RequestException $e) {
-            Log::error($e->getMessage());
-        }
-
-        return null;
-    }
-
-    protected static function parseKitsuIdFromLink(string $link): ?string
-    {
-        try {
-            if ($id = Str::match('/^https?:\/\/kitsu\.app\/anime\/(\d+)/', $link)) {
-                return $id;
-            }
-
-            $query = '
-            query ($slug: String!) {
-                findAnimeBySlug(slug: $slug) {
-                    id
-                }
-            }
-            ';
-
-            $variables = [
-                'slug' => Str::afterLast($link, '/'),
-            ];
-
-            $response = Http::post('https://kitsu.io/api/graphql', [
-                'query' => $query,
-                'variables' => $variables,
-            ])
-                ->throw()
-                ->json();
-
-            return Arr::get($response, 'data.findAnimeBySlug.id');
-        } catch (RequestException $e) {
-            Log::error($e->getMessage());
-        }
-
-        return null;
     }
 
     /**
@@ -201,9 +139,6 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::X,
                 ResourceSite::ANIDB,
                 ResourceSite::ANILIST,
-                ResourceSite::ANIME_PLANET,
-                ResourceSite::ANN,
-                ResourceSite::KITSU,
                 ResourceSite::MAL,
                 ResourceSite::YOUTUBE,
                 ResourceSite::CRUNCHYROLL,
@@ -213,7 +148,6 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::HULU,
                 ResourceSite::AMAZON_PRIME_VIDEO,
                 ResourceSite::OFFICIAL_SITE,
-                ResourceSite::WIKI,
                 ResourceSite::LIVECHART,
             ],
             Entry::class => [
@@ -223,14 +157,11 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::X,
                 ResourceSite::ANIDB,
                 ResourceSite::ANILIST,
-                ResourceSite::ANIME_PLANET,
-                ResourceSite::ANN,
                 ResourceSite::MAL,
                 ResourceSite::SPOTIFY,
                 ResourceSite::YOUTUBE_MUSIC,
                 ResourceSite::YOUTUBE,
                 ResourceSite::OFFICIAL_SITE,
-                ResourceSite::WIKI,
             ],
             Song::class => [
                 ResourceSite::ANIDB,
@@ -240,17 +171,13 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::APPLE_MUSIC,
                 ResourceSite::AMAZON_MUSIC,
                 ResourceSite::OFFICIAL_SITE,
-                ResourceSite::WIKI,
             ],
             Studio::class => [
                 ResourceSite::X,
                 ResourceSite::ANIDB,
                 ResourceSite::ANILIST,
-                ResourceSite::ANIME_PLANET,
-                ResourceSite::ANN,
                 ResourceSite::MAL,
                 ResourceSite::OFFICIAL_SITE,
-                ResourceSite::WIKI,
             ],
             default => ResourceSite::cases(),
         };
@@ -268,9 +195,6 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::X => "https://x.com/$slug",
                 ResourceSite::ANIDB => "https://anidb.net/anime/$id",
                 ResourceSite::ANILIST => "https://anilist.co/anime/$id",
-                ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/$slug",
-                ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=$id",
-                ResourceSite::KITSU => "https://kitsu.app/anime/$id",
                 ResourceSite::LIVECHART => "https://www.livechart.me/anime/$id",
                 ResourceSite::MAL => "https://myanimelist.net/anime/$id",
                 ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
@@ -296,8 +220,6 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::X => "https://x.com/$slug",
                 ResourceSite::ANIDB => "https://anidb.net/creator/$id",
                 ResourceSite::ANILIST => "https://anilist.co/staff/$id",
-                ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/people/$slug",
-                ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/people.php?id=$id",
                 ResourceSite::MAL => "https://myanimelist.net/people/$id",
                 ResourceSite::SPOTIFY => "https://open.spotify.com/artist/$slug",
                 ResourceSite::YOUTUBE_MUSIC => "https://music.youtube.com/channel/$slug",
@@ -323,22 +245,12 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::X => "https://x.com/$slug",
                 ResourceSite::ANIDB => "https://anidb.net/creator/$id",
                 ResourceSite::ANILIST => "https://anilist.co/studio/$id",
-                ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/studios/$slug",
-                ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/company.php?id=$id",
                 ResourceSite::MAL => "https://myanimelist.net/anime/producer/$id",
                 default => null,
             };
         }
 
         return null;
-    }
-
-    public function usesIdInLink(): bool
-    {
-        return match ($this) {
-            ResourceSite::ANIME_PLANET => false,
-            default => true,
-        };
     }
 
     /**
@@ -351,9 +263,6 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::X => '/^https:\/\/x\.com\/\w+$/',
                 ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/anime\/\d+$/',
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/anime\/\d+$/',
-                ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/[a-zA-Z0-9-]+$/',
-                ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/anime\.php\?id=\d+$/',
-                ResourceSite::KITSU => '/^https:\/\/kitsu\.app\/anime\/[a-zA-Z0-9-]+$/',
                 ResourceSite::LIVECHART => '/^https:\/\/www\.livechart\.me\/anime\/\d+$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/\d+$/',
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
@@ -363,8 +272,7 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::DISNEY_PLUS => '/^https:\/\/www\.disneyplus\.com\/(?:series|movies|null)\/[\w-]+\/\w+$/',
                 ResourceSite::HULU => '/^https:\/\/www\.hulu\.com\/(?:series|watch|movie|null)\/[\w-]+$/',
                 ResourceSite::AMAZON_PRIME_VIDEO => '/^https:\/\/www\.primevideo\.com\/detail\/\w+$/',
-                ResourceSite::OFFICIAL_SITE,
-                ResourceSite::WIKI => null,
+                ResourceSite::OFFICIAL_SITE => null,
                 default => '/$.^/',
             };
         }
@@ -381,14 +289,11 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::X => '/^https:\/\/x\.com\/\w+$/',
                 ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/staff\/\d+$/',
-                ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/people\/[a-zA-Z0-9-]+$/',
-                ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/people\.php\?id=\d+$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/people\/\d+$/',
                 ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/artist\/\w+$/',
                 ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/channel\/[\w.-]+/',
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/(?:@[\w.-]+|channel\/[\w.-]+)$/',
-                ResourceSite::OFFICIAL_SITE,
-                ResourceSite::WIKI => null,
+                ResourceSite::OFFICIAL_SITE => null,
                 default => '/$.^/',
             };
         }
@@ -410,11 +315,8 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::X => '/^https:\/\/x\.com\/\w+$/',
                 ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/studio\/\d+$/',
-                ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/studios\/[a-zA-Z0-9-]+$/',
-                ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/company\.php\?id=\d+$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/producer\/\d+$/',
-                ResourceSite::OFFICIAL_SITE,
-                ResourceSite::WIKI => null,
+                ResourceSite::OFFICIAL_SITE => null,
                 default => '/$.^/',
             };
         }

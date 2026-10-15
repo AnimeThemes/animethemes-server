@@ -9,8 +9,6 @@ use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\StudioResource;
 use App\Filament\Tabs\Studio\Resource\StudioAnidbResourceTab;
 use App\Filament\Tabs\Studio\Resource\StudioAnilistResourceTab;
-use App\Filament\Tabs\Studio\Resource\StudioAnimePlanetResourceTab;
-use App\Filament\Tabs\Studio\Resource\StudioAnnResourceTab;
 use App\Filament\Tabs\Studio\Resource\StudioMalResourceTab;
 use App\Filament\Tabs\Studio\StudioImageTab;
 use App\Filament\Tabs\Studio\StudioUnlinkedTab;
@@ -43,8 +41,6 @@ class ListStudios extends BaseListResources
             StudioImageTab::class,
             StudioAnidbResourceTab::class,
             StudioAnilistResourceTab::class,
-            StudioAnimePlanetResourceTab::class,
-            StudioAnnResourceTab::class,
             StudioMalResourceTab::class,
             StudioUnlinkedTab::class,
         ]);
