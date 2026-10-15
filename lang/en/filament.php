@@ -1119,6 +1119,9 @@ return [
             'studios' => [
                 'name' => 'Without Studios',
             ],
+            'themes' => [
+                'name' => 'Without Themes',
+            ],
         ],
         'artist' => [
             'song_staff' => [
