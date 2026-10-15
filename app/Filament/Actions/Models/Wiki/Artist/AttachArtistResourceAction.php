@@ -22,9 +22,11 @@ class AttachArtistResourceAction extends AttachResourceAction
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
             ResourceSite::MAL,
+            ResourceSite::X,
+            ResourceSite::INSTAGRAM,
             ResourceSite::OFFICIAL_SITE,
             ResourceSite::SPOTIFY,
-            ResourceSite::X,
+            ResourceSite::TIKTOK,
             ResourceSite::YOUTUBE,
             ResourceSite::YOUTUBE_MUSIC,
         ]);

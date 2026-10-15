@@ -67,7 +67,9 @@ class ExternalTokenCallbackAction
     {
         return match ($site) {
             ExternalProfileSite::ANILIST => new AnilistExternalTokenAction(),
+            // @phpstan-ignore-next-line
             ExternalProfileSite::MAL => new MalExternalTokenAction(),
+            // @phpstan-ignore-next-line
             default => throw new RuntimeException("External token action not configured for site {$site->localize()}"),
         };
     }
