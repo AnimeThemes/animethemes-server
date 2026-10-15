@@ -98,7 +98,9 @@ class StoreExternalProfileClaimedAction
     {
         return match ($site) {
             ExternalProfileSite::ANILIST => new AnilistExternalEntryClaimedAction($token),
+            // @phpstan-ignore-next-line
             ExternalProfileSite::MAL => new MalExternalEntryClaimedAction($token),
+            // @phpstan-ignore-next-line
             default => throw new RuntimeException("External entry token action not configured for site {$site->localize()}"),
         };
     }

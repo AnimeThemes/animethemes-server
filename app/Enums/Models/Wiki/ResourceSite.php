@@ -28,6 +28,8 @@ enum ResourceSite: int implements HasLabel
     // Official Media
     case OFFICIAL_SITE = 0;
     case X = 1;
+    case INSTAGRAM = 21;
+    case TIKTOK = 22;
 
     // Tracking Sites
     case ANIDB = 2;
@@ -64,21 +66,23 @@ enum ResourceSite: int implements HasLabel
     {
         return match ($value) {
             ResourceSite::X->value => 'x.com',
+            ResourceSite::AMAZON_MUSIC->value => 'music.amazon.co.jp',
+            ResourceSite::AMAZON_PRIME_VIDEO->value => 'www.primevideo.com',
             ResourceSite::ANIDB->value => 'anidb.net',
             ResourceSite::ANILIST->value => 'anilist.co',
+            ResourceSite::APPLE_MUSIC->value => 'music.apple.com',
+            ResourceSite::CRUNCHYROLL->value => 'www.crunchyroll.com',
+            ResourceSite::DISNEY_PLUS->value => 'www.disneyplus.com',
+            ResourceSite::HIDIVE->value => 'www.hidive.com',
+            ResourceSite::HULU->value => 'www.hulu.com',
+            ResourceSite::INSTAGRAM->value => 'www.instagram.com',
             ResourceSite::LIVECHART->value => 'www.livechart.me',
             ResourceSite::MAL->value => 'myanimelist.net',
+            ResourceSite::NETFLIX->value => 'www.netflix.com',
             ResourceSite::SPOTIFY->value => 'open.spotify.com',
+            ResourceSite::TIKTOK->value => 'www.tiktok.com',
             ResourceSite::YOUTUBE_MUSIC->value => 'music.youtube.com',
             ResourceSite::YOUTUBE->value => 'www.youtube.com',
-            ResourceSite::APPLE_MUSIC->value => 'music.apple.com',
-            ResourceSite::AMAZON_MUSIC->value => 'music.amazon.co.jp',
-            ResourceSite::CRUNCHYROLL->value => 'www.crunchyroll.com',
-            ResourceSite::HIDIVE->value => 'www.hidive.com',
-            ResourceSite::NETFLIX->value => 'www.netflix.com',
-            ResourceSite::DISNEY_PLUS->value => 'www.disneyplus.com',
-            ResourceSite::HULU->value => 'www.hulu.com',
-            ResourceSite::AMAZON_PRIME_VIDEO->value => 'www.primevideo.com',
             default => null,
         };
     }
@@ -157,11 +161,13 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::X,
                 ResourceSite::ANIDB,
                 ResourceSite::ANILIST,
+                ResourceSite::INSTAGRAM,
                 ResourceSite::MAL,
+                ResourceSite::OFFICIAL_SITE,
                 ResourceSite::SPOTIFY,
+                ResourceSite::TIKTOK,
                 ResourceSite::YOUTUBE_MUSIC,
                 ResourceSite::YOUTUBE,
-                ResourceSite::OFFICIAL_SITE,
             ],
             Song::class => [
                 ResourceSite::ANIDB,
@@ -192,18 +198,18 @@ enum ResourceSite: int implements HasLabel
     {
         if ($modelClass === Anime::class) {
             return match ($this) {
-                ResourceSite::X => "https://x.com/$slug",
+                ResourceSite::AMAZON_PRIME_VIDEO => "https://www.primevideo.com/detail/$slug",
                 ResourceSite::ANIDB => "https://anidb.net/anime/$id",
                 ResourceSite::ANILIST => "https://anilist.co/anime/$id",
+                ResourceSite::CRUNCHYROLL => "https://www.crunchyroll.com/$type/$slug",
+                ResourceSite::DISNEY_PLUS => "https://www.disneyplus.com/$type/$slug/$id",
+                ResourceSite::HIDIVE => "https://www.hidive.com/$type/$slug",
+                ResourceSite::HULU => "https://www.hulu.com/$type/$slug",
                 ResourceSite::LIVECHART => "https://www.livechart.me/anime/$id",
                 ResourceSite::MAL => "https://myanimelist.net/anime/$id",
-                ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
-                ResourceSite::CRUNCHYROLL => "https://www.crunchyroll.com/$type/$slug",
-                ResourceSite::HIDIVE => "https://www.hidive.com/$type/$slug",
                 ResourceSite::NETFLIX => "https://www.netflix.com/$type/$id",
-                ResourceSite::DISNEY_PLUS => "https://www.disneyplus.com/$type/$slug/$id",
-                ResourceSite::HULU => "https://www.hulu.com/$type/$slug",
-                ResourceSite::AMAZON_PRIME_VIDEO => "https://www.primevideo.com/detail/$slug",
+                ResourceSite::X => "https://x.com/$slug",
+                ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
                 default => null,
             };
         }
@@ -220,32 +226,34 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::X => "https://x.com/$slug",
                 ResourceSite::ANIDB => "https://anidb.net/creator/$id",
                 ResourceSite::ANILIST => "https://anilist.co/staff/$id",
+                ResourceSite::INSTAGRAM => "https://www.instagram.com/$slug",
                 ResourceSite::MAL => "https://myanimelist.net/people/$id",
                 ResourceSite::SPOTIFY => "https://open.spotify.com/artist/$slug",
-                ResourceSite::YOUTUBE_MUSIC => "https://music.youtube.com/channel/$slug",
+                ResourceSite::TIKTOK => "https://www.tiktok.com/@$slug",
                 ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
+                ResourceSite::YOUTUBE_MUSIC => "https://music.youtube.com/channel/$slug",
                 default => null,
             };
         }
 
         if ($modelClass === Song::class) {
             return match ($this) {
-                ResourceSite::ANIDB => "https://anidb.net/song/$id",
-                ResourceSite::SPOTIFY => "https://open.spotify.com/track/$slug",
-                ResourceSite::YOUTUBE_MUSIC => "https://music.youtube.com/watch?v=$slug",
-                ResourceSite::YOUTUBE => "https://www.youtube.com/watch?v=$slug",
-                ResourceSite::APPLE_MUSIC => "https://music.apple.com/jp/album/$id",
                 ResourceSite::AMAZON_MUSIC => "https://music.amazon.co.jp/tracks/$slug",
+                ResourceSite::ANIDB => "https://anidb.net/song/$id",
+                ResourceSite::APPLE_MUSIC => "https://music.apple.com/jp/album/$id",
+                ResourceSite::SPOTIFY => "https://open.spotify.com/track/$slug",
+                ResourceSite::YOUTUBE => "https://www.youtube.com/watch?v=$slug",
+                ResourceSite::YOUTUBE_MUSIC => "https://music.youtube.com/watch?v=$slug",
                 default => null,
             };
         }
 
         if ($modelClass === Studio::class) {
             return match ($this) {
-                ResourceSite::X => "https://x.com/$slug",
                 ResourceSite::ANIDB => "https://anidb.net/creator/$id",
                 ResourceSite::ANILIST => "https://anilist.co/studio/$id",
                 ResourceSite::MAL => "https://myanimelist.net/anime/producer/$id",
+                ResourceSite::X => "https://x.com/$slug",
                 default => null,
             };
         }
@@ -260,19 +268,19 @@ enum ResourceSite: int implements HasLabel
     {
         if ($modelClass === Anime::class) {
             return match ($this) {
-                ResourceSite::X => '/^https:\/\/x\.com\/\w+$/',
+                ResourceSite::AMAZON_PRIME_VIDEO => '/^https:\/\/www\.primevideo\.com\/detail\/\w+$/',
                 ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/anime\/\d+$/',
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/anime\/\d+$/',
+                ResourceSite::CRUNCHYROLL => '/^https:\/\/www\.crunchyroll\.com\/(?:series|watch|null)\/\w+$/',
+                ResourceSite::DISNEY_PLUS => '/^https:\/\/www\.disneyplus\.com\/(?:series|movies|null)\/[\w-]+\/\w+$/',
+                ResourceSite::HIDIVE => '/^https:\/\/www\.hidive\.com\/(?:tv|movies|null)\/[\w-]+$/',
+                ResourceSite::HULU => '/^https:\/\/www\.hulu\.com\/(?:series|watch|movie|null)\/[\w-]+$/',
                 ResourceSite::LIVECHART => '/^https:\/\/www\.livechart\.me\/anime\/\d+$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/\d+$/',
-                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
-                ResourceSite::CRUNCHYROLL => '/^https:\/\/www\.crunchyroll\.com\/(?:series|watch|null)\/\w+$/',
-                ResourceSite::HIDIVE => '/^https:\/\/www\.hidive\.com\/(?:tv|movies|null)\/[\w-]+$/',
                 ResourceSite::NETFLIX => '/^https:\/\/www\.netflix\.com\/(?:title|watch|null)\/\d+$/',
-                ResourceSite::DISNEY_PLUS => '/^https:\/\/www\.disneyplus\.com\/(?:series|movies|null)\/[\w-]+\/\w+$/',
-                ResourceSite::HULU => '/^https:\/\/www\.hulu\.com\/(?:series|watch|movie|null)\/[\w-]+$/',
-                ResourceSite::AMAZON_PRIME_VIDEO => '/^https:\/\/www\.primevideo\.com\/detail\/\w+$/',
                 ResourceSite::OFFICIAL_SITE => null,
+                ResourceSite::X => '/^https:\/\/x\.com\/\w+$/',
+                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
                 default => '/$.^/',
             };
         }
@@ -286,37 +294,39 @@ enum ResourceSite: int implements HasLabel
 
         if ($modelClass === Artist::class) {
             return match ($this) {
-                ResourceSite::X => '/^https:\/\/x\.com\/\w+$/',
                 ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/staff\/\d+$/',
+                ResourceSite::INSTAGRAM => '/^https:\/\/www\.instagram\.com\/[\w.-]+$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/people\/\d+$/',
-                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/artist\/\w+$/',
-                ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/channel\/[\w.-]+/',
-                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/(?:@[\w.-]+|channel\/[\w.-]+)$/',
                 ResourceSite::OFFICIAL_SITE => null,
+                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/artist\/\w+$/',
+                ResourceSite::TIKTOK => '/^https:\/\/www\.tiktok\.com\/@[\w.-]+$/',
+                ResourceSite::X => '/^https:\/\/x\.com\/\w+$/',
+                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/(?:@[\w.-]+|channel\/[\w.-]+)$/',
+                ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/channel\/[\w.-]+/',
                 default => '/$.^/',
             };
         }
 
         if ($modelClass === Song::class) {
             return match ($this) {
-                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/song\/\d+$/',
-                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/track\/\w+$/',
-                ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/watch\?v=[\w-]+$/',
-                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/watch\?v=[\w-]+$/',
-                ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/album\/\d+$/',
                 ResourceSite::AMAZON_MUSIC => '/^https:\/\/music\.amazon\.co\.jp\/tracks\/\w+$/',
+                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/song\/\d+$/',
+                ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/album\/\d+$/',
+                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/track\/\w+$/',
+                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/watch\?v=[\w-]+$/',
+                ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/watch\?v=[\w-]+$/',
                 default => '/$.^/',
             };
         }
 
         if ($modelClass === Studio::class) {
             return match ($this) {
-                ResourceSite::X => '/^https:\/\/x\.com\/\w+$/',
                 ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/studio\/\d+$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/producer\/\d+$/',
                 ResourceSite::OFFICIAL_SITE => null,
+                ResourceSite::X => '/^https:\/\/x\.com\/\w+$/',
                 default => '/$.^/',
             };
         }

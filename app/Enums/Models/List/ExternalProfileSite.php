@@ -20,7 +20,6 @@ enum ExternalProfileSite: int implements HasLabel
 
     case MAL = 0;
     case ANILIST = 1;
-    case KITSU = 2;
 
     /**
      * Get the ResourceSite by the ExternalProfileSite value.
@@ -30,7 +29,6 @@ enum ExternalProfileSite: int implements HasLabel
         return match ($this) {
             self::MAL => ResourceSite::MAL,
             self::ANILIST => ResourceSite::ANILIST,
-            self::KITSU => ResourceSite::KITSU,
         };
     }
 
@@ -68,6 +66,7 @@ enum ExternalProfileSite: int implements HasLabel
                 ]);
         }
 
+        // @phpstan-ignore-next-line
         throw new RuntimeException("An authorize Url was not defined for the {$this->localize()} site.");
     }
 }
