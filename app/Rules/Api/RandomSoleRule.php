@@ -19,7 +19,7 @@ class RandomSoleRule implements ValidationRule
     {
         $values = Str::of($value)->explode(',');
 
-        if ($values->contains(RandomCriteria::PARAM_VALUE) && ! $values->containsOneItem()) {
+        if ($values->contains(RandomCriteria::PARAM_VALUE) && ! $values->hasSole()) {
             $fail(__('validation.api.random_sole'));
         }
     }
