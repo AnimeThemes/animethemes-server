@@ -60,6 +60,7 @@
         "vinkla/hashids": "^14.0"
     },
     "require-dev": {
+        "baer-software/larabeacon": "^3.3.0",
         "driftingly/rector-laravel": "^2.6.2",
         "fruitcake/laravel-debugbar": "^4.4.2",
         "laravel/pint": "^1.30.5",
