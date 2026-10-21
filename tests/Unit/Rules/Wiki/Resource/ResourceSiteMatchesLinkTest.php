@@ -46,10 +46,11 @@ test('resource site domain rule official passes', function (): void {
 test('resource site domain rule fails', function (): void {
     $site = null;
 
-    while ($site === null) {
-        $siteCandidate = Arr::random(ResourceSite::cases());
-        if ($siteCandidate !== ResourceSite::OFFICIAL_SITE) {
-            $site = $siteCandidate;
+    while (true) {
+        $site = Arr::random(ResourceSite::cases());
+
+        if (ResourceSite::getDomain($site->value)) {
+            break;
         }
     }
 
