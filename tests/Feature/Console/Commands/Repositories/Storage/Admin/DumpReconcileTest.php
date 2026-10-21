@@ -15,6 +15,8 @@ use Mockery\MockInterface;
 pest()->use(WithFaker::class);
 
 test('no results', function (): void {
+    Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+
     $this->mock(DumpRepository::class, function (MockInterface $mock): void {
         $mock->shouldReceive('get')->once()->andReturn(Collection::make());
     });
