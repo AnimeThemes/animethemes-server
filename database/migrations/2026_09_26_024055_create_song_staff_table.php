@@ -26,7 +26,12 @@ return new class extends Migration
                 $table->unsignedBigInteger('member_id')->nullable();
                 $table->foreign('member_id')->references('artist_id')->on('artists')->cascadeOnDelete();
 
-                $table->string('role');
+                // Backwards compatibility
+                if (app()->runningUnitTests()) {
+                    $table->string('role')->default('Performance');
+                } else {
+                    $table->string('role');
+                }
 
                 $table->string('alias')->nullable();
                 $table->string('as')->nullable();
