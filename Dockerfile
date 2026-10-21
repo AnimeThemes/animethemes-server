@@ -23,7 +23,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         bcmath \
         gd \
         pcntl \
-    && pecl install igbinary \
+    && curl -fsSL https://pecl.php.net/get/igbinary-3.2.17RC1.tgz \
+        -o /tmp/igbinary.tgz \
+    && pecl install /tmp/igbinary.tgz \
     && docker-php-ext-enable igbinary \
     && pecl install redis \
     && docker-php-ext-enable redis \
