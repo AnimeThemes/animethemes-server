@@ -27,7 +27,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         -o /tmp/igbinary.tgz \
     && pecl install /tmp/igbinary.tgz \
     && docker-php-ext-enable igbinary \
-    && pecl install redis \
+    && curl -fsSL https://pecl.php.net/get/redis \
+        -o /tmp/redis.tgz \
+    && pecl install /tmp/redis.tgz \
     && docker-php-ext-enable redis \
     && apt-get autoremove -y \
     && apt-get clean \
