@@ -231,7 +231,12 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
                 $join->on('song_staff.id', '=', 'unique_performances.song_staff_id');
             })
             ->as('artistsong')
-            ->withPivot([Performance::ATTRIBUTE_ID, Performance::ATTRIBUTE_ALIAS, Performance::ATTRIBUTE_AS])
+            ->withPivot([
+                Performance::ATTRIBUTE_ID,
+                Performance::ATTRIBUTE_ALIAS,
+                Performance::ATTRIBUTE_AS,
+                Performance::ATTRIBUTE_ROLE,
+            ])
             ->withTimestamps();
     }
 

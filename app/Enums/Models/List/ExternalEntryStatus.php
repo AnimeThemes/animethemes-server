@@ -39,12 +39,12 @@ enum ExternalEntryStatus: int implements HasLabel
     public static function getAnilistMapping(string $status): static
     {
         return match ($status) {
-            'CURRENT' => static::WATCHING,
-            'COMPLETED' => static::COMPLETED,
-            'DROPPED' => static::DROPPED,
-            'PAUSED' => static::PAUSED,
-            'REPEATING' => static::REWATCHING,
-            default => static::PLAN_TO_WATCH,
+            'CURRENT' => self::WATCHING,
+            'COMPLETED' => self::COMPLETED,
+            'DROPPED' => self::DROPPED,
+            'PAUSED' => self::PAUSED,
+            'REPEATING' => self::REWATCHING,
+            default => self::PLAN_TO_WATCH,
         };
     }
 }

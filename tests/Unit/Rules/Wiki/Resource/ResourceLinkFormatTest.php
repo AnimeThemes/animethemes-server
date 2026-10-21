@@ -43,9 +43,6 @@ test('passes for anime resource', function (): void {
         ResourceSite::X,
         ResourceSite::ANIDB,
         ResourceSite::ANILIST,
-        ResourceSite::ANIME_PLANET,
-        ResourceSite::ANN,
-        ResourceSite::KITSU,
         ResourceSite::MAL,
         ResourceSite::YOUTUBE,
     ]);
@@ -68,8 +65,6 @@ test('passes for artist resource', function (): void {
         ResourceSite::X,
         ResourceSite::ANIDB,
         ResourceSite::ANILIST,
-        ResourceSite::ANIME_PLANET,
-        ResourceSite::ANN,
         ResourceSite::MAL,
         ResourceSite::SPOTIFY,
         ResourceSite::YOUTUBE,
@@ -115,8 +110,6 @@ test('passes for studio resource', function (): void {
         ResourceSite::X,
         ResourceSite::ANIDB,
         ResourceSite::ANILIST,
-        ResourceSite::ANIME_PLANET,
-        ResourceSite::ANN,
         ResourceSite::MAL,
     ]);
 
