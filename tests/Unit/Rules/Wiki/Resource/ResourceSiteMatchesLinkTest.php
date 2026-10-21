@@ -12,19 +12,15 @@ pest()->use(WithFaker::class);
 
 test('passes if site matches link', function (): void {
     $site = null;
+    $domain = null;
 
-    while ($site === null) {
-        $siteCandidate = Arr::random(ResourceSite::cases());
-        if ($siteCandidate !== ResourceSite::OFFICIAL_SITE) {
-            $site = $siteCandidate;
-        }
+    while ($domain === null) {
+        $site = Arr::random(ResourceSite::cases());
+
+        $domain = ResourceSite::getDomain($site->value);
     }
 
-    $url = null;
-    $domain = ResourceSite::getDomain($site->value);
-    if ($domain !== null) {
-        $url = 'https://'.$domain;
-    }
+    $url = 'https://'.$domain;
 
     $attribute = fake()->word();
 
