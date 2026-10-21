@@ -156,9 +156,7 @@ class BackfillAudioAction extends BackfillAction
         }
 
         // Anticipate audio path for FFmpeg save file
-        $audioPath = $audio === null
-            ? Str::replace('webm', 'ogg', $sourceVideo->path)
-            : $audio->path;
+        $audioPath = $audio?->path ?? Str::replace('webm', 'ogg', $sourceVideo->path);
 
         // Second, attempt to set audio from path
         $audio ??= Audio::query()->firstWhere(Audio::ATTRIBUTE_PATH, $audioPath);

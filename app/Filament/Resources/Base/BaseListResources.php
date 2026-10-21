@@ -44,6 +44,7 @@ abstract class BaseListResources extends ListRecords
                 : Search::getSearch($modelClass, new Criteria($search))
                     ->search()
                     ->getCollection()
+                    // @phpstan-ignore argument.type
                     ->map(fn (Model $model) => $model->getKey())
                     ->toArray();
 

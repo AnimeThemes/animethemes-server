@@ -153,6 +153,7 @@ test('themes by sequence', function (): void {
         )
         ->createOne();
 
+    // @phpstan-ignore argument.type
     $artist->unsetRelations()->load([
         Artist::RELATION_ANIMETHEMES => function (HasMany $query) use ($sequenceFilter): void {
             $query->where(Theme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
@@ -195,6 +196,7 @@ test('themes by type', function (): void {
         )
         ->createOne();
 
+    // @phpstan-ignore argument.type
     $artist->unsetRelations()->load([
         Artist::RELATION_ANIMETHEMES => function (HasMany $query) use ($typeFilter): void {
             $query->where(Theme::ATTRIBUTE_TYPE, $typeFilter->value);
@@ -237,6 +239,7 @@ test('anime by media format', function (): void {
         )
         ->createOne();
 
+    // @phpstan-ignore argument.type
     $artist->unsetRelations()->load([
         Artist::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter): void {
             $query->where(Anime::ATTRIBUTE_FORMAT, $mediaFormatFilter->value);
@@ -279,6 +282,7 @@ test('anime by season', function (): void {
         )
         ->createOne();
 
+    // @phpstan-ignore argument.type
     $artist->unsetRelations()->load([
         Artist::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter): void {
             $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
@@ -327,6 +331,7 @@ test('anime by year', function (): void {
         )
         ->createOne();
 
+    // @phpstan-ignore argument.type
     $artist->unsetRelations()->load([
         Artist::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter): void {
             $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);

@@ -128,7 +128,7 @@ class ExternalProfile extends BaseModel
 
     public function getSubtitle(): string
     {
-        return $this->user === null ? $this->getName() : $this->user->getName();
+        return $this->user?->getName() ?? $this->getName();
     }
 
     /**

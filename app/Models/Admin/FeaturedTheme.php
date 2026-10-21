@@ -129,7 +129,7 @@ class FeaturedTheme extends BaseModel implements Auditable
 
     public function getSubtitle(): string
     {
-        return $this->animethemeentry === null ? $this->getName() : $this->animethemeentry->getName();
+        return $this->animethemeentry?->getName() ?? $this->getName();
     }
 
     #[Scope]
