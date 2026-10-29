@@ -3,18 +3,15 @@
 declare(strict_types=1);
 
 use App\Constants\Config\ExternalProfileConstants;
-use App\Constants\Config\ValidationConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\ExternalProfileVisibility;
-use App\Enums\Rules\ModerationService;
 use App\Features\AllowExternalProfileManagement;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
@@ -170,60 +167,6 @@ test('max profile limit permitted for bypass', function (): void {
             SpecialPermission::BYPASS_FEATURE_FLAGS->value
         )
         ->createOne();
-
-    Sanctum::actingAs($user);
-
-    $response = post(route('api.externalprofile.store', $parameters));
-
-    $response->assertCreated();
-});
-
-test('created if not flagged by open ai', function (): void {
-    Feature::activate(AllowExternalProfileManagement::class);
-    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
-
-    Http::fake([
-        'https://api.openai.com/v1/moderations' => Http::response([
-            'results' => [
-                0 => [
-                    'flagged' => false,
-                ],
-            ],
-        ]),
-    ]);
-
-    $visibility = Arr::random(ExternalProfileVisibility::cases());
-
-    $parameters = array_merge(
-        ExternalProfile::factory()->raw(),
-        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-    );
-
-    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
-
-    Sanctum::actingAs($user);
-
-    $response = post(route('api.externalprofile.store', $parameters));
-
-    $response->assertCreated();
-});
-
-test('created if open ai fails', function (): void {
-    Feature::activate(AllowExternalProfileManagement::class);
-    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
-
-    Http::fake([
-        'https://api.openai.com/v1/moderations' => Http::response(status: 404),
-    ]);
-
-    $visibility = Arr::random(ExternalProfileVisibility::cases());
-
-    $parameters = array_merge(
-        ExternalProfile::factory()->raw(),
-        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-    );
-
-    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
 
     Sanctum::actingAs($user);
 

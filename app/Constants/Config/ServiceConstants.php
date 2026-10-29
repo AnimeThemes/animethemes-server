@@ -10,8 +10,6 @@ class ServiceConstants
 
     final public const string DB_UPDATES_DISCORD_CHANNEL_QUALIFIED = 'services.discord.db_updates_discord_channel';
 
-    final public const string OPENAI_BEARER_TOKEN = 'services.openai.token';
-
     final public const string ANILIST_CLIENT_ID = 'services.anilist.client_id';
 
     final public const string ANILIST_CLIENT_SECRET = 'services.anilist.client_secret';

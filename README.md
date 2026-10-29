@@ -43,8 +43,6 @@ cd animethemes-server
 
 cp .env.example .env
 
-cp docker-compose.local.yml docker-compose.yml
-
 # Install Composer dependencies using a throwaway container
 docker run --rm \
     -u "$(id -u):$(id -g)" \
