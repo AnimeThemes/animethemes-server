@@ -28,5 +28,4 @@ auth.json
 public/css/app.css
 public/js/app.js
 test.php
-docker-compose.yml
 docker-data

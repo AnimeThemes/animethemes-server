@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Fortify;
 
 use App\Models\Auth\User;
-use App\Rules\ModerationRule;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -25,7 +24,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     {
         /** @var array{name: string, email: string} $validated */
         $validated = Validator::make($input, [
-            User::ATTRIBUTE_NAME => ['required_without:'.User::ATTRIBUTE_EMAIL, 'string', 'max:35', 'alpha_dash', Rule::unique(User::class)->ignore($user->id), new ModerationRule()],
+            User::ATTRIBUTE_NAME => ['required_without:'.User::ATTRIBUTE_EMAIL, 'string', 'max:35', 'alpha_dash', Rule::unique(User::class)->ignore($user->id)],
             User::ATTRIBUTE_EMAIL => ['required_without:'.User::ATTRIBUTE_NAME, 'string', 'email', 'max:255', 'indisposable', Rule::unique(User::class)->ignore($user->id)],
         ])->validate();
 

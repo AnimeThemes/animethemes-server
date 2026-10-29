@@ -41,10 +41,6 @@ return [
         'admin_discord_channel' => env('ADMIN_DISCORD_CHANNEL'),
     ],
 
-    'openai' => [
-        'token' => env('OPENAI_BEARER_TOKEN'),
-    ],
-
     'anilist' => [
         'client_id' => env('ANILIST_CLIENT_ID'),
         'client_secret' => env('ANILIST_CLIENT_SECRET'),

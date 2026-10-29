@@ -92,19 +92,6 @@ services:
                 - 'exec 3<>/dev/tcp/localhost/8108 && printf ''GET /health HTTP/1.1\r\nConnection: close\r\n\r\n'' >&3 && head -n1 <&3 | grep ''200'' && exec 3>&-'
             retries: 5
             timeout: 7s
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        profiles:
-            - local
-        ports:
-            - '8080:80'
-        environment:
-            PMA_HOST: mysql
-            PMA_PORT: 3306
-        depends_on:
-            - mysql
-        networks:
-            - sail
 networks:
     sail:
         driver: bridge
