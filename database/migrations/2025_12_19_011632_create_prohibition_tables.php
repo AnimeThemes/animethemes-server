@@ -14,61 +14,69 @@ return new class extends Migration
         /** @var array<string, string> $tableNames */
         $tableNames = Config::array('prohibition.table_names');
 
-        Schema::create($tableNames['prohibition'], function (Blueprint $table): void {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
+        if (! Schema::hasTable($tableNames['prohibition'])) {
+            Schema::create($tableNames['prohibition'], function (Blueprint $table): void {
+                $table->id();
+                $table->string('name');
+                $table->timestamps();
 
-            $table->unique('name');
-        });
+                $table->unique('name');
+            });
+        }
 
-        Schema::create($tableNames['sanction'], function (Blueprint $table): void {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
+        if (! Schema::hasTable($tableNames['sanction'])) {
+            Schema::create($tableNames['sanction'], function (Blueprint $table): void {
+                $table->id();
+                $table->string('name');
+                $table->timestamps();
+            });
+        }
 
-            $table->unique('name');
-        });
+        if (! Schema::hasTable($tableNames['sanction_prohibition'])) {
+            Schema::create($tableNames['sanction_prohibition'], function (Blueprint $table) use ($tableNames): void {
+                $table->unsignedBigInteger('sanction_id');
+                $table->foreign('sanction_id')->references('id')->on($tableNames['sanction'])->cascadeOnDelete();
 
-        Schema::create($tableNames['sanction_prohibition'], function (Blueprint $table) use ($tableNames): void {
-            $table->unsignedBigInteger('sanction_id');
-            $table->foreign('sanction_id')->references('id')->on($tableNames['sanction'])->cascadeOnDelete();
+                $table->unsignedBigInteger('prohibition_id');
+                $table->foreign('prohibition_id')->references('id')->on($tableNames['prohibition'])->cascadeOnDelete();
+                $table->timestamps();
 
-            $table->unsignedBigInteger('prohibition_id');
-            $table->foreign('prohibition_id')->references('id')->on($tableNames['prohibition'])->cascadeOnDelete();
-            $table->timestamps();
+                $table->primary(['sanction_id', 'prohibition_id']);
+            });
+        }
 
-            $table->primary(['sanction_id', 'prohibition_id']);
-        });
+        if (! Schema::hasTable($tableNames['model_sanctions'])) {
+            Schema::create($tableNames['model_sanctions'], function (Blueprint $table) use ($tableNames): void {
+                $table->morphs('user');
 
-        Schema::create($tableNames['model_sanctions'], function (Blueprint $table) use ($tableNames): void {
-            $table->morphs('user');
+                $table->unsignedBigInteger('sanction_id');
+                $table->foreign('sanction_id')->references('id')->on($tableNames['sanction'])->cascadeOnDelete();
 
-            $table->unsignedBigInteger('sanction_id');
-            $table->foreign('sanction_id')->references('id')->on($tableNames['sanction'])->cascadeOnDelete();
+                $table->nullableMorphs('moderator');
+                $table->timestamp('expires_at')->nullable();
+                $table->text('reason')->nullable();
+                $table->timestamps();
 
-            $table->nullableMorphs('moderator');
-            $table->timestamp('expires_at')->nullable();
-            $table->text('reason')->nullable();
-            $table->timestamps();
+                $table->primary(['user_type', 'user_id', 'sanction_id']);
+                $table->index('expires_at');
+            });
+        }
 
-            $table->primary(['user_type', 'user_id', 'sanction_id']);
-            $table->index('expires_at');
-        });
+        if (! Schema::hasTable($tableNames['model_prohibitions'])) {
+            Schema::create($tableNames['model_prohibitions'], function (Blueprint $table) use ($tableNames): void {
+                $table->morphs('user');
 
-        Schema::create($tableNames['model_prohibitions'], function (Blueprint $table) use ($tableNames): void {
-            $table->morphs('user');
+                $table->unsignedBigInteger('prohibition_id');
+                $table->foreign('prohibition_id')->references('id')->on($tableNames['prohibition'])->cascadeOnDelete();
 
-            $table->unsignedBigInteger('prohibition_id');
-            $table->foreign('prohibition_id')->references('id')->on($tableNames['prohibition'])->cascadeOnDelete();
+                $table->nullableMorphs('moderator');
+                $table->timestamp('expires_at')->nullable();
+                $table->text('reason')->nullable();
+                $table->timestamps();
 
-            $table->nullableMorphs('moderator');
-            $table->timestamp('expires_at')->nullable();
-            $table->text('reason')->nullable();
-            $table->timestamps();
-
-            $table->primary(['user_type', 'user_id', 'prohibition_id']);
-            $table->index('expires_at');
-        });
+                $table->primary(['user_type', 'user_id', 'prohibition_id']);
+                $table->index('expires_at');
+            });
+        }
     }
 };

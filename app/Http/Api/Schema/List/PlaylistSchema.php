@@ -56,8 +56,6 @@ class PlaylistSchema extends EloquentSchema implements SearchableSchema
             new AllowedInclude(new ImageSchema(), 'tracks.animethemeentry.animetheme.anime.images'),
             new AllowedInclude(new VideoSchema(), 'tracks.video'),
             new AllowedInclude(new GroupSchema(), 'tracks.animethemeentry.animetheme.group'),
-            new AllowedInclude(new TrackSchema(), 'tracks.previous'),
-            new AllowedInclude(new TrackSchema(), 'tracks.next'),
         ]);
     }
 

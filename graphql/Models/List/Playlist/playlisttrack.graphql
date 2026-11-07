@@ -21,10 +21,6 @@ type PlaylistTrack @model(class: "App\\Models\\List\\Playlist\\PlaylistTrack") {
     animethemeentry: AnimeThemeEntry! @belongsTo
 
     video: Video! @belongsTo
-
-    previous: PlaylistTrack @belongsTo @deprecated
-
-    next: PlaylistTrack @belongsTo @deprecated
 }
 
 extend type Query {
@@ -41,42 +37,4 @@ extend type Query {
         where: _ @whereConditions(columnsEnum: PlaylistTrackFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [PlaylistTrackSort!] @sort
     ): [PlaylistTrack!]! @paginate @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistTrackPaginationBuilder")
-}
-
-extend type Mutation {
-    CreatePlaylistTrack(
-        playlist: String!
-        entryId: Int!
-        videoId: Int!
-        position: Int
-        previous: String @deprecated(reason: "Use position instead")
-        next: String @deprecated(reason: "Use position instead")
-    ): PlaylistTrack!
-    @canFindMultiple(
-        ability: "create",
-        find: ["playlist"],
-        models: ["App\\Models\\List\\Playlist"],
-        columns: ["hashid"],
-        modelForPolicy: "App\\Models\\List\\Playlist\\PlaylistTrack"
-    )
-    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutation@create")
-
-    UpdatePlaylistTrack(
-        id: String!
-        playlist: String!
-        entryId: Int
-        videoId: Int
-        position: Int
-        previous: String @deprecated(reason: "Use position instead")
-        next: String @deprecated(reason: "Use position instead")
-    ): PlaylistTrack!
-    @canFindMultiple(ability: "update", find: ["id", "playlist"], models: ["App\\Models\\List\\Playlist\\PlaylistTrack", "App\\Models\\List\\Playlist"], columns: ["hashid", "hashid"])
-    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutation@update")
-
-    DeletePlaylistTrack(
-        id: String!
-        playlist: String!
-    ): MessageResponse!
-    @canFindMultiple(ability: "delete", find: ["id", "playlist"], models: ["App\\Models\\List\\Playlist\\PlaylistTrack", "App\\Models\\List\\Playlist"], columns: ["hashid", "hashid"])
-    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutation@delete")
 }

@@ -851,14 +851,6 @@ return [
                 'help' => 'The short, unique, non-sequential id derived from model identifiers.',
                 'name' => 'Hashid',
             ],
-            'next' => [
-                'help' => 'The next Track in the Playlist.',
-                'name' => 'Next Track',
-            ],
-            'previous' => [
-                'help' => 'The previous Track in the Playlist.',
-                'name' => 'Previous Track',
-            ],
         ],
         'playlist' => [
             'first' => [

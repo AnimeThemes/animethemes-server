@@ -44,40 +44,6 @@ test('playlist', function (): void {
     expect($track->playlist()->first())->toBeInstanceOf(Playlist::class);
 });
 
-test('previous', function (): void {
-    $playlist = Playlist::factory()->createOne();
-
-    $track = PlaylistTrack::factory()
-        ->for($playlist)
-        ->createOne();
-
-    $previous = PlaylistTrack::factory()
-        ->for($playlist)
-        ->createOne();
-
-    $track->previous()->associate($previous)->save();
-
-    expect($track->previous())->toBeInstanceOf(BelongsTo::class);
-    expect($track->previous()->first())->toBeInstanceOf(PlaylistTrack::class);
-});
-
-test('next', function (): void {
-    $playlist = Playlist::factory()->createOne();
-
-    $track = PlaylistTrack::factory()
-        ->for($playlist)
-        ->createOne();
-
-    $next = PlaylistTrack::factory()
-        ->for($playlist)
-        ->createOne();
-
-    $track->next()->associate($next)->save();
-
-    expect($track->next())->toBeInstanceOf(BelongsTo::class);
-    expect($track->next()->first())->toBeInstanceOf(PlaylistTrack::class);
-});
-
 test('video', function (): void {
     $track = PlaylistTrack::factory()
         ->for(Playlist::factory())

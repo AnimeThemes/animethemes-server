@@ -23,19 +23,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
-use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 /**
  * @property int $entry_id
  * @property Entry $animethemeentry
  * @property Entry $entry
- * @property PlaylistTrack|null $next
- * @property int $next_id
  * @property int $playlist_id
  * @property Playlist $playlist
  * @property int $position
- * @property PlaylistTrack|null $previous
- * @property int $previous_id
  * @property int $track_id
  * @property Video $video
  * @property int $video_id
@@ -46,7 +41,6 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema, Sortable
 {
     use HasFactory;
-    use HasRecursiveRelationships;
     use SortableTrait;
 
     final public const string TABLE = 'playlist_tracks';
@@ -55,13 +49,9 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
 
     final public const string ATTRIBUTE_ENTRY = 'entry_id';
 
-    final public const string ATTRIBUTE_NEXT = 'next_id';
-
     final public const string ATTRIBUTE_PLAYLIST = 'playlist_id';
 
     final public const string ATTRIBUTE_POSITION = 'position';
-
-    final public const string ATTRIBUTE_PREVIOUS = 'previous_id';
 
     final public const string ATTRIBUTE_VIDEO = 'video_id';
 
@@ -73,11 +63,7 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
 
     final public const string RELATION_IMAGES = 'animethemeentry.animetheme.anime.images';
 
-    final public const string RELATION_NEXT = 'next';
-
     final public const string RELATION_PLAYLIST = 'playlist';
-
-    final public const string RELATION_PREVIOUS = 'previous';
 
     final public const string RELATION_THEME_GROUP = 'animethemeentry.animetheme.group';
 
@@ -185,22 +171,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     public function playlist(): BelongsTo
     {
         return $this->belongsTo(Playlist::class, PlaylistTrack::ATTRIBUTE_PLAYLIST);
-    }
-
-    /**
-     * @return BelongsTo<PlaylistTrack, $this>
-     */
-    public function previous(): BelongsTo
-    {
-        return $this->belongsTo(PlaylistTrack::class, PlaylistTrack::ATTRIBUTE_PREVIOUS);
-    }
-
-    /**
-     * @return BelongsTo<PlaylistTrack, $this>
-     */
-    public function next(): BelongsTo
-    {
-        return $this->belongsTo(PlaylistTrack::class, PlaylistTrack::ATTRIBUTE_NEXT);
     }
 
     /**

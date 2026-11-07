@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Storage\Wiki\Video;
 
-use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
-use App\Actions\Models\List\Playlist\RemoveTrackAction;
 use App\Actions\Storage\Base\UploadAction;
 use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Actions\Storage\Wiki\Video\Script\UploadScriptAction;
@@ -163,13 +161,20 @@ class UploadVideoAction extends UploadAction
                 ->first();
 
             if ($track instanceof PlaylistTrack) {
-                new RemoveTrackAction()->remove($playlist, $track);
+                $track->delete();
+
+                PlaylistTrack::query()
+                    ->whereBelongsTo($playlist)
+                    ->where(PlaylistTrack::ATTRIBUTE_POSITION, '>', $track->position)
+                    ->decrement(PlaylistTrack::ATTRIBUTE_POSITION);
             }
 
-            new StoreTrackAction()->store($playlist, PlaylistTrack::query(), [
-                PlaylistTrack::ATTRIBUTE_ENTRY => $this->entry->getKey(),
-                PlaylistTrack::ATTRIBUTE_VIDEO => $video->getKey(),
-            ]);
+            PlaylistTrack::query()
+                ->create([
+                    PlaylistTrack::ATTRIBUTE_PLAYLIST => $playlist->getKey(),
+                    PlaylistTrack::ATTRIBUTE_ENTRY => $this->entry->getKey(),
+                    PlaylistTrack::ATTRIBUTE_VIDEO => $video->getKey(),
+                ]);
         }
     }
 

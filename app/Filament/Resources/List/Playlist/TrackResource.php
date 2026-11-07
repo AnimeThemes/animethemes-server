@@ -138,16 +138,6 @@ class TrackResource extends BaseResource
                     ->label(__('filament.fields.playlist_track.hashid.name'))
                     ->helperText(__('filament.fields.playlist_track.hashid.help'))
                     ->readOnly(),
-
-                BelongsTo::make(PlaylistTrack::ATTRIBUTE_PREVIOUS)
-                    ->resource(TrackResource::class)
-                    ->label(__('filament.fields.playlist_track.previous.name'))
-                    ->helperText(__('filament.fields.playlist_track.previous.help')),
-
-                BelongsTo::make(PlaylistTrack::ATTRIBUTE_NEXT)
-                    ->resource(TrackResource::class)
-                    ->label(__('filament.fields.playlist_track.next.name'))
-                    ->helperText(__('filament.fields.playlist_track.next.help')),
             ])
             ->columns(1);
     }
@@ -188,12 +178,6 @@ class TrackResource extends BaseResource
                         BelongsToEntry::make(PlaylistTrack::RELATION_ENTRY, EntryResource::class),
 
                         BelongsToEntry::make(PlaylistTrack::RELATION_VIDEO, VideoResource::class),
-
-                        BelongsToEntry::make(PlaylistTrack::RELATION_PREVIOUS, TrackResource::class)
-                            ->label(__('filament.fields.playlist_track.previous.name')),
-
-                        BelongsToEntry::make(PlaylistTrack::RELATION_NEXT, TrackResource::class)
-                            ->label(__('filament.fields.playlist_track.next.name')),
                     ])
                     ->columns(3),
 
