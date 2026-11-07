@@ -34,12 +34,6 @@ return new class extends Migration
 
                 $table->unsignedBigInteger('video_id')->nullable();
                 $table->foreign('video_id')->references('video_id')->on('videos')->nullOnDelete();
-
-                $table->unsignedBigInteger('previous_id')->nullable();
-                $table->foreign('previous_id')->references('track_id')->on('playlist_tracks')->nullOnDelete();
-
-                $table->unsignedBigInteger('next_id')->nullable();
-                $table->foreign('next_id')->references('track_id')->on('playlist_tracks')->nullOnDelete();
             });
         }
     }

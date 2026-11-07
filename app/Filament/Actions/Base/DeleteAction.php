@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Base;
 
-use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
-use App\Models\List\Playlist\PlaylistTrack;
 use Filament\Actions\DeleteAction as BaseDeleteAction;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
@@ -28,9 +26,7 @@ class DeleteAction extends BaseDeleteAction
         $this->using(function (Model $record): bool {
             Gate::authorize('delete', $record);
 
-            $result = $record instanceof PlaylistTrack
-                ? new DestroyTrackAction()->destroy($record->playlist, $record)
-                : $record->delete();
+            $result = $record->delete();
 
             return (bool) $result;
         });

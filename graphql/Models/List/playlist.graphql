@@ -68,33 +68,3 @@ extend type Query {
         sort: [PlaylistSort!] @sort
     ): [Playlist!]! @paginate @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistPaginationBuilder")
 }
-
-extend type Mutation {
-    CreatePlaylist(
-        name: String!
-        visibility: PlaylistVisibility!
-        description: String
-    ): Playlist!
-    @canModel(ability: "create")
-    @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutation@create")
-
-    UpdatePlaylist(
-        id: String!
-        name: String
-        visibility: PlaylistVisibility
-        description: String
-    ): Playlist!
-    @canFindMultiple(ability: "update", find: ["id"], models: ["App\\Models\\List\\Playlist"], columns: ["hashid"])
-    @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutation@update")
-
-    DeletePlaylist(
-        id: String!
-    ): MessageResponse! 
-    @canFindMultiple(
-        ability: "delete",
-        find: ["id"],
-        models: ["App\\Models\\List\\Playlist"],
-        columns: ["hashid"],
-    )
-    @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutation@delete")
-}

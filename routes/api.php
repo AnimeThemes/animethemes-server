@@ -13,12 +13,8 @@ use App\Http\Controllers\Api\Auth\User\Me\MyController;
 use App\Http\Controllers\Api\Document\PageController;
 use App\Http\Controllers\Api\List\External\ExternalEntryController;
 use App\Http\Controllers\Api\List\ExternalProfileController;
-use App\Http\Controllers\Api\List\Playlist\TrackBackwardController;
 use App\Http\Controllers\Api\List\Playlist\TrackController;
-use App\Http\Controllers\Api\List\Playlist\TrackForwardController;
-use App\Http\Controllers\Api\List\PlaylistBackwardController;
 use App\Http\Controllers\Api\List\PlaylistController;
-use App\Http\Controllers\Api\List\PlaylistForwardController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeSeriesController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeStudioController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistMemberController;
@@ -225,18 +221,6 @@ Route::apiResource('externalprofile.externalentry', ExternalEntryController::cla
 Route::apiResource('playlist', PlaylistController::class);
 Route::apiResource('playlist.track', TrackController::class)
     ->scoped();
-
-Route::get('playlist/{playlist}/forward', [PlaylistForwardController::class, 'index'])
-    ->name('playlist.forward');
-
-Route::get('playlist/{playlist}/track/{track}/forward', [TrackForwardController::class, 'index'])
-    ->name('playlist.track.forward');
-
-Route::get('playlist/{playlist}/backward', [PlaylistBackwardController::class, 'index'])
-    ->name('playlist.backward');
-
-Route::get('playlist/{playlist}/track/{track}/backward', [TrackBackwardController::class, 'index'])
-    ->name('playlist.track.backward');
 
 // Pivot Routes
 apiPivotResource('animeseries', 'anime', 'series', AnimeSeriesController::class);

@@ -7,7 +7,6 @@ namespace App\Filament\Resources\List;
 use App\Enums\Filament\NavigationGroup;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Filament\Actions\Models\List\AssignHashidsAction;
-use App\Filament\Actions\Models\List\Playlist\FixPlaylistAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -244,8 +243,6 @@ class PlaylistResource extends BaseResource
         return [
             AssignHashidsAction::make()
                 ->setConnection('playlists'),
-
-            FixPlaylistAction::make(),
         ];
     }
 
