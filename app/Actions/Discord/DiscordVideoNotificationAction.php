@@ -13,6 +13,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class DiscordVideoNotificationAction
 {
@@ -33,12 +34,17 @@ class DiscordVideoNotificationAction
     {
         $type = Arr::get($fields, DiscordNotificationType::getFieldKey());
 
-        static::getHttp()
+        $response = static::getHttp()
             ->post('/notification', [
                 'type' => $type->value,
-                'videos' => $videos->map(fn (Video $video): array => ['videoId' => $video->getKey()])->toArray(),
-            ])
-            ->throw();
+                'videos' => $videos->map(fn (Video $video): array => ['videoId' => $video->getKey()])->values()->all(),
+            ]);
+
+        if ($response->failed()) {
+            Log::error($response->body());
+
+            return new ActionResult(ActionStatus::FAILED);
+        }
 
         return new ActionResult(ActionStatus::PASSED);
     }
