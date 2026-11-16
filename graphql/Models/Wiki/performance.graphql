@@ -1,7 +1,7 @@
 "Represents the link between a song and an artist or group."
 type Performance {
     "The primary key of the resource"
-    id: Int! @rename(attribute: "performance_id")
+    id: Int!
 
     "The alias the artist is using for this performance"
     alias: String
