@@ -17,7 +17,6 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class AnimeYearsQuery
 {
-    /** @param  array{}  $args */
     public function __invoke(null $_, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Collection
     {
         $years = Arr::wrap(Arr::get($args, 'year'));
@@ -51,7 +50,6 @@ class AnimeYearsQuery
             ->values();
     }
 
-    /** @param  array{}  $args */
     public function resolveSeasonField(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?array
     {
         $season = Arr::get($args, 'season');
@@ -61,7 +59,6 @@ class AnimeYearsQuery
             ->toArray();
     }
 
-    /** @param  array{}  $args */
     public function resolveAnimeField(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Paginator
     {
         $season = Arr::get($root, 'season');
