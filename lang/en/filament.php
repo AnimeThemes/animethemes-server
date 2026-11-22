@@ -1134,11 +1134,6 @@ return [
                 'name' => 'Without Videos',
             ],
         ],
-        'external_resource' => [
-            'unlinked' => [
-                'name' => 'Without Anime/Entry/Artist/Song/Studio',
-            ],
-        ],
         'image' => [
             'unlinked' => [
                 'name' => 'Without Anime or Artist or Studio',
