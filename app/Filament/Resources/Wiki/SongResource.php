@@ -10,10 +10,10 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
-use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Song\Pages\ListSongs;
 use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
+use App\Filament\Resources\Wiki\Song\RelationManagers\ResourceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\SongStaffSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Song;
@@ -169,7 +169,7 @@ class SongResource extends BaseResource
             RelationGroup::make(static::getModelLabel(), [
                 SongStaffSongRelationManager::class,
                 ThemeSongRelationManager::class,
-                ResourceRelationManager::class,
+                ResourceSongRelationManager::class,
 
                 ...parent::getBaseRelations(),
             ]),

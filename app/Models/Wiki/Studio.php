@@ -21,6 +21,7 @@ use Database\Factories\Wiki\StudioFactory;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -163,6 +164,16 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
             ->as('studioresource')
             ->withPivot([Resourceable::ATTRIBUTE_ID, Resourceable::ATTRIBUTE_AS])
             ->withTimestamps();
+    }
+
+    /**
+     * Get the resources for the owner model.
+     *
+     * @return MorphMany<ExternalResource, $this>
+     */
+    public function resourcesV2(): MorphMany
+    {
+        return $this->morphMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE);
     }
 
     /**

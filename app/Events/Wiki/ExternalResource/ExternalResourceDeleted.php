@@ -13,6 +13,16 @@ use App\Models\Wiki\ExternalResource;
  */
 class ExternalResourceDeleted extends WikiDeletedEvent
 {
+    protected function getDiscordMessageDescription(): string
+    {
+        return "Resource '**{$this->getModel()->getName()}**' has been deleted for {$this->privateLabel($this->getModel()->resourceable)} '**{$this->getModel()->resourceable->getName()}**'.";
+    }
+
+    protected function getNotificationMessage(): string
+    {
+        return "Resource '{$this->getModel()->getName()}' has been deleted for {$this->privateLabel($this->getModel()->resourceable)} '{$this->getModel()->resourceable->getName()}'. It will be automatically pruned in one week. Please review.";
+    }
+
     protected function getFilamentNotificationUrl(): string
     {
         return ExternalResourceFilament::getUrl('view', ['record' => $this->getModel()]);

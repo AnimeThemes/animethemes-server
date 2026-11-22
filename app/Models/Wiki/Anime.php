@@ -308,6 +308,16 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     }
 
     /**
+     * Get the resources for the owner model.
+     *
+     * @return MorphMany<ExternalResource, $this>
+     */
+    public function resourcesV2(): MorphMany
+    {
+        return $this->morphMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE);
+    }
+
+    /**
      * @return MorphToMany<Image, $this, Imageable, 'animeimage'>
      */
     public function images(): MorphToMany

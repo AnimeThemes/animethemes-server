@@ -17,10 +17,10 @@ use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
-use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Entry\Pages\ListEntries;
 use App\Filament\Resources\Wiki\Entry\Pages\ViewEntry;
+use App\Filament\Resources\Wiki\Entry\RelationManagers\ResourceEntryRelationManager;
 use App\Filament\Resources\Wiki\Entry\RelationManagers\VideoEntryRelationManager;
 use App\Filament\Resources\Wiki\Theme\RelationManagers\EntryThemeRelationManager;
 use App\Models\Wiki\Entry;
@@ -313,7 +313,7 @@ class EntryResource extends BaseResource
         return [
             RelationGroup::make(static::getModelLabel(), [
                 VideoEntryRelationManager::class,
-                ResourceRelationManager::class,
+                ResourceEntryRelationManager::class,
 
                 ...parent::getBaseRelations(),
             ]),

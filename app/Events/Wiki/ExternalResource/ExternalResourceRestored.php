@@ -10,4 +10,10 @@ use App\Models\Wiki\ExternalResource;
 /**
  * @extends WikiRestoredEvent<ExternalResource>
  */
-class ExternalResourceRestored extends WikiRestoredEvent {}
+class ExternalResourceRestored extends WikiRestoredEvent
+{
+    protected function getDiscordMessageDescription(): string
+    {
+        return "Resource '**{$this->getModel()->getName()}**' has been restored for {$this->privateLabel($this->getModel()->resourceable)} '**{$this->getModel()->resourceable->getName()}**'.";
+    }
+}

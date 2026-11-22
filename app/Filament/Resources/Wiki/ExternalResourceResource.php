@@ -11,21 +11,19 @@ use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
+use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ListExternalResources;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ViewExternalResource;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResourceRelationManager;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\EntryResourceRelationManager;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Models\Wiki\ExternalResource;
+use Filament\Facades\Filament;
 use Filament\QueryBuilder\Constraints\NumberConstraint;
 use Filament\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
@@ -98,6 +96,10 @@ class ExternalResourceResource extends BaseResource
                     ->label(__('filament.fields.external_resource.external_id.name'))
                     ->helperText(__('filament.fields.external_resource.external_id.help'))
                     ->integer(),
+
+                TextInput::make(ExternalResource::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.external_resource.as.name'))
+                    ->helperText(__('filament.fields.external_resource.as.help')),
             ])
             ->columns(1);
     }
@@ -108,6 +110,17 @@ class ExternalResourceResource extends BaseResource
             ->columns([
                 TextColumn::make(ExternalResource::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
+
+                TextColumn::make(ExternalResource::RELATION_RESOURCEABLE)
+                    ->hiddenOn(BaseRelationManager::class)
+                    ->color('related-link')
+                    ->weight(FontWeight::SemiBold)
+                    ->state(fn (ExternalResource $record) => $record->resourceable->getName())
+                    ->url(function (ExternalResource $record): string {
+                        $resourceable = $record->resourceable;
+
+                        return Filament::getModelResource($resourceable)::getUrl('view', ['record' => $resourceable]);
+                    }),
 
                 TextColumn::make(ExternalResource::ATTRIBUTE_SITE)
                     ->label(__('filament.fields.external_resource.site.name'))
@@ -120,6 +133,9 @@ class ExternalResourceResource extends BaseResource
 
                 TextColumn::make(ExternalResource::ATTRIBUTE_EXTERNAL_ID)
                     ->label(__('filament.fields.external_resource.external_id.name')),
+
+                TextColumn::make(ExternalResource::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.external_resource.as.name')),
             ]);
     }
 
@@ -129,6 +145,16 @@ class ExternalResourceResource extends BaseResource
             ->components([
                 Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
+                        TextEntry::make(ExternalResource::RELATION_RESOURCEABLE)
+                            ->color('related-link')
+                            ->weight(FontWeight::SemiBold)
+                            ->state(fn (ExternalResource $record) => $record->resourceable->getName())
+                            ->url(function (ExternalResource $record): string {
+                                $resourceable = $record->resourceable;
+
+                                return Filament::getModelResource($resourceable)::getUrl('view', ['record' => $resourceable]);
+                            }),
+
                         TextEntry::make(ExternalResource::ATTRIBUTE_SITE)
                             ->label(__('filament.fields.external_resource.site.name'))
                             ->formatStateUsing(fn (ResourceSite $state): ?string => $state->localize()),
@@ -176,12 +202,6 @@ class ExternalResourceResource extends BaseResource
     {
         return [
             RelationGroup::make(static::getModelLabel(), [
-                AnimeResourceRelationManager::class,
-                EntryResourceRelationManager::class,
-                ArtistResourceRelationManager::class,
-                SongResourceRelationManager::class,
-                StudioResourceRelationManager::class,
-
                 ...parent::getBaseRelations(),
             ]),
         ];

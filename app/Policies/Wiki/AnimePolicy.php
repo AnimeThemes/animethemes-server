@@ -8,7 +8,6 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Studio;
@@ -27,20 +26,6 @@ class AnimePolicy extends BasePolicy
     public function detachAnySeries(User $user): Response
     {
         return $user->can(CrudPermission::DELETE->format(Anime::class)) && $user->can(CrudPermission::DELETE->format(Series::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    public function attachAnyExternalResource(User $user): Response
-    {
-        return $user->can(CrudPermission::CREATE->format(Anime::class)) && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    public function detachAnyExternalResource(User $user): Response
-    {
-        return $user->can(CrudPermission::DELETE->format(Anime::class)) && $user->can(CrudPermission::DELETE->format(ExternalResource::class))
             ? Response::allow()
             : Response::deny();
     }

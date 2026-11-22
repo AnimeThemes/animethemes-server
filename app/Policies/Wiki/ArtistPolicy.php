@@ -7,27 +7,12 @@ namespace App\Policies\Wiki;
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Policies\BasePolicy;
 use Illuminate\Auth\Access\Response;
 
 class ArtistPolicy extends BasePolicy
 {
-    public function attachAnyExternalResource(User $user): Response
-    {
-        return $user->can(CrudPermission::CREATE->format(Artist::class)) && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    public function detachAnyExternalResource(User $user): Response
-    {
-        return $user->can(CrudPermission::DELETE->format(Artist::class)) && $user->can(CrudPermission::DELETE->format(ExternalResource::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
     public function attachAnyArtist(User $user): Response
     {
         return $user->can(CrudPermission::CREATE->format(Artist::class))
