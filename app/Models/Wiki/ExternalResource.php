@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\SoftDeletes;
+use App\Contracts\Models\HasResources;
+use App\Contracts\Models\Nameable;
 use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Events\Wiki\ExternalResource\ExternalResourceCreated;
@@ -18,6 +20,8 @@ use Deprecated;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Casts\AsUri;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Uri;
@@ -28,9 +32,13 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property Collection<int, Anime> $anime
  * @property Collection<int, Artist> $artists
  * @property Collection<int, Entry> $entries
+ * @property string|null $as
  * @property int|null $external_id
  * @property Uri $link
  * @property int $resource_id
+ * @property Model&Nameable&HasResources $resourceable
+ * @property string $resourceable_type
+ * @property int $resourceable_id
  * @property ResourceSite $site
  * @property Collection<int, Song> $songs
  * @property Collection<int, Studio> $studios
@@ -50,9 +58,17 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
 
     final public const string ATTRIBUTE_ID = 'resource_id';
 
+    final public const string ATTRIBUTE_AS = 'as';
+
     final public const string ATTRIBUTE_LINK = 'link';
 
     final public const string ATTRIBUTE_SITE = 'site';
+
+    final public const string ATTRIBUTE_RESOURCEABLE_TYPE = 'resourceable_type';
+
+    final public const string ATTRIBUTE_RESOURCEABLE_ID = 'resourceable_id';
+
+    final public const string RELATION_RESOURCEABLE = 'resourceable';
 
     final public const string RELATION_ANIME = 'anime';
 
@@ -63,6 +79,19 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     final public const string RELATION_SONGS = 'songs';
 
     final public const string RELATION_STUDIOS = 'studios';
+
+    /**
+     * The models that have resources.
+     *
+     * @var class-string<Model&HasResources>[]
+     */
+    public static $resourceables = [
+        Anime::class,
+        Entry::class,
+        Artist::class,
+        Song::class,
+        Studio::class,
+    ];
 
     /**
      * The event map for the model.
@@ -84,9 +113,12 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
      * @var list<string>
      */
     protected $fillable = [
+        ExternalResource::ATTRIBUTE_AS,
         ExternalResource::ATTRIBUTE_EXTERNAL_ID,
         ExternalResource::ATTRIBUTE_LINK,
         ExternalResource::ATTRIBUTE_SITE,
+        ExternalResource::ATTRIBUTE_RESOURCEABLE_TYPE,
+        ExternalResource::ATTRIBUTE_RESOURCEABLE_ID,
     ];
 
     /**
@@ -97,9 +129,12 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     protected function casts(): array
     {
         return [
+            ExternalResource::ATTRIBUTE_AS => 'string',
             ExternalResource::ATTRIBUTE_EXTERNAL_ID => 'int',
             ExternalResource::ATTRIBUTE_LINK => AsUri::class,
             ExternalResource::ATTRIBUTE_SITE => ResourceSite::class,
+            ExternalResource::ATTRIBUTE_RESOURCEABLE_TYPE => 'string',
+            ExternalResource::ATTRIBUTE_RESOURCEABLE_ID => 'int',
         ];
     }
 
@@ -111,6 +146,16 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     public function getSubtitle(): string
     {
         return strval($this->external_id);
+    }
+
+    /**
+     * Gets the model that owns the resourceable.
+     *
+     * @return MorphTo<Model, $this>
+     */
+    public function resourceable(): MorphTo
+    {
+        return $this->morphTo(ExternalResource::RELATION_RESOURCEABLE);
     }
 
     /**

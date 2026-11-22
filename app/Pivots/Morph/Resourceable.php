@@ -6,9 +6,6 @@ namespace App\Pivots\Morph;
 
 use App\Contracts\Models\HasResources;
 use App\Contracts\Models\Nameable;
-use App\Events\Pivot\Morph\Resourceable\ResourceableCreated;
-use App\Events\Pivot\Morph\Resourceable\ResourceableDeleted;
-use App\Events\Pivot\Morph\Resourceable\ResourceableUpdated;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Entry;
@@ -64,19 +61,6 @@ class Resourceable extends BaseMorphPivot implements Auditable
         Artist::class,
         Song::class,
         Studio::class,
-    ];
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array<string, class-string>
-     */
-    protected $dispatchesEvents = [
-        'created' => ResourceableCreated::class,
-        'deleted' => ResourceableDeleted::class,
-        'updated' => ResourceableUpdated::class,
     ];
 
     /**

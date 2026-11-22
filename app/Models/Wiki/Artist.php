@@ -331,6 +331,16 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     }
 
     /**
+     * Get the resources for the owner model.
+     *
+     * @return MorphMany<ExternalResource, $this>
+     */
+    public function resourcesV2(): MorphMany
+    {
+        return $this->morphMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE);
+    }
+
+    /**
      * @return MorphToMany<Image, $this, Imageable, 'artistimage'>
      */
     public function images(): MorphToMany

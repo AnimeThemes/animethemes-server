@@ -6,8 +6,6 @@ namespace App\Policies\Wiki;
 
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
-use App\Models\Wiki\ExternalResource;
-use App\Models\Wiki\Song;
 use App\Models\Wiki\Theme;
 use App\Policies\BasePolicy;
 use Illuminate\Auth\Access\Response;
@@ -17,20 +15,6 @@ class SongPolicy extends BasePolicy
     public function addTheme(User $user): Response
     {
         return $user->can(CrudPermission::UPDATE->format(Theme::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    public function attachAnyExternalResource(User $user): Response
-    {
-        return $user->can(CrudPermission::CREATE->format(Song::class)) && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    public function detachAnyExternalResource(User $user): Response
-    {
-        return $user->can(CrudPermission::DELETE->format(Song::class)) && $user->can(CrudPermission::DELETE->format(ExternalResource::class))
             ? Response::allow()
             : Response::deny();
     }

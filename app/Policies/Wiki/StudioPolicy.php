@@ -7,7 +7,6 @@ namespace App\Policies\Wiki;
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use App\Policies\BasePolicy;
@@ -25,20 +24,6 @@ class StudioPolicy extends BasePolicy
     public function detachAnyAnime(User $user): Response
     {
         return $user->can(CrudPermission::DELETE->format(Studio::class)) && $user->can(CrudPermission::DELETE->format(Anime::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    public function attachAnyExternalResource(User $user): Response
-    {
-        return $user->can(CrudPermission::CREATE->format(Studio::class)) && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    public function detachAnyExternalResource(User $user): Response
-    {
-        return $user->can(CrudPermission::DELETE->format(Studio::class)) && $user->can(CrudPermission::DELETE->format(ExternalResource::class))
             ? Response::allow()
             : Response::deny();
     }

@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -256,6 +257,16 @@ class Entry extends BaseModel implements Auditable, HasResources, InteractsWithS
             ->as('entryresource')
             ->withPivot([Resourceable::ATTRIBUTE_ID, Resourceable::ATTRIBUTE_AS])
             ->withTimestamps();
+    }
+
+    /**
+     * Get the resources for the owner model.
+     *
+     * @return MorphMany<ExternalResource, $this>
+     */
+    public function resourcesV2(): MorphMany
+    {
+        return $this->morphMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE);
     }
 
     /**

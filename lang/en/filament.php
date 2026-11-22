@@ -741,6 +741,10 @@ return [
                 'help' => 'The site that we are linking to.',
                 'name' => 'Site',
             ],
+            'as' => [
+                'help' => 'Used to distinguish resources that map to the same model. For example, Aware! Meisaku-kun has one MAL page and many aniDB pages.',
+                'name' => 'As',
+            ],
         ],
         'feature' => [
             'key' => [
@@ -889,12 +893,6 @@ return [
             'language' => [
                 'help' => 'The language of the alternative title. It may also be used as "Short [LANGUAGE]". Keep it consistent.',
                 'name' => 'Language',
-            ],
-        ],
-        'resourceable' => [
-            'as' => [
-                'help' => 'Used to distinguish resources that map to the same model. For example, Aware! Meisaku-kun has one MAL page and many aniDB pages.',
-                'name' => 'As',
             ],
         ],
         'role' => [

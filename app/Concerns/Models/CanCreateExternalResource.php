@@ -8,7 +8,6 @@ use App\Contracts\Models\HasResources;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\BaseModel;
 use App\Models\Wiki\ExternalResource;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Uri;
 
@@ -29,23 +28,13 @@ trait CanCreateExternalResource
             }
         }
 
-        $resource = ExternalResource::query()
-            ->where(ExternalResource::ATTRIBUTE_SITE, $site->value)
-            ->where(fn (Builder $query) => $query->where(ExternalResource::ATTRIBUTE_LINK, $url)
-                ->orWhere(ExternalResource::ATTRIBUTE_LINK, $url.'/'))
-            ->first();
+        Log::info("Creating External Resource {$site->localize()} -> '{$url}'");
 
-        if ($resource === null) {
-            Log::info("Creating External Resource {$site->localize()} -> '{$url}'");
-
-            $resource = ExternalResource::query()->create([
-                ExternalResource::ATTRIBUTE_LINK => $url,
-                ExternalResource::ATTRIBUTE_SITE => $site->value,
-                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $id,
-            ]);
-        }
-
-        $model?->resources()?->attach($resource);
+        $resource = $model?->resourcesV2()?->create([
+            ExternalResource::ATTRIBUTE_LINK => $url,
+            ExternalResource::ATTRIBUTE_SITE => $site->value,
+            ExternalResource::ATTRIBUTE_EXTERNAL_ID => $id,
+        ]);
 
         return $resource;
     }
