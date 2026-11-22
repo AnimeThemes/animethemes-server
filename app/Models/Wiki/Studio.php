@@ -173,7 +173,7 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
      */
     public function resourcesV2(): MorphMany
     {
-        return $this->morphMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE);
+        return $this->morphMany(ExternalResource::class, 'resourceable');
     }
 
     /**
@@ -186,5 +186,15 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
             ->as('studioimage')
             ->withPivot([Imageable::ATTRIBUTE_ID, Imageable::ATTRIBUTE_DEPTH])
             ->withTimestamps();
+    }
+
+    /**
+     * Get the images for the owner model.
+     *
+     * @return MorphMany<Image, $this>
+     */
+    public function imagesV2(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

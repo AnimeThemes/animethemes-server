@@ -17,16 +17,14 @@ use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Image\Pages\ListImages;
 use App\Filament\Resources\Wiki\Image\Pages\ViewImage;
-use App\Filament\Resources\Wiki\Image\RelationManagers\AnimeImageRelationManager;
-use App\Filament\Resources\Wiki\Image\RelationManagers\ArtistImageRelationManager;
-use App\Filament\Resources\Wiki\Image\RelationManagers\PlaylistImageRelationManager;
-use App\Filament\Resources\Wiki\Image\RelationManagers\StudioImageRelationManager;
 use App\Models\Wiki\Image;
+use Filament\Facades\Filament;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\Layout\Stack;
@@ -121,6 +119,20 @@ class ImageResource extends BaseResource
                         TextEntry::make(Image::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
+                        TextEntry::make(Image::RELATION_IMAGEABLE)
+                            ->color('related-link')
+                            ->weight(FontWeight::SemiBold)
+                            ->state(fn (Image $record) => $record->imageable?->getName())
+                            ->url(function (Image $record): ?string {
+                                $imageable = $record->imageable;
+
+                                if (! $imageable) {
+                                    return null;
+                                }
+
+                                return Filament::getModelResource($imageable)::getUrl('view', ['record' => $imageable]);
+                            }),
+
                         TextEntry::make(Image::ATTRIBUTE_FACET)
                             ->label(__('filament.fields.image.facet.name'))
                             ->formatStateUsing(fn (ImageFacet $state): ?string => $state->localize()),
@@ -131,7 +143,7 @@ class ImageResource extends BaseResource
                             ->columnSpanFull()
                             ->visibility('public'),
                     ])
-                    ->columns(2),
+                    ->columns(3),
 
                 TimestampSection::make(),
             ]);
@@ -193,11 +205,6 @@ class ImageResource extends BaseResource
     {
         return [
             RelationGroup::make(static::getModelLabel(), [
-                AnimeImageRelationManager::class,
-                ArtistImageRelationManager::class,
-                PlaylistImageRelationManager::class,
-                StudioImageRelationManager::class,
-
                 ...parent::getBaseRelations(),
             ]),
         ];

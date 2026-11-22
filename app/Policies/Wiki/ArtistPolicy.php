@@ -7,7 +7,6 @@ namespace App\Policies\Wiki;
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Image;
 use App\Policies\BasePolicy;
 use Illuminate\Auth\Access\Response;
 
@@ -23,20 +22,6 @@ class ArtistPolicy extends BasePolicy
     public function detachAnyArtist(User $user): Response
     {
         return $user->can(CrudPermission::DELETE->format(Artist::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    public function attachAnyImage(User $user): Response
-    {
-        return $user->can(CrudPermission::CREATE->format(Artist::class)) && $user->can(CrudPermission::CREATE->format(Image::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    public function detachAnyImage(User $user): Response
-    {
-        return $user->can(CrudPermission::DELETE->format(Artist::class)) && $user->can(CrudPermission::DELETE->format(Image::class))
             ? Response::allow()
             : Response::deny();
     }

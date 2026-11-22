@@ -13,6 +13,16 @@ use App\Models\Wiki\Image;
  */
 class ImageDeleted extends WikiDeletedEvent
 {
+    protected function getDiscordMessageDescription(): string
+    {
+        return "Image '**{$this->getModel()->getName()}**' has been deleted for {$this->privateLabel($this->getModel()->imageable)} '**{$this->getModel()->imageable->getName()}**'.";
+    }
+
+    protected function getNotificationMessage(): string
+    {
+        return "Image '{$this->getModel()->getName()}' has been deleted for {$this->privateLabel($this->getModel()->imageable)} '{$this->getModel()->imageable->getName()}'. It will be automatically pruned in one week. Please review.";
+    }
+
     protected function getFilamentNotificationUrl(): string
     {
         return ImageFilament::getUrl('view', ['record' => $this->getModel()]);

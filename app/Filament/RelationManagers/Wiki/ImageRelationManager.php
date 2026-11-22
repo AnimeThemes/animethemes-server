@@ -9,7 +9,6 @@ use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ImageResource;
 use App\Models\Wiki\Image;
-use App\Pivots\Morph\Imageable;
 use Filament\Tables\Table;
 
 class ImageRelationManager extends BaseRelationManager
@@ -31,8 +30,8 @@ class ImageRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Image::ATTRIBUTE_PATH)
-                ->reorderable(Imageable::ATTRIBUTE_DEPTH)
-                ->defaultSort(Imageable::ATTRIBUTE_DEPTH)
+                ->reorderable(Image::ATTRIBUTE_DEPTH)
+                ->defaultSort(Image::ATTRIBUTE_DEPTH)
         );
     }
 
