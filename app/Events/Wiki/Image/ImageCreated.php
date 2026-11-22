@@ -10,4 +10,10 @@ use App\Models\Wiki\Image;
 /**
  * @extends WikiCreatedEvent<Image>
  */
-class ImageCreated extends WikiCreatedEvent {}
+class ImageCreated extends WikiCreatedEvent
+{
+    protected function getDiscordMessageDescription(): string
+    {
+        return "Image '**{$this->getModel()->getName()}**' has been created for {$this->privateLabel($this->getModel()->imageable)} '**{$this->getModel()->imageable->getName()}**'.";
+    }
+}

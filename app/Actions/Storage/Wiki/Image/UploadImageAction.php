@@ -39,7 +39,9 @@ class UploadImageAction
             Image::ATTRIBUTE_PATH => $fsFile,
         ]);
 
-        $model?->images()?->attach($image);
+        if ($model !== null) {
+            $image->imageable()->associate($model);
+        }
 
         static::optimize($image);
 
@@ -57,7 +59,7 @@ class UploadImageAction
             Image::ATTRIBUTE_PATH => $fsFile,
         ]);
 
-        $model?->images()?->attach($image);
+        $model?->imagesV2()->save($image);
 
         static::optimize($image);
 

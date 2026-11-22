@@ -8,7 +8,6 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Studio;
 use App\Policies\BasePolicy;
@@ -26,20 +25,6 @@ class AnimePolicy extends BasePolicy
     public function detachAnySeries(User $user): Response
     {
         return $user->can(CrudPermission::DELETE->format(Anime::class)) && $user->can(CrudPermission::DELETE->format(Series::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    public function attachAnyImage(User $user): Response
-    {
-        return $user->can(CrudPermission::CREATE->format(Anime::class)) && $user->can(CrudPermission::CREATE->format(Image::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    public function detachAnyImage(User $user): Response
-    {
-        return $user->can(CrudPermission::DELETE->format(Anime::class)) && $user->can(CrudPermission::DELETE->format(Image::class))
             ? Response::allow()
             : Response::deny();
     }

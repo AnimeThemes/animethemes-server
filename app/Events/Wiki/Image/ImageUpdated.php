@@ -17,4 +17,9 @@ class ImageUpdated extends WikiUpdatedEvent
         parent::__construct($image);
         $this->initializeEmbedFields($image);
     }
+
+    protected function getDiscordMessageDescription(): string
+    {
+        return "Image '**{$this->getModel()->getName()}**' has been updated for {$this->privateLabel($this->getModel()->imageable)} '**{$this->getModel()->imageable->getName()}**'.";
+    }
 }

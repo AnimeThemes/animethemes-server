@@ -7,6 +7,7 @@ namespace App\Contracts\Models;
 use App\Models\Wiki\Image;
 use App\Pivots\Morph\Imageable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 interface HasImages
@@ -19,4 +20,11 @@ interface HasImages
      * @return MorphToMany<Image, Model&HasImages, Imageable>
      */
     public function images(): MorphToMany;
+
+    /**
+     * Get the images for the owner model.
+     *
+     * @return MorphMany<Image, Model&HasImages>
+     */
+    public function imagesV2(): MorphMany;
 }

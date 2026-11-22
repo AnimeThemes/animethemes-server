@@ -266,7 +266,7 @@ class Entry extends BaseModel implements Auditable, HasResources, InteractsWithS
      */
     public function resourcesV2(): MorphMany
     {
-        return $this->morphMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE);
+        return $this->morphMany(ExternalResource::class, 'resourceable');
     }
 
     /**

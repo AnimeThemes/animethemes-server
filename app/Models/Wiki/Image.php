@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\SoftDeletes;
+use App\Contracts\Models\HasImages;
+use App\Contracts\Models\Nameable;
 use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Events\Wiki\Image\ImageCreated;
@@ -20,6 +22,8 @@ use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -30,10 +34,13 @@ use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @property Collection<int, Anime> $anime
  * @property Collection<int, Artist> $artists
+ * @property int $depth
  * @property ImageFacet $facet
  * @property int $image_id
+ * @property (Model&Nameable&HasImages)|null $imageable
+ * @property string|null $imageable_type
+ * @property int|null $imageable_id
  * @property string $link
- * @property string $mimetype
  * @property string $path
  * @property Collection<int, Playlist> $playlists
  * @property int $size
@@ -51,6 +58,8 @@ class Image extends BaseModel implements Auditable, SoftDeletable
 
     final public const string TABLE = 'images';
 
+    final public const string ATTRIBUTE_DEPTH = 'depth';
+
     final public const string ATTRIBUTE_FACET = 'facet';
 
     final public const string ATTRIBUTE_ID = 'image_id';
@@ -59,6 +68,12 @@ class Image extends BaseModel implements Auditable, SoftDeletable
 
     final public const string ATTRIBUTE_LINK = 'link';
 
+    final public const string ATTRIBUTE_IMAGEABLE_TYPE = 'imageable_type';
+
+    final public const string ATTRIBUTE_IMAGEABLE_ID = 'imageable_id';
+
+    final public const string RELATION_IMAGEABLE = 'imageable';
+
     final public const string RELATION_ANIME = 'anime';
 
     final public const string RELATION_ARTISTS = 'artists';
@@ -66,6 +81,18 @@ class Image extends BaseModel implements Auditable, SoftDeletable
     final public const string RELATION_PLAYLISTS = 'playlists';
 
     final public const string RELATION_STUDIOS = 'studios';
+
+    /**
+     * The models that have images.
+     *
+     * @var class-string<Model&HasImages>[]
+     */
+    public static $imageables = [
+        Playlist::class,
+        Anime::class,
+        Artist::class,
+        Studio::class,
+    ];
 
     /**
      * The event map for the model.
@@ -88,8 +115,11 @@ class Image extends BaseModel implements Auditable, SoftDeletable
      * @var list<string>
      */
     protected $fillable = [
+        Image::ATTRIBUTE_DEPTH,
         Image::ATTRIBUTE_FACET,
         Image::ATTRIBUTE_PATH,
+        Image::ATTRIBUTE_IMAGEABLE_TYPE,
+        Image::ATTRIBUTE_IMAGEABLE_ID,
     ];
 
     /**
@@ -102,6 +132,9 @@ class Image extends BaseModel implements Auditable, SoftDeletable
         return [
             Image::ATTRIBUTE_FACET => ImageFacet::class,
             Image::ATTRIBUTE_PATH => 'string',
+            Image::ATTRIBUTE_IMAGEABLE_TYPE => 'string',
+            Image::ATTRIBUTE_IMAGEABLE_ID => 'int',
+            Image::ATTRIBUTE_DEPTH => 'int',
         ];
     }
 
@@ -127,6 +160,14 @@ class Image extends BaseModel implements Auditable, SoftDeletable
 
             return null;
         });
+    }
+
+    /**
+     * Gets the model that owns the imageable.
+     */
+    public function imageable(): MorphTo
+    {
+        return $this->morphTo();
     }
 
     /**

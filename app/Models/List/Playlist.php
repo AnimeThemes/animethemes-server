@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -214,6 +215,16 @@ class Playlist extends BaseModel implements HasHashids, HasImages
             ->as('playlistimage')
             ->withPivot([Imageable::ATTRIBUTE_ID, Imageable::ATTRIBUTE_DEPTH])
             ->withTimestamps();
+    }
+
+    /**
+     * Get the images for the owner model.
+     *
+     * @return MorphMany<Image, $this>
+     */
+    public function imagesV2(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 
     /**

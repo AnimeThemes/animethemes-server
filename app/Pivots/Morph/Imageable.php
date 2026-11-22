@@ -6,9 +6,6 @@ namespace App\Pivots\Morph;
 
 use App\Contracts\Models\HasImages;
 use App\Contracts\Models\Nameable;
-use App\Events\Pivot\Morph\Imageable\ImageableCreated;
-use App\Events\Pivot\Morph\Imageable\ImageableDeleted;
-use App\Events\Pivot\Morph\Imageable\ImageableUpdated;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
@@ -62,19 +59,6 @@ class Imageable extends BaseMorphPivot implements Auditable
         Anime::class,
         Artist::class,
         Studio::class,
-    ];
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array<string, class-string>
-     */
-    protected $dispatchesEvents = [
-        'created' => ImageableCreated::class,
-        'deleted' => ImageableDeleted::class,
-        'updated' => ImageableUpdated::class,
     ];
 
     /**
