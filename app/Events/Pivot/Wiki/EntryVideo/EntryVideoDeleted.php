@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Events\Pivot\Wiki\EntryVideo;
 
 use App\Contracts\Events\UpdatePlaylistTracksEvent;
-use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Pivot\PivotDeletedEvent;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Entry;
@@ -15,18 +14,11 @@ use App\Pivots\Wiki\EntryVideo;
 /**
  * @extends PivotDeletedEvent<Entry, Video>
  */
-class EntryVideoDeleted extends PivotDeletedEvent implements UpdatePlaylistTracksEvent, UpdateRelatedIndicesEvent
+class EntryVideoDeleted extends PivotDeletedEvent implements UpdatePlaylistTracksEvent
 {
     public function __construct(EntryVideo $entryVideo)
     {
         parent::__construct($entryVideo->animethemeentry, $entryVideo->video);
-    }
-
-    public function updateRelatedIndices(): void
-    {
-        // refresh video document
-        $video = $this->getForeign();
-        $video->searchable();
     }
 
     public function updatePlaylistTracks(): void

@@ -9,7 +9,6 @@ use App\Events\BaseEvent;
 use App\Models\Wiki\Entry;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Theme;
-use App\Models\Wiki\Video;
 
 /**
  * @extends BaseEvent<Song>
@@ -29,7 +28,6 @@ class SongForceDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
             $theme->searchable();
             $theme->animethemeentries->each(function (Entry $entry): void {
                 $entry->searchable();
-                $entry->videos->each(fn (Video $video) => $video->searchable());
             });
         });
     }

@@ -12,7 +12,6 @@ use App\Models\Wiki\Entry;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Theme;
-use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
@@ -49,7 +48,6 @@ class SynonymUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEve
                 $theme->searchable();
                 $theme->animethemeentries->each(function (Entry $entry): void {
                     $entry->searchable();
-                    $entry->videos->each(fn (Video $video) => $video->searchable());
                 });
             });
         }

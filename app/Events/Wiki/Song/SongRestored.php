@@ -9,7 +9,6 @@ use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Entry;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Theme;
-use App\Models\Wiki\Video;
 
 /**
  * @extends WikiRestoredEvent<Song>
@@ -24,7 +23,6 @@ class SongRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEven
             $theme->searchable();
             $theme->animethemeentries->each(function (Entry $entry): void {
                 $entry->searchable();
-                $entry->videos->each(fn (Video $video) => $video->searchable());
             });
         });
     }

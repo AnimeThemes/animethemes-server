@@ -8,7 +8,6 @@ use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Entry;
 use App\Models\Wiki\Theme;
-use App\Models\Wiki\Video;
 
 /**
  * @extends WikiCreatedEvent<Theme>
@@ -21,7 +20,6 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 
         $theme->animethemeentries->each(function (Entry $entry): void {
             $entry->searchable();
-            $entry->videos->each(fn (Video $video) => $video->searchable());
         });
     }
 }

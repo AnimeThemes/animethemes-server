@@ -8,7 +8,6 @@ use App\Contracts\Events\CascadesRestoresEvent;
 use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Entry;
 use App\Models\Wiki\Theme;
-use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 /**
@@ -24,7 +23,6 @@ class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
             Entry::withoutEvents(function () use ($entry): void {
                 $entry->restore();
                 $entry->searchable();
-                $entry->videos->each(fn (Video $video) => $video->searchable());
             });
         });
     }
