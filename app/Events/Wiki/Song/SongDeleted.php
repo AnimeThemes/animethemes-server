@@ -10,7 +10,6 @@ use App\Filament\Resources\Wiki\SongResource as SongFilament;
 use App\Models\Wiki\Entry;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Theme;
-use App\Models\Wiki\Video;
 
 /**
  * @extends WikiDeletedEvent<Song>
@@ -30,7 +29,6 @@ class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
             $theme->searchable();
             $theme->animethemeentries->each(function (Entry $entry): void {
                 $entry->searchable();
-                $entry->videos->each(fn (Video $video) => $video->searchable());
             });
         });
     }

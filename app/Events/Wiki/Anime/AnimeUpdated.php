@@ -9,7 +9,6 @@ use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Entry;
 use App\Models\Wiki\Theme;
-use App\Models\Wiki\Video;
 
 /**
  * @extends WikiUpdatedEvent<Anime>
@@ -30,7 +29,6 @@ class AnimeUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
             $theme->searchable();
             $theme->animethemeentries->each(function (Entry $entry): void {
                 $entry->searchable();
-                $entry->videos->each(fn (Video $video) => $video->searchable());
             });
         });
     }

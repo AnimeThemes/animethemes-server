@@ -25,7 +25,6 @@ use Database\Factories\Wiki\VideoFactory;
 use Deprecated;
 use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -260,17 +259,6 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
     }
 
     /**
-     * Modify the query used to retrieve models when making all of the models searchable.
-     */
-    protected function makeAllSearchableUsing(Builder $query): Builder
-    {
-        return $query->with([
-            Video::RELATION_SONG,
-            Video::RELATION_ANIMESYNONYMS,
-        ]);
-    }
-
-    /**
      * Get the indexable data array for the model.
      */
     public function toSearchableArray(): array
@@ -292,9 +280,6 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
             'filename' => $this->filename,
             'tags' => $this->tags,
             'created_at' => $this->created_at->timestamp,
-            'entries' => $this->animethemeentries->map(
-                fn (Entry $entry): array => $entry->toSearchableArray()
-            )->all(),
         ];
     }
 
