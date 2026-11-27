@@ -9,7 +9,7 @@ use App\Contracts\Actions\Models\Wiki\BackfillResources;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -24,9 +24,9 @@ class LivechartAnimeExternalApiAction extends ExternalApiAction implements Backf
     /**
      * Set the response after the request.
      *
-     * @param  BelongsToMany<ExternalResource, Anime>  $resources
+     * @param  MorphMany<ExternalResource, Anime>  $resources
      */
-    public function handle(BelongsToMany $resources): static
+    public function handle(MorphMany $resources): static
     {
         $resource = $resources->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::LIVECHART->value);
 

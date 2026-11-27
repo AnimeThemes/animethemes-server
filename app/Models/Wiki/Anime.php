@@ -49,8 +49,10 @@ use RuntimeException;
  * @property Collection<int, ExternalEntry> $externalentries
  * @property AnimeFormat|null $format
  * @property Collection<int, Image> $images
+ * @property Collection<int, Image> $imagesV2
  * @property string|null $mod_notes
  * @property Collection<int, ExternalResource> $resources
+ * @property Collection<int, ExternalResource> $resourcesV2
  * @property AnimeSeason|null $season
  * @property Collection<int, Series> $series
  * @property string $slug
@@ -114,11 +116,15 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
 
     final public const string RELATION_IMAGES = 'images';
 
+    final public const string RELATION_IMAGES_V2 = 'imagesV2';
+
     final public const string RELATION_PERFORMANCES_ARTIST = 'animethemes.song.performances.artist';
 
     final public const string RELATION_PERFORMANCES_MEMBER = 'animethemes.song.performances.member';
 
     final public const string RELATION_RESOURCES = 'resources';
+
+    final public const string RELATION_RESOURCES_V2 = 'resourcesV2';
 
     final public const string RELATION_SCRIPTS = 'animethemes.animethemeentries.videos.videoscript';
 

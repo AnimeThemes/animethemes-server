@@ -55,7 +55,7 @@ class BackfillAnimeAction extends BackfillWikiAction
                     break;
                 }
 
-                $response = $api->handle($this->getModel()->resources());
+                $response = $api->handle($this->getModel()->resourcesV2());
 
                 if ($response instanceof BackfillResources) {
                     $this->forResources($response);

@@ -11,7 +11,7 @@ use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Song;
 use Exception;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -96,8 +96,8 @@ class BackfillSongAction extends BackfillAction
     /**
      * Get the relation to resources.
      */
-    protected function relation(): BelongsToMany
+    protected function relation(): MorphMany
     {
-        return $this->getModel()->resources();
+        return $this->getModel()->resourcesV2();
     }
 }

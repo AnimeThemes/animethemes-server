@@ -8,7 +8,7 @@ use App\Contracts\Actions\Models\Wiki\BackfillAlternativeTitles;
 use App\Contracts\Actions\Models\Wiki\BackfillImages;
 use App\Contracts\Actions\Models\Wiki\BackfillResources;
 use App\Enums\Models\Wiki\ResourceSite;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Arr;
 
 abstract class ExternalApiAction
@@ -20,7 +20,7 @@ abstract class ExternalApiAction
     /**
      * Set the response after the request.
      */
-    abstract public function handle(BelongsToMany $resources): static;
+    abstract public function handle(MorphMany $resources): static;
 
     /**
      * Get the mapped resources.
