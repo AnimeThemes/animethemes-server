@@ -53,7 +53,7 @@ abstract class BackfillWikiAction
                 continue;
             }
 
-            if ($this->getModel()->resources()->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $site->value)->exists()) {
+            if ($this->getModel()->resourcesV2()->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $site->value)->exists()) {
                 Log::info("Resource {$site->localize()} already exists for {$this->label()} {$this->getModel()->getName()}");
                 continue;
             }
@@ -79,7 +79,7 @@ abstract class BackfillWikiAction
                 continue;
             }
 
-            if ($this->getModel()->images()->getQuery()->where(Image::ATTRIBUTE_FACET, $facet->value)->exists()) {
+            if ($this->getModel()->imagesV2()->getQuery()->where(Image::ATTRIBUTE_FACET, $facet->value)->exists()) {
                 Log::info("Image {$facet->localize()} already exists for {$this->label()} {$this->getModel()->getName()}");
                 continue;
             }

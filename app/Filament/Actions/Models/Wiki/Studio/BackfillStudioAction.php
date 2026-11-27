@@ -54,7 +54,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
      */
     public function handle(Studio $studio, array $data): void
     {
-        if ($studio->resources()->doesntExist()) {
+        if ($studio->resourcesV2()->doesntExist()) {
             $this->failedLog(__('filament.actions.studio.backfill.message.resource_required_failure'));
 
             return;
@@ -96,7 +96,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
                         Checkbox::make(self::BACKFILL_LARGE_COVER)
                             ->label(__('filament.actions.studio.backfill.fields.images.large_cover.name'))
                             ->helperText(__('filament.actions.studio.backfill.fields.images.large_cover.help'))
-                            ->default(fn (): bool => $studio instanceof Studio && $studio->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::LARGE_COVER->value)->doesntExist()),
+                            ->default(fn (): bool => $studio instanceof Studio && $studio->imagesV2()->where(Image::ATTRIBUTE_FACET, ImageFacet::LARGE_COVER->value)->doesntExist()),
                     ]),
             ]);
     }

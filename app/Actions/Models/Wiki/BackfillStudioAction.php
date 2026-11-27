@@ -35,7 +35,7 @@ class BackfillStudioAction extends BackfillWikiAction
                     return new ActionResult(ActionStatus::SKIPPED);
                 }
 
-                $response = $api->handle($this->getModel()->resources());
+                $response = $api->handle($this->getModel()->resourcesV2());
 
                 if ($api instanceof BackfillImages) {
                     $this->forImages($response);

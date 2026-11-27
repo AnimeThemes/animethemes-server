@@ -71,7 +71,7 @@ class BackfillAnimeAction extends BaseAction
      */
     public function handle(Anime $anime, array $data): void
     {
-        if ($anime->resources()->doesntExist()) {
+        if ($anime->resourcesV2()->doesntExist()) {
             $this->failedLog(__('filament.actions.anime.backfill.message.resource_required_failure'));
 
             return;
@@ -105,10 +105,10 @@ class BackfillAnimeAction extends BaseAction
             return $schema;
         }
 
-        $anime = $anime->load([Anime::RELATION_RESOURCES, Anime::RELATION_IMAGES, Anime::RELATION_STUDIOS, Anime::RELATION_SYNONYMS]);
+        $anime = $anime->load([Anime::RELATION_RESOURCES_V2, Anime::RELATION_IMAGES_V2, Anime::RELATION_STUDIOS, Anime::RELATION_SYNONYMS]);
 
-        $resources = $anime->resources->pluck(ExternalResource::ATTRIBUTE_SITE)->keyBy(fn (ResourceSite $site) => $site->value)->keys();
-        $images = $anime->images->pluck(Image::ATTRIBUTE_FACET)->keyBy(fn (ImageFacet $facet) => $facet->value)->keys();
+        $resources = $anime->resourcesV2->pluck(ExternalResource::ATTRIBUTE_SITE)->keyBy(fn (ResourceSite $site) => $site->value)->keys();
+        $images = $anime->imagesV2->pluck(Image::ATTRIBUTE_FACET)->keyBy(fn (ImageFacet $facet) => $facet->value)->keys();
 
         return $schema
             ->components([

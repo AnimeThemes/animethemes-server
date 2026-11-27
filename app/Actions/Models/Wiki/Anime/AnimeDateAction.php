@@ -21,7 +21,7 @@ class AnimeDateAction
     public function handle(Collection $anime): ActionResult
     {
         $anilistIds = $anime
-            ->map(fn (Anime $anime) => $anime->resources->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value)->first()?->external_id)
+            ->map(fn (Anime $anime) => $anime->resourcesV2->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value)->first()?->external_id)
             ->filter()
             ->unique()
             ->values()
@@ -61,7 +61,7 @@ class AnimeDateAction
 
         foreach ($response->json('data.Page.media') as $media) {
             $animeToUpdate = $anime->first(
-                fn (Anime $anime): bool => $anime->resources->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value)->first()?->external_id === Arr::integer($media, 'id')
+                fn (Anime $anime): bool => $anime->resourcesV2->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value)->first()?->external_id === Arr::integer($media, 'id')
             );
 
             $animeToUpdate?->update([

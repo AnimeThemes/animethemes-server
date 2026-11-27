@@ -10,7 +10,7 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class MalStudioExternalApiAction extends ExternalApiAction implements BackfillImages
 {
@@ -22,9 +22,9 @@ class MalStudioExternalApiAction extends ExternalApiAction implements BackfillIm
     /**
      * Set the response after the request.
      *
-     * @param  BelongsToMany<ExternalResource, Studio>  $resources
+     * @param  MorphMany<ExternalResource, Studio>  $resources
      */
-    public function handle(BelongsToMany $resources): static
+    public function handle(MorphMany $resources): static
     {
         $resource = $resources->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL->value);
 

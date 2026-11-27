@@ -50,7 +50,7 @@ abstract class AttachResourceAction extends BaseAction
             return $schema;
         }
 
-        $resources = $model->resources()
+        $resources = $model->resourcesV2()
             ->get([ExternalResource::ATTRIBUTE_SITE])
             ->pluck(ExternalResource::ATTRIBUTE_SITE)
             ->keyBy(fn (ResourceSite $site) => $site->value)
